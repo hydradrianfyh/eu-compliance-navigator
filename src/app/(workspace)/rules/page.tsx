@@ -16,6 +16,7 @@
  */
 
 import { Suspense, useMemo, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
 import type { EvaluationResult } from "@/engine/types";
@@ -26,6 +27,7 @@ import { RuleRegistry } from "@/registry/registry";
 import { rawSeedRules } from "@/registry/seed";
 import { materializeRulesFromReviewState } from "@/registry/verification";
 import { groupByTrust } from "@/lib/classify-trust";
+import { EmptyState } from "@/components/shared/EmptyState";
 import { RuleCardV2 } from "@/components/rules/RuleCardV2";
 import { useAppShellStore } from "@/state/app-shell-store";
 
@@ -243,51 +245,86 @@ function RulesTabBody() {
         </span>
       </div>
 
-      {groups.needs_input.length > 0 ? (
-        <TrustSection
-          id="needs-input"
-          label="— Needs your input"
-          hint="Fill the highlighted fields in Setup to evaluate these."
-          defaultExpanded
-          results={groups.needs_input}
-          rulesById={rulesById}
-          highlightRuleId={highlightRuleId}
-          renderCard={renderCard}
+      {filtered.length === 0 ? (
+        <EmptyState
+          icon="⌕"
+          title="No rules match your filters"
+          description={
+            evaluated.length === 0
+              ? "The registry returned no evaluable rules. Finish Setup before reviewing rule details."
+              : "Try clearing the search term or switching an Applicability / Freshness filter to 'All'."
+          }
+          action={
+            evaluated.length === 0 ? (
+              <Link href="/setup">Go to Setup</Link>
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchTerm("");
+                  setApplicabilityFilter("all");
+                  setFreshnessFilter("all");
+                }}
+              >
+                Clear filters
+              </button>
+            )
+          }
+          secondaryAction={
+            <Link href="/coverage" className="empty-state-link-secondary">
+              Check coverage →
+            </Link>
+          }
         />
-      ) : null}
+      ) : (
+        <>
+          {groups.needs_input.length > 0 ? (
+            <TrustSection
+              id="needs-input"
+              label="— Needs your input"
+              hint="Fill the highlighted fields in Setup to evaluate these."
+              defaultExpanded
+              results={groups.needs_input}
+              rulesById={rulesById}
+              highlightRuleId={highlightRuleId}
+              renderCard={renderCard}
+            />
+          ) : null}
 
-      <TrustSection
-        id="verified"
-        label="✓ Verified"
-        hint="You can rely on these — source verified, evaluation live."
-        defaultExpanded
-        results={groups.verified}
-        rulesById={rulesById}
-        highlightRuleId={highlightRuleId}
-        renderCard={renderCard}
-      />
+          <TrustSection
+            id="verified"
+            label="✓ Verified"
+            hint="You can rely on these — source verified, evaluation live."
+            defaultExpanded
+            results={groups.verified}
+            rulesById={rulesById}
+            highlightRuleId={highlightRuleId}
+            renderCard={renderCard}
+          />
 
-      <TrustSection
-        id="indicative"
-        label="⚠ Indicative"
-        hint="Review before trusting — authored but source not yet verified."
-        defaultExpanded
-        results={groups.indicative}
-        rulesById={rulesById}
-        highlightRuleId={highlightRuleId}
-        renderCard={renderCard}
-      />
+          <TrustSection
+            id="indicative"
+            label="⚠ Indicative"
+            hint="Review before trusting — authored but source not yet verified."
+            defaultExpanded
+            results={groups.indicative}
+            rulesById={rulesById}
+            highlightRuleId={highlightRuleId}
+            renderCard={renderCard}
+          />
 
-      <TrustSection
-        id="pending"
-        label="○ Pending authoring"
-        hint="Not yet written up — expect content in later phases."
-        defaultExpanded={false}
-        results={groups.pending}
-        rulesById={rulesById}
-        highlightRuleId={highlightRuleId}
-        renderCard={renderCard}
-      />
+          <TrustSection
+            id="pending"
+            label="○ Pending authoring"
+            hint="Not yet written up — expect content in later phases."
+            defaultExpanded={false}
+            results={groups.pending}
+            rulesById={rulesById}
+            highlightRuleId={highlightRuleId}
+            renderCard={renderCard}
+          />
+        </>
+      )}
     </div>
   );
 }

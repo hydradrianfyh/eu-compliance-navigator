@@ -19,6 +19,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { pilotMY2027BEV } from "../../../fixtures/pilot-my2027-bev";
+import { GlossaryModal } from "@/components/shell/GlossaryModal";
 import { useAppShellStore } from "@/state/app-shell-store";
 
 export function GlobalNav() {
@@ -28,7 +29,9 @@ export function GlobalNav() {
   const resetOnboarding = useAppShellStore((state) => state.resetOnboarding);
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [glossaryOpen, setGlossaryOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  const settingsButtonRef = useRef<HTMLButtonElement>(null);
 
   // Close the menu on outside click or ESC.
   useEffect(() => {
@@ -65,6 +68,17 @@ export function GlobalNav() {
     setMenuOpen(false);
   };
 
+  const handleOpenGlossary = () => {
+    setGlossaryOpen(true);
+    setMenuOpen(false);
+  };
+
+  const handleCloseGlossary = () => {
+    setGlossaryOpen(false);
+    // Return focus to the settings trigger so keyboard users don't get stranded.
+    settingsButtonRef.current?.focus();
+  };
+
   return (
     <div className="global-nav" ref={rootRef}>
       <div className="global-nav-brand">
@@ -81,6 +95,7 @@ export function GlobalNav() {
       </div>
       <div className="global-nav-actions">
         <button
+          ref={settingsButtonRef}
           type="button"
           className="global-nav-settings-button"
           aria-haspopup="menu"
@@ -108,10 +123,19 @@ export function GlobalNav() {
             >
               Clear saved state
             </button>
-            {/* Phase E: add Open glossary menu item */}
+            <button
+              type="button"
+              role="menuitem"
+              className="global-nav-menu-item"
+              onClick={handleOpenGlossary}
+              data-testid="open-glossary-button"
+            >
+              Open glossary
+            </button>
           </div>
         ) : null}
       </div>
+      <GlossaryModal open={glossaryOpen} onClose={handleCloseGlossary} />
     </div>
   );
 }

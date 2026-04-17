@@ -19,6 +19,7 @@ import { RuleRegistry } from "@/registry/registry";
 import { rawSeedRules } from "@/registry/seed";
 import { materializeRulesFromReviewState } from "@/registry/verification";
 import { groupTimelineBySOP } from "@/lib/timeline-sop-groups";
+import { EmptyState } from "@/components/shared/EmptyState";
 import { useAppShellStore } from "@/state/app-shell-store";
 
 export default function PlanPage() {
@@ -153,7 +154,13 @@ export default function PlanPage() {
         <aside className="plan-column plan-column-owners panel">
           <h3>Owner Dashboard</h3>
           {nonEmptyOwnerBuckets.length === 0 ? (
-            <p className="muted">No owner tasks yet.</p>
+            <EmptyState
+              icon="⚑"
+              title="No owner tasks yet"
+              description="Once rules become Applicable for the current configuration, they will be grouped here by owning team."
+              action={<Link href="/setup">Complete Setup</Link>}
+              tone="neutral"
+            />
           ) : (
             <div className="plan-owner-list">
               {nonEmptyOwnerBuckets.map((bucket) => (

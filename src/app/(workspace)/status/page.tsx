@@ -19,6 +19,7 @@ import { buildTimeline } from "@/engine/timeline";
 import { RuleRegistry } from "@/registry/registry";
 import { rawSeedRules } from "@/registry/seed";
 import { materializeRulesFromReviewState } from "@/registry/verification";
+import { EmptyState } from "@/components/shared/EmptyState";
 import { useAppShellStore } from "@/state/app-shell-store";
 
 function confidenceLabel(c: "high" | "medium" | "low"): string {
@@ -64,12 +65,16 @@ export default function StatusPage() {
 
   if (!hasRules) {
     return (
-      <section className="status-tab-empty panel">
-        <h2>Status</h2>
-        <p>
-          No rules are evaluable yet. Start by completing the{" "}
-          <Link href="/setup">Setup</Link> tab.
-        </p>
+      <section className="status-tab status-tab-empty">
+        <EmptyState
+          icon="◎"
+          title="Nothing to assess yet"
+          description="The engine has no evaluable rules for the current project. Finish the Setup tab so Status can compute market-entry readiness."
+          action={<Link href="/setup">Go to Setup</Link>}
+          secondaryAction={
+            <Link href="/coverage">Review coverage →</Link>
+          }
+        />
       </section>
     );
   }
