@@ -28,6 +28,7 @@ import { rawSeedRules } from "@/registry/seed";
 import { materializeRulesFromReviewState } from "@/registry/verification";
 import { groupByTrust } from "@/lib/classify-trust";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { ExportAsPdfButton } from "@/components/shared/ExportAsPdfButton";
 import { RuleCardV2 } from "@/components/rules/RuleCardV2";
 import { useAppShellStore } from "@/state/app-shell-store";
 
@@ -186,11 +187,16 @@ function RulesTabBody() {
   return (
     <div className="rules-tab">
       <header className="rules-tab-header">
-        <h2>Rules</h2>
-        <p className="muted">
-          Grouped by how much you can rely on each rule. Use the filters to
-          narrow the view.
-        </p>
+        <div>
+          <h2>Rules</h2>
+          <p className="muted">
+            Grouped by how much you can rely on each rule. Use the filters to
+            narrow the view.
+          </p>
+        </div>
+        <div className="tab-actions">
+          <ExportAsPdfButton tabClass="rules-tab" />
+        </div>
       </header>
 
       <div className="rules-tab-filters panel">

@@ -462,6 +462,13 @@ Before merging any phase commit:
 - Mobile-first optimization (ensure no break, not optimized)
 - PDF multi-page templates (browser print used)
 - Compliance-author UI (Phase 13+)
+- **Phase3MainPage deletion deferred to Phase H**: 7 UI test files
+  (36 tests total in tests/ui/) still reference the legacy component.
+  Phase G kept the `/legacy` route alive to preserve that regression
+  coverage. Phase H will migrate each UI test to exercise the new 5-tab
+  shell directly, then remove Phase3MainPage + /legacy in one commit.
+  All other Phase G deliverables (per-tab Export as PDF, per-tab
+  Compare toggle, semantic tokens, glossary) shipped as planned.
 
 ## 19. Acceptance journeys (tested in Phase F)
 

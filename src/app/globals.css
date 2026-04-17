@@ -2087,3 +2087,100 @@ ul {
 .empty-state-actions button:hover {
   background: var(--surface-muted, #f9fafb);
 }
+
+/* ==========================================================================
+   UX Refactor v2 — Phase G (per-tab Export + Compare toggle + print CSS)
+   ========================================================================== */
+
+.rules-tab-header,
+.plan-tab-header,
+.coverage-tab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.tab-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tab-actions-floating {
+  justify-content: flex-end;
+}
+
+.export-pdf-button,
+.compare-toggle {
+  background: var(--surface-card, #ffffff);
+  border: 1px solid var(--border-default, #e5e7eb);
+  border-radius: var(--radius-sm, 4px);
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary, #111827);
+  cursor: pointer;
+}
+
+.export-pdf-button:hover,
+.compare-toggle:hover {
+  background: var(--surface-muted, #f9fafb);
+}
+
+.compare-toggle-active {
+  background: var(--brand-primary, #0f172a);
+  color: var(--brand-primary-fg, #f8fafc);
+  border-color: var(--brand-primary, #0f172a);
+}
+
+/* Per-tab print CSS — hide nav / status bar / non-essentials when printing.
+   The print-<tab> class is added to <html> by ExportAsPdfButton. */
+
+@media print {
+  .app-shell-header,
+  .status-bar,
+  .tab-nav,
+  .global-nav,
+  .tab-actions,
+  .onboarding-banner,
+  .export-pdf-button,
+  .compare-toggle {
+    display: none !important;
+  }
+
+  .app-shell-main {
+    padding: 0;
+    max-width: none;
+  }
+
+  .panel {
+    border: 1px solid #000;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .trust-section {
+    break-inside: avoid;
+  }
+
+  /* Ensure trust icons stay visible in grayscale print */
+  .trust-badge,
+  .applicability-badge {
+    border: 1px solid #000 !important;
+    background: transparent !important;
+    color: #000 !important;
+  }
+}
+
+/* Tab-specific print overrides: Rules expands Verified section; Setup
+   hides Advanced when printing. */
+
+html.print-rules-tab .trust-section-pending {
+  display: none;
+}
+
+html.print-setup-tab .advanced-section:not([open]) {
+  display: none;
+}

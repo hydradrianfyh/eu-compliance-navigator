@@ -20,6 +20,7 @@ import { RuleRegistry } from "@/registry/registry";
 import { rawSeedRules } from "@/registry/seed";
 import { materializeRulesFromReviewState } from "@/registry/verification";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { ExportAsPdfButton } from "@/components/shared/ExportAsPdfButton";
 import { useAppShellStore } from "@/state/app-shell-store";
 
 function confidenceLabel(c: "high" | "medium" | "low"): string {
@@ -86,6 +87,9 @@ export default function StatusPage() {
 
   return (
     <div className="status-tab">
+      <div className="tab-actions tab-actions-floating">
+        <ExportAsPdfButton tabClass="status-tab" />
+      </div>
       <section className={`status-hero panel ${verdictClass}`}>
         <header className="status-hero-header">
           <span className="status-hero-eyebrow">Market entry status</span>

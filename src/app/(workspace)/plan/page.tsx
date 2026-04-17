@@ -20,6 +20,7 @@ import { rawSeedRules } from "@/registry/seed";
 import { materializeRulesFromReviewState } from "@/registry/verification";
 import { groupTimelineBySOP } from "@/lib/timeline-sop-groups";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { ExportAsPdfButton } from "@/components/shared/ExportAsPdfButton";
 import { useAppShellStore } from "@/state/app-shell-store";
 
 export default function PlanPage() {
@@ -64,16 +65,21 @@ export default function PlanPage() {
   return (
     <div className="plan-tab">
       <header className="plan-tab-header">
-        <h2>Plan</h2>
-        <p className="muted">
-          Timeline anchored on{" "}
+        <div>
+          <h2>Plan</h2>
+          <p className="muted">
+            Timeline anchored on{" "}
           {groupedTimeline.anchor === "sop"
             ? `SOP (${groupedTimeline.anchorDate})`
             : groupedTimeline.anchor === "first_registration"
               ? `first registration (${groupedTimeline.anchorDate})`
               : "today (no SOP set)"}
           . Owners on the right.
-        </p>
+          </p>
+        </div>
+        <div className="tab-actions">
+          <ExportAsPdfButton tabClass="plan-tab" />
+        </div>
       </header>
 
       <div className="plan-columns">
