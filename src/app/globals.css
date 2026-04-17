@@ -1095,3 +1095,409 @@ ul {
   0%, 100% { background: #fef9c3; }
   50% { background: #fde68a; }
 }
+
+/* ==========================================================================
+   UX Refactor v2 — Rules tab (Phase C)
+   ========================================================================== */
+
+.rules-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.rules-tab-header h2 {
+  margin: 0 0 4px 0;
+}
+
+.rules-tab-header .muted {
+  margin: 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.rules-tab-filters {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr auto;
+  gap: 12px;
+  align-items: end;
+  padding: 14px 16px;
+}
+
+.rules-tab-filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.rules-tab-filters label input,
+.rules-tab-filters label select {
+  padding: 6px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.rules-tab-counts {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.trust-section {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.trust-section-header {
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.trust-section-toggle {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 12px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: inherit;
+}
+
+.trust-section-label {
+  font-weight: 600;
+}
+
+.trust-section-count {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.trust-section-hint {
+  flex: 1;
+  color: #6b7280;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.trust-section-arrow {
+  color: #6b7280;
+}
+
+.trust-section-verified .trust-section-label {
+  color: #059669;
+}
+
+.trust-section-indicative .trust-section-label {
+  color: #d97706;
+}
+
+.trust-section-pending .trust-section-label {
+  color: #6b7280;
+}
+
+.trust-section-needs-input .trust-section-label {
+  color: #dc2626;
+}
+
+.trust-section-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Trust and applicability badges */
+
+.trust-badge,
+.applicability-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+
+.trust-badge-icon,
+.applicability-badge-icon {
+  font-size: 10px;
+  line-height: 1;
+}
+
+.trust-badge-verified {
+  background: #d1fae5;
+  color: #065f46;
+  border-color: #a7f3d0;
+}
+
+.trust-badge-indicative {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fde68a;
+}
+
+.trust-badge-pending {
+  background: #f3f4f6;
+  color: #374151;
+  border-color: #e5e7eb;
+}
+
+.trust-badge-freshness {
+  color: inherit;
+  opacity: 0.8;
+}
+
+.applicability-applies {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.applicability-not-applies {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.applicability-may-apply {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.applicability-future {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.applicability-unknown {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* RuleCardV2 */
+
+.rule-card-v2 {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  border-left-width: 4px;
+}
+
+.rule-card-v2-verified {
+  border-left-color: #059669;
+}
+
+.rule-card-v2-indicative {
+  border-left-color: #d97706;
+}
+
+.rule-card-v2-pending {
+  border-left-color: #9ca3af;
+}
+
+.rule-card-v2-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 10px 14px;
+  gap: 12px;
+}
+
+.rule-card-v2-toggle {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+}
+
+.rule-card-v2-titleblock {
+  display: flex;
+  flex-direction: column;
+  grid-row: 1 / span 2;
+  gap: 2px;
+}
+
+.rule-card-v2-rule-id {
+  font-size: 11px;
+  color: #6b7280;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.rule-card-v2-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.rule-card-v2-badges {
+  grid-row: 1;
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.rule-card-v2-owner {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 11px;
+}
+
+.rule-card-v2-toggle-arrow {
+  grid-row: 2;
+  grid-column: 2;
+  font-size: 12px;
+  color: #6b7280;
+  justify-self: end;
+}
+
+.rule-card-v2-view-toggle {
+  display: inline-flex;
+  background: #f3f4f6;
+  border-radius: 6px;
+  padding: 2px;
+  font-size: 11px;
+}
+
+.rule-card-v2-view-toggle button {
+  background: none;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #6b7280;
+  font: inherit;
+}
+
+.rule-card-v2-view-toggle button.active {
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.rule-card-v2-body {
+  padding: 12px 14px 14px;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rule-card-v2-section h5 {
+  margin: 0 0 6px 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+}
+
+.rule-card-v2-section p {
+  margin: 4px 0;
+  font-size: 13px;
+}
+
+.rule-card-v2-muted {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.rule-card-v2-why-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.rule-card-v2-match-icon {
+  color: #059669;
+  font-weight: bold;
+  margin-right: 4px;
+}
+
+.rule-card-v2-engineering {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 4px 12px;
+  font-size: 12px;
+}
+
+.rule-card-v2-engineering dt {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.rule-card-v2-raw {
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  max-height: 200px;
+  overflow: auto;
+}
+
+.rule-card-v2-cta {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: #fef3c7;
+  border-left: 3px solid #d97706;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.rule-card-v2-cta-link {
+  color: #b45309;
+  text-decoration: underline;
+}
+
+.rule-card-v2-external {
+  display: inline-block;
+  margin-top: 4px;
+  color: #2563eb;
+  text-decoration: underline;
+  font-size: 12px;
+}
+
+.rule-card-v2-tracking-fields {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 12px;
+  align-items: center;
+}
+
+.rule-card-v2-tracking-fields label {
+  display: contents;
+}
+
+.rule-card-v2-tracking-fields span {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.rule-card-v2-tracking-fields select,
+.rule-card-v2-tracking-fields input {
+  padding: 5px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 13px;
+}
