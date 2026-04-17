@@ -1501,3 +1501,341 @@ ul {
   border-radius: 4px;
   font-size: 13px;
 }
+
+/* ==========================================================================
+   UX Refactor v2 — Status / Plan / Coverage tabs (Phase D)
+   ========================================================================== */
+
+.status-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.status-tab-empty {
+  padding: 40px 24px;
+}
+
+.status-hero {
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.status-hero-positive {
+  border-left: 6px solid #059669;
+}
+
+.status-hero-caution {
+  border-left: 6px solid #d97706;
+}
+
+.status-hero-eyebrow {
+  display: block;
+  font-size: 12px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.status-hero-verdict {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.status-hero-positive .status-hero-verdict {
+  color: #065f46;
+}
+
+.status-hero-caution .status-hero-verdict {
+  color: #92400e;
+}
+
+.status-hero-confidence {
+  margin: 6px 0 0 0;
+  color: #374151;
+}
+
+.status-hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 0;
+}
+
+.status-hero-metrics div {
+  padding: 12px 14px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.status-hero-metrics dt {
+  font-size: 11px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.status-hero-metrics dd {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.status-hero-generated {
+  margin: 0;
+  color: #9ca3af;
+  font-size: 11px;
+}
+
+.status-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.status-column {
+  padding: 16px 18px;
+}
+
+.status-column h3 {
+  margin: 0 0 12px 0;
+  font-size: 15px;
+}
+
+.status-column-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.status-column-list li {
+  padding: 8px 10px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.status-column-list li a {
+  color: #0f172a;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.status-column-list li a:hover {
+  text-decoration: underline;
+}
+
+.status-severity {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.status-severity-high {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-severity-medium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-severity-low {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.status-column-item-title {
+  margin: 4px 0 2px 0;
+  color: #111827;
+  font-size: 12px;
+}
+
+.status-column-item-reason,
+.status-column-item-owner {
+  margin: 0;
+  color: #6b7280;
+  font-size: 11px;
+}
+
+.status-deadline {
+  display: inline-block;
+  margin-left: 8px;
+  color: #374151;
+  font-size: 11px;
+}
+
+.status-country-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.status-country-list li {
+  padding: 6px 0;
+  font-size: 13px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+/* Plan tab */
+
+.plan-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.plan-columns {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .plan-columns {
+    grid-template-columns: 1fr;
+  }
+  .status-columns {
+    grid-template-columns: 1fr;
+  }
+  .status-hero-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.plan-segment {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+.plan-segment > summary {
+  padding: 12px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.plan-segment-label {
+  color: #0f172a;
+}
+
+.plan-segment-hint {
+  flex: 1;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.plan-segment-count {
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.plan-segment-empty {
+  padding: 0 16px 12px 16px;
+  margin: 0;
+}
+
+.plan-milestone-list {
+  list-style: none;
+  padding: 0 16px 14px 16px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.plan-milestone-list > li {
+  border-left: 2px solid #e5e7eb;
+  padding-left: 10px;
+}
+
+.plan-milestone-month {
+  font-weight: 600;
+  color: #111827;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.plan-milestone-list > li > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.plan-milestone-owner {
+  color: #6b7280;
+  font-size: 11px;
+}
+
+.plan-column-owners {
+  padding: 16px 18px;
+}
+
+.plan-owner-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.plan-owner-bucket header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.plan-owner-count {
+  color: #6b7280;
+  font-size: 11px;
+}
+
+.plan-owner-bucket ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+}
+
+/* Coverage tab */
+
+.coverage-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.coverage-tab-header h2 {
+  margin: 0;
+}

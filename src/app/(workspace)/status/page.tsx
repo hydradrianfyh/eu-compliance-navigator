@@ -1,13 +1,178 @@
-import { TabPlaceholder } from "@/components/shell/TabPlaceholder";
+"use client";
 
-export const metadata = { title: "Status · EU Compliance Navigator" };
+/**
+ * Status tab — market-entry readiness (UX Refactor v2 spec §5).
+ *
+ * Hero card with `canEnterMarket`, confidence, and four coverage metrics.
+ * Three-column body: Top blockers / Top deadlines / Countries at risk.
+ *
+ * © Yanhao FU
+ */
+
+import { useMemo } from "react";
+import Link from "next/link";
+
+import { buildEngineConfig } from "@/engine/config-builder";
+import { evaluateAllRules } from "@/engine/evaluator";
+import { buildExecutiveSummary } from "@/engine/executive-summary";
+import { buildTimeline } from "@/engine/timeline";
+import { RuleRegistry } from "@/registry/registry";
+import { rawSeedRules } from "@/registry/seed";
+import { materializeRulesFromReviewState } from "@/registry/verification";
+import { useAppShellStore } from "@/state/app-shell-store";
+
+function confidenceLabel(c: "high" | "medium" | "low"): string {
+  return { high: "High", medium: "Medium", low: "Low" }[c];
+}
+
+function marketVerdict(canEnter: boolean, confidence: "high" | "medium" | "low") {
+  if (canEnter && confidence === "high") return "LIKELY OK";
+  if (canEnter) return "OK WITH CAVEATS";
+  if (confidence === "high") return "AT RISK";
+  return "INDETERMINATE";
+}
 
 export default function StatusPage() {
+  const config = useAppShellStore((state) => state.config);
+  const verificationReviewState = useAppShellStore(
+    (state) => state.verificationReviewState,
+  );
+
+  const { summary, hasRules } = useMemo(() => {
+    const effectiveRules = materializeRulesFromReviewState(
+      rawSeedRules,
+      verificationReviewState,
+    );
+    const registry = new RuleRegistry(effectiveRules);
+    const evaluated = evaluateAllRules(
+      registry.getEvaluableRules(),
+      buildEngineConfig(config),
+    );
+    const timeline = buildTimeline({
+      config,
+      results: evaluated,
+      rules: effectiveRules,
+    });
+    const execSummary = buildExecutiveSummary({
+      config,
+      results: evaluated,
+      rules: effectiveRules,
+      timeline,
+    });
+    return { summary: execSummary, hasRules: evaluated.length > 0 };
+  }, [config, verificationReviewState]);
+
+  if (!hasRules) {
+    return (
+      <section className="status-tab-empty panel">
+        <h2>Status</h2>
+        <p>
+          No rules are evaluable yet. Start by completing the{" "}
+          <Link href="/setup">Setup</Link> tab.
+        </p>
+      </section>
+    );
+  }
+
+  const verdict = marketVerdict(summary.canEnterMarket, summary.confidence);
+  const verdictClass = summary.canEnterMarket
+    ? "status-hero-positive"
+    : "status-hero-caution";
+
   return (
-    <TabPlaceholder
-      title="Status"
-      description="Market-entry readiness: can-enter-market headline, confidence, four coverage metrics, top blockers, top deadlines, countries at risk."
-      arrivingIn="Phase C"
-    />
+    <div className="status-tab">
+      <section className={`status-hero panel ${verdictClass}`}>
+        <header className="status-hero-header">
+          <span className="status-hero-eyebrow">Market entry status</span>
+          <h1 className="status-hero-verdict">{verdict}</h1>
+          <p className="status-hero-confidence">
+            Confidence: <strong>{confidenceLabel(summary.confidence)}</strong>
+          </p>
+        </header>
+        <dl className="status-hero-metrics">
+          <div>
+            <dt>Coverage score</dt>
+            <dd>{summary.coverageScore} / 100</dd>
+          </div>
+          <div>
+            <dt>Verified</dt>
+            <dd>{summary.verified_count}</dd>
+          </div>
+          <div>
+            <dt>Indicative</dt>
+            <dd>{summary.indicative_count}</dd>
+          </div>
+          <div>
+            <dt>Pending authoring</dt>
+            <dd>{summary.pending_authoring}</dd>
+          </div>
+        </dl>
+        <p className="status-hero-generated">
+          Generated {summary.generated_at}
+        </p>
+      </section>
+
+      <div className="status-columns">
+        <section className="status-column panel">
+          <h3>Top blockers</h3>
+          {summary.topBlockers.length === 0 ? (
+            <p className="muted">No blockers detected — good to proceed.</p>
+          ) : (
+            <ul className="status-column-list">
+              {summary.topBlockers.map((b) => (
+                <li key={b.stable_id}>
+                  <Link href={`/rules?rule=${encodeURIComponent(b.stable_id)}`}>
+                    <strong>{b.stable_id}</strong>
+                  </Link>
+                  <span className={`status-severity status-severity-${b.severity}`}>
+                    {b.severity}
+                  </span>
+                  <p className="status-column-item-title">{b.title}</p>
+                  <p className="status-column-item-reason">{b.reason}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        <section className="status-column panel">
+          <h3>Top deadlines</h3>
+          {summary.topDeadlines.length === 0 ? (
+            <p className="muted">No upcoming deadlines.</p>
+          ) : (
+            <ul className="status-column-list">
+              {summary.topDeadlines.map((d) => (
+                <li key={d.stable_id}>
+                  <Link href={`/rules?rule=${encodeURIComponent(d.stable_id)}`}>
+                    <strong>{d.stable_id}</strong>
+                  </Link>
+                  <span className="status-deadline">
+                    {d.deadline} · {d.months_remaining} mo remaining
+                  </span>
+                  <p className="status-column-item-title">{d.title}</p>
+                  <p className="status-column-item-owner">owner: {d.owner_hint}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        <section className="status-column panel">
+          <h3>Countries at risk</h3>
+          {summary.countriesAtRisk.length === 0 ? (
+            <p className="muted">All targeted markets covered.</p>
+          ) : (
+            <ul className="status-country-list">
+              {summary.countriesAtRisk.map((c) => (
+                <li key={c}>
+                  <strong>{c}</strong>{" "}
+                  <span className="muted">pending overlay or low coverage</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
+    </div>
   );
 }
