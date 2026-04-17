@@ -180,8 +180,11 @@ export function createAppShellStore() {
 
     hydrate: () => {
       if (!isBrowser()) return;
-      if (get().hydrated) return;
 
+      // Idempotent: always re-reads localStorage and resets session filters.
+      // Safe because every action persists synchronously, so localStorage is
+      // the source of truth. Idempotency lets tests call render() repeatedly
+      // and get fresh state from a cleared localStorage without manual reset.
       set({
         hydrated: true,
         config: loadPersistedVehicleConfig() ?? defaultVehicleConfig,
@@ -191,6 +194,9 @@ export function createAppShellStore() {
         promotionLog: loadPersistedPromotionLog(),
         lastActiveTab: readLastActiveTab() ?? "setup",
         onboardingDismissed: readOnboardingDismissed(),
+        searchTerm: "",
+        applicabilityFilter: "all",
+        freshnessFilter: "all",
       });
     },
 

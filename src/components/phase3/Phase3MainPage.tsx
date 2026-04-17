@@ -1,34 +1,35 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+/**
+ * Legacy entry page, retained as a Phase A fallback renderer.
+ *
+ * State that was owned by local useState has been hoisted to the
+ * app-shell zustand store (src/state/app-shell-store.ts). The tab-specific
+ * layout toggles (pageMode / viewMode / groupMode / compareConfig) stay
+ * local here because they disappear in Phase G when each tab owns its own
+ * view modes.
+ *
+ * Phase G will delete this file after the new /setup /status /plan /rules
+ * /coverage shell is proven by persona E2E journeys.
+ *
+ * © Yanhao FU
+ */
+
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { defaultVehicleConfig } from "@/config/defaults";
 import {
-  clearPersistedPhase4AState,
-  loadPersistedPromotionLog,
-  loadPersistedRuleNotes,
-  loadPersistedRuleStatuses,
-  loadPersistedVerificationReviewState,
-  loadPersistedVehicleConfig,
-  persistPromotionLog,
-  persistRuleNotes,
-  persistRuleStatuses,
-  persistVerificationReviewState,
-  persistVehicleConfig,
-} from "@/config/persistence";
-import { hasVehicleConfigInUrl, loadVehicleConfigFromUrl, syncVehicleConfigToUrl } from "@/config/sharing";
-import type {
-  PromotionLog,
-  RuleNotes,
-  RuleStatuses,
-  UserRuleStatus,
-  VehicleConfig,
-  VerificationReviewEntry,
-  VerificationReviewState,
-} from "@/config/schema";
+  hasVehicleConfigInUrl,
+  loadVehicleConfigFromUrl,
+  syncVehicleConfigToUrl,
+} from "@/config/sharing";
+import type { VehicleConfig, VerificationReviewEntry } from "@/config/schema";
 import { buildEngineConfig } from "@/engine/config-builder";
 import { buildOwnerDashboard } from "@/engine/by-owner";
-import { compareEvaluationRows, type EvaluationComparisonRow } from "@/engine/comparator";
+import {
+  compareEvaluationRows,
+  type EvaluationComparisonRow,
+} from "@/engine/comparator";
 import { evaluateAllRules } from "@/engine/evaluator";
 import { buildExecutiveSummary } from "@/engine/executive-summary";
 import { computeSummary } from "@/engine/summary";
@@ -44,24 +45,24 @@ import { computeCoverageMatrix } from "@/registry/coverage-matrix";
 import { RuleRegistry } from "@/registry/registry";
 import { rawSeedRules } from "@/registry/seed";
 import {
-  buildPriorityVerificationQueueState,
   buildDefaultReviewEntry,
+  buildPriorityVerificationQueueState,
   materializeRulesFromReviewState,
   type VerificationQueueWorkflowItem,
 } from "@/registry/verification";
-import { applicabilityResults, legalFamilies } from "@/shared/constants";
+import { legalFamilies } from "@/shared/constants";
 import { CompareResultsPanel } from "@/components/phase3/CompareResultsPanel";
 import { ConfigPanel } from "@/components/phase3/ConfigPanel";
 import { CoveragePanel } from "@/components/phase3/CoveragePanel";
 import { ExecutiveSummaryPanel } from "@/components/phase3/ExecutiveSummaryPanel";
-import { FilterBar, type FreshnessFilter } from "@/components/phase3/FilterBar";
+import { FilterBar } from "@/components/phase3/FilterBar";
 import { OwnerDashboardPanel } from "@/components/phase3/OwnerDashboardPanel";
 import { ResultsPanel } from "@/components/phase3/ResultsPanel";
 import { TimelinePanel } from "@/components/phase3/TimelinePanel";
+import { useAppShellStore } from "@/state/app-shell-store";
 
 type PageMode = "single" | "compare";
 type GroupMode = "legal_family" | "ui_package";
-type ApplicabilityFilter = (typeof applicabilityResults)[number] | "all";
 type ViewMode = "interactive" | "report";
 
 const priorityQueueIds: string[] = [
@@ -115,44 +116,68 @@ function groupComparisons(comparisons: EvaluationComparisonRow[]) {
 }
 
 export function Phase3MainPage() {
-  // Compare mode keeps a second VehicleConfig in memory. Switching back to single mode
-  // hides the right-hand config/results but does not discard them, so a user can return
-  // to compare without rebuilding the second scenario. Search/filter/grouping and user
-  // annotations remain shared because they describe the current page view, not one side.
+  // -- Store-owned slices (persisted; shared with new shell) --------------
+  const config = useAppShellStore((state) => state.config);
+  const ruleStatuses = useAppShellStore((state) => state.ruleStatuses);
+  const ruleNotes = useAppShellStore((state) => state.ruleNotes);
+  const verificationReviewState = useAppShellStore(
+    (state) => state.verificationReviewState,
+  );
+  const promotionLog = useAppShellStore((state) => state.promotionLog);
+  const searchTerm = useAppShellStore((state) => state.searchTerm);
+  const applicabilityFilter = useAppShellStore(
+    (state) => state.applicabilityFilter,
+  );
+  const freshnessFilter = useAppShellStore((state) => state.freshnessFilter);
+  const hydrated = useAppShellStore((state) => state.hydrated);
+
+  const setConfig = useAppShellStore((state) => state.setConfig);
+  const setRuleStatus = useAppShellStore((state) => state.setRuleStatus);
+  const setRuleNote = useAppShellStore((state) => state.setRuleNote);
+  const patchVerificationReview = useAppShellStore(
+    (state) => state.patchVerificationReview,
+  );
+  const setSearchTerm = useAppShellStore((state) => state.setSearchTerm);
+  const setApplicabilityFilter = useAppShellStore(
+    (state) => state.setApplicabilityFilter,
+  );
+  const setFreshnessFilter = useAppShellStore(
+    (state) => state.setFreshnessFilter,
+  );
+  const clearSavedState = useAppShellStore((state) => state.clearSavedState);
+
+  // -- Tab-local UI state (dies in Phase G) -------------------------------
   const [pageMode, setPageMode] = useState<PageMode>("single");
-  const [config, setConfig] = useState<VehicleConfig>(
-    () =>
-      (hasVehicleConfigInUrl() ? loadVehicleConfigFromUrl() : null) ??
-      loadPersistedVehicleConfig() ??
-      defaultVehicleConfig,
+  const [compareConfig, setCompareConfig] = useState<VehicleConfig>(
+    defaultVehicleConfig,
   );
-  const [ruleStatuses, setRuleStatuses] = useState<RuleStatuses>(() =>
-    loadPersistedRuleStatuses(),
-  );
-  const [ruleNotes, setRuleNotes] = useState<RuleNotes>(() =>
-    loadPersistedRuleNotes(),
-  );
-  const [verificationReviewState, setVerificationReviewState] =
-    useState<VerificationReviewState>(() => loadPersistedVerificationReviewState());
-  const [promotionLog, setPromotionLog] = useState<PromotionLog>(() =>
-    loadPersistedPromotionLog(),
-  );
-  const [compareConfig, setCompareConfig] = useState<VehicleConfig>(defaultVehicleConfig);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [applicabilityFilter, setApplicabilityFilter] =
-    useState<ApplicabilityFilter>("all");
-  const [freshnessFilter, setFreshnessFilter] = useState<FreshnessFilter>("all");
   const [groupMode, setGroupMode] = useState<GroupMode>("legal_family");
   const [viewMode, setViewMode] = useState<ViewMode>("interactive");
-  const hasMountedRef = useRef(false);
-  const skipNextPersistRef = useRef(false);
 
+  // -- Hydration (once on mount, + URL override) --------------------------
+  useEffect(() => {
+    const urlConfig = hasVehicleConfigInUrl() ? loadVehicleConfigFromUrl() : null;
+    useAppShellStore.getState().hydrate();
+    if (urlConfig) {
+      useAppShellStore.getState().setConfig(urlConfig);
+    }
+  }, []);
+
+  // -- URL sync on config change (after hydration) ------------------------
+  useEffect(() => {
+    if (!hydrated) return;
+    syncVehicleConfigToUrl(config);
+  }, [config, hydrated]);
+
+  // -- Derived data (unchanged from pre-refactor) -------------------------
   const effectiveRules = useMemo(
     () => materializeRulesFromReviewState(rawSeedRules, verificationReviewState),
     [verificationReviewState],
   );
 
-  const registry = useMemo(() => new RuleRegistry(effectiveRules), [effectiveRules]);
+  const registry = useMemo(() => new RuleRegistry(effectiveRules), [
+    effectiveRules,
+  ]);
 
   const registryCoverage = useMemo(() => {
     const allRules = registry.getAllRules();
@@ -264,58 +289,8 @@ export function Phase3MainPage() {
     [filteredComparedResults, filteredResults, groupMode],
   );
 
-  useEffect(() => {
-    if (!hasMountedRef.current) {
-      hasMountedRef.current = true;
-      syncVehicleConfigToUrl(config);
-      return;
-    }
-
-    syncVehicleConfigToUrl(config);
-
-    if (skipNextPersistRef.current) {
-      skipNextPersistRef.current = false;
-      return;
-    }
-
-    persistVehicleConfig(config);
-    persistRuleStatuses(ruleStatuses);
-    persistRuleNotes(ruleNotes);
-    persistVerificationReviewState(verificationReviewState);
-    persistPromotionLog(promotionLog);
-  }, [config, promotionLog, ruleNotes, ruleStatuses, verificationReviewState]);
-
-  const getUserStatus = (ruleId: string): UserRuleStatus => {
-    return ruleStatuses[ruleId] ?? "todo";
-  };
-
-  const getUserNote = (ruleId: string): string => {
-    return ruleNotes[ruleId] ?? "";
-  };
-
-  const handleStatusChange = (ruleId: string, value: UserRuleStatus) => {
-    setRuleStatuses((current) => ({
-      ...current,
-      [ruleId]: value,
-    }));
-  };
-
-  const handleNoteChange = (ruleId: string, value: string) => {
-    setRuleNotes((current) => ({
-      ...current,
-      [ruleId]: value,
-    }));
-  };
-
-  const handleClearSavedState = () => {
-    clearPersistedPhase4AState();
-    skipNextPersistRef.current = true;
-    setConfig(defaultVehicleConfig);
-    setRuleStatuses({});
-    setRuleNotes({});
-    setVerificationReviewState({});
-    setPromotionLog([]);
-  };
+  const getUserStatus = (ruleId: string) => ruleStatuses[ruleId] ?? "todo";
+  const getUserNote = (ruleId: string) => ruleNotes[ruleId] ?? "";
 
   const verificationQueueState = useMemo<VerificationQueueWorkflowItem[]>(
     () =>
@@ -349,21 +324,13 @@ export function Phase3MainPage() {
     const baseRule = rawSeedRules.find((rule) => rule.stable_id === stableId);
     if (!baseRule) return;
 
-    setVerificationReviewState((current) => {
-      const existing = current[stableId] ?? buildDefaultReviewEntry(baseRule);
-      return {
-        ...current,
-        [stableId]: {
-          ...existing,
-          ...patch,
-        },
-      };
-    });
+    const current =
+      verificationReviewState[stableId] ?? buildDefaultReviewEntry(baseRule);
+    patchVerificationReview(stableId, { ...current, ...patch });
   };
 
   const exportPayload = useMemo(
-    () =>
-      buildViewExportPayload(config, filteredResults, ruleStatuses, ruleNotes),
+    () => buildViewExportPayload(config, filteredResults, ruleStatuses, ruleNotes),
     [config, filteredResults, ruleNotes, ruleStatuses],
   );
 
@@ -432,8 +399,14 @@ export function Phase3MainPage() {
             <ConfigPanel
               title="Left configuration"
               config={config}
-              onChange={setConfig}
-              onClearSavedState={handleClearSavedState}
+              onChange={(update) => {
+                const next =
+                  typeof update === "function"
+                    ? (update as (prev: VehicleConfig) => VehicleConfig)(config)
+                    : update;
+                setConfig(next);
+              }}
+              onClearSavedState={clearSavedState}
             />
             <ConfigPanel
               title="Right configuration"
@@ -444,8 +417,14 @@ export function Phase3MainPage() {
         ) : pageMode === "single" && viewMode === "interactive" ? (
           <ConfigPanel
             config={config}
-            onChange={setConfig}
-            onClearSavedState={handleClearSavedState}
+            onChange={(update) => {
+              const next =
+                typeof update === "function"
+                  ? (update as (prev: VehicleConfig) => VehicleConfig)(config)
+                  : update;
+              setConfig(next);
+            }}
+            onClearSavedState={clearSavedState}
           />
         ) : null}
         {pageMode === "compare" ? (
@@ -461,32 +440,44 @@ export function Phase3MainPage() {
             coverage={registryCoverage}
             groupedResults={groupedResults}
             results={filteredResults}
-            actions={viewMode === "interactive" ? (
-              <div className="action-bar">
-                <button type="button" className="secondary-button" onClick={handleExportJson}>
-                  Export JSON
-                </button>
-                <button type="button" className="secondary-button" onClick={handleExportCsv}>
-                  Export CSV
-                </button>
-              </div>
-            ) : null}
+            actions={
+              viewMode === "interactive" ? (
+                <div className="action-bar">
+                  <button
+                    type="button"
+                    className="secondary-button"
+                    onClick={handleExportJson}
+                  >
+                    Export JSON
+                  </button>
+                  <button
+                    type="button"
+                    className="secondary-button"
+                    onClick={handleExportCsv}
+                  >
+                    Export CSV
+                  </button>
+                </div>
+              ) : null
+            }
             getUserStatus={getUserStatus}
             getUserNote={getUserNote}
-            onStatusChange={handleStatusChange}
-            onNoteChange={handleNoteChange}
-            filters={viewMode === "interactive" ? (
-              <FilterBar
-                searchTerm={searchTerm}
-                onSearchTermChange={setSearchTerm}
-                applicabilityFilter={applicabilityFilter}
-                onApplicabilityFilterChange={setApplicabilityFilter}
-                freshnessFilter={freshnessFilter}
-                onFreshnessFilterChange={setFreshnessFilter}
-                groupMode={groupMode}
-                onGroupModeChange={setGroupMode}
-              />
-            ) : null}
+            onStatusChange={setRuleStatus}
+            onNoteChange={setRuleNote}
+            filters={
+              viewMode === "interactive" ? (
+                <FilterBar
+                  searchTerm={searchTerm}
+                  onSearchTermChange={setSearchTerm}
+                  applicabilityFilter={applicabilityFilter}
+                  onApplicabilityFilterChange={setApplicabilityFilter}
+                  freshnessFilter={freshnessFilter}
+                  onFreshnessFilterChange={setFreshnessFilter}
+                  groupMode={groupMode}
+                  onGroupModeChange={setGroupMode}
+                />
+              ) : null
+            }
           />
         )}
       </div>
