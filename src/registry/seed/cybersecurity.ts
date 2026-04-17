@@ -1,0 +1,117 @@
+import { makeSeedRule, makeSource } from "@/registry/seed/shared";
+
+export const cybersecurityRules = [
+  makeSeedRule({
+    stable_id: "REG-CS-001",
+    title: "Cybersecurity Management System",
+    short_label: "R155 CSMS",
+    legal_family: "cybersecurity",
+    jurisdiction: "UNECE",
+    jurisdiction_level: "UNECE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "UNECE regulation",
+        source_family: "UNECE" as const,
+        reference: "UNECE Regulation No. 155",
+        official_url: "https://unece.org/transport/documents/2021/03/standards/un-regulation-no-155-cyber-security-and-cyber-security",
+        oj_reference: null,
+        last_verified_on: "2026-04-16",
+      },
+    ],
+    lifecycle_state: "ACTIVE",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [{ field: "frameworkGroup", operator: "eq", value: "MN" }],
+      fallback_if_missing: "unknown",
+    },
+    temporal: {
+      entry_into_force: null,
+      applies_to_new_types_from: "2022-07-01",
+      applies_to_all_new_vehicles_from: "2024-07-01",
+      applies_to_first_registration_from: null,
+      applies_from_generic: null,
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: null,
+    },
+    obligation_text:
+      "Manufacturer must obtain CSMS certificate and vehicle type-approval for cybersecurity.",
+    owner_hint: "cybersecurity",
+    planning_lead_time_months: 24,
+    ui_package: "horizontal",
+    process_stage: "type_approval",
+  }),
+  makeSeedRule({
+    stable_id: "REG-CS-002",
+    title: "Software Update Management System",
+    short_label: "R156 SUMS",
+    legal_family: "cybersecurity",
+    jurisdiction: "UNECE",
+    jurisdiction_level: "UNECE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "UNECE regulation",
+        source_family: "UNECE" as const,
+        reference: "UNECE Regulation No. 156",
+        official_url: "https://unece.org/transport/documents/2021/03/standards/un-regulation-no-156-software-update-and-software-update",
+        oj_reference: null,
+        last_verified_on: "2026-04-16",
+      },
+    ],
+    lifecycle_state: "ACTIVE",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [{ field: "frameworkGroup", operator: "eq", value: "MN" }],
+      fallback_if_missing: "unknown",
+    },
+    temporal: {
+      entry_into_force: null,
+      applies_to_new_types_from: "2022-07-01",
+      applies_to_all_new_vehicles_from: "2024-07-01",
+      applies_to_first_registration_from: null,
+      applies_from_generic: null,
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: null,
+    },
+    obligation_text:
+      "Manufacturer must establish SUMS and obtain type-approval for software update processes, including OTA where applicable.",
+    owner_hint: "software_ota",
+    ui_package: "horizontal",
+    process_stage: "type_approval",
+  }),
+  makeSeedRule({
+    stable_id: "REG-CS-003",
+    title: "Cyber Resilience Act",
+    short_label: "CRA",
+    legal_family: "cybersecurity",
+    jurisdiction: "EU",
+    jurisdiction_level: "EU",
+    framework_group: ["MN", "L", "O", "AGRI"],
+    sources: [
+      makeSource(
+        "Framework regulation",
+        "EUR-Lex",
+        "Regulation (EU) 2024/2847",
+      ),
+    ],
+    lifecycle_state: "DRAFT",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "any",
+      conditions: [{ field: "hasConnectedServices", operator: "is_true", value: true }],
+      fallback_if_missing: "unknown",
+    },
+    obligation_text:
+      "CRA applicability to type-approved vehicles remains under review and must not be treated as verified.",
+    owner_hint: "cybersecurity",
+    manual_review_reason:
+      "CRA exclusion scope for type-approved vehicles needs verification.",
+    ui_package: "horizontal",
+    process_stage: "pre_ta",
+  }),
+];

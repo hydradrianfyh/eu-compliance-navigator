@@ -1,0 +1,722 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Pilot MY2028 PHEV acceptance > Layer 3 — coverage snapshot > matches the full evaluation snapshot 1`] = `
+[
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-TA-001",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-TA-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-TA-003",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-GSR-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-GSR-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-GSR-003",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-GSR-004",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-GSR-005",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-GSR-006",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-CS-001",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-CS-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "DRAFT",
+    "rule_id": "REG-CS-003",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-AD-001",
+  },
+  {
+    "applicability": "CONDITIONAL",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-AD-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-AD-003",
+  },
+  {
+    "applicability": "CONDITIONAL",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-PV-001",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-PV-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-PV-003",
+  },
+  {
+    "applicability": "CONDITIONAL",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-DA-001",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-AI-001",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-AI-002",
+  },
+  {
+    "applicability": "CONDITIONAL",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-AI-003",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-AI-004",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-BAT-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-BAT-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "DRAFT",
+    "rule_id": "REG-BAT-003",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-BAT-004",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-BAT-005",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-BAT-006",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-BAT-007",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-EM-001",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-EM-002",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-EM-003",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-EM-004",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-EM-005",
+  },
+  {
+    "applicability": "CONDITIONAL",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-CL-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "DRAFT",
+    "rule_id": "REG-CL-002",
+  },
+  {
+    "applicability": "CONDITIONAL",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-CL-003",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-CL-004",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-CL-005",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-CL-006",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-FR-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-FR-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-FR-003",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-FR-004",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-FR-005",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-IT-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-IT-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-IT-003",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-IT-004",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-IT-005",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-ES-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-ES-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-ES-003",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-ES-004",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-ES-005",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-NL-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-NL-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-NL-003",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-NL-004",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-NL-005",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-PL-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-PL-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-PL-003",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-PL-004",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-PL-005",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-BE-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-BE-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-BE-003",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-BE-004",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-BE-005",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-AT-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-AT-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-AT-003",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-AT-004",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-AT-005",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-SE-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-SE-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-SE-003",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-SE-004",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-SE-005",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-MS-DE-001",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-MS-DE-002",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-MS-DE-003",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-MS-DE-004",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-MS-DE-005",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-CZ-001",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-UK-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-UN-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-010",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-013",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-013H",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-014",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-016",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-017",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-021",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-025",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-034",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-043",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-044",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-046",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-048",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-051",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-058",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-066",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-079",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-083",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-094",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-095",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-UN-100",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-110",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-118",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-127",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-129",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-134",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-135",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-137",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-140",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-141",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-142",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-145",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-149",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-153",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-INS-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "DRAFT",
+    "rule_id": "REG-INS-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-INS-003",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-003",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-IMP-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-IMP-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "DRAFT",
+    "rule_id": "REG-IMP-003",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-IMP-004",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-IMP-005",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-CI-001",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-CI-002",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "DRAFT",
+    "rule_id": "REG-CI-003",
+  },
+]
+`;
+
+exports[`Pilot MY2028 PHEV acceptance > pilot coverage summary > prints coverage breakdown 1`] = `
+{
+  "applicable": 18,
+  "applicable_ids": [
+    "REG-AI-001",
+    "REG-AI-004",
+    "REG-BAT-001",
+    "REG-BAT-004",
+    "REG-BAT-005",
+    "REG-CS-001",
+    "REG-CS-002",
+    "REG-EM-001",
+    "REG-EM-003",
+    "REG-GSR-001",
+    "REG-MS-DE-001",
+    "REG-MS-DE-002",
+    "REG-MS-DE-003",
+    "REG-MS-DE-004",
+    "REG-MS-DE-005",
+    "REG-PV-002",
+    "REG-TA-001",
+    "REG-UN-100",
+  ],
+  "conditional": 6,
+  "future": 0,
+  "not_applicable": 5,
+  "total": 137,
+  "unknown": 108,
+}
+`;

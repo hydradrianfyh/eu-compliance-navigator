@@ -1,0 +1,60 @@
+name: EUR-Lex freshness watcher
+
+on:
+  schedule:
+    # Run weekly on Monday at 06:00 UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "Report changes since (YYYY-MM-DD)"
+        required: false
+        default: ""
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run EUR-Lex watcher
+        run: |
+          if [ -n "${{ inputs.since }}" ]; then
+            node scripts/eur-lex-watch.mjs --since "${{ inputs.since }}"
+          else
+            # Default: since 7 days ago
+            SINCE=$(date -u -d "7 days ago" +%Y-%m-%d)
+            node scripts/eur-lex-watch.mjs --since "$SINCE"
+          fi
+
+      - name: Create PR if change signals detected
+        run: |
+          if [ -f docs/freshness/change-signals.json ] && [ "$(jq 'length' docs/freshness/change-signals.json)" -gt 0 ]; then
+            echo "Change signals detected. Raising issue."
+            gh issue create \
+              --title "[freshness] EUR-Lex / UNECE change signals detected" \
+              --body "$(jq -r '.[] | "- **\(.stable_id)**: modified at \(.modified_at // "n/a") via \(.source)"' docs/freshness/change-signals.json)" \
+              --label "freshness,needs-review"
+          else
+            echo "No change signals this run."
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Commit freshness report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/freshness/
+          if ! git diff --cached --quiet; then
+            git commit -m "chore(freshness): update watcher report [skip ci]"
+            git push
+          fi

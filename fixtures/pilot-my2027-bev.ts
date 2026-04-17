@@ -1,0 +1,73 @@
+import type { VehicleConfig } from "@/config/schema";
+
+export const pilotMY2027BEV: VehicleConfig = {
+  projectName: "MY2027 BEV Pilot",
+  vehicleCode: "PILOT-MY27-BEV",
+  targetCountries: ["DE", "FR", "NL"],
+  sopDate: "2027-01-15",
+  firstRegistrationDate: "2027-04-01",
+  consumerOrFleet: "consumer",
+  salesModel: "dealer",
+  frameworkGroup: "MN",
+  vehicleCategory: "M1",
+  bodyType: "suv",
+  approvalType: "new_type",
+  steeringPosition: "LHD",
+  completionState: "complete",
+  powertrain: "BEV",
+  batteryCapacityBand: "large",
+  chargingCapability: {
+    ac: true,
+    dc: true,
+    bidirectional: true,
+  },
+  automationLevel: "l2plus",
+  adasFeatures: [
+    "lane_keeping",
+    "adaptive_cruise",
+    "blind_spot",
+    "cross_traffic",
+    "traffic_sign",
+    "surround_view",
+  ],
+  parkingAutomation: false,
+  motorwayAssistant: true,
+  systemInitiatedLaneChange: false,
+  connectivity: ["telematics", "mobile_app", "remote_control", "ota"],
+  dataFlags: ["cabin_camera", "driver_profiling", "biometric_data", "location_tracking"],
+  aiLevel: "ai_dms",
+  aiInventoryExists: true,
+  braking: {
+    type: "regen",
+    absFitted: true,
+    espFitted: true,
+  },
+  steering: {
+    type: "electric",
+    eps: true,
+  },
+  cabin: {
+    airbagCount: 8,
+    isofixAnchors: true,
+    seatbeltReminder: true,
+  },
+  lighting: {
+    headlampType: "matrix_led",
+    avas: true,
+  },
+  fuel: {
+    tankType: "none",
+  },
+  hmi: {
+    touchscreenPrimary: true,
+    voiceControl: true,
+  },
+  readiness: {
+    csmsAvailable: true,
+    sumsAvailable: true,
+    dpiaCompleted: true,
+    technicalDocStarted: true,
+    evidenceOwnerAssigned: true,
+    registrationAssumptionsKnown: true,
+  },
+};

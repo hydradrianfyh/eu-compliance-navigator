@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm test *)",
+      "Bash(npx tsc *)",
+      "Bash(npx eslint *)",
+      "Bash(node -e \"const {allSeedRules} = require\\('./src/registry/seed/index.ts'\\); console.log\\(allSeedRules.length\\);\")",
+      "Bash(grep -E \"\\\\.ts$\")",
+      "Bash(grep -v \":0$\")",
+      "Bash(find \"C:\\\\Users\\\\CE0065\\\\Desktop\\\\Product_compliance\\\\eu-compliance-navigator\\\\src\\\\registry\\\\seed\" -name \"*.ts\" -exec basename {} \\\\;)",
+      "Bash(npx vitest *)",
+      "Bash(node -e ' *)",
+      "Bash(npx tsx *)",
+      "Bash(npm run *)",
+      "WebSearch",
+      "Bash(git --version)",
+      "Bash(mkdir -p \"C:/Users/CE0065/.agents/skills\")",
+      "Read(//c/Users/CE0065/.agents/**)",
+      "Bash(git clone *)",
+      "WebFetch(domain:raw.githubusercontent.com)"
+    ]
+  }
+}
