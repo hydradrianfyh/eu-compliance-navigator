@@ -28,8 +28,12 @@ import { rawSeedRules } from "@/registry/seed";
 import { materializeRulesFromReviewState } from "@/registry/verification";
 import { groupByTrust } from "@/lib/classify-trust";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { ExpandAllToggle } from "@/components/shared/ExpandAllToggle";
 import { ExportAsPdfButton } from "@/components/shared/ExportAsPdfButton";
-import { RuleCardV2 } from "@/components/rules/RuleCardV2";
+import {
+  RuleCardV2,
+  type BulkExpansionSignal,
+} from "@/components/rules/RuleCardV2";
 import { useAppShellStore } from "@/state/app-shell-store";
 
 function matchesSearch(result: EvaluationResult, search: string): boolean {
@@ -53,6 +57,7 @@ interface TrustSectionProps {
   results: EvaluationResult[];
   rulesById: Map<string, Rule>;
   highlightRuleId?: string;
+  bulkSignal?: BulkExpansionSignal;
   renderCard: (result: EvaluationResult, rule: Rule) => React.ReactNode;
 }
 
@@ -64,9 +69,19 @@ function TrustSection({
   results,
   rulesById,
   highlightRuleId,
+  bulkSignal,
   renderCard,
 }: TrustSectionProps) {
   const [expanded, setExpanded] = useState(defaultExpanded);
+  const [lastBulkTick, setLastBulkTick] = useState<number | null>(null);
+
+  // Sync with broadcast signal on tick change. Mirrors the pattern used in
+  // RuleCardV2; parent owns one source of truth, each listener remains
+  // independently toggleable afterwards.
+  if (bulkSignal && bulkSignal.tick !== lastBulkTick) {
+    setLastBulkTick(bulkSignal.tick);
+    setExpanded(bulkSignal.expanded);
+  }
 
   // Auto-expand if a rule in this section is being deep-linked.
   const shouldAutoExpand =
@@ -172,6 +187,19 @@ function RulesTabBody() {
 
   const groups = useMemo(() => groupByTrust(filtered), [filtered]);
 
+  // Bulk expand/collapse broadcast. `bulkTick` starts at 0 so children
+  // ignore the initial signal (their defaultExpanded / highlight logic
+  // keeps working). First click sets tick to 1 and begins broadcasting.
+  const [allExpanded, setAllExpanded] = useState(false);
+  const [bulkTick, setBulkTick] = useState(0);
+  const bulkSignal: BulkExpansionSignal | undefined =
+    bulkTick > 0 ? { tick: bulkTick, expanded: allExpanded } : undefined;
+
+  const handleToggleAll = () => {
+    setAllExpanded((prev) => !prev);
+    setBulkTick((prev) => prev + 1);
+  };
+
   const renderCard = (result: EvaluationResult, rule: Rule) => (
     <RuleCardV2
       result={result}
@@ -181,6 +209,7 @@ function RulesTabBody() {
       onStatusChange={setRuleStatus}
       onNoteChange={setRuleNote}
       defaultExpanded={result.rule_id === highlightRuleId}
+      bulkSignal={bulkSignal}
     />
   );
 
@@ -195,6 +224,10 @@ function RulesTabBody() {
           </p>
         </div>
         <div className="tab-actions">
+          <ExpandAllToggle
+            expanded={allExpanded}
+            onToggle={handleToggleAll}
+          />
           <ExportAsPdfButton tabClass="rules-tab" />
         </div>
       </header>
@@ -293,6 +326,7 @@ function RulesTabBody() {
               results={groups.needs_input}
               rulesById={rulesById}
               highlightRuleId={highlightRuleId}
+              bulkSignal={bulkSignal}
               renderCard={renderCard}
             />
           ) : null}
@@ -305,6 +339,7 @@ function RulesTabBody() {
             results={groups.verified}
             rulesById={rulesById}
             highlightRuleId={highlightRuleId}
+            bulkSignal={bulkSignal}
             renderCard={renderCard}
           />
 
@@ -316,6 +351,7 @@ function RulesTabBody() {
             results={groups.indicative}
             rulesById={rulesById}
             highlightRuleId={highlightRuleId}
+            bulkSignal={bulkSignal}
             renderCard={renderCard}
           />
 
@@ -327,6 +363,7 @@ function RulesTabBody() {
             results={groups.pending}
             rulesById={rulesById}
             highlightRuleId={highlightRuleId}
+            bulkSignal={bulkSignal}
             renderCard={renderCard}
           />
         </>

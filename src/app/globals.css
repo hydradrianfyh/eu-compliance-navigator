@@ -2184,3 +2184,26 @@ html.print-rules-tab .trust-section-pending {
 html.print-setup-tab .advanced-section:not([open]) {
   display: none;
 }
+
+/* Expand / collapse all toggle (Rules tab) */
+
+.expand-all-toggle {
+  background: var(--surface-card, #ffffff);
+  border: 1px solid var(--border-default, #e5e7eb);
+  border-radius: var(--radius-sm, 4px);
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary, #111827);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.expand-all-toggle:hover {
+  background: var(--surface-muted, #f9fafb);
+}
+
+.expand-all-toggle[aria-pressed="true"] {
+  background: var(--surface-muted, #f3f4f6);
+  border-color: var(--text-muted, #9ca3af);
+}

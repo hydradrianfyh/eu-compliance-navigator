@@ -33,6 +33,17 @@ import {
 import { ApplicabilityBadge } from "@/components/shared/ApplicabilityBadge";
 import { TrustBadge } from "@/components/shared/TrustBadge";
 
+/**
+ * Broadcast signal for bulk expand/collapse. The parent increments `tick`
+ * every time it wants to push a new state to all listeners; listeners
+ * sync their local `expanded` state when the tick changes, but remain
+ * free to be toggled individually afterwards.
+ */
+export interface BulkExpansionSignal {
+  tick: number;
+  expanded: boolean;
+}
+
 interface RuleCardV2Props {
   result: EvaluationResult;
   rule: Rule;
@@ -41,6 +52,7 @@ interface RuleCardV2Props {
   onStatusChange: (ruleId: string, status: UserRuleStatus) => void;
   onNoteChange: (ruleId: string, note: string) => void;
   defaultExpanded?: boolean;
+  bulkSignal?: BulkExpansionSignal;
 }
 
 export function RuleCardV2({
@@ -51,9 +63,19 @@ export function RuleCardV2({
   onStatusChange,
   onNoteChange,
   defaultExpanded = false,
+  bulkSignal,
 }: RuleCardV2Props) {
   const [expanded, setExpanded] = useState(defaultExpanded);
   const [mode, setMode] = useState<"plain" | "engineering">("plain");
+  const [lastBulkTick, setLastBulkTick] = useState<number | null>(null);
+
+  // Sync to bulk broadcast when the tick changes. This is setState-during-
+  // render gated on prop change (React 19 supported); avoids a useEffect
+  // round-trip and keeps rendering deterministic.
+  if (bulkSignal && bulkSignal.tick !== lastBulkTick) {
+    setLastBulkTick(bulkSignal.tick);
+    setExpanded(bulkSignal.expanded);
+  }
 
   const trust = classifyTrust(result);
   const subState = classifyUnknownSubState(result);
