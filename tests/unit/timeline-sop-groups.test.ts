@@ -127,3 +127,54 @@ describe("groupTimelineBySOP · fallback anchors", () => {
     expect(g.segments.find((s) => s.id === "later")?.milestones).toHaveLength(1);
   });
 });
+
+describe("groupTimelineBySOP · Overdue segment (UX-006 fix)", () => {
+  const today = new Date("2026-04-17");
+  const sopDate = "2027-01-15";
+
+  it("puts months strictly before current month into Overdue (not Immediate)", () => {
+    // Feb 2025 is way before today (Apr 2026) — regression case from PDF bug
+    const t = timelineFrom(["2025-02", "2025-08", "2026-02"]);
+    const g = groupTimelineBySOP(t, sopDate, null, today);
+    expect(g.segments.find((s) => s.id === "overdue")?.milestones).toHaveLength(
+      3,
+    );
+    expect(g.segments.find((s) => s.id === "immediate")?.milestones).toHaveLength(
+      0,
+    );
+  });
+
+  it("current month still counts as Immediate, not Overdue", () => {
+    const t = timelineFrom(["2026-04"]); // same month as today
+    const g = groupTimelineBySOP(t, sopDate, null, today);
+    expect(g.segments.find((s) => s.id === "overdue")?.milestones).toHaveLength(
+      0,
+    );
+    expect(g.segments.find((s) => s.id === "immediate")?.milestones).toHaveLength(
+      1,
+    );
+  });
+
+  it("Overdue segment is first in segment order (most-urgent on top)", () => {
+    const t = timelineFrom(["2025-02"]);
+    const g = groupTimelineBySOP(t, sopDate, null, today);
+    expect(g.segments[0].id).toBe("overdue");
+  });
+
+  it("Overdue segment is expanded by default", () => {
+    const t = timelineFrom(["2025-02"]);
+    const g = groupTimelineBySOP(t, sopDate, null, today);
+    expect(g.segments.find((s) => s.id === "overdue")?.defaultExpanded).toBe(
+      true,
+    );
+  });
+
+  it("under calendar fallback, past months still go to Overdue not Immediate", () => {
+    const t = timelineFrom(["2025-02"]);
+    const g = groupTimelineBySOP(t, null, null, today);
+    expect(g.anchor).toBe("calendar");
+    expect(g.segments.find((s) => s.id === "overdue")?.milestones).toHaveLength(
+      1,
+    );
+  });
+});

@@ -39,6 +39,20 @@ export interface ExecutiveSummary {
   verified_count: number;
   indicative_count: number;
   pending_authoring: number;
+  /**
+   * Registry-wide lifecycle totals (independent of this project's
+   * applicability). Added in UX-002 so the Status tab can reconcile its
+   * project-scoped counts with the Coverage tab's registry-scoped counts,
+   * e.g. "Indicative applicable: 0 · Registry SEED_UNVERIFIED: 57".
+   */
+  registry_totals: {
+    active: number;
+    seed_unverified: number;
+    draft: number;
+    placeholder: number;
+    archived: number;
+    total: number;
+  };
   generated_at: string;
 }
 
@@ -261,6 +275,38 @@ export function buildExecutiveSummary(args: {
   const canEnterMarket =
     !hasActiveThirdPartyEvidenceGap && countriesAtRisk.length === 0;
 
+  // UX-002 reconciliation: expose registry-wide lifecycle totals so the
+  // Status tab can explain "Indicative applicable: 0 (registry has 57
+  // SEED_UNVERIFIED rules)" instead of looking like a silent contradiction
+  // against the Coverage tab.
+  const registry_totals = {
+    active: 0,
+    seed_unverified: 0,
+    draft: 0,
+    placeholder: 0,
+    archived: 0,
+    total: rules.length,
+  };
+  for (const rule of rules) {
+    switch (rule.lifecycle_state) {
+      case "ACTIVE":
+        registry_totals.active += 1;
+        break;
+      case "SEED_UNVERIFIED":
+        registry_totals.seed_unverified += 1;
+        break;
+      case "DRAFT":
+        registry_totals.draft += 1;
+        break;
+      case "PLACEHOLDER":
+        registry_totals.placeholder += 1;
+        break;
+      case "ARCHIVED":
+        registry_totals.archived += 1;
+        break;
+    }
+  }
+
   return {
     canEnterMarket,
     confidence,
@@ -272,6 +318,7 @@ export function buildExecutiveSummary(args: {
     verified_count,
     indicative_count,
     pending_authoring,
+    registry_totals,
     generated_at: now.toISOString(),
   };
 }

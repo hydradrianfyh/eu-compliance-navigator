@@ -21,6 +21,7 @@ import { rawSeedRules } from "@/registry/seed";
 import { materializeRulesFromReviewState } from "@/registry/verification";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ExportAsPdfButton } from "@/components/shared/ExportAsPdfButton";
+import { breakdownMonths, formatMonthsLabel } from "@/lib/format-months";
 import { useAppShellStore } from "@/state/app-shell-store";
 
 function confidenceLabel(c: "high" | "medium" | "low"): string {
@@ -102,18 +103,28 @@ export default function StatusPage() {
           <div>
             <dt>Coverage score</dt>
             <dd>{summary.coverageScore} / 100</dd>
+            <p className="status-metric-note">project-scoped</p>
           </div>
           <div>
-            <dt>Verified</dt>
+            <dt>Verified applicable</dt>
             <dd>{summary.verified_count}</dd>
+            <p className="status-metric-note">
+              of {summary.registry_totals.active} ACTIVE in registry
+            </p>
           </div>
           <div>
-            <dt>Indicative</dt>
+            <dt>Indicative applicable</dt>
             <dd>{summary.indicative_count}</dd>
+            <p className="status-metric-note">
+              of {summary.registry_totals.seed_unverified} SEED_UNVERIFIED in registry
+            </p>
           </div>
           <div>
-            <dt>Pending authoring</dt>
+            <dt>Pending authoring (in scope)</dt>
             <dd>{summary.pending_authoring}</dd>
+            <p className="status-metric-note">
+              of {summary.registry_totals.placeholder} PLACEHOLDER in registry
+            </p>
           </div>
         </dl>
         <p className="status-hero-generated">
@@ -150,18 +161,21 @@ export default function StatusPage() {
             <p className="muted">No upcoming deadlines.</p>
           ) : (
             <ul className="status-column-list">
-              {summary.topDeadlines.map((d) => (
-                <li key={d.stable_id}>
-                  <Link href={`/rules?rule=${encodeURIComponent(d.stable_id)}`}>
-                    <strong>{d.stable_id}</strong>
-                  </Link>
-                  <span className="status-deadline">
-                    {d.deadline} · {d.months_remaining} mo remaining
-                  </span>
-                  <p className="status-column-item-title">{d.title}</p>
-                  <p className="status-column-item-owner">owner: {d.owner_hint}</p>
-                </li>
-              ))}
+              {summary.topDeadlines.map((d) => {
+                const breakdown = breakdownMonths(d.months_remaining);
+                return (
+                  <li key={d.stable_id} className={`status-deadline-row status-deadline-${breakdown.status}`}>
+                    <Link href={`/rules?rule=${encodeURIComponent(d.stable_id)}`}>
+                      <strong>{d.stable_id}</strong>
+                    </Link>
+                    <span className="status-deadline">
+                      {d.deadline} · {formatMonthsLabel(d.months_remaining)}
+                    </span>
+                    <p className="status-column-item-title">{d.title}</p>
+                    <p className="status-column-item-owner">owner: {d.owner_hint}</p>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </section>

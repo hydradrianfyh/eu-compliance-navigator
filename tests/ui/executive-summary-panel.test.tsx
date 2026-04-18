@@ -31,6 +31,14 @@ function buildSummary(overrides: Partial<ExecutiveSummary> = {}): ExecutiveSumma
     verified_count: 12,
     indicative_count: 4,
     pending_authoring: 2,
+    registry_totals: {
+      active: 12,
+      seed_unverified: 5,
+      draft: 0,
+      placeholder: 2,
+      archived: 0,
+      total: 19,
+    },
     generated_at: "2026-04-17T10:00:00Z",
     ...overrides,
   };

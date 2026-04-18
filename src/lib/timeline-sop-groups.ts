@@ -1,8 +1,9 @@
 /**
  * SOP-anchored timeline grouping (UX Refactor v2 spec §6.1).
  *
- * Buckets the month-granular Timeline output into six semantic segments
+ * Buckets the month-granular Timeline output into seven semantic segments
  * anchored on SOP:
+ *   - Overdue              month < current calendar month   (UX-006 fix)
  *   - Immediate            today → today + 3 months
  *   - Pre-SOP critical      SOP - 12 mo → SOP - 3 mo
  *   - Pre-SOP final         SOP - 3 mo → SOP
@@ -20,6 +21,7 @@
 import type { TimelineMilestone, TimelineOutput } from "@/engine/timeline";
 
 export type SopSegmentId =
+  | "overdue"
   | "immediate"
   | "pre_sop_critical"
   | "pre_sop_final"
@@ -99,15 +101,20 @@ function classifyMilestone(
   const milestoneDate = parseMonth(milestone.month);
   if (!milestoneDate) return "unscheduled";
 
+  // UX-006 fix: anything strictly before the current calendar month is
+  // Overdue. This prevents Feb-2025 deadlines from showing up under
+  // "Immediate — Due in the next 3 months" when today is Apr-2026.
+  const monthsDelta = monthsBetween(anchor.today, milestoneDate);
+  if (monthsDelta < 0) return "overdue";
+
   if (!anchor.sopDate) {
     // Calendar fallback: Immediate = today + 3 mo; rest = Later.
-    const diff = monthsBetween(anchor.today, milestoneDate);
-    return diff <= 3 ? "immediate" : "later";
+    return monthsDelta <= 3 ? "immediate" : "later";
   }
 
-  // Immediate always wins (even when SOP is years away) so urgent items
-  // are never hidden in a later bucket.
-  if (monthsBetween(anchor.today, milestoneDate) <= 3) return "immediate";
+  // Immediate wins within 0-3 months from today (even when SOP is far away)
+  // so urgent items never hide in a later bucket.
+  if (monthsDelta <= 3) return "immediate";
 
   const monthsFromSop = monthsBetween(anchor.sopDate, milestoneDate);
   if (monthsFromSop <= -12) return "later"; // very pre-SOP (> 12 mo before) -> Later
@@ -121,6 +128,11 @@ const SEGMENT_META: Record<
   SopSegmentId,
   { label: string; hint: string; defaultExpanded: boolean }
 > = {
+  overdue: {
+    label: "⚠ Overdue",
+    hint: "Past due — deadline already passed, immediate attention required",
+    defaultExpanded: true,
+  },
   immediate: {
     label: "Immediate",
     hint: "Due in the next 3 months",
@@ -154,6 +166,7 @@ const SEGMENT_META: Record<
 };
 
 const SEGMENT_ORDER: SopSegmentId[] = [
+  "overdue",
   "immediate",
   "pre_sop_critical",
   "pre_sop_final",
@@ -171,6 +184,7 @@ export function groupTimelineBySOP(
 
   // Empty buckets first so ordering is deterministic.
   const buckets: Record<SopSegmentId, TimelineMilestone[]> = {
+    overdue: [],
     immediate: [],
     pre_sop_critical: [],
     pre_sop_final: [],

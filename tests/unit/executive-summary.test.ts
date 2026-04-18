@@ -407,4 +407,43 @@ describe("buildExecutiveSummary", () => {
       ).toBeGreaterThanOrEqual(summary.topDeadlines[i - 1].months_remaining);
     }
   });
+
+  it("exposes registry_totals for Status/Coverage reconciliation (UX-002)", () => {
+    const rules: Rule[] = [
+      buildRule({ stable_id: "REG-A", lifecycle_state: "ACTIVE" }),
+      buildRule({ stable_id: "REG-B", lifecycle_state: "ACTIVE" }),
+      buildRule({ stable_id: "REG-C", lifecycle_state: "SEED_UNVERIFIED" }),
+      buildRule({ stable_id: "REG-D", lifecycle_state: "SEED_UNVERIFIED" }),
+      buildRule({ stable_id: "REG-E", lifecycle_state: "SEED_UNVERIFIED" }),
+      buildRule({ stable_id: "REG-F", lifecycle_state: "PLACEHOLDER" }),
+      buildRule({ stable_id: "REG-G", lifecycle_state: "DRAFT" }),
+      buildRule({ stable_id: "REG-H", lifecycle_state: "ARCHIVED" }),
+    ];
+    const results: EvaluationResult[] = rules.map((r) =>
+      buildResult(r, "APPLICABLE"),
+    );
+
+    const timeline = buildTimeline({
+      config: baseVehicleConfig,
+      results,
+      rules,
+      now,
+    });
+    const summary = buildExecutiveSummary({
+      config: baseVehicleConfig,
+      results,
+      rules,
+      timeline,
+      now,
+    });
+
+    expect(summary.registry_totals).toEqual({
+      active: 2,
+      seed_unverified: 3,
+      draft: 1,
+      placeholder: 1,
+      archived: 1,
+      total: 8,
+    });
+  });
 });

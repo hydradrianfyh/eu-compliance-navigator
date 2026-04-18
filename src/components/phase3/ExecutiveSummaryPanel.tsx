@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import type { ExecutiveSummary } from "@/engine/executive-summary";
+import { formatMonthsLabel } from "@/lib/format-months";
 
 interface ExecutiveSummaryPanelProps {
   summary: ExecutiveSummary;
@@ -43,14 +44,6 @@ function formatGeneratedAt(iso: string): string {
   } catch {
     return iso;
   }
-}
-
-function monthsLabel(months: number): string {
-  if (months === 0) return "this month";
-  if (months === 1) return "in 1 month";
-  if (months > 1) return `in ${months} months`;
-  if (months === -1) return "1 month overdue";
-  return `${Math.abs(months)} months overdue`;
 }
 
 export function ExecutiveSummaryPanel({ summary }: ExecutiveSummaryPanelProps) {
@@ -303,7 +296,7 @@ export function ExecutiveSummaryPanel({ summary }: ExecutiveSummaryPanelProps) {
                         {item.deadline}
                       </p>
                       <p className="text-xs text-slate-500">
-                        {monthsLabel(item.months_remaining)}
+                        {formatMonthsLabel(item.months_remaining)}
                       </p>
                     </div>
                   </li>
