@@ -27,6 +27,18 @@ export interface ExecutiveSummary {
   topBlockers: BlockerItem[];
   topDeadlines: DeadlineItem[];
   countriesAtRisk: string[];
+  /**
+   * UX-003: per-country reason for risk (pending_overlay / low_coverage /
+   * no_overlay). Parallel array to `countriesAtRisk` for richer Status UI.
+   * Renderers that don't need the reason can keep using `countriesAtRisk`.
+   */
+  countriesAtRiskDetail: Array<{
+    country: string;
+    reason: "pending_overlay" | "low_coverage" | "no_overlay";
+    placeholder_count: number;
+    unknown_count: number;
+    total_overlay_rules: number;
+  }>;
   freshnessOverview: {
     fresh: number;
     due_soon: number;
@@ -155,18 +167,60 @@ export function buildExecutiveSummary(args: {
   const activeRules = rules.filter((r) => r.lifecycle_state === "ACTIVE");
   const freshnessOverview = summarizeFreshness(activeRules, now);
 
-  // Countries at risk ----------------------------------------------------
+  // Countries at risk (UX-003 expanded) ---------------------------------
+  // Three reasons a targeted jurisdiction is "at risk":
+  //   1. no_overlay       — registry has ZERO overlay rules for the country
+  //   2. pending_overlay  — all overlay rules are PLACEHOLDER (authoring pending)
+  //   3. low_coverage     — > 50 % of overlay rules evaluate to UNKNOWN
+  // Previously only (3) was detected, which silently let FR/NL slip
+  // through even when their 5 rules were all PLACEHOLDER.
   const countriesAtRisk: string[] = [];
+  const countriesAtRiskDetail: ExecutiveSummary["countriesAtRiskDetail"] = [];
   for (const country of config.targetCountries) {
     const jurisdictionRules = rules.filter((r) => r.jurisdiction === country);
     const total = jurisdictionRules.length;
-    if (total === 0) continue;
+
+    if (total === 0) {
+      countriesAtRisk.push(country);
+      countriesAtRiskDetail.push({
+        country,
+        reason: "no_overlay",
+        placeholder_count: 0,
+        unknown_count: 0,
+        total_overlay_rules: 0,
+      });
+      continue;
+    }
+
+    const placeholderCount = jurisdictionRules.filter(
+      (r) => r.lifecycle_state === "PLACEHOLDER",
+    ).length;
+
     let unknownCount = 0;
     for (const rule of jurisdictionRules) {
       const result = resultsById.get(rule.stable_id);
       if (result?.applicability === "UNKNOWN") unknownCount += 1;
     }
-    if (unknownCount / total > 0.5) countriesAtRisk.push(country);
+
+    if (placeholderCount === total) {
+      countriesAtRisk.push(country);
+      countriesAtRiskDetail.push({
+        country,
+        reason: "pending_overlay",
+        placeholder_count: placeholderCount,
+        unknown_count: unknownCount,
+        total_overlay_rules: total,
+      });
+    } else if (unknownCount / total > 0.5) {
+      countriesAtRisk.push(country);
+      countriesAtRiskDetail.push({
+        country,
+        reason: "low_coverage",
+        placeholder_count: placeholderCount,
+        unknown_count: unknownCount,
+        total_overlay_rules: total,
+      });
+    }
   }
 
   // Top deadlines --------------------------------------------------------
@@ -313,6 +367,7 @@ export function buildExecutiveSummary(args: {
     topBlockers,
     topDeadlines,
     countriesAtRisk,
+    countriesAtRiskDetail,
     freshnessOverview,
     coverageScore,
     verified_count,

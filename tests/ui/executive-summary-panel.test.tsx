@@ -19,6 +19,7 @@ function buildSummary(overrides: Partial<ExecutiveSummary> = {}): ExecutiveSumma
     topBlockers: [],
     topDeadlines: [],
     countriesAtRisk: [],
+    countriesAtRiskDetail: [],
     freshnessOverview: {
       fresh: 10,
       due_soon: 2,

@@ -22,12 +22,23 @@ export const consumerLiabilityRules = [
     ],
     lifecycle_state: "ACTIVE",
     trigger_logic: {
+      // UX-004 fix: PLD applies to every product placed on the EU market,
+      // so the trigger is `targetsEU is_true`. Previously conditions was
+      // an empty array, which produced an empty "Why it applies" list in
+      // the RuleCardV2 UI (observed in the 2026-04 pilot PDF).
       mode: "declarative",
       match_mode: "all",
-      conditions: [],
-      fallback_if_missing: "unknown",
+      conditions: [
+        {
+          field: "targetsEU",
+          operator: "is_true",
+          value: true,
+          label: "Market includes at least one EU country",
+        },
+      ],
+      fallback_if_missing: "not_applicable",
       conditional_reason:
-        "Product liability applies to all products. Feature-level implications still require review.",
+        "Product liability applies to all products placed on the EU market. Feature-level implications (software updates, AI components, cybersecurity) still require legal review.",
     },
     temporal: {
       entry_into_force: "2024-12-08",

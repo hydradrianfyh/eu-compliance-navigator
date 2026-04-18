@@ -182,16 +182,24 @@ export default function StatusPage() {
 
         <section className="status-column panel">
           <h3>Countries at risk</h3>
-          {summary.countriesAtRisk.length === 0 ? (
+          {summary.countriesAtRiskDetail.length === 0 ? (
             <p className="muted">All targeted markets covered.</p>
           ) : (
             <ul className="status-country-list">
-              {summary.countriesAtRisk.map((c) => (
-                <li key={c}>
-                  <strong>{c}</strong>{" "}
-                  <span className="muted">pending overlay or low coverage</span>
-                </li>
-              ))}
+              {summary.countriesAtRiskDetail.map((c) => {
+                const reasonLabel =
+                  c.reason === "pending_overlay"
+                    ? "pending overlay — all rules placeholder (Phase 13+)"
+                    : c.reason === "no_overlay"
+                      ? "no overlay rules in registry yet"
+                      : `low coverage — ${c.unknown_count} of ${c.total_overlay_rules} rules UNKNOWN`;
+                return (
+                  <li key={c.country} className={`status-country-${c.reason}`}>
+                    <strong>{c.country}</strong>{" "}
+                    <span className="muted">{reasonLabel}</span>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </section>

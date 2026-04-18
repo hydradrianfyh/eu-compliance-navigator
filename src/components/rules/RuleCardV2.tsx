@@ -81,14 +81,64 @@ export function RuleCardV2({
   const subState = classifyUnknownSubState(result);
   const freshness = freshnessHintFor(result);
 
-  // NL whys from the rule's ORIGINAL trigger logic — ensures even
-  // fallback-labelled conditions render as sentences.
-  const whyLines: string[] = useMemo(() => {
-    if (rule.trigger_logic.mode === "declarative") {
-      return rule.trigger_logic.conditions.map((c) => conditionToHumanText(c));
+  // UX-006 fix: each condition must render with its ACTUAL per-evaluation
+  // state (✓ matched / ✗ unmatched / ❓ missing-input), not a blanket ✓.
+  // Previously the Why-it-applies list showed ✓ for every condition even
+  // when the engine correctly reported "trigger did not match", producing
+  // the R157 self-contradiction bug seen in the 2026-04 pilot PDF.
+  interface WhyLine {
+    text: string;
+    status: "matched" | "unmatched" | "missing_input" | "custom";
+  }
+  const whyLines: WhyLine[] = useMemo(() => {
+    if (rule.trigger_logic.mode !== "declarative") {
+      return [
+        {
+          text: customEvaluatorToHumanText(rule.trigger_logic),
+          status: "custom",
+        },
+      ];
     }
-    return [customEvaluatorToHumanText(rule.trigger_logic)];
-  }, [rule]);
+    const matchedSet = new Set(result.matched_conditions);
+    const unmatchedSet = new Set(result.unmatched_conditions);
+    const missingSet = new Set(result.missing_inputs);
+
+    return rule.trigger_logic.conditions.map((c) => {
+      const label = c.label ?? `${c.field} ${c.operator}`;
+      let status: WhyLine["status"] = "matched";
+      if (missingSet.has(c.field)) status = "missing_input";
+      else if (unmatchedSet.has(label)) status = "unmatched";
+      else if (!matchedSet.has(label)) {
+        // Not in any set: fall back to engine's overall trigger_path
+        // heuristic — if the result is not APPLICABLE/CONDITIONAL,
+        // lean towards unmatched for correctness.
+        status =
+          result.applicability === "APPLICABLE" ||
+          result.applicability === "CONDITIONAL"
+            ? "matched"
+            : "unmatched";
+      }
+      return { text: conditionToHumanText(c), status };
+    });
+  }, [
+    rule,
+    result.matched_conditions,
+    result.unmatched_conditions,
+    result.missing_inputs,
+    result.applicability,
+  ]);
+
+  // Overall trigger headline (shown above the condition list so the reader
+  // knows at a glance whether this rule fires for the current project).
+  const triggerHeadline =
+    result.applicability === "APPLICABLE" ||
+    result.applicability === "CONDITIONAL"
+      ? "Trigger matched — rule applies to this project"
+      : result.applicability === "FUTURE"
+        ? "Trigger matched — rule applies from a future date"
+        : result.missing_inputs.length > 0
+          ? "Missing project input — cannot evaluate"
+          : "Trigger did not match — rule does not apply";
 
   const effectiveDate = useMemo(() => {
     if (result.applicability !== "FUTURE") return null;
@@ -183,16 +233,32 @@ export function RuleCardV2({
           <section className="rule-card-v2-section">
             <h5>Why it applies</h5>
             {mode === "plain" ? (
-              <ul className="rule-card-v2-why-list">
-                {whyLines.map((line, idx) => (
-                  <li key={idx}>
-                    <span className="rule-card-v2-match-icon" aria-hidden="true">
-                      ✓
-                    </span>{" "}
-                    {line}
-                  </li>
-                ))}
-              </ul>
+              <>
+                <p className="rule-card-v2-trigger-headline">
+                  {triggerHeadline}
+                </p>
+                <ul className="rule-card-v2-why-list">
+                  {whyLines.map((line, idx) => {
+                    const icon =
+                      line.status === "matched"
+                        ? "✓"
+                        : line.status === "unmatched"
+                          ? "✗"
+                          : line.status === "missing_input"
+                            ? "?"
+                            : "•";
+                    const iconCls = `rule-card-v2-match-icon rule-card-v2-match-${line.status}`;
+                    return (
+                      <li key={idx}>
+                        <span className={iconCls} aria-hidden="true">
+                          {icon}
+                        </span>{" "}
+                        {line.text}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </>
             ) : (
               <dl className="rule-card-v2-engineering">
                 <dt>Trigger path</dt>

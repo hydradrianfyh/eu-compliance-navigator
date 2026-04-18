@@ -20,6 +20,7 @@ import { useEffect, type ReactNode } from "react";
 import { useAppShellStore } from "@/state/app-shell-store";
 import { GlobalNav } from "@/components/shell/GlobalNav";
 import { LastActiveTabTracker } from "@/components/shell/LastActiveTabTracker";
+import { ScopeBanner } from "@/components/shell/ScopeBanner";
 import { StatusBar } from "@/components/shell/StatusBar";
 import { TabNav } from "@/components/shell/TabNav";
 
@@ -38,6 +39,7 @@ export function AppShell({ children }: AppShellProps) {
       <header className="app-shell-header">
         <GlobalNav />
         <TabNav />
+        <ScopeBanner />
       </header>
       <LastActiveTabTracker />
       <main className="app-shell-main">{children}</main>

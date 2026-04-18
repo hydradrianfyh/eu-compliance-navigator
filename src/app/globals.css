@@ -2233,3 +2233,120 @@ html.print-setup-tab .advanced-section:not([open]) {
   font-style: italic;
   line-height: 1.3;
 }
+
+/* UX-006: RuleCardV2 per-condition trigger status icons */
+
+.rule-card-v2-trigger-headline {
+  margin: 0 0 6px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary, #111827);
+}
+
+.rule-card-v2-match-matched {
+  color: var(--status-ok, #059669);
+  font-weight: bold;
+}
+
+.rule-card-v2-match-unmatched {
+  color: var(--status-blocker, #dc2626);
+  font-weight: bold;
+}
+
+.rule-card-v2-match-missing_input {
+  color: var(--status-attention, #d97706);
+  font-weight: bold;
+}
+
+.rule-card-v2-match-custom {
+  color: var(--text-muted, #6b7280);
+}
+
+/* Sprint 2 · ScopeBanner (persistent scope declaration below TabNav) */
+
+.scope-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 24px;
+  background: #fef9c3;
+  border-top: 1px solid #fde68a;
+  border-bottom: 1px solid #fde68a;
+  font-size: 12px;
+  color: #713f12;
+  flex-wrap: wrap;
+}
+
+.scope-banner-icon {
+  font-size: 14px;
+}
+
+.scope-banner-summary {
+  flex: 1;
+  min-width: 0;
+}
+
+.scope-banner-pending {
+  color: #b45309;
+  font-weight: 600;
+}
+
+.scope-banner-deferred {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.scope-banner-toggle {
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 11px;
+  color: #713f12;
+  cursor: pointer;
+}
+
+.scope-banner-toggle:hover {
+  background: #fde68a;
+}
+
+.scope-banner-detail {
+  width: 100%;
+  padding: 10px 12px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 6px;
+  margin-top: 6px;
+}
+
+.scope-banner-detail dl {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 6px 12px;
+  margin: 0;
+}
+
+.scope-banner-detail dt {
+  font-weight: 600;
+  color: #713f12;
+}
+
+.scope-banner-detail dd {
+  margin: 0;
+  color: #78350f;
+  line-height: 1.5;
+}
+
+/* UX-003: Country-at-risk reason coloring */
+
+.status-country-pending_overlay strong {
+  color: var(--status-attention, #d97706);
+}
+
+.status-country-no_overlay strong {
+  color: var(--status-blocker, #dc2626);
+}
+
+.status-country-low_coverage strong {
+  color: var(--status-info, #6b7280);
+}
