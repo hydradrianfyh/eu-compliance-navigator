@@ -127,7 +127,15 @@ export default function StatusPage() {
             </p>
           </div>
         </dl>
-        <p className="status-hero-generated">
+        {/*
+         * Hydration-mismatch guard: `summary.generated_at` is a millisecond-
+         * precise ISO string produced by `new Date()` inside buildExecutiveSummary,
+         * which necessarily differs between server pre-render and client
+         * rehydration. `suppressHydrationWarning` is React's sanctioned
+         * opt-out for exactly this case (intentional server/client delta).
+         * See: https://react.dev/reference/react-dom/components/common#common-props
+         */}
+        <p className="status-hero-generated" suppressHydrationWarning>
           Generated {summary.generated_at}
         </p>
       </section>
