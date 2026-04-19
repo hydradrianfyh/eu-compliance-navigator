@@ -2350,3 +2350,50 @@ html.print-setup-tab .advanced-section:not([open]) {
 .status-country-low_coverage strong {
   color: var(--status-info, #6b7280);
 }
+
+/* Sprint 3 · content_provenance minimal UI in RuleCardV2 Reference */
+
+.rule-card-v2-provenance {
+  margin: 8px 0 0 0;
+  padding: 6px 8px;
+  font-size: 11px;
+  color: var(--text-secondary, #374151);
+  background: var(--surface-muted, #f9fafb);
+  border-left: 3px solid var(--border-default, #e5e7eb);
+  border-radius: 0 4px 4px 0;
+}
+
+.rule-card-v2-provenance-label {
+  font-weight: 600;
+  color: var(--text-primary, #111827);
+}
+
+.rule-card-v2-provenance-source {
+  font-weight: 500;
+}
+
+.rule-card-v2-provenance-eur_lex,
+.rule-card-v2-provenance-unece,
+.rule-card-v2-provenance-national_gazette {
+  color: var(--status-ok, #059669);
+}
+
+.rule-card-v2-provenance-manual {
+  color: var(--text-secondary, #374151);
+}
+
+.rule-card-v2-provenance-llm_draft {
+  color: var(--status-attention, #d97706);
+}
+
+.rule-card-v2-provenance-reviewer,
+.rule-card-v2-provenance-retrieved {
+  color: var(--text-muted, #6b7280);
+  font-style: italic;
+}
+
+.rule-card-v2-related-link {
+  color: var(--text-primary, #111827);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  text-decoration: underline;
+}

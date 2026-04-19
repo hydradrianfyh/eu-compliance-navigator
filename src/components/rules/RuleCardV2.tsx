@@ -44,6 +44,24 @@ export interface BulkExpansionSignal {
   expanded: boolean;
 }
 
+/** Sprint 3: human-readable label for content_provenance.source_type. */
+function provenanceLabel(sourceType: string): string {
+  switch (sourceType) {
+    case "manual":
+      return "Manual (authored)";
+    case "eur_lex":
+      return "EUR-Lex (official)";
+    case "unece":
+      return "UNECE (official)";
+    case "national_gazette":
+      return "National gazette (official)";
+    case "llm_draft":
+      return "LLM draft (awaiting review)";
+    default:
+      return sourceType;
+  }
+}
+
 interface RuleCardV2Props {
   result: EvaluationResult;
   rule: Rule;
@@ -400,6 +418,61 @@ export function RuleCardV2({
                   >
                     Open on {primarySource.source_family} ↗
                   </a>
+                ) : null}
+                {/* Sprint 3: content provenance minimal line */}
+                {rule.content_provenance ? (
+                  <p className="rule-card-v2-provenance">
+                    <span className="rule-card-v2-provenance-label">
+                      Source:
+                    </span>{" "}
+                    <span
+                      className={`rule-card-v2-provenance-source rule-card-v2-provenance-${rule.content_provenance.source_type}`}
+                    >
+                      {provenanceLabel(rule.content_provenance.source_type)}
+                    </span>
+                    {rule.content_provenance.human_reviewer ? (
+                      <>
+                        {" · "}
+                        <span className="rule-card-v2-provenance-reviewer">
+                          Reviewed by {rule.content_provenance.human_reviewer}
+                        </span>
+                      </>
+                    ) : null}
+                    {rule.content_provenance.retrieved_at ? (
+                      <>
+                        {" · "}
+                        <span className="rule-card-v2-provenance-retrieved">
+                          Retrieved {rule.content_provenance.retrieved_at}
+                        </span>
+                      </>
+                    ) : null}
+                  </p>
+                ) : null}
+                {/* Sprint 3: prerequisite standards (ISO 26262 etc.) */}
+                {rule.prerequisite_standards &&
+                rule.prerequisite_standards.length > 0 ? (
+                  <p className="rule-card-v2-muted">
+                    <strong>Prerequisite standards:</strong>{" "}
+                    {rule.prerequisite_standards.join(" · ")}
+                  </p>
+                ) : null}
+                {/* Sprint 3: related rules */}
+                {rule.related_rules && rule.related_rules.length > 0 ? (
+                  <p className="rule-card-v2-muted">
+                    <strong>Related:</strong>{" "}
+                    {rule.related_rules.map((r, idx) => (
+                      <span key={r.rule_id}>
+                        {idx > 0 ? ", " : ""}
+                        <Link
+                          href={`/rules?rule=${encodeURIComponent(r.rule_id)}`}
+                          className="rule-card-v2-related-link"
+                        >
+                          {r.rule_id}
+                        </Link>{" "}
+                        ({r.relation})
+                      </span>
+                    ))}
+                  </p>
                 ) : null}
               </>
             ) : (

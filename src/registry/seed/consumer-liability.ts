@@ -64,6 +64,12 @@ export const consumerLiabilityRules = [
     planning_lead_time_months: 18,
     ui_package: "horizontal",
     process_stage: "post_market",
+    content_provenance: {
+      source_type: "eur_lex",
+      retrieved_at: "2026-04-17",
+      human_reviewer: "yanhao",
+    },
+    prerequisite_standards: ["ISO 26262 (FuSa)", "ISO/SAE 21434 (Cyber)"],
   }),
   makeSeedRule({
     stable_id: "REG-CL-002",
