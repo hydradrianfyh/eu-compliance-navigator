@@ -23,28 +23,28 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-GSR-001",
   },
   {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-GSR-002",
   },
   {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-GSR-003",
   },
   {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-GSR-004",
   },
   {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-GSR-005",
   },
   {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-GSR-006",
   },
   {
@@ -706,8 +706,8 @@ exports[`Pilot L3e-A2 BEV acceptance > pilot coverage summary > prints coverage 
   ],
   "conditional": 5,
   "future": 2,
-  "not_applicable": 13,
+  "not_applicable": 18,
   "total": 137,
-  "unknown": 108,
+  "unknown": 103,
 }
 `;
