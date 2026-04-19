@@ -23,6 +23,13 @@ export const freshnessStatuses = [
   "overdue",
   "critically_overdue",
   "never_verified",
+  /**
+   * Sprint 5: rule's seed values drifted from the golden dataset (and/or
+   * from the upstream official source). Set by the golden-regression CI
+   * or the weekly drift-alert job; overrides the time-based state so
+   * stakeholders see "rule is known to be out of sync".
+   */
+  "drifted",
 ] as const;
 
 /**

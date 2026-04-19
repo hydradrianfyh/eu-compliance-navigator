@@ -26,6 +26,7 @@ function buildSummary(overrides: Partial<ExecutiveSummary> = {}): ExecutiveSumma
       overdue: 1,
       critically_overdue: 0,
       never_verified: 3,
+      drifted: 0,
       total: 16,
     },
     coverageScore: 75,

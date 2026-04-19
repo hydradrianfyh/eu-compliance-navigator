@@ -2397,3 +2397,11 @@ html.print-setup-tab .advanced-section:not([open]) {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   text-decoration: underline;
 }
+
+/* Sprint 5 · freshness 'drifted' 6th state — stronger than critically_overdue */
+
+.freshness-badge-drifted {
+  background: #fecaca;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}

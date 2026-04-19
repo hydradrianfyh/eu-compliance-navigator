@@ -45,6 +45,7 @@ export interface ExecutiveSummary {
     overdue: number;
     critically_overdue: number;
     never_verified: number;
+    drifted: number;
     total: number;
   };
   coverageScore: number;

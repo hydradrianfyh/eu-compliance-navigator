@@ -1,8 +1,8 @@
 "use client";
 
 /**
- * FreshnessBadge — visual marker for the 5-state freshness model
- * (fresh / due_soon / overdue / critically_overdue / never_verified).
+ * FreshnessBadge — visual marker for the 6-state freshness model
+ * (fresh / due_soon / overdue / critically_overdue / never_verified / drifted).
  *
  * Upgraded in Phase E to:
  *   1. Use semantic tokens via `.freshness-badge-*` classes (not raw Tailwind)
@@ -50,6 +50,12 @@ const META: Record<FreshnessStatus, BadgeMeta> = {
     icon: "○",
     label: "Never verified",
     tooltip: "This rule has no human review record.",
+  },
+  drifted: {
+    icon: "⤳",
+    label: "Drifted",
+    tooltip:
+      "Seed values have drifted from the golden dataset or upstream source. Re-verify before relying.",
   },
 };
 

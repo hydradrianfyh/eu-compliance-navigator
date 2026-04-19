@@ -34,6 +34,7 @@ const FRESHNESS_ROWS: ReadonlyArray<{
   { key: "overdue", label: "Overdue", color: "#ea580c" },
   { key: "critically_overdue", label: "Critical", color: "#dc2626" },
   { key: "never_verified", label: "Never verified", color: "#64748b" },
+  { key: "drifted", label: "Drifted from source", color: "#dc2626" },
 ];
 
 function formatGeneratedAt(iso: string): string {

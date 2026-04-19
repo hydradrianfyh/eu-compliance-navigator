@@ -98,6 +98,10 @@ export function freshnessHintFor(
     case "never_verified":
       // Should not occur for Verified but be defensive.
       return { hint: "Never verified", downgradeToAmber: true };
+    case "drifted":
+      // Sprint 5: seed has drifted from golden dataset or upstream source.
+      // Stronger signal than critically_overdue — the value itself may be wrong.
+      return { hint: "Drifted from source", downgradeToAmber: true };
     default:
       return undefined;
   }
