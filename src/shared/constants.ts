@@ -80,6 +80,15 @@ export const ruleLifecycleStates = [
   "PLACEHOLDER",
   "DRAFT",
   "SEED_UNVERIFIED",
+  /**
+   * Sprint 7: new rule undergoing 4-week gray release before graduation.
+   * Capped at CONDITIONAL applicability like SEED_UNVERIFIED/DRAFT; UI
+   * filters it out of the "Verified" Rules-tab section by default so
+   * stakeholders never see unverified content promoted. Engine behaviour
+   * is identical to SEED_UNVERIFIED; only the UI label + maintainer
+   * workflow differs.
+   */
+  "SHADOW",
   "ACTIVE",
   "ARCHIVED",
 ] as const;
