@@ -448,7 +448,7 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-001",
   },
   {
-    "applicability": "UNKNOWN",
+    "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-010",
   },
@@ -458,32 +458,32 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-013",
   },
   {
-    "applicability": "UNKNOWN",
+    "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-013H",
   },
   {
-    "applicability": "UNKNOWN",
+    "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-014",
   },
   {
-    "applicability": "UNKNOWN",
+    "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-016",
   },
   {
-    "applicability": "UNKNOWN",
+    "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-017",
   },
   {
-    "applicability": "UNKNOWN",
+    "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-021",
   },
   {
-    "applicability": "UNKNOWN",
+    "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-025",
   },
@@ -493,7 +493,7 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-034",
   },
   {
-    "applicability": "UNKNOWN",
+    "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-043",
   },
@@ -503,17 +503,17 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-044",
   },
   {
-    "applicability": "UNKNOWN",
+    "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-046",
   },
   {
-    "applicability": "UNKNOWN",
+    "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-048",
   },
   {
-    "applicability": "UNKNOWN",
+    "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-051",
   },
@@ -528,7 +528,7 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-066",
   },
   {
-    "applicability": "UNKNOWN",
+    "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-079",
   },
@@ -538,12 +538,12 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-083",
   },
   {
-    "applicability": "UNKNOWN",
+    "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-094",
   },
   {
-    "applicability": "UNKNOWN",
+    "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-095",
   },
@@ -716,10 +716,10 @@ exports[`Pilot MY2027 BEV acceptance > pilot coverage summary > prints coverage 
     "REG-TA-001",
     "REG-UN-100",
   ],
-  "conditional": 6,
+  "conditional": 20,
   "future": 3,
   "not_applicable": 4,
   "total": 137,
-  "unknown": 103,
+  "unknown": 89,
 }
 `;
