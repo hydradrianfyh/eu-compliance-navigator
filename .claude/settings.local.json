@@ -18,7 +18,8 @@
       "Read(//c/Users/CE0065/.agents/**)",
       "Bash(git clone *)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(grep -E \"\\\\\\\\+|\\\\\\\\-\")"
+      "Bash(grep -E \"\\\\\\\\+|\\\\\\\\-\")",
+      "Bash(awk '{print $NF, \"-\", $5, \"bytes\"}')"
     ]
   }
 }

@@ -10,6 +10,7 @@
  * © Yanhao FU
  */
 
+import { getCopyrightLine } from "@/lib/app-info";
 import { useAppShellStore } from "@/state/app-shell-store";
 
 function formatCountries(countries: readonly string[]): string {
@@ -26,6 +27,7 @@ export function StatusBar() {
     return (
       <footer className="status-bar" aria-live="polite">
         <span className="status-bar-loading">Loading project data…</span>
+        <small className="status-bar-copyright">{getCopyrightLine()}</small>
       </footer>
     );
   }
@@ -51,6 +53,14 @@ export function StatusBar() {
         This tool is a navigation aid, not legal advice. Always validate with
         your homologation partner.
       </div>
+      {/*
+       * <small> is the HTML5-spec semantic element for "side comments such as
+       * small print (like copyright or legal disclaimer)". Copyright is
+       * intentionally rendered client-side (stable — no Date.now() drift,
+       * only the calendar year which won't change on hydration) and
+       * suppressHydrationWarning is NOT needed.
+       */}
+      <small className="status-bar-copyright">{getCopyrightLine()}</small>
     </footer>
   );
 }

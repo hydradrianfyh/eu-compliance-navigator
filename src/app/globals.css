@@ -2405,3 +2405,20 @@ html.print-setup-tab .advanced-section:not([open]) {
   color: #991b1b;
   border: 1px solid #fca5a5;
 }
+
+/* Copyright line in StatusBar footer. Smaller + more muted than the
+   disclaimer so they're visually distinguishable. */
+
+.status-bar-copyright {
+  font-size: 11px;
+  color: var(--text-muted, #6b7280);
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+@media print {
+  .status-bar-copyright {
+    color: #000;
+    font-weight: 500;
+  }
+}
