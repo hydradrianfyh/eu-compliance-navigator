@@ -39,6 +39,7 @@ const personalDataFlags = new Set([
   "location_tracking",
 ]);
 const safetyAiLevels = new Set(["ai_dms", "ai_safety", "ai_perception"]);
+const combustionPowertrains = new Set(["ICE", "HEV", "PHEV"]);
 
 export function buildEngineConfig(config: VehicleConfig): EngineConfig {
   const targetsMemberStates = config.targetCountries.filter((country) =>
@@ -47,6 +48,18 @@ export function buildEngineConfig(config: VehicleConfig): EngineConfig {
   const targetsNonEU = config.targetCountries.filter(
     (country) => !euCountryCodes.has(country),
   );
+
+  const fuelType = config.fuel?.tankType ?? null;
+  const hasCombustionEngine =
+    config.powertrain !== null &&
+    combustionPowertrains.has(config.powertrain) &&
+    fuelType !== null &&
+    fuelType !== "none" &&
+    fuelType !== "h2";
+  const hasDieselEngine = hasCombustionEngine && fuelType === "diesel";
+  const hasFuelTank = fuelType !== null && fuelType !== "none";
+  const hasOBD = hasCombustionEngine;
+  const isPlugInHybrid = config.powertrain === "PHEV";
 
   return engineConfigSchema.parse({
     frameworkGroup: config.frameworkGroup,
@@ -85,6 +98,12 @@ export function buildEngineConfig(config: VehicleConfig): EngineConfig {
     targetsUK: config.targetCountries.includes("UK"),
     targetsMemberStates,
     targetsNonEU,
+    fuelType,
+    hasCombustionEngine,
+    hasDieselEngine,
+    hasFuelTank,
+    hasOBD,
+    isPlugInHybrid,
     readiness: config.readiness,
   });
 }
