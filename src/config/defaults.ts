@@ -58,5 +58,6 @@ export const defaultVehicleConfig: VehicleConfig = {
     technicalDocStarted: false,
     evidenceOwnerAssigned: false,
     registrationAssumptionsKnown: false,
+    offersPublicChargingInfra: false,
   },
 };

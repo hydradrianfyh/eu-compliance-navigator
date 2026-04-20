@@ -82,5 +82,6 @@ export const pilotMY2028PHEV: VehicleConfig = {
     technicalDocStarted: true,
     evidenceOwnerAssigned: true,
     registrationAssumptionsKnown: true,
+    offersPublicChargingInfra: false,
   },
 };

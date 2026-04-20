@@ -26,6 +26,7 @@ export const readinessSchema = z.object({
   technicalDocStarted: z.boolean(),
   evidenceOwnerAssigned: z.boolean(),
   registrationAssumptionsKnown: z.boolean(),
+  offersPublicChargingInfra: z.boolean(),
 });
 
 export const chargingCapabilitySchema = z.object({

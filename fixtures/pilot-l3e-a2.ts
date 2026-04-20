@@ -83,5 +83,6 @@ export const pilotL3eA2: VehicleConfig = {
     technicalDocStarted: true,
     evidenceOwnerAssigned: false,
     registrationAssumptionsKnown: true,
+    offersPublicChargingInfra: false,
   },
 };

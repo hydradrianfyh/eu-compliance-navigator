@@ -69,5 +69,6 @@ export const pilotMY2027BEV: VehicleConfig = {
     technicalDocStarted: true,
     evidenceOwnerAssigned: true,
     registrationAssumptionsKnown: true,
+    offersPublicChargingInfra: false,
   },
 };
