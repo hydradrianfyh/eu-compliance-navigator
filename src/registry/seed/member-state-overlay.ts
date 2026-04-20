@@ -18,6 +18,9 @@ const priorityCountries: WorkflowOverlay[] = [
   // NOTE: FR and NL removed from factory-generated PLACEHOLDERS in Phase H.3 / H.4.
   // France and Netherlands are now authored as 5 SEED_UNVERIFIED overlay rules each
   // below, sourced from Légifrance (FR) and wetten.overheid.nl (NL) respectively.
+  // NOTE: ES removed from factory-generated PLACEHOLDERS in Phase I.4.
+  // Spain is now authored as 13 explicit SEED_UNVERIFIED/DRAFT overlay rules below,
+  // sourced from boe.es (no last_verified_on until human review).
   {
     country: "IT",
     countryLabel: "Italy",
@@ -26,15 +29,6 @@ const priorityCountries: WorkflowOverlay[] = [
     insuranceRef: "RCA obbligatoria (Codice delle Assicurazioni Private)",
     taxRef: "Bollo auto (regional vehicle ownership tax)",
     roadUseRef: "ZTL (Zone a Traffico Limitato) / LEZ Milan Area B/C",
-  },
-  {
-    country: "ES",
-    countryLabel: "Spain",
-    registrationRef: "DGT matriculación",
-    roadworthinessRef: "ITV (Inspección Técnica de Vehículos)",
-    insuranceRef: "Seguro obligatorio de responsabilidad civil",
-    taxRef: "IVTM (Impuesto sobre Vehículos de Tracción Mecánica) + IEDMT",
-    roadUseRef: "ZBE (Zonas de Bajas Emisiones) / DGT environmental label",
   },
   {
     country: "PL",
@@ -1003,11 +997,740 @@ const netherlandsOverlayRules: Rule[] = [
   }),
 ];
 
+// ============================================================
+// Phase I.4 — Spain (ES) authored overlay
+// 13 rules replacing factory-generated REG-MS-ES-001..005 stubs + appending
+// REG-MS-ES-006..013. Sources from boe.es (official gazette). All rules carry
+// last_verified_on: null and content_provenance.human_reviewer: null pending
+// human review. [verify] markers flag RD/Orden numbers, URLs, dates, and
+// figures that require confirmation against current BOE text.
+//
+// Corrections applied vs spec:
+//   - REG-MS-ES-003 Seguro: no fabricated €70M/€15M figures; conservative
+//     language referencing RDL 8/2004 + EU-Directive transposing amendments.
+//   - REG-MS-ES-008 Homologación Individual: RD 559/2010 removed (that is
+//     Industrial Registry, not individual vehicle approval). Refers to
+//     national WVTA (RD 750/2010) + Orden(es) [verify exact citation].
+//   - REG-MS-ES-010 ZEV: Spanish national target is 2040 (Ley 7/2021
+//     Art. 14.1), separate from EU-level 2035 (Reg 2019/631).
+//   - REG-MS-ES-011 Movilidad Sostenible: enactment status unverifiable;
+//     kept as PLACEHOLDER (no law number confirmed).
+//   - REG-MS-ES-013 Batteries: RD 106/2008 (batteries) not RD 110/2015
+//     (that is RAEE/WEEE electronics); EU 2023/1542 now directly applicable.
+// ============================================================
+const spainOverlayRules: Rule[] = [
+  makeSeedRule({
+    stable_id: "REG-MS-ES-001",
+    title: "Spain — Vehicle Registration (DGT matriculación / Reglamento General de Vehículos)",
+    short_label: "ES Matriculación (DGT)",
+    legal_family: "member_state_overlay",
+    jurisdiction: "ES",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L", "O", "AGRI"],
+    sources: [
+      {
+        label: "Reglamento General de Vehículos",
+        source_family: "National legislation" as const,
+        reference: "Real Decreto 2822/1998, de 23 de diciembre, por el que se aprueba el Reglamento General de Vehículos [verify]",
+        official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-1999-1826",
+        oj_reference: "BOE núm. 22, de 26 de enero de 1999 [verify]",
+        authoritative_reference: "RD 2822/1998 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "ES" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "1999-01-26",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: "1999-01-26",
+      applies_from_generic: "1999-01-26",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "Reglamento General de Vehículos in force since 1999-01-26 [verify]. Subsequent amendments incorporate EU framework updates.",
+    },
+    obligation_text:
+      "Every vehicle placed in service on Spanish public roads must be registered with the Dirección General de Tráfico (DGT). Dealer/importer submits modelo 567 application along with EU Certificate of Conformity (CoC) + IEDMT payment proof (REG-MS-ES-004) + compulsory-insurance certificate (REG-MS-ES-003); DGT issues the permiso de circulación and matrícula (license plate).",
+    owner_hint: "regulatory_affairs",
+    required_documents: [
+      "EU Certificate of Conformity (CoC)",
+      "Modelo 567 (IEDMT self-assessment) [verify current form]",
+      "Compulsory-insurance certificate",
+      "Owner identification (DNI/NIE/CIF)",
+      "Justificante de pago IEDMT",
+    ],
+    ui_package: "country_overlay",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    related_rules: [
+      { rule_id: "REG-MS-ES-003", relation: "requires" },
+      { rule_id: "REG-MS-ES-004", relation: "requires" },
+    ],
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-ES-002",
+    title: "Spain — Periodic Technical Inspection (ITV)",
+    short_label: "ES ITV",
+    legal_family: "member_state_overlay",
+    jurisdiction: "ES",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L"],
+    sources: [
+      {
+        label: "Real Decreto 920/2017 sobre inspección técnica de vehículos",
+        source_family: "National legislation" as const,
+        reference: "Real Decreto 920/2017, de 23 de octubre, por el que se regula la inspección técnica de vehículos [verify]",
+        official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-2017-12841",
+        oj_reference: "BOE núm. 269, de 6 de noviembre de 2017 [verify]",
+        authoritative_reference: "RD 920/2017 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "ES" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2017-11-20",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2017-11-20",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "RD 920/2017 transposes EU Directive 2014/45/UE into Spanish law [verify]. ITV Manual updates add BEV HV inspection items.",
+    },
+    obligation_text:
+      "M1 vehicles registered in Spain must undergo the Inspección Técnica de Vehículos (ITV): first inspection 4 years after initial registration, then every 2 years through year 10, annually thereafter. BEV are exempt from emissions testing but subject to HV-system visual/thermal checks per the updated ITV Manual. Inspection is performed by authorised ITV stations in each Comunidad Autónoma.",
+    owner_hint: "aftersales",
+    ui_package: "country_overlay",
+    process_stage: "post_market",
+    recurring_post_market_obligation: true,
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    notes:
+      "BEV HV-system inspection scope [verify — confirm against current ITV Manual addenda published by Ministerio de Industria].",
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-ES-003",
+    title: "Spain — Compulsory Third-Party Motor Insurance (Seguro RCP)",
+    short_label: "ES Seguro Obligatorio",
+    legal_family: "member_state_overlay",
+    jurisdiction: "ES",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L", "O", "AGRI"],
+    sources: [
+      {
+        label: "Texto Refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+        source_family: "National legislation" as const,
+        reference: "Real Decreto Legislativo 8/2004, de 29 de octubre, por el que se aprueba el texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor [verify]",
+        official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-2004-18911",
+        oj_reference: "BOE núm. 267, de 5 de noviembre de 2004 [verify]",
+        authoritative_reference: "RDL 8/2004 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "ES" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2004-11-06",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2004-11-06",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "RDL 8/2004 consolidated prior motor-insurance law. Subsequent EU Motor Insurance Directive transpositions amended the regime (e.g. RDL 9/2017, Ley 5/2024 [verify scope and exact number]).",
+    },
+    obligation_text:
+      "Every motor vehicle registered in Spain must carry compulsory third-party liability insurance (seguro de responsabilidad civil de suscripción obligatoria) per RDL 8/2004. Minimum cover levels are set by the law and subsequent EU-Directive transpositions; figures change over time and must be confirmed against the consolidated BOE text before SOP. Registration (REG-MS-ES-001) cannot be completed without proof of insurance.",
+    owner_hint: "legal",
+    ui_package: "country_overlay",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    notes:
+      "Minimum cover levels intentionally not hard-coded: amounts have been raised several times by EU-Directive transposition laws (including the 6th Motor Insurance Directive). Current minimum-cover figures [verify — check consolidated RDL 8/2004 text on boe.es].",
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-ES-004",
+    title: "Spain — Registration Tax (IEDMT / matriculación)",
+    short_label: "ES IEDMT",
+    legal_family: "member_state_overlay",
+    jurisdiction: "ES",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Ley 38/1992 de Impuestos Especiales — Arts. 65 a 74 (IEDMT)",
+        source_family: "National legislation" as const,
+        reference: "Ley 38/1992, de 28 de diciembre, de Impuestos Especiales, Arts. 65 a 74 (Impuesto Especial sobre Determinados Medios de Transporte) [verify]",
+        official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28741",
+        oj_reference: "BOE núm. 312, de 29 de diciembre de 1992 [verify]",
+        authoritative_reference: "Ley 38/1992 Arts. 65-74 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "ES" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "1993-01-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: "1993-01-01",
+      applies_from_generic: "1993-01-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "CO2-banded one-time registration tax. BEV and low-emission vehicles typically exempt or taxed at 0% band; ICE on sliding scale. Brackets adjusted periodically via BOE — verify 2026 figures [verify].",
+    },
+    obligation_text:
+      "One-time registration tax (Impuesto Especial sobre Determinados Medios de Transporte, IEDMT) is levied at first Spanish registration, on a CO2-banded scale: 0% (BEV/FCEV/very low emission), rising through intermediate bands for conventional ICE. Payment via modelo 567 self-assessment is a precondition for DGT registration (REG-MS-ES-001).",
+    owner_hint: "legal",
+    ui_package: "country_overlay",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    notes:
+      "Current 2026 IEDMT thresholds and band rates [verify — confirm against consolidated Ley 38/1992 on boe.es].",
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-ES-005",
+    title: "Spain — Municipal Vehicle Tax (IVTM)",
+    short_label: "ES IVTM",
+    legal_family: "member_state_overlay",
+    jurisdiction: "ES",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Texto Refundido de la Ley Reguladora de las Haciendas Locales — Arts. 92-99 (IVTM)",
+        source_family: "National legislation" as const,
+        reference: "Real Decreto Legislativo 2/2004, de 5 de marzo, Arts. 92 a 99 (Impuesto sobre Vehículos de Tracción Mecánica) [verify]",
+        official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-2004-4214",
+        oj_reference: "BOE núm. 59, de 9 de marzo de 2004 [verify]",
+        authoritative_reference: "RDL 2/2004 Arts. 92-99 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "ES" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2004-03-10",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: "2004-03-10",
+      applies_from_generic: "2004-03-10",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "Annual municipal tax set per local fiscal ordinance within statutory bands. BEV may qualify for up to 75% bonificación under Art. 95.6 [verify current article reference] at municipality discretion.",
+    },
+    obligation_text:
+      "Annual municipal vehicle tax (Impuesto sobre Vehículos de Tracción Mecánica, IVTM) is payable to the municipality of registered address. Base tariff varies by vehicle category and power; municipalities may grant up to 75% bonificación for BEV/FCEV and up to 50% for HEV/PHEV per RDL 2/2004 Art. 95.6 — actual benefit depends on each city's ordenanza fiscal.",
+    owner_hint: "legal",
+    ui_package: "country_overlay",
+    process_stage: "sop",
+    recurring_post_market_obligation: true,
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    notes:
+      "Art. 95.6 bonificación reference [verify — confirm current article numbering against consolidated RDL 2/2004 on boe.es].",
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-ES-006",
+    title: "Spain — Low-Emission Zones (Zonas de Bajas Emisiones / ZBE)",
+    short_label: "ES ZBE",
+    legal_family: "member_state_overlay",
+    jurisdiction: "ES",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L"],
+    sources: [
+      {
+        label: "Ley 7/2021 de cambio climático y transición energética — Art. 14.3",
+        source_family: "National legislation" as const,
+        reference: "Ley 7/2021, de 20 de mayo, de cambio climático y transición energética, Art. 14.3 [verify]",
+        official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-2021-8447",
+        oj_reference: "BOE núm. 121, de 21 de mayo de 2021 [verify]",
+        authoritative_reference: "Ley 7/2021 Art. 14.3 [verify]",
+        last_verified_on: null,
+      },
+      {
+        label: "RD 1052/2022 que regula las ZBE",
+        source_family: "National legislation" as const,
+        reference: "Real Decreto 1052/2022, de 27 de diciembre, por el que se regulan las zonas de bajas emisiones [verify]",
+        official_url: null,
+        oj_reference: "BOE núm. 312, de 29 de diciembre de 2022 [verify]",
+        authoritative_reference: "RD 1052/2022 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "ES" },
+        { field: "vehicleCategory", operator: "in", value: ["M1","M2","M3","N1","N2","N3","L1e","L2e","L3e","L4e","L5e","L6e","L7e"] },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2021-05-21",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2023-01-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "Ley 7/2021 Art. 14.3 mandates ZBE in municipalities > 50 000 inhabitants (and certain other thresholds). RD 1052/2022 sets the state-level framework; each municipality implements via local ordinance (Madrid 360, Barcelona Rondes, etc.) [verify exact triggering thresholds].",
+    },
+    obligation_text:
+      "Municipalities above 50 000 inhabitants (and other mandated cities) must establish Zonas de Bajas Emisiones (ZBE) limiting access for higher-emission vehicles. Zone design, exempt categories and enforcement are set by each municipal ordenanza (notably Madrid ZBE / Madrid 360 and Barcelona ZBE Rondes). Vehicle access is keyed to the Etiqueta Ambiental class (REG-MS-ES-007) — BEV/FCEV (etiqueta 0) generally enjoy unrestricted access; pre-Euro 4 / no-etiqueta vehicles face the tightest restrictions.",
+    owner_hint: "regulatory_affairs",
+    ui_package: "country_overlay",
+    process_stage: "post_market",
+    recurring_post_market_obligation: true,
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    related_rules: [
+      { rule_id: "REG-MS-ES-007", relation: "requires" },
+    ],
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-ES-007",
+    title: "Spain — Environmental Sticker (Etiqueta Ambiental DGT)",
+    short_label: "ES Etiqueta Ambiental",
+    legal_family: "member_state_overlay",
+    jurisdiction: "ES",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L"],
+    sources: [
+      {
+        label: "Resolución DGT clasificación ambiental de vehículos",
+        source_family: "National legislation" as const,
+        reference: "Resolución de la Dirección General de Tráfico de 13 de abril de 2016, sobre clasificación ambiental de vehículos [verify exact BOE citation]",
+        official_url: null,
+        oj_reference: null,
+        authoritative_reference: "Resolución DGT 13 abril 2016 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "ES" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2016-04-13",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: "2016-04-13",
+      applies_from_generic: "2016-04-13",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "Classification categories: 0 (BEV, FCEV, PHEV with ≥ 40 km electric autonomy), ECO (HEV, CNG/LPG, PHEV < 40 km), C (Euro 6 gasolina / Euro 6d diesel), B (Euro 4/5 gasolina / Euro 5/6b diesel), and no label (pre-Euro 4) [verify current class boundaries].",
+    },
+    obligation_text:
+      "DGT classifies every vehicle into an environmental category: 0 (zero-emission / PHEV ≥ 40 km electric range), ECO (other electrified), C (modern ICE), B (older ICE), or no label (pre-Euro 4). The etiqueta is assigned automatically at registration based on homologation data; customers may display the physical sticker. This classification governs access to ZBE (REG-MS-ES-006), parking concessions, and certain fiscal incentives.",
+    owner_hint: "regulatory_affairs",
+    required_documents: ["Etiqueta ambiental DGT (auto-assigned, physical sticker optional)"],
+    ui_package: "country_overlay",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    notes:
+      "Exact class boundaries and PHEV electric-range threshold [verify — confirm against the current DGT Resolución on clasificación ambiental].",
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-ES-008",
+    title: "Spain — Individual Vehicle Approval (Homologación Individual)",
+    short_label: "ES Homologación Individual",
+    legal_family: "member_state_overlay",
+    jurisdiction: "ES",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "RD 750/2010 y Órdenes ministeriales de homologación individual",
+        source_family: "National legislation" as const,
+        reference: "Real Decreto 750/2010 (national WVTA framework) + Orden(es) ministeriales específicas sobre homologación individual [verify exact Orden citation]",
+        official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-2010-10640",
+        oj_reference: "BOE núm. 153, de 24 de junio de 2010 [verify]",
+        authoritative_reference: "RD 750/2010 + Orden [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "ES" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2010-06-24",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2010-06-24",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "Note: RD 559/2010 (Industrial Registry) is frequently and incorrectly cited for individual vehicle approval; the individual-approval path in Spain is governed by the national WVTA framework (RD 750/2010) together with the relevant Orden ministerial — [verify exact Orden citation].",
+    },
+    obligation_text:
+      "Individual or small-volume vehicles that cannot rely on the EU WVTA CoC route may use the national Spanish individual homologation path, managed by the Ministerio de Industria with technical support from INTA / IDIADA. RD 559/2010 covers the Industrial Registry and is NOT the individual-vehicle-approval reference; the individual-approval route sits under RD 750/2010 plus specific Órdenes ministeriales.",
+    owner_hint: "homologation",
+    ui_package: "country_overlay",
+    process_stage: "type_approval",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    notes:
+      "Correction vs earlier draft spec: RD 559/2010 = Registro Integrado Industrial (not individual vehicle approval). The individual-approval route sits under RD 750/2010 + specific Órdenes — exact RD + Orden ministerial combination [verify — confirm current consolidated BOE text].",
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-ES-009",
+    title: "Spain — National WVTA Transposition (RD 750/2010)",
+    short_label: "ES WVTA (RD 750/2010)",
+    legal_family: "member_state_overlay",
+    jurisdiction: "ES",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "O"],
+    sources: [
+      {
+        label: "Real Decreto 750/2010",
+        source_family: "National legislation" as const,
+        reference: "Real Decreto 750/2010, de 4 de junio, por el que se regulan los procedimientos de homologación de vehículos de motor y sus remolques [verify]",
+        official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-2010-10640",
+        oj_reference: "BOE núm. 153, de 24 de junio de 2010 [verify]",
+        authoritative_reference: "RD 750/2010 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "ES" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2010-06-24",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2010-06-24",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "RD 750/2010 originally transposed Directive 2007/46/EC. Since Regulation (EU) 2018/858 is directly applicable, RD 750/2010 now serves mainly to designate the Ministerio de Industria as national type-approval authority and to organise the national small-series / individual approval routes [verify current scope].",
+    },
+    obligation_text:
+      "RD 750/2010 historically transposed the former WVTA Directive 2007/46/EC and now complements the directly-applicable Regulation (EU) 2018/858 by designating the Ministerio de Industria (Comercio y Turismo) as Spain's national type-approval authority, supported by INTA / IDIADA as technical services. OEMs relying on an EU WVTA from another Member State can sell into Spain without duplicate testing; national provisions mainly govern small-series and individual approvals and administrative procedures.",
+    owner_hint: "homologation",
+    ui_package: "country_overlay",
+    process_stage: "type_approval",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-ES-010",
+    title: "Spain — ZEV Sales Phase-Out (Ley 7/2021 Art. 14.1, 2040 national target)",
+    short_label: "ES ZEV 2040",
+    legal_family: "member_state_overlay",
+    jurisdiction: "ES",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Ley 7/2021 de cambio climático y transición energética — Art. 14.1",
+        source_family: "National legislation" as const,
+        reference: "Ley 7/2021, de 20 de mayo, de cambio climático y transición energética, Art. 14.1 [verify]",
+        official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-2021-8447",
+        oj_reference: "BOE núm. 121, de 21 de mayo de 2021 [verify]",
+        authoritative_reference: "Ley 7/2021 Art. 14.1 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "DRAFT",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "ES" },
+        { field: "vehicleCategory", operator: "in", value: ["M1", "N1"] },
+        { field: "hasCombustionEngine", operator: "is_true", value: true },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2021-05-21",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2040-01-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "Ley 7/2021 Art. 14.1 sets a Spanish national target of 2040 for the end of sales of passenger cars and light vans with direct CO2 emissions [verify exact wording]. This is separate from and later than the EU-level 2035 endpoint under Regulation (EU) 2019/631 (CO2 fleet targets), which applies directly.",
+    },
+    obligation_text:
+      "Ley 7/2021 Art. 14.1 sets a Spanish national target of 2040 for ending sales of new passenger cars and light commercial vehicles that emit CO2 directly. OEMs should plan Spain-specific phase-out at 2040 while complying with the EU-level 2035 CO2-zero sales endpoint under Regulation (EU) 2019/631 (REG-EM-003), which is directly applicable and therefore the binding near-term target. Political volatility — monitor BOE for amendments.",
+    owner_hint: "regulatory_affairs",
+    ui_package: "country_overlay",
+    process_stage: "post_market",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    related_rules: [
+      { rule_id: "REG-EM-003", relation: "complements" },
+    ],
+    notes:
+      "Correction vs earlier draft spec: Spanish national ZEV target is 2040 (not 2035). The EU-level 2035 target applies via Reg (EU) 2019/631 (REG-EM-003). [verify exact article wording].",
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-ES-011",
+    title: "Spain — Sustainable Mobility Law (Ley de Movilidad Sostenible)",
+    short_label: "ES Movilidad Sostenible",
+    legal_family: "member_state_overlay",
+    jurisdiction: "ES",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Proyecto de Ley de Movilidad Sostenible",
+        source_family: "National legislation" as const,
+        reference: "Proyecto de Ley de Movilidad Sostenible — enactment status and law number to be verified against BOE [verify]",
+        official_url: null,
+        oj_reference: null,
+        authoritative_reference: null,
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "PLACEHOLDER",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "ES" },
+      ],
+      fallback_if_missing: "unknown",
+      conditional_reason: "Spanish Sustainable Mobility Law enactment status unconfirmed — placeholder pending BOE verification.",
+    },
+    obligation_text:
+      "PLACEHOLDER — Spanish Sustainable Mobility Law (Proyecto de Ley de Movilidad Sostenible). As of 2026-04-20, enactment status unconfirmed; the anticipated framework is expected to cover empresarial / workplace mobility plans and data-sharing obligations for connected fleets. Do not rely on any specific law number (e.g. 'Ley 3/2023, de 4 de enero') until confirmed against the BOE.",
+    owner_hint: "regulatory_affairs",
+    ui_package: "country_overlay",
+    process_stage: "pre_ta",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    notes:
+      "Correction vs earlier draft spec: cannot confirm 'Ley 3/2023, de 4 de enero' as the Movilidad Sostenible law. Kept at PLACEHOLDER until BOE reference is verified. Enactment status and final law number [verify — check BOE].",
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-ES-012",
+    title: "Spain — BEV Purchase Incentive (Plan MOVES III)",
+    short_label: "ES Plan MOVES III",
+    legal_family: "member_state_overlay",
+    jurisdiction: "ES",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "RD 266/2021 Plan MOVES III",
+        source_family: "National legislation" as const,
+        reference: "Real Decreto 266/2021, de 13 de abril, por el que se aprueba la concesión directa de ayudas a las comunidades autónomas para la ejecución de programas de incentivos (Plan MOVES III) [verify]",
+        official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-2021-5967",
+        oj_reference: "BOE núm. 89, de 14 de abril de 2021 [verify]",
+        authoritative_reference: "RD 266/2021 [verify]",
+        last_verified_on: null,
+      },
+      {
+        label: "RD 821/2023 Extensión Plan MOVES III",
+        source_family: "National legislation" as const,
+        reference: "Real Decreto 821/2023, de 14 de noviembre, por el que se extiende/modifica el Plan MOVES III [verify exact title + scope]",
+        official_url: null,
+        oj_reference: null,
+        authoritative_reference: "RD 821/2023 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "DRAFT",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "ES" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2021-04-14",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: "2021-04-14",
+      applies_from_generic: "2021-04-14",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "RD 266/2021 is the Plan MOVES III base text; RD 821/2023 and subsequent decrees have extended/modified the programme [verify current end date and budget]. Funds are distributed to Comunidades Autónomas, which implement their own calls — effective subsidy depends on CCAA of registration.",
+    },
+    obligation_text:
+      "Plan MOVES III provides purchase incentives for BEV/PHEV/FCEV and private / public charging infrastructure. Funds flow from the state (MITECO / IDAE) to each Comunidad Autónoma, which runs its own convocatoria with specific amounts, eligibility, and deadlines. OEMs/dealers should point customers to the CCAA portal corresponding to the point of registration. Programme is subject to extension decrees, and DRAFT lifecycle reflects political volatility.",
+    owner_hint: "legal",
+    ui_package: "country_overlay",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    notes:
+      "Current end date and budget availability [verify — check latest MITECO / IDAE convocatoria and extension RDs on boe.es before SOP].",
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-ES-013",
+    title: "Spain — Batteries & Accumulators Waste Framework",
+    short_label: "ES Pilas y Acumuladores",
+    legal_family: "member_state_overlay",
+    jurisdiction: "ES",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L"],
+    sources: [
+      {
+        label: "RD 106/2008 sobre pilas y acumuladores y la gestión ambiental de sus residuos",
+        source_family: "National legislation" as const,
+        reference: "Real Decreto 106/2008, de 1 de febrero, sobre pilas y acumuladores y la gestión ambiental de sus residuos [verify]",
+        official_url: null,
+        oj_reference: "BOE núm. 37, de 12 de febrero de 2008 [verify]",
+        authoritative_reference: "RD 106/2008 [verify]",
+        last_verified_on: null,
+      },
+      {
+        label: "RD 710/2015 modificación RD 106/2008",
+        source_family: "National legislation" as const,
+        reference: "Real Decreto 710/2015, de 24 de julio, por el que se modifica el RD 106/2008 [verify exact scope]",
+        official_url: null,
+        oj_reference: null,
+        authoritative_reference: "RD 710/2015 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "ES" },
+        { field: "batteryPresent", operator: "is_true", value: true },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2008-02-13",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2008-02-13",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "RD 106/2008 (amended by RD 710/2015 [verify scope]) is the Spanish framework for batteries and accumulators, including automotive batteries. Since Regulation (EU) 2023/1542 (EU Battery Regulation) is directly applicable, national transposition is ongoing and the BOE framework is being aligned [verify].",
+    },
+    obligation_text:
+      "Producers / importers placing vehicle batteries (including EV traction batteries) on the Spanish market must comply with the national framework RD 106/2008 (as modified by RD 710/2015) covering marking, collection, treatment, and producer-responsibility obligations. Regulation (EU) 2023/1542 (EU Battery Regulation, REG-BAT-001) is directly applicable and progressively supersedes national provisions on substance limits, passport, and due diligence; Spanish transposition and alignment is ongoing.",
+    owner_hint: "sustainability_materials",
+    ui_package: "country_overlay",
+    process_stage: "post_market",
+    recurring_post_market_obligation: true,
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    related_rules: [
+      { rule_id: "REG-BAT-001", relation: "complements" },
+    ],
+    notes:
+      "Correction vs earlier draft spec: the Spanish batteries framework is RD 106/2008 (as amended), not RD 110/2015 (which covers RAEE / waste electrical and electronic equipment). Scope of RD 710/2015 modifications and current alignment with Reg (EU) 2023/1542 [verify — confirm against consolidated BOE text and MITECO guidance].",
+  }),
+];
+
 export const memberStateOverlayRules: Rule[] = [
   ...priorityCountries.flatMap(buildWorkflowRules),
   ...germanyOverlayRules,
   ...franceOverlayRules,
   ...netherlandsOverlayRules,
+  ...spainOverlayRules,
   makeSeedRule({
     stable_id: "REG-MS-CZ-001",
     title: "Czech Republic — General Overlay",

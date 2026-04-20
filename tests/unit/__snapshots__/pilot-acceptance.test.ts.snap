@@ -290,31 +290,6 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
   {
     "applicability": "UNKNOWN",
     "lifecycle_state": "PLACEHOLDER",
-    "rule_id": "REG-MS-ES-001",
-  },
-  {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "PLACEHOLDER",
-    "rule_id": "REG-MS-ES-002",
-  },
-  {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "PLACEHOLDER",
-    "rule_id": "REG-MS-ES-003",
-  },
-  {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "PLACEHOLDER",
-    "rule_id": "REG-MS-ES-004",
-  },
-  {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "PLACEHOLDER",
-    "rule_id": "REG-MS-ES-005",
-  },
-  {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "PLACEHOLDER",
     "rule_id": "REG-MS-PL-001",
   },
   {
@@ -486,6 +461,71 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-MS-NL-005",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-ES-001",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-ES-002",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-ES-003",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-ES-004",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-ES-005",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-ES-006",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-ES-007",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-ES-008",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-ES-009",
+  },
+  {
+    "applicability": "CONDITIONAL",
+    "lifecycle_state": "DRAFT",
+    "rule_id": "REG-MS-ES-010",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "PLACEHOLDER",
+    "rule_id": "REG-MS-ES-011",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "DRAFT",
+    "rule_id": "REG-MS-ES-012",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-ES-013",
   },
   {
     "applicability": "UNKNOWN",
@@ -876,10 +916,10 @@ exports[`Pilot MY2027 BEV acceptance > pilot coverage summary > prints coverage 
     "REG-TA-001",
     "REG-UN-100",
   ],
-  "conditional": 43,
+  "conditional": 44,
   "future": 3,
-  "not_applicable": 23,
-  "total": 169,
-  "unknown": 79,
+  "not_applicable": 34,
+  "total": 177,
+  "unknown": 75,
 }
 `;
