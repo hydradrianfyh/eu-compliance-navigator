@@ -7,3 +7,8 @@ playwright-report
 test-results
 *.log
 *.tsbuildinfo
+
+# Per-developer Claude Code permission allowlist. `settings.json` (if
+# present) remains tracked as shared team config; `settings.local.json`
+# is strictly per-user and must not be committed.
+.claude/settings.local.json
