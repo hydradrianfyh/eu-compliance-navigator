@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../styles/tokens.css";
 
 :root {
   color-scheme: light;
@@ -546,4 +547,1861 @@ ul {
   .badge-warning {
     background: transparent;
   }
+}
+
+/* ==========================================================================
+   UX Refactor v2 — Shell (Phase A)
+   Semantic tokens arrive in Phase E; these are interim styles that match
+   the existing visual language without introducing new colors.
+   ========================================================================== */
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-shell-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.app-shell-main {
+  flex: 1;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* Override the default main block styles when inside app-shell so Next.js
+   route pages can use arbitrary layouts. */
+.app-shell-main > main {
+  padding: 0;
+  margin: 0;
+  max-width: none;
+}
+
+.global-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 24px;
+  position: relative;
+}
+
+.global-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.global-nav-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #0f172a;
+  color: #f8fafc;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.global-nav-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.global-nav-project {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  font-size: 13px;
+  max-width: 420px;
+  overflow: hidden;
+}
+
+.global-nav-project-label {
+  color: #6b7280;
+}
+
+.global-nav-project-name {
+  color: #111827;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.global-nav-actions {
+  position: relative;
+}
+
+.global-nav-settings-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.global-nav-settings-button:hover {
+  background: #f9fafb;
+}
+
+.global-nav-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  min-width: 220px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.global-nav-menu-item {
+  text-align: left;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #111827;
+  cursor: pointer;
+}
+
+.global-nav-menu-item:hover {
+  background: #f3f4f6;
+}
+
+.tab-nav {
+  border-top: 1px solid #f3f4f6;
+  padding: 0 24px;
+}
+
+.tab-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 4px;
+}
+
+.tab-nav-link {
+  display: inline-block;
+  padding: 10px 16px;
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  transition: color 120ms, border-color 120ms;
+}
+
+.tab-nav-link:hover {
+  color: #111827;
+}
+
+.tab-nav-link.active {
+  color: #0f172a;
+  border-bottom-color: #0f172a;
+}
+
+.status-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  background: #111827;
+  color: #e5e7eb;
+  padding: 10px 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 12px;
+  flex-wrap: wrap;
+}
+
+.status-bar-project {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.status-bar-project-name {
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.status-bar-sep {
+  color: #4b5563;
+}
+
+.status-bar-disclaimer {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.status-bar-loading {
+  color: #9ca3af;
+}
+
+.tab-placeholder {
+  padding: 40px 24px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.tab-placeholder h2 {
+  margin-top: 0;
+  font-size: 24px;
+}
+
+.tab-placeholder-description {
+  color: #374151;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.tab-placeholder-note {
+  margin-top: 24px;
+  padding: 12px 16px;
+  background: #f3f4f6;
+  border-left: 3px solid #6b7280;
+  border-radius: 4px;
+  color: #4b5563;
+  font-size: 13px;
+}
+
+.tab-placeholder-fallback {
+  margin-top: 16px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.tab-placeholder-fallback-link {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.root-redirect-splash {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* ==========================================================================
+   UX Refactor v2 — Setup tab (Phase B)
+   ========================================================================== */
+
+.setup-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.setup-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 20px;
+}
+
+.setup-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.setup-progress-title {
+  font-weight: 600;
+  color: #111827;
+}
+
+.setup-progress-count {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.setup-progress-bar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.setup-progress-bar-fill {
+  height: 100%;
+  background: #059669;
+  transition: width 240ms ease;
+}
+
+.setup-progress-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+.setup-progress-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 8px;
+  padding: 6px 0;
+  font-size: 13px;
+}
+
+.setup-progress-item-icon {
+  grid-row: 1 / span 2;
+  grid-column: 1;
+  align-self: center;
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f3f4f6;
+  font-size: 11px;
+}
+
+.setup-progress-item.complete .setup-progress-item-icon {
+  color: #059669;
+  background: #d1fae5;
+}
+
+.setup-progress-item.incomplete.required .setup-progress-item-icon {
+  color: #d97706;
+  background: #fef3c7;
+}
+
+.setup-progress-item-label {
+  color: #111827;
+  font-weight: 500;
+}
+
+.setup-progress-item-missing {
+  grid-column: 2;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.onboarding-banner {
+  position: relative;
+  padding: 20px 56px 20px 20px;
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+
+.onboarding-banner-title {
+  margin: 0 0 6px 0;
+  font-size: 15px;
+  color: #1e3a8a;
+}
+
+.onboarding-banner-steps {
+  margin: 0;
+  padding-left: 20px;
+  color: #1e3a8a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.onboarding-banner-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.onboarding-banner-dismiss {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #1e3a8a;
+  width: 28px;
+  height: 28px;
+}
+
+.primary-button {
+  background: #0f172a;
+  color: #f8fafc;
+  border: 1px solid #0f172a;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background: #1e293b;
+}
+
+.config-panel-v2 .config-section {
+  margin-bottom: 16px;
+}
+
+.config-panel-v2 legend {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.config-section-caption {
+  display: block;
+  font-weight: 400;
+  color: #6b7280;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.sub-block {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed #e5e7eb;
+}
+
+.sub-block-title {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+}
+
+.advanced-section-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  color: #111827;
+  padding: 0;
+}
+
+.advanced-section-hint {
+  margin: 4px 0 16px 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.optional-section {
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.optional-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.optional-section-title {
+  margin: 0;
+  font-size: 13px;
+  color: #111827;
+  font-weight: 600;
+}
+
+.optional-section-clear {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #dc2626;
+}
+
+.optional-section-hint {
+  margin: 0 0 10px 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.optional-section-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.optional-section-fields label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.optional-section-fields select,
+.optional-section-fields input[type="number"] {
+  flex: 1;
+  max-width: 180px;
+}
+
+.optional-section-enable {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.highlighted {
+  background: #fef9c3 !important;
+  outline: 2px solid #f59e0b;
+  outline-offset: 2px;
+  border-radius: 4px;
+  animation: highlight-pulse 2s ease-in-out;
+}
+
+@keyframes highlight-pulse {
+  0%, 100% { background: #fef9c3; }
+  50% { background: #fde68a; }
+}
+
+/* ==========================================================================
+   UX Refactor v2 — Rules tab (Phase C)
+   ========================================================================== */
+
+.rules-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.rules-tab-header h2 {
+  margin: 0 0 4px 0;
+}
+
+.rules-tab-header .muted {
+  margin: 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.rules-tab-filters {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr auto;
+  gap: 12px;
+  align-items: end;
+  padding: 14px 16px;
+}
+
+.rules-tab-filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.rules-tab-filters label input,
+.rules-tab-filters label select {
+  padding: 6px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.rules-tab-counts {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.trust-section {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.trust-section-header {
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.trust-section-toggle {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 12px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: inherit;
+}
+
+.trust-section-label {
+  font-weight: 600;
+}
+
+.trust-section-count {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.trust-section-hint {
+  flex: 1;
+  color: #6b7280;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.trust-section-arrow {
+  color: #6b7280;
+}
+
+.trust-section-verified .trust-section-label {
+  color: #059669;
+}
+
+.trust-section-indicative .trust-section-label {
+  color: #d97706;
+}
+
+.trust-section-pending .trust-section-label {
+  color: #6b7280;
+}
+
+.trust-section-needs-input .trust-section-label {
+  color: #dc2626;
+}
+
+.trust-section-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Trust and applicability badges */
+
+.trust-badge,
+.applicability-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+
+.trust-badge-icon,
+.applicability-badge-icon {
+  font-size: 10px;
+  line-height: 1;
+}
+
+.trust-badge-verified {
+  background: var(--trust-verified-bg);
+  color: var(--trust-verified-fg);
+  border-color: var(--trust-verified-border);
+}
+
+.trust-badge-indicative {
+  background: var(--trust-indicative-bg);
+  color: var(--trust-indicative-fg);
+  border-color: var(--trust-indicative-border);
+}
+
+.trust-badge-pending {
+  background: var(--trust-pending-bg);
+  color: var(--trust-pending-fg);
+  border-color: var(--trust-pending-border);
+}
+
+.trust-badge-freshness {
+  color: inherit;
+  opacity: 0.8;
+}
+
+.applicability-applies {
+  background: var(--applies-bg);
+  color: var(--applies-fg);
+}
+
+.applicability-not-applies {
+  background: var(--does-not-apply-bg);
+  color: var(--does-not-apply-fg);
+}
+
+.applicability-may-apply {
+  background: var(--may-apply-bg);
+  color: var(--may-apply-fg);
+}
+
+.applicability-future {
+  background: var(--applies-future-bg);
+  color: var(--applies-future-fg);
+}
+
+.applicability-unknown {
+  background: var(--unknown-bg);
+  color: var(--unknown-fg);
+}
+
+/* Freshness badges — Phase E, driven by tokens for forced-colors support */
+
+.freshness-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.25;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.freshness-badge-icon {
+  font-size: 10px;
+  line-height: 1;
+  display: inline-block;
+}
+
+.freshness-badge-fresh {
+  background: var(--freshness-fresh-bg);
+  color: var(--freshness-fresh-fg);
+  border-color: var(--freshness-fresh-border);
+}
+
+.freshness-badge-due_soon {
+  background: var(--freshness-due-soon-bg);
+  color: var(--freshness-due-soon-fg);
+  border-color: var(--freshness-due-soon-border);
+}
+
+.freshness-badge-overdue {
+  background: var(--freshness-overdue-bg);
+  color: var(--freshness-overdue-fg);
+  border-color: var(--freshness-overdue-border);
+}
+
+.freshness-badge-critically_overdue {
+  background: var(--freshness-critical-bg);
+  color: var(--freshness-critical-fg);
+  border-color: var(--freshness-critical-border);
+}
+
+.freshness-badge-never_verified {
+  background: var(--freshness-never-bg);
+  color: var(--freshness-never-fg);
+  border-color: var(--freshness-never-border);
+}
+
+/* RuleCardV2 */
+
+.rule-card-v2 {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  border-left-width: 4px;
+}
+
+.rule-card-v2-verified {
+  border-left-color: #059669;
+}
+
+.rule-card-v2-indicative {
+  border-left-color: #d97706;
+}
+
+.rule-card-v2-pending {
+  border-left-color: #9ca3af;
+}
+
+.rule-card-v2-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 10px 14px;
+  gap: 12px;
+}
+
+.rule-card-v2-toggle {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+}
+
+.rule-card-v2-titleblock {
+  display: flex;
+  flex-direction: column;
+  grid-row: 1 / span 2;
+  gap: 2px;
+}
+
+.rule-card-v2-rule-id {
+  font-size: 11px;
+  color: #6b7280;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.rule-card-v2-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.rule-card-v2-badges {
+  grid-row: 1;
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.rule-card-v2-owner {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 11px;
+}
+
+.rule-card-v2-toggle-arrow {
+  grid-row: 2;
+  grid-column: 2;
+  font-size: 12px;
+  color: #6b7280;
+  justify-self: end;
+}
+
+.rule-card-v2-view-toggle {
+  display: inline-flex;
+  background: #f3f4f6;
+  border-radius: 6px;
+  padding: 2px;
+  font-size: 11px;
+}
+
+.rule-card-v2-view-toggle button {
+  background: none;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #6b7280;
+  font: inherit;
+}
+
+.rule-card-v2-view-toggle button.active {
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.rule-card-v2-body {
+  padding: 12px 14px 14px;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rule-card-v2-section h5 {
+  margin: 0 0 6px 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+}
+
+.rule-card-v2-section p {
+  margin: 4px 0;
+  font-size: 13px;
+}
+
+.rule-card-v2-muted {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.rule-card-v2-why-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.rule-card-v2-match-icon {
+  color: #059669;
+  font-weight: bold;
+  margin-right: 4px;
+}
+
+.rule-card-v2-engineering {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 4px 12px;
+  font-size: 12px;
+}
+
+.rule-card-v2-engineering dt {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.rule-card-v2-raw {
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  max-height: 200px;
+  overflow: auto;
+}
+
+.rule-card-v2-cta {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: #fef3c7;
+  border-left: 3px solid #d97706;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.rule-card-v2-cta-link {
+  color: #b45309;
+  text-decoration: underline;
+}
+
+.rule-card-v2-external {
+  display: inline-block;
+  margin-top: 4px;
+  color: #2563eb;
+  text-decoration: underline;
+  font-size: 12px;
+}
+
+.rule-card-v2-tracking-fields {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 12px;
+  align-items: center;
+}
+
+.rule-card-v2-tracking-fields label {
+  display: contents;
+}
+
+.rule-card-v2-tracking-fields span {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.rule-card-v2-tracking-fields select,
+.rule-card-v2-tracking-fields input {
+  padding: 5px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+/* ==========================================================================
+   UX Refactor v2 — Status / Plan / Coverage tabs (Phase D)
+   ========================================================================== */
+
+.status-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.status-tab-empty {
+  padding: 40px 24px;
+}
+
+.status-hero {
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.status-hero-positive {
+  border-left: 6px solid #059669;
+}
+
+.status-hero-caution {
+  border-left: 6px solid #d97706;
+}
+
+.status-hero-eyebrow {
+  display: block;
+  font-size: 12px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.status-hero-verdict {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.status-hero-positive .status-hero-verdict {
+  color: #065f46;
+}
+
+.status-hero-caution .status-hero-verdict {
+  color: #92400e;
+}
+
+.status-hero-confidence {
+  margin: 6px 0 0 0;
+  color: #374151;
+}
+
+.status-hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 0;
+}
+
+.status-hero-metrics div {
+  padding: 12px 14px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.status-hero-metrics dt {
+  font-size: 11px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.status-hero-metrics dd {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.status-hero-generated {
+  margin: 0;
+  color: #9ca3af;
+  font-size: 11px;
+}
+
+.status-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.status-column {
+  padding: 16px 18px;
+}
+
+.status-column h3 {
+  margin: 0 0 12px 0;
+  font-size: 15px;
+}
+
+.status-column-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.status-column-list li {
+  padding: 8px 10px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.status-column-list li a {
+  color: #0f172a;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.status-column-list li a:hover {
+  text-decoration: underline;
+}
+
+.status-severity {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.status-severity-high {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-severity-medium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-severity-low {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.status-column-item-title {
+  margin: 4px 0 2px 0;
+  color: #111827;
+  font-size: 12px;
+}
+
+.status-column-item-reason,
+.status-column-item-owner {
+  margin: 0;
+  color: #6b7280;
+  font-size: 11px;
+}
+
+.status-deadline {
+  display: inline-block;
+  margin-left: 8px;
+  color: #374151;
+  font-size: 11px;
+}
+
+.status-country-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.status-country-list li {
+  padding: 6px 0;
+  font-size: 13px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+/* Plan tab */
+
+.plan-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.plan-columns {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .plan-columns {
+    grid-template-columns: 1fr;
+  }
+  .status-columns {
+    grid-template-columns: 1fr;
+  }
+  .status-hero-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.plan-segment {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+.plan-segment > summary {
+  padding: 12px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.plan-segment-label {
+  color: #0f172a;
+}
+
+.plan-segment-hint {
+  flex: 1;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.plan-segment-count {
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.plan-segment-empty {
+  padding: 0 16px 12px 16px;
+  margin: 0;
+}
+
+.plan-milestone-list {
+  list-style: none;
+  padding: 0 16px 14px 16px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.plan-milestone-list > li {
+  border-left: 2px solid #e5e7eb;
+  padding-left: 10px;
+}
+
+.plan-milestone-month {
+  font-weight: 600;
+  color: #111827;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.plan-milestone-list > li > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.plan-milestone-owner {
+  color: #6b7280;
+  font-size: 11px;
+}
+
+.plan-column-owners {
+  padding: 16px 18px;
+}
+
+.plan-owner-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.plan-owner-bucket header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.plan-owner-count {
+  color: #6b7280;
+  font-size: 11px;
+}
+
+.plan-owner-bucket ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+}
+
+/* Coverage tab */
+
+.coverage-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.coverage-tab-header h2 {
+  margin: 0;
+}
+
+/* ==========================================================================
+   UX Refactor v2 — Phase E: Glossary + EmptyState
+   ========================================================================== */
+
+/* Glossary modal */
+
+.glossary-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 16px;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.glossary-modal {
+  background: var(--surface-card, #ffffff);
+  border-radius: var(--radius-lg, 12px);
+  box-shadow: var(--shadow-md, 0 4px 10px rgba(0, 0, 0, 0.08));
+  width: min(820px, 100%);
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  padding: 24px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 1px solid var(--border-default, #e5e7eb);
+}
+
+.glossary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.glossary-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: var(--text-primary, #111827);
+}
+
+.glossary-close {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--text-muted, #6b7280);
+  cursor: pointer;
+}
+
+.glossary-close:hover,
+.glossary-close:focus-visible {
+  background: var(--surface-muted, #f9fafb);
+  border-color: var(--border-default, #e5e7eb);
+  color: var(--text-primary, #111827);
+  outline: none;
+}
+
+.glossary-intro {
+  margin: 0;
+  color: var(--text-secondary, #374151);
+  font-size: 13px;
+}
+
+.glossary-body {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.glossary-group h3 {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: var(--text-primary, #111827);
+}
+
+.glossary-lede {
+  margin: 0 0 10px 0;
+  color: var(--text-muted, #6b7280);
+  font-size: 12px;
+}
+
+.glossary-group dl {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+}
+
+.glossary-entry {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid var(--border-muted, #f3f4f6);
+  border-radius: var(--radius-md, 8px);
+}
+
+.glossary-entry dt {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.glossary-entry dd {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary, #374151);
+}
+
+.glossary-entry code {
+  background: var(--surface-muted, #f9fafb);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: var(--text-primary, #111827);
+}
+
+/* Empty state primitive */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 32px 24px;
+  border: 1px dashed var(--border-default, #e5e7eb);
+  border-radius: var(--radius-lg, 12px);
+  background: var(--surface-card, #ffffff);
+}
+
+.empty-state-info {
+  border-color: var(--applies-future-bg, #dbeafe);
+  background: color-mix(in srgb, var(--applies-future-bg, #dbeafe) 30%, white);
+}
+
+.empty-state-warning {
+  border-color: var(--may-apply-bg, #fef3c7);
+  background: color-mix(in srgb, var(--may-apply-bg, #fef3c7) 30%, white);
+}
+
+.empty-state-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.empty-state-title {
+  margin: 0;
+  font-size: 15px;
+  color: var(--text-primary, #111827);
+}
+
+.empty-state-description {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary, #374151);
+  max-width: 520px;
+}
+
+.empty-state-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.empty-state-actions a,
+.empty-state-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: var(--radius-md, 8px);
+  border: 1px solid var(--border-default, #e5e7eb);
+  background: var(--surface-card, #ffffff);
+  color: var(--text-primary, #111827);
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.empty-state-actions a:hover,
+.empty-state-actions button:hover {
+  background: var(--surface-muted, #f9fafb);
+}
+
+/* ==========================================================================
+   UX Refactor v2 — Phase G (per-tab Export + Compare toggle + print CSS)
+   ========================================================================== */
+
+.rules-tab-header,
+.plan-tab-header,
+.coverage-tab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.tab-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tab-actions-floating {
+  justify-content: flex-end;
+}
+
+.export-pdf-button,
+.compare-toggle {
+  background: var(--surface-card, #ffffff);
+  border: 1px solid var(--border-default, #e5e7eb);
+  border-radius: var(--radius-sm, 4px);
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary, #111827);
+  cursor: pointer;
+}
+
+.export-pdf-button:hover,
+.compare-toggle:hover {
+  background: var(--surface-muted, #f9fafb);
+}
+
+.compare-toggle-active {
+  background: var(--brand-primary, #0f172a);
+  color: var(--brand-primary-fg, #f8fafc);
+  border-color: var(--brand-primary, #0f172a);
+}
+
+/* Per-tab print CSS — hide nav / status bar / non-essentials when printing.
+   The print-<tab> class is added to <html> by ExportAsPdfButton. */
+
+@media print {
+  .app-shell-header,
+  .status-bar,
+  .tab-nav,
+  .global-nav,
+  .tab-actions,
+  .onboarding-banner,
+  .export-pdf-button,
+  .compare-toggle {
+    display: none !important;
+  }
+
+  .app-shell-main {
+    padding: 0;
+    max-width: none;
+  }
+
+  .panel {
+    border: 1px solid #000;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .trust-section {
+    break-inside: avoid;
+  }
+
+  /* Ensure trust icons stay visible in grayscale print */
+  .trust-badge,
+  .applicability-badge {
+    border: 1px solid #000 !important;
+    background: transparent !important;
+    color: #000 !important;
+  }
+}
+
+/* Tab-specific print overrides: Rules expands Verified section; Setup
+   hides Advanced when printing. */
+
+html.print-rules-tab .trust-section-pending {
+  display: none;
+}
+
+html.print-setup-tab .advanced-section:not([open]) {
+  display: none;
+}
+
+/* Expand / collapse all toggle (Rules tab) */
+
+.expand-all-toggle {
+  background: var(--surface-card, #ffffff);
+  border: 1px solid var(--border-default, #e5e7eb);
+  border-radius: var(--radius-sm, 4px);
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary, #111827);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.expand-all-toggle:hover {
+  background: var(--surface-muted, #f9fafb);
+}
+
+.expand-all-toggle[aria-pressed="true"] {
+  background: var(--surface-muted, #f3f4f6);
+  border-color: var(--text-muted, #9ca3af);
+}
+
+/* UX-001: Deadline status coloring (overdue vs remaining vs due_now) */
+
+.status-deadline-overdue .status-deadline {
+  color: var(--status-blocker, #dc2626);
+  font-weight: 600;
+}
+
+.status-deadline-due_now .status-deadline {
+  color: var(--status-attention, #d97706);
+  font-weight: 600;
+}
+
+.status-deadline-remaining .status-deadline {
+  color: var(--text-secondary, #374151);
+}
+
+/* UX-002: reconciliation note under each Status metric */
+
+.status-metric-note {
+  margin: 6px 0 0 0;
+  font-size: 11px;
+  color: var(--text-muted, #6b7280);
+  font-style: italic;
+  line-height: 1.3;
+}
+
+/* UX-006: RuleCardV2 per-condition trigger status icons */
+
+.rule-card-v2-trigger-headline {
+  margin: 0 0 6px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary, #111827);
+}
+
+.rule-card-v2-match-matched {
+  color: var(--status-ok, #059669);
+  font-weight: bold;
+}
+
+.rule-card-v2-match-unmatched {
+  color: var(--status-blocker, #dc2626);
+  font-weight: bold;
+}
+
+.rule-card-v2-match-missing_input {
+  color: var(--status-attention, #d97706);
+  font-weight: bold;
+}
+
+.rule-card-v2-match-custom {
+  color: var(--text-muted, #6b7280);
+}
+
+/* Sprint 2 · ScopeBanner (persistent scope declaration below TabNav) */
+
+.scope-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 24px;
+  background: #fef9c3;
+  border-top: 1px solid #fde68a;
+  border-bottom: 1px solid #fde68a;
+  font-size: 12px;
+  color: #713f12;
+  flex-wrap: wrap;
+}
+
+.scope-banner-icon {
+  font-size: 14px;
+}
+
+.scope-banner-summary {
+  flex: 1;
+  min-width: 0;
+}
+
+.scope-banner-pending {
+  color: #b45309;
+  font-weight: 600;
+}
+
+.scope-banner-deferred {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.scope-banner-toggle {
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 11px;
+  color: #713f12;
+  cursor: pointer;
+}
+
+.scope-banner-toggle:hover {
+  background: #fde68a;
+}
+
+.scope-banner-detail {
+  width: 100%;
+  padding: 10px 12px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 6px;
+  margin-top: 6px;
+}
+
+.scope-banner-detail dl {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 6px 12px;
+  margin: 0;
+}
+
+.scope-banner-detail dt {
+  font-weight: 600;
+  color: #713f12;
+}
+
+.scope-banner-detail dd {
+  margin: 0;
+  color: #78350f;
+  line-height: 1.5;
+}
+
+/* UX-003: Country-at-risk reason coloring */
+
+.status-country-pending_overlay strong {
+  color: var(--status-attention, #d97706);
+}
+
+.status-country-no_overlay strong {
+  color: var(--status-blocker, #dc2626);
+}
+
+.status-country-low_coverage strong {
+  color: var(--status-info, #6b7280);
+}
+
+/* Sprint 3 · content_provenance minimal UI in RuleCardV2 Reference */
+
+.rule-card-v2-provenance {
+  margin: 8px 0 0 0;
+  padding: 6px 8px;
+  font-size: 11px;
+  color: var(--text-secondary, #374151);
+  background: var(--surface-muted, #f9fafb);
+  border-left: 3px solid var(--border-default, #e5e7eb);
+  border-radius: 0 4px 4px 0;
+}
+
+.rule-card-v2-provenance-label {
+  font-weight: 600;
+  color: var(--text-primary, #111827);
+}
+
+.rule-card-v2-provenance-source {
+  font-weight: 500;
+}
+
+.rule-card-v2-provenance-eur_lex,
+.rule-card-v2-provenance-unece,
+.rule-card-v2-provenance-national_gazette {
+  color: var(--status-ok, #059669);
+}
+
+.rule-card-v2-provenance-manual {
+  color: var(--text-secondary, #374151);
+}
+
+.rule-card-v2-provenance-llm_draft {
+  color: var(--status-attention, #d97706);
+}
+
+.rule-card-v2-provenance-reviewer,
+.rule-card-v2-provenance-retrieved {
+  color: var(--text-muted, #6b7280);
+  font-style: italic;
+}
+
+.rule-card-v2-related-link {
+  color: var(--text-primary, #111827);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  text-decoration: underline;
+}
+
+/* Sprint 5 · freshness 'drifted' 6th state — stronger than critically_overdue */
+
+.freshness-badge-drifted {
+  background: #fecaca;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
 }

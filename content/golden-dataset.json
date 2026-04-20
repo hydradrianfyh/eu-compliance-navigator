@@ -1,0 +1,283 @@
+{
+  "$schema": "./golden-dataset-schema.json",
+  "version": "1.0.0",
+  "description": "Sprint 4 golden dataset — human-verified canonical values for 20 anchor rules. CI (Sprint 5) cross-checks src/registry/seed/*.ts against these values. A mismatch fails the PR with a diff message so reviewer can either (a) update the seed to match EUR-Lex/UNECE ground truth or (b) update the golden dataset with a rationale.",
+  "last_updated": "2026-04-19",
+  "last_reviewer": "yanhao",
+  "review_notes": "First-pass golden for Path B Sprint 4. Values derived from direct inspection of EUR-Lex eli/ and UNECE regulation pages. EUR-Lex CELEX IDs are canonical. OJ references follow the 'OJ L N, DD.MM.YYYY' legacy format for pre-2023 acts and the new 'OJ L, YYYY/NNNN, DD Month YYYY' format for 2023+. Intentional scope: EU horizontal + key UNECE. DE overlay rules excluded (sourced from national gazettes, not SPARQL-accessible).",
+  "anchors": [
+    {
+      "rule_id": "REG-TA-001",
+      "title": "EU Whole Vehicle Type-Approval Framework",
+      "source_family": "EUR-Lex",
+      "canonical_celex": "32018R0858",
+      "canonical_official_url": "https://eur-lex.europa.eu/eli/reg/2018/858/oj",
+      "canonical_oj_reference": "OJ L 151, 14.6.2018",
+      "temporal_expectations": {
+        "entry_into_force": "2018-09-01",
+        "applies_to_new_types_from": "2020-09-01",
+        "applies_to_all_new_vehicles_from": "2022-09-01"
+      },
+      "review_notes": "Framework regulation for M/N/O WVTA. No amendments affecting temporal since 2018."
+    },
+    {
+      "rule_id": "REG-TA-002",
+      "title": "L-category Vehicle Type-Approval Framework",
+      "source_family": "EUR-Lex",
+      "canonical_celex": "32013R0168",
+      "canonical_official_url": "https://eur-lex.europa.eu/eli/reg/2013/168/oj",
+      "canonical_oj_reference": "OJ L 60, 2.3.2013",
+      "temporal_expectations": {
+        "entry_into_force": "2013-03-22",
+        "applies_to_new_types_from": "2016-01-01"
+      },
+      "review_notes": "L-category framework."
+    },
+    {
+      "rule_id": "REG-GSR-001",
+      "title": "General Safety Regulation 2",
+      "source_family": "EUR-Lex",
+      "canonical_celex": "32019R2144",
+      "canonical_official_url": "https://eur-lex.europa.eu/eli/reg/2019/2144/oj",
+      "canonical_oj_reference": "OJ L 325, 16.12.2019",
+      "temporal_expectations": {
+        "entry_into_force": "2020-01-05",
+        "applies_to_new_types_from": "2022-07-06",
+        "applies_to_all_new_vehicles_from": "2024-07-07"
+      },
+      "review_notes": "GSR2 framework. Delegated acts per feature (ISA/EDR/AEB/DMS/TPMS) have separate phase-in."
+    },
+    {
+      "rule_id": "REG-GSR-002",
+      "title": "GSR2 Intelligent Speed Assistance (ISA)",
+      "source_family": "EUR-Lex",
+      "canonical_celex": "32021R1958",
+      "canonical_official_url": "https://eur-lex.europa.eu/eli/reg_impl/2021/1958/oj",
+      "canonical_oj_reference": "OJ L 409, 17.11.2021",
+      "temporal_expectations": {
+        "applies_to_new_types_from": "2022-07-06",
+        "applies_to_all_new_vehicles_from": "2024-07-07"
+      },
+      "review_notes": "ISA delegated implementing act. UX-005 regression anchor."
+    },
+    {
+      "rule_id": "REG-GSR-003",
+      "title": "GSR2 Event Data Recorder (EDR)",
+      "source_family": "EUR-Lex",
+      "canonical_celex": "32022R0545",
+      "canonical_official_url": "https://eur-lex.europa.eu/eli/reg_del/2022/545/oj",
+      "canonical_oj_reference": "OJ L 107, 6.4.2022",
+      "temporal_expectations": {
+        "applies_to_new_types_from": "2022-07-06",
+        "applies_to_all_new_vehicles_from": "2024-07-07"
+      },
+      "review_notes": "EDR delegated regulation."
+    },
+    {
+      "rule_id": "REG-GSR-004",
+      "title": "GSR2 Driver Drowsiness and Attention Warning (DDAW)",
+      "source_family": "EUR-Lex",
+      "canonical_celex": "32021R1341",
+      "canonical_official_url": "https://eur-lex.europa.eu/eli/reg_del/2021/1341/oj",
+      "canonical_oj_reference": "OJ L 292, 16.8.2021",
+      "temporal_expectations": {
+        "applies_to_new_types_from": "2022-07-06",
+        "applies_to_all_new_vehicles_from": "2024-07-07"
+      },
+      "review_notes": "DDAW delegated regulation."
+    },
+    {
+      "rule_id": "REG-GSR-005",
+      "title": "GSR2 Advanced Emergency Braking System (AEBS)",
+      "source_family": "EUR-Lex",
+      "canonical_celex": "32021R1243",
+      "canonical_official_url": "https://eur-lex.europa.eu/eli/reg_impl/2021/1243/oj",
+      "canonical_oj_reference": "OJ L 272, 30.7.2021",
+      "temporal_expectations": {
+        "applies_to_new_types_from": "2022-07-06",
+        "applies_to_all_new_vehicles_from": "2024-07-07"
+      },
+      "review_notes": "AEBS implementing regulation."
+    },
+    {
+      "rule_id": "REG-GSR-006",
+      "title": "GSR2 Tyre Pressure Monitoring System (TPMS)",
+      "source_family": "UNECE",
+      "canonical_unece_ref": "UNECE Regulation No. 141",
+      "canonical_official_url": "https://unece.org/transport/vehicle-regulations/un-regulation-no-141",
+      "canonical_oj_reference": null,
+      "temporal_expectations": {
+        "applies_to_new_types_from": "2022-07-06",
+        "applies_to_all_new_vehicles_from": "2024-07-07"
+      },
+      "review_notes": "TPMS covered via UN R141 reference; GSR2 aligns."
+    },
+    {
+      "rule_id": "REG-CS-001",
+      "title": "R155 Cybersecurity Management System",
+      "source_family": "UNECE",
+      "canonical_unece_ref": "UNECE Regulation No. 155",
+      "canonical_official_url": "https://unece.org/transport/documents/2021/03/standards/un-regulation-no-155-cyber-security-and-cyber-security",
+      "canonical_oj_reference": null,
+      "temporal_expectations": {
+        "applies_to_new_types_from": "2022-07-01",
+        "applies_to_all_new_vehicles_from": "2024-07-01"
+      },
+      "review_notes": "R155 CSMS. Current revision referenced Rev.5 (2024). Seed currently lists Rev.2 — UX-005 drift candidate."
+    },
+    {
+      "rule_id": "REG-CS-002",
+      "title": "R156 Software Update Management System",
+      "source_family": "UNECE",
+      "canonical_unece_ref": "UNECE Regulation No. 156",
+      "canonical_official_url": "https://unece.org/transport/documents/2021/03/standards/un-regulation-no-156-software-update-and-software-update",
+      "canonical_oj_reference": null,
+      "temporal_expectations": {
+        "applies_to_new_types_from": "2022-07-01",
+        "applies_to_all_new_vehicles_from": "2024-07-01"
+      },
+      "review_notes": "R156 SUMS with RXSWIN requirements."
+    },
+    {
+      "rule_id": "REG-AD-001",
+      "title": "R157 Automated Lane Keeping System (ALKS)",
+      "source_family": "UNECE",
+      "canonical_unece_ref": "UNECE Regulation No. 157",
+      "canonical_official_url": "https://unece.org/transport/documents/2021/03/standards/un-regulation-no-157-automated-lane-keeping-systems-alks",
+      "canonical_oj_reference": null,
+      "temporal_expectations": {
+        "applies_to_new_types_from": "2023-01-01"
+      },
+      "review_notes": "R157 ALKS. L3 only. Custom evaluator rejects non-L3 configs — see Sprint 2 UX-006 fix."
+    },
+    {
+      "rule_id": "REG-AD-002",
+      "title": "UN R171 Driver Control Assistance Systems (DCAS)",
+      "source_family": "UNECE",
+      "canonical_unece_ref": "UN Regulation No. 171",
+      "canonical_official_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202402689",
+      "canonical_oj_reference": "OJ L, 2024/2689, 4 November 2024",
+      "temporal_expectations": {
+        "entry_into_force": "2025-09-01",
+        "applies_from_generic": "2025-09-01"
+      },
+      "review_notes": "R171 DCAS. 'If fitted' trigger — custom evaluator. L2+ systems with sustained lateral+longitudinal control."
+    },
+    {
+      "rule_id": "REG-PV-001",
+      "title": "General Data Protection Regulation (GDPR)",
+      "source_family": "EUR-Lex",
+      "canonical_celex": "32016R0679",
+      "canonical_official_url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+      "canonical_oj_reference": "OJ L 119, 4.5.2016",
+      "temporal_expectations": {
+        "entry_into_force": "2016-05-24",
+        "applies_from_generic": "2018-05-25"
+      },
+      "review_notes": "GDPR. Horizontal. Applies when vehicle processes personal data."
+    },
+    {
+      "rule_id": "REG-DA-001",
+      "title": "EU Data Act",
+      "source_family": "EUR-Lex",
+      "canonical_celex": "32023R2854",
+      "canonical_official_url": "https://eur-lex.europa.eu/eli/reg/2023/2854/oj",
+      "canonical_oj_reference": "OJ L, 2023/2854, 22 December 2023",
+      "temporal_expectations": {
+        "entry_into_force": "2024-01-11",
+        "applies_from_generic": "2025-09-12"
+      },
+      "review_notes": "Data Act. Connected product data access obligations."
+    },
+    {
+      "rule_id": "REG-AI-001",
+      "title": "AI Act — Prohibited Practices and AI Literacy",
+      "source_family": "EUR-Lex",
+      "canonical_celex": "32024R1689",
+      "canonical_official_url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+      "canonical_oj_reference": "OJ L, 2024/1689, 12 July 2024",
+      "temporal_expectations": {
+        "entry_into_force": "2024-08-01",
+        "applies_from_generic": "2025-02-02"
+      },
+      "review_notes": "AI Act Phase 1 — Art. 1-5 prohibited practices + Art. 4 AI literacy."
+    },
+    {
+      "rule_id": "REG-AI-003",
+      "title": "AI Act — High-Risk AI Systems (Annex III)",
+      "source_family": "EUR-Lex",
+      "canonical_celex": "32024R1689",
+      "canonical_official_url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+      "canonical_oj_reference": "OJ L, 2024/1689, 12 July 2024",
+      "temporal_expectations": {
+        "applies_from_generic": "2026-08-02"
+      },
+      "review_notes": "AI Act Art. 6(2) + Annex III standalone high-risk use cases (biometric, etc)."
+    },
+    {
+      "rule_id": "REG-AI-004",
+      "title": "AI Act — Safety Components in Regulated Products (Art. 6(1))",
+      "source_family": "EUR-Lex",
+      "canonical_celex": "32024R1689",
+      "canonical_official_url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+      "canonical_oj_reference": "OJ L, 2024/1689, 12 July 2024",
+      "temporal_expectations": {
+        "applies_from_generic": "2027-08-02"
+      },
+      "review_notes": "AI Act Art. 6(1) + Annex I Section B (2018/858 + 2019/2144). Applies when AI is safety component of type-approved product."
+    },
+    {
+      "rule_id": "REG-BAT-001",
+      "title": "EU Battery Regulation",
+      "source_family": "EUR-Lex",
+      "canonical_celex": "32023R1542",
+      "canonical_official_url": "https://eur-lex.europa.eu/eli/reg/2023/1542/oj",
+      "canonical_oj_reference": "OJ L 191, 28.7.2023",
+      "temporal_expectations": {
+        "entry_into_force": "2023-08-17",
+        "applies_from_generic": "2024-02-18"
+      },
+      "review_notes": "Battery Reg parent. Sub-obligations phased: labelling 2024, carbon footprint 2025, battery passport 2027-02-18, due diligence 2025."
+    },
+    {
+      "rule_id": "REG-EM-001",
+      "title": "Euro 7 Emission Standard — Light-Duty Vehicles",
+      "source_family": "EUR-Lex",
+      "canonical_celex": "32024R1257",
+      "canonical_official_url": "https://eur-lex.europa.eu/eli/reg/2024/1257/oj",
+      "canonical_oj_reference": "OJ L, 2024/1257, 8 May 2024",
+      "temporal_expectations": {
+        "entry_into_force": "2024-05-28",
+        "applies_to_new_types_from": "2026-11-29",
+        "applies_to_all_new_vehicles_from": "2027-11-29"
+      },
+      "review_notes": "Euro 7 framework Reg (EU) 2024/1257. Implementing Regs 2025/1706 (exhaust) + 2025/1707 (OBFCM/EVP) are separate rules if modeled."
+    },
+    {
+      "rule_id": "REG-UN-100",
+      "title": "UNECE R100 Electric Vehicle Safety",
+      "source_family": "UNECE",
+      "canonical_unece_ref": "UNECE Regulation No. 100",
+      "canonical_official_url": "https://unece.org/transport/documents/2023/09/standards/un-regulation-no-100-rev4",
+      "canonical_oj_reference": null,
+      "temporal_expectations": {
+        "entry_into_force": "2025-01-10",
+        "applies_from_generic": "2025-01-10"
+      },
+      "review_notes": "R100. Latest revision Rev.4 Am.1 (2025-01-10). Seed currently lists Rev.3 Am.4 — drift candidate (noted §3.2 DE-depth table)."
+    },
+    {
+      "rule_id": "REG-CL-001",
+      "title": "Product Liability Directive (revised)",
+      "source_family": "EUR-Lex",
+      "canonical_celex": "32024L2853",
+      "canonical_official_url": "https://eur-lex.europa.eu/eli/dir/2024/2853/oj",
+      "canonical_oj_reference": "OJ L, 2024/2853, 18 November 2024",
+      "temporal_expectations": {
+        "entry_into_force": "2024-12-08",
+        "applies_from_generic": "2026-12-09"
+      },
+      "review_notes": "PLD 2024/2853. Directive (not regulation) — requires member-state transposition. UX-004 trigger fix applied Sprint 2."
+    }
+  ]
+}

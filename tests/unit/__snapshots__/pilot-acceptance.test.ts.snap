@@ -23,28 +23,28 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-GSR-001",
   },
   {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-GSR-002",
   },
   {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-GSR-003",
   },
   {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-GSR-004",
   },
   {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-GSR-005",
   },
   {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-GSR-006",
   },
   {
@@ -692,7 +692,7 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
 
 exports[`Pilot MY2027 BEV acceptance > pilot coverage summary > prints coverage breakdown 1`] = `
 {
-  "applicable": 16,
+  "applicable": 21,
   "applicable_ids": [
     "REG-AI-001",
     "REG-BAT-001",
@@ -702,6 +702,11 @@ exports[`Pilot MY2027 BEV acceptance > pilot coverage summary > prints coverage 
     "REG-EM-001",
     "REG-EM-003",
     "REG-GSR-001",
+    "REG-GSR-002",
+    "REG-GSR-003",
+    "REG-GSR-004",
+    "REG-GSR-005",
+    "REG-GSR-006",
     "REG-MS-DE-001",
     "REG-MS-DE-002",
     "REG-MS-DE-003",
@@ -715,6 +720,6 @@ exports[`Pilot MY2027 BEV acceptance > pilot coverage summary > prints coverage 
   "future": 3,
   "not_applicable": 4,
   "total": 137,
-  "unknown": 108,
+  "unknown": 103,
 }
 `;

@@ -1,0 +1,33 @@
+name: Drift Alert (weekly)
+
+# Sprint 5 · weekly job that cross-checks the seed against the golden
+# dataset and (future Sprint 6+) against EUR-Lex/UNECE upstream. Opens
+# GitHub issues for each drift so a human reviewer can decide whether
+# to update the seed or the golden.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # every Monday 06:00 UTC
+  workflow_dispatch: {}
+
+jobs:
+  drift-alert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run drift-alert report
+        run: node scripts/drift-alert.mjs
+
+      - name: Run golden-dataset tests (informational)
+        run: npx vitest run tests/unit/golden-dataset.test.ts || true

@@ -20,15 +20,24 @@ function diffDays(now: Date, past: Date): number {
 }
 
 /**
- * Compute the 5-state freshness status for a rule.
+ * Compute the 6-state freshness status for a rule.
  *
  *   fresh              -- reviewed within 80% of cadence
  *   due_soon           -- within the cadence window (80%-100%)
  *   overdue            -- cadence exceeded up to +50%
  *   critically_overdue -- cadence exceeded beyond +50%
  *   never_verified     -- no last_human_review_at on record
+ *   drifted            -- Sprint 5: explicitly set by CI/drift-alert job
+ *                         when seed values no longer match golden dataset
+ *                         or upstream source. Stronger signal than
+ *                         critically_overdue — the value itself may be wrong.
+ *                         Stored on the rule itself via an optional flag
+ *                         (see `markAsDrifted` below).
  */
 export function computeFreshnessStatus(rule: Rule, now: Date = new Date()): FreshnessStatus {
+  // Sprint 5: an explicit drift override dominates time-based cadence.
+  if (rule.freshness_status === "drifted") return "drifted";
+
   const reviewed = parseIsoDate(rule.last_human_review_at);
   if (!reviewed) return "never_verified";
 
@@ -47,6 +56,7 @@ export interface FreshnessSummary {
   overdue: number;
   critically_overdue: number;
   never_verified: number;
+  drifted: number;
   total: number;
 }
 
@@ -60,6 +70,7 @@ export function summarizeFreshness(
     overdue: 0,
     critically_overdue: 0,
     never_verified: 0,
+    drifted: 0,
     total: rules.length,
   };
 

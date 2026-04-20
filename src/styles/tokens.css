@@ -1,0 +1,147 @@
+/* ==========================================================================
+   UX Refactor v2 — Semantic Design Tokens (Phase E)
+   Source of truth for color semantics across Status / Plan / Rules /
+   Coverage tabs. Component CSS should reference these tokens rather than
+   raw Tailwind palette values where possible.
+   © Yanhao FU
+   ========================================================================== */
+
+:root {
+  /* Trust levels (three user-facing states — spec §9.1) */
+  --trust-verified-fg: #065f46;
+  --trust-verified-bg: #d1fae5;
+  --trust-verified-border: #a7f3d0;
+  --trust-verified-accent: #059669;
+
+  --trust-indicative-fg: #92400e;
+  --trust-indicative-bg: #fef3c7;
+  --trust-indicative-border: #fde68a;
+  --trust-indicative-accent: #d97706;
+
+  --trust-pending-fg: #374151;
+  --trust-pending-bg: #f3f4f6;
+  --trust-pending-border: #e5e7eb;
+  --trust-pending-accent: #9ca3af;
+
+  /* Applicability (spec §9.2) */
+  --applies-fg: #166534;
+  --applies-bg: #dcfce7;
+  --may-apply-fg: #92400e;
+  --may-apply-bg: #fef3c7;
+  --applies-future-fg: #1e40af;
+  --applies-future-bg: #dbeafe;
+  --does-not-apply-fg: #6b7280;
+  --does-not-apply-bg: #f3f4f6;
+  --unknown-fg: #991b1b;
+  --unknown-bg: #fee2e2;
+
+  /* Status semantics */
+  --status-blocker: #dc2626;
+  --status-attention: #d97706;
+  --status-ok: #059669;
+  --status-info: #6b7280;
+
+  /* Freshness */
+  --fresh-ok: #10b981;
+  --fresh-soon: #f59e0b;
+  --fresh-overdue: #f97316;
+  --fresh-critical: #ef4444;
+  --fresh-never: #6b7280;
+
+  /* Surfaces */
+  --surface-base: #f7f7f8;
+  --surface-card: #ffffff;
+  --surface-muted: #f9fafb;
+  --surface-elevated: #ffffff;
+  --border-default: #e5e7eb;
+  --border-muted: #f3f4f6;
+
+  /* Text */
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+  --text-subtle: #9ca3af;
+
+  /* Accent (brand) */
+  --brand-primary: #0f172a;
+  --brand-primary-fg: #f8fafc;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.08);
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Freshness palette (5-state) — see spec §10 */
+:root {
+  --freshness-fresh-fg: #065f46;
+  --freshness-fresh-bg: #d1fae5;
+  --freshness-fresh-border: #a7f3d0;
+
+  --freshness-due-soon-fg: #92400e;
+  --freshness-due-soon-bg: #fef3c7;
+  --freshness-due-soon-border: #fde68a;
+
+  --freshness-overdue-fg: #9a3412;
+  --freshness-overdue-bg: #ffedd5;
+  --freshness-overdue-border: #fed7aa;
+
+  --freshness-critical-fg: #991b1b;
+  --freshness-critical-bg: #fee2e2;
+  --freshness-critical-border: #fecaca;
+
+  --freshness-never-fg: #374151;
+  --freshness-never-bg: #f3f4f6;
+  --freshness-never-border: #e5e7eb;
+}
+
+/* High-contrast / forced-colors support: tokens map to system colors so
+   badges stay distinguishable even when the OS overrides colors. */
+@media (forced-colors: active) {
+  :root {
+    --trust-verified-fg: CanvasText;
+    --trust-verified-bg: Canvas;
+    --trust-verified-border: CanvasText;
+    --trust-indicative-fg: CanvasText;
+    --trust-indicative-bg: Canvas;
+    --trust-indicative-border: CanvasText;
+    --trust-pending-fg: GrayText;
+    --trust-pending-bg: Canvas;
+    --trust-pending-border: GrayText;
+
+    --applies-fg: CanvasText;
+    --applies-bg: Canvas;
+    --may-apply-fg: CanvasText;
+    --may-apply-bg: Canvas;
+    --applies-future-fg: CanvasText;
+    --applies-future-bg: Canvas;
+    --does-not-apply-fg: GrayText;
+    --does-not-apply-bg: Canvas;
+    --unknown-fg: CanvasText;
+    --unknown-bg: Canvas;
+
+    --freshness-fresh-fg: CanvasText;
+    --freshness-fresh-bg: Canvas;
+    --freshness-fresh-border: CanvasText;
+    --freshness-due-soon-fg: CanvasText;
+    --freshness-due-soon-bg: Canvas;
+    --freshness-due-soon-border: CanvasText;
+    --freshness-overdue-fg: CanvasText;
+    --freshness-overdue-bg: Canvas;
+    --freshness-overdue-border: CanvasText;
+    --freshness-critical-fg: CanvasText;
+    --freshness-critical-bg: Canvas;
+    --freshness-critical-border: CanvasText;
+    --freshness-never-fg: GrayText;
+    --freshness-never-bg: Canvas;
+    --freshness-never-border: GrayText;
+  }
+}

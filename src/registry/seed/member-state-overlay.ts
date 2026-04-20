@@ -206,6 +206,17 @@ const germanyOverlayRules: Rule[] = [
     planning_lead_time_months: 3,
     ui_package: "country_overlay",
     process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-19",
+      human_reviewer: "yanhao",
+    },
+    // Sprint 7: eVB artifact is shared with REG-MS-DE-003 (PflVG) —
+    // when the UI de-duplicates artifact requirements, this link tells it
+    // both rules reference the same document.
+    related_rules: [
+      { rule_id: "REG-MS-DE-003", relation: "requires" },
+    ],
   }),
 
   makeSeedRule({

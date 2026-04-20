@@ -1,8 +1,9 @@
 .next
-coverage
+/coverage
 dist
 node_modules
 out
 playwright-report
 test-results
 *.log
+*.tsbuildinfo

@@ -27,6 +27,7 @@ const freshnessLabels: Record<FreshnessStatus, string> = {
   overdue: "Overdue",
   critically_overdue: "Critical",
   never_verified: "Never verified",
+  drifted: "Drifted from source",
 };
 
 function isApplicabilityFilter(

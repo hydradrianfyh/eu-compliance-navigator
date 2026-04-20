@@ -17,7 +17,7 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2024/1257/oj",
         oj_reference: "OJ L, 2024/1257, 8 May 2024",
         authoritative_reference: "CELEX:32024R1257",
-        last_verified_on: "2026-04-17",
+        last_verified_on: "2026-04-19",
       },
       {
         label: "Implementing regulation (exhaust/evaporative)",
@@ -26,7 +26,7 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg_impl/2025/1706/oj",
         oj_reference: "OJ L, 2025/1706, 5 September 2025",
         authoritative_reference: "CELEX:32025R1706",
-        last_verified_on: "2026-04-17",
+        last_verified_on: "2026-04-19",
       },
       {
         label: "Implementing regulation (OBFCM/OBM/EVP)",
@@ -35,18 +35,32 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg_impl/2025/1707/oj",
         oj_reference: "OJ L, 2025/1707, 5 September 2025",
         authoritative_reference: "CELEX:32025R1707",
-        last_verified_on: "2026-04-17",
+        last_verified_on: "2026-04-19",
       },
     ],
     lifecycle_state: "ACTIVE",
     promoted_on: "2026-04-17",
     promoted_by: "phase-11b2-batch2",
     trigger_logic: {
+      // Sprint 6: added human labels. Kept the category precision
+      // (M1/N1 only); heavy-duty Euro 7 is REG-EM-002. Without the
+      // category condition, an M3 bus pilot would falsely inherit
+      // light-duty emission requirements.
       mode: "declarative",
       match_mode: "all",
       conditions: [
-        { field: "frameworkGroup", operator: "eq", value: "MN" },
-        { field: "vehicleCategory", operator: "in", value: ["M1", "N1"] },
+        {
+          field: "frameworkGroup",
+          operator: "eq",
+          value: "MN",
+          label: "Framework group is MN",
+        },
+        {
+          field: "vehicleCategory",
+          operator: "in",
+          value: ["M1", "N1"],
+          label: "Vehicle category is M1 or N1 (light-duty)",
+        },
       ],
       fallback_if_missing: "unknown",
     },
@@ -75,6 +89,15 @@ export const emissionsCo2Rules = [
     planning_lead_time_months: 24,
     ui_package: "wvta_core",
     process_stage: "type_approval",
+    content_provenance: {
+      source_type: "eur_lex",
+      retrieved_at: "2026-04-19",
+      human_reviewer: "yanhao",
+    },
+    related_rules: [
+      { rule_id: "REG-EM-002", relation: "complements" },
+      { rule_id: "REG-EM-003", relation: "complements" },
+    ],
   }),
   makeSeedRule({
     stable_id: "REG-EM-002",

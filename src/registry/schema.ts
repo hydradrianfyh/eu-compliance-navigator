@@ -23,10 +23,48 @@ export const freshnessStatuses = [
   "overdue",
   "critically_overdue",
   "never_verified",
+  /**
+   * Sprint 5: rule's seed values drifted from the golden dataset (and/or
+   * from the upstream official source). Set by the golden-regression CI
+   * or the weekly drift-alert job; overrides the time-based state so
+   * stakeholders see "rule is known to be out of sync".
+   */
+  "drifted",
 ] as const;
+
+/**
+ * content_provenance (Sprint 3, minimal UI version)
+ *
+ * Tracks where this rule's content came from and when it was human-reviewed.
+ * Purpose: give stakeholders a one-line evidence-of-care in the Rules tab
+ * ("Source: EUR-Lex · Last verified 2026-04-18") and lay the groundwork
+ * for Sprint 4's golden-dataset regression tests.
+ *
+ * Kept minimal by design (5 fields, all optional) — the fuller provenance
+ * UI with SPARQL query traces is Phase B's Path B completion, not this
+ * sprint's scope.
+ */
+export const contentProvenanceSourceTypes = [
+  "manual",
+  "eur_lex",
+  "unece",
+  "national_gazette",
+  "llm_draft",
+] as const;
+
+export const contentProvenanceSchema = z.object({
+  source_type: z.enum(contentProvenanceSourceTypes),
+  retrieved_at: z.string().nullable().optional(),
+  human_reviewer: z.string().nullable().optional(),
+  /** Optional — the SPARQL query / URL used if source is automated. */
+  source_query: z.string().nullable().optional(),
+  /** Optional — hash of the raw response body for drift detection. */
+  source_hash: z.string().nullable().optional(),
+});
 
 export const freshnessStatusSchema = z.enum(freshnessStatuses);
 export type FreshnessStatus = z.infer<typeof freshnessStatusSchema>;
+export type ContentProvenance = z.infer<typeof contentProvenanceSchema>;
 
 export const sourceReferenceSchema = z.object({
   label: z.string(),
@@ -120,6 +158,35 @@ export const ruleSchema = z.object({
   freshness_status: freshnessStatusSchema.optional(),
   change_watch_method: z.string().optional(),
   last_change_signal_at: z.string().optional(),
+
+  /** Sprint 3: where the rule's content came from + who last checked it. */
+  content_provenance: contentProvenanceSchema.optional(),
+
+  /**
+   * Sprint 3: stable_id references to related rules (e.g. R155 <-> R156,
+   * R157 requires R155). Populated opportunistically in Sprint 6; Phase 13+
+   * will add a dependency graph UI on top of this.
+   */
+  related_rules: z
+    .array(
+      z.object({
+        rule_id: z.string(),
+        relation: z.enum([
+          "requires",
+          "supersedes",
+          "complements",
+          "conflicts",
+        ]),
+      }),
+    )
+    .optional(),
+
+  /**
+   * Sprint 3: standards that must be satisfied for this rule's compliance
+   * work to be credible (e.g. ISO 26262 for R157 ALKS). Free-form strings
+   * so rule authors don't need a parallel standards registry.
+   */
+  prerequisite_standards: z.array(z.string()).optional(),
 });
 
 export type SourceReference = z.infer<typeof sourceReferenceSchema>;

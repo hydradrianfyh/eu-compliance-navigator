@@ -177,18 +177,31 @@ describe("buildExecutiveSummary", () => {
         notes: null,
       },
     });
+    // UX-003: the country at risk gate now also treats "no overlay in
+    // registry" as a risk, so a minimal passing test needs at least one
+    // ACTIVE DE overlay rule to prove the country is covered.
+    const deOverlay = buildRule({
+      stable_id: "REG-MS-DE-COVER",
+      jurisdiction: "DE",
+      jurisdiction_level: "MEMBER_STATE",
+      legal_family: "member_state_overlay",
+      lifecycle_state: "ACTIVE",
+    });
     const result = buildResult(rule, "APPLICABLE");
+    const deResult = buildResult(deOverlay, "APPLICABLE");
+    const rules = [rule, deOverlay];
+    const results = [result, deResult];
     const timeline = buildTimeline({
       config: baseVehicleConfig,
-      results: [result],
-      rules: [rule],
+      results,
+      rules,
       now,
     });
 
     const summary = buildExecutiveSummary({
       config: baseVehicleConfig,
-      results: [result],
-      rules: [rule],
+      results,
+      rules,
       timeline,
       now,
     });
@@ -406,5 +419,122 @@ describe("buildExecutiveSummary", () => {
         summary.topDeadlines[i].months_remaining,
       ).toBeGreaterThanOrEqual(summary.topDeadlines[i - 1].months_remaining);
     }
+  });
+
+  it("exposes registry_totals for Status/Coverage reconciliation (UX-002)", () => {
+    const rules: Rule[] = [
+      buildRule({ stable_id: "REG-A", lifecycle_state: "ACTIVE" }),
+      buildRule({ stable_id: "REG-B", lifecycle_state: "ACTIVE" }),
+      buildRule({ stable_id: "REG-C", lifecycle_state: "SEED_UNVERIFIED" }),
+      buildRule({ stable_id: "REG-D", lifecycle_state: "SEED_UNVERIFIED" }),
+      buildRule({ stable_id: "REG-E", lifecycle_state: "SEED_UNVERIFIED" }),
+      buildRule({ stable_id: "REG-F", lifecycle_state: "PLACEHOLDER" }),
+      buildRule({ stable_id: "REG-G", lifecycle_state: "DRAFT" }),
+      buildRule({ stable_id: "REG-H", lifecycle_state: "ARCHIVED" }),
+    ];
+    const results: EvaluationResult[] = rules.map((r) =>
+      buildResult(r, "APPLICABLE"),
+    );
+
+    const timeline = buildTimeline({
+      config: baseVehicleConfig,
+      results,
+      rules,
+      now,
+    });
+    const summary = buildExecutiveSummary({
+      config: baseVehicleConfig,
+      results,
+      rules,
+      timeline,
+      now,
+    });
+
+    expect(summary.registry_totals).toEqual({
+      active: 2,
+      seed_unverified: 3,
+      draft: 1,
+      placeholder: 1,
+      archived: 1,
+      total: 8,
+    });
+  });
+
+  it("flags country as 'pending_overlay' when all overlay rules are PLACEHOLDER (UX-003)", () => {
+    const config: VehicleConfig = {
+      ...baseVehicleConfig,
+      targetCountries: ["DE", "FR"],
+    };
+    const rules: Rule[] = [
+      buildRule({
+        stable_id: "REG-MS-DE-001",
+        jurisdiction: "DE",
+        lifecycle_state: "ACTIVE",
+        legal_family: "member_state_overlay",
+      }),
+      buildRule({
+        stable_id: "REG-MS-FR-001",
+        jurisdiction: "FR",
+        lifecycle_state: "PLACEHOLDER",
+        legal_family: "member_state_overlay",
+      }),
+      buildRule({
+        stable_id: "REG-MS-FR-002",
+        jurisdiction: "FR",
+        lifecycle_state: "PLACEHOLDER",
+        legal_family: "member_state_overlay",
+      }),
+    ];
+    const results: EvaluationResult[] = [
+      buildResult(rules[0], "APPLICABLE"),
+      // FR rules are PLACEHOLDER — no results
+    ];
+    const timeline = buildTimeline({
+      config,
+      results,
+      rules,
+      now,
+    });
+    const summary = buildExecutiveSummary({
+      config,
+      results,
+      rules,
+      timeline,
+      now,
+    });
+
+    const frDetail = summary.countriesAtRiskDetail.find(
+      (c) => c.country === "FR",
+    );
+    expect(frDetail).toBeDefined();
+    expect(frDetail?.reason).toBe("pending_overlay");
+    expect(frDetail?.placeholder_count).toBe(2);
+    expect(summary.countriesAtRisk).toContain("FR");
+    // DE has ACTIVE rule → not flagged
+    expect(summary.countriesAtRisk).not.toContain("DE");
+  });
+
+  it("flags country as 'no_overlay' when registry has zero rules for it (UX-003)", () => {
+    const config: VehicleConfig = {
+      ...baseVehicleConfig,
+      targetCountries: ["XX"],
+    };
+    const rules: Rule[] = [
+      buildRule({ stable_id: "REG-A", jurisdiction: "EU" }),
+    ];
+    const results: EvaluationResult[] = [buildResult(rules[0], "APPLICABLE")];
+    const timeline = buildTimeline({ config, results, rules, now });
+    const summary = buildExecutiveSummary({
+      config,
+      results,
+      rules,
+      timeline,
+      now,
+    });
+
+    const xxDetail = summary.countriesAtRiskDetail.find(
+      (c) => c.country === "XX",
+    );
+    expect(xxDetail?.reason).toBe("no_overlay");
   });
 });

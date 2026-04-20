@@ -42,6 +42,16 @@ export const cybersecurityRules = [
     planning_lead_time_months: 24,
     ui_package: "horizontal",
     process_stage: "type_approval",
+    content_provenance: {
+      source_type: "unece",
+      retrieved_at: "2026-04-16",
+      human_reviewer: "yanhao",
+    },
+    prerequisite_standards: ["ISO/SAE 21434 (Road vehicles — Cybersecurity engineering)"],
+    related_rules: [
+      { rule_id: "REG-CS-002", relation: "complements" },
+      { rule_id: "REG-AD-001", relation: "requires" },
+    ],
   }),
   makeSeedRule({
     stable_id: "REG-CS-002",

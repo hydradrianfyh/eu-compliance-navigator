@@ -17,7 +17,8 @@
       "Bash(mkdir -p \"C:/Users/CE0065/.agents/skills\")",
       "Read(//c/Users/CE0065/.agents/**)",
       "Bash(git clone *)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(grep -E \"\\\\\\\\+|\\\\\\\\-\")"
     ]
   }
 }

@@ -27,18 +27,45 @@ export interface ExecutiveSummary {
   topBlockers: BlockerItem[];
   topDeadlines: DeadlineItem[];
   countriesAtRisk: string[];
+  /**
+   * UX-003: per-country reason for risk (pending_overlay / low_coverage /
+   * no_overlay). Parallel array to `countriesAtRisk` for richer Status UI.
+   * Renderers that don't need the reason can keep using `countriesAtRisk`.
+   */
+  countriesAtRiskDetail: Array<{
+    country: string;
+    reason: "pending_overlay" | "low_coverage" | "no_overlay";
+    placeholder_count: number;
+    unknown_count: number;
+    total_overlay_rules: number;
+  }>;
   freshnessOverview: {
     fresh: number;
     due_soon: number;
     overdue: number;
     critically_overdue: number;
     never_verified: number;
+    drifted: number;
     total: number;
   };
   coverageScore: number;
   verified_count: number;
   indicative_count: number;
   pending_authoring: number;
+  /**
+   * Registry-wide lifecycle totals (independent of this project's
+   * applicability). Added in UX-002 so the Status tab can reconcile its
+   * project-scoped counts with the Coverage tab's registry-scoped counts,
+   * e.g. "Indicative applicable: 0 · Registry SEED_UNVERIFIED: 57".
+   */
+  registry_totals: {
+    active: number;
+    seed_unverified: number;
+    draft: number;
+    placeholder: number;
+    archived: number;
+    total: number;
+  };
   generated_at: string;
 }
 
@@ -141,18 +168,60 @@ export function buildExecutiveSummary(args: {
   const activeRules = rules.filter((r) => r.lifecycle_state === "ACTIVE");
   const freshnessOverview = summarizeFreshness(activeRules, now);
 
-  // Countries at risk ----------------------------------------------------
+  // Countries at risk (UX-003 expanded) ---------------------------------
+  // Three reasons a targeted jurisdiction is "at risk":
+  //   1. no_overlay       — registry has ZERO overlay rules for the country
+  //   2. pending_overlay  — all overlay rules are PLACEHOLDER (authoring pending)
+  //   3. low_coverage     — > 50 % of overlay rules evaluate to UNKNOWN
+  // Previously only (3) was detected, which silently let FR/NL slip
+  // through even when their 5 rules were all PLACEHOLDER.
   const countriesAtRisk: string[] = [];
+  const countriesAtRiskDetail: ExecutiveSummary["countriesAtRiskDetail"] = [];
   for (const country of config.targetCountries) {
     const jurisdictionRules = rules.filter((r) => r.jurisdiction === country);
     const total = jurisdictionRules.length;
-    if (total === 0) continue;
+
+    if (total === 0) {
+      countriesAtRisk.push(country);
+      countriesAtRiskDetail.push({
+        country,
+        reason: "no_overlay",
+        placeholder_count: 0,
+        unknown_count: 0,
+        total_overlay_rules: 0,
+      });
+      continue;
+    }
+
+    const placeholderCount = jurisdictionRules.filter(
+      (r) => r.lifecycle_state === "PLACEHOLDER",
+    ).length;
+
     let unknownCount = 0;
     for (const rule of jurisdictionRules) {
       const result = resultsById.get(rule.stable_id);
       if (result?.applicability === "UNKNOWN") unknownCount += 1;
     }
-    if (unknownCount / total > 0.5) countriesAtRisk.push(country);
+
+    if (placeholderCount === total) {
+      countriesAtRisk.push(country);
+      countriesAtRiskDetail.push({
+        country,
+        reason: "pending_overlay",
+        placeholder_count: placeholderCount,
+        unknown_count: unknownCount,
+        total_overlay_rules: total,
+      });
+    } else if (unknownCount / total > 0.5) {
+      countriesAtRisk.push(country);
+      countriesAtRiskDetail.push({
+        country,
+        reason: "low_coverage",
+        placeholder_count: placeholderCount,
+        unknown_count: unknownCount,
+        total_overlay_rules: total,
+      });
+    }
   }
 
   // Top deadlines --------------------------------------------------------
@@ -261,17 +330,51 @@ export function buildExecutiveSummary(args: {
   const canEnterMarket =
     !hasActiveThirdPartyEvidenceGap && countriesAtRisk.length === 0;
 
+  // UX-002 reconciliation: expose registry-wide lifecycle totals so the
+  // Status tab can explain "Indicative applicable: 0 (registry has 57
+  // SEED_UNVERIFIED rules)" instead of looking like a silent contradiction
+  // against the Coverage tab.
+  const registry_totals = {
+    active: 0,
+    seed_unverified: 0,
+    draft: 0,
+    placeholder: 0,
+    archived: 0,
+    total: rules.length,
+  };
+  for (const rule of rules) {
+    switch (rule.lifecycle_state) {
+      case "ACTIVE":
+        registry_totals.active += 1;
+        break;
+      case "SEED_UNVERIFIED":
+        registry_totals.seed_unverified += 1;
+        break;
+      case "DRAFT":
+        registry_totals.draft += 1;
+        break;
+      case "PLACEHOLDER":
+        registry_totals.placeholder += 1;
+        break;
+      case "ARCHIVED":
+        registry_totals.archived += 1;
+        break;
+    }
+  }
+
   return {
     canEnterMarket,
     confidence,
     topBlockers,
     topDeadlines,
     countriesAtRisk,
+    countriesAtRiskDetail,
     freshnessOverview,
     coverageScore,
     verified_count,
     indicative_count,
     pending_authoring,
+    registry_totals,
     generated_at: now.toISOString(),
   };
 }
