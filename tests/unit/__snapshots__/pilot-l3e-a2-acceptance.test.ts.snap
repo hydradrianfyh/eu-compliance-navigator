@@ -210,31 +210,6 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
   {
     "applicability": "UNKNOWN",
     "lifecycle_state": "PLACEHOLDER",
-    "rule_id": "REG-MS-FR-001",
-  },
-  {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "PLACEHOLDER",
-    "rule_id": "REG-MS-FR-002",
-  },
-  {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "PLACEHOLDER",
-    "rule_id": "REG-MS-FR-003",
-  },
-  {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "PLACEHOLDER",
-    "rule_id": "REG-MS-FR-004",
-  },
-  {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "PLACEHOLDER",
-    "rule_id": "REG-MS-FR-005",
-  },
-  {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "PLACEHOLDER",
     "rule_id": "REG-MS-IT-001",
   },
   {
@@ -281,31 +256,6 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "applicability": "UNKNOWN",
     "lifecycle_state": "PLACEHOLDER",
     "rule_id": "REG-MS-ES-005",
-  },
-  {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "PLACEHOLDER",
-    "rule_id": "REG-MS-NL-001",
-  },
-  {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "PLACEHOLDER",
-    "rule_id": "REG-MS-NL-002",
-  },
-  {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "PLACEHOLDER",
-    "rule_id": "REG-MS-NL-003",
-  },
-  {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "PLACEHOLDER",
-    "rule_id": "REG-MS-NL-004",
-  },
-  {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "PLACEHOLDER",
-    "rule_id": "REG-MS-NL-005",
   },
   {
     "applicability": "UNKNOWN",
@@ -431,6 +381,56 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "applicability": "APPLICABLE",
     "lifecycle_state": "ACTIVE",
     "rule_id": "REG-MS-DE-005",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-FR-001",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-FR-002",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-FR-003",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-FR-004",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-FR-005",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-NL-001",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-NL-002",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-NL-003",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-NL-004",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-NL-005",
   },
   {
     "applicability": "UNKNOWN",
@@ -706,8 +706,8 @@ exports[`Pilot L3e-A2 BEV acceptance > pilot coverage summary > prints coverage 
   ],
   "conditional": 5,
   "future": 2,
-  "not_applicable": 32,
+  "not_applicable": 42,
   "total": 137,
-  "unknown": 89,
+  "unknown": 79,
 }
 `;

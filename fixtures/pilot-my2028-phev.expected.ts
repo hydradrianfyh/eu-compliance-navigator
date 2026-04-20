@@ -39,8 +39,9 @@ export const pilotMY2028PHEVExpected = {
   },
   softAssertions: {
     // Fewer CONDITIONALs than MY2027 BEV because AI-004 and BAT-005 move out
-    // of CONDITIONAL/FUTURE into APPLICABLE.
-    conditional_count_range: [3, 20] as const,
+    // of CONDITIONAL/FUTURE into APPLICABLE. Phase H.2-H.4 widened upper bound
+    // because UNECE + FR + NL rules with temporal dates now evaluate CONDITIONAL.
+    conditional_count_range: [25, 60] as const,
     unknown_count_max: 120,
   },
 };

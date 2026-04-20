@@ -50,8 +50,10 @@ export const pilotExpected = {
     // CONDITIONAL count drops as SEED_UNVERIFIED → ACTIVE promotions move rules
     // to APPLICABLE / FUTURE / NOT_APPLICABLE. Lower bound is deliberately low to
     // accommodate future promotions; upper bound allows for new conditional_reason
-    // rules being added.
-    conditional_count_range: [3, 20] as const,
+    // rules being added. Phase H.2-H.4 widened upper bound because:
+    //   - 15 UNECE R-series now have temporal dates → CONDITIONAL (hard-gate)
+    //   - 5 FR + 5 NL authored SEED_UNVERIFIED with temporal → CONDITIONAL
+    conditional_count_range: [25, 60] as const,
     unknown_count_max: 120,
   },
 };

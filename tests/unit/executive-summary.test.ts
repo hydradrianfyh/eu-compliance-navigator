@@ -146,10 +146,13 @@ describe("buildExecutiveSummary", () => {
     ).length;
     expect(summary.freshnessOverview.total).toBe(activeCount);
 
-    // FR and NL remain PLACEHOLDER overlays, so they should be at risk.
-    expect(summary.countriesAtRisk).toContain("FR");
-    expect(summary.countriesAtRisk).toContain("NL");
-    // DE has 5 authored ACTIVE overlay rules, so it must NOT be at risk.
+    // Phase H.3 + H.4 update: FR and NL now have 5 authored SEED_UNVERIFIED
+    // overlay rules each (with temporal dates) — they evaluate to CONDITIONAL,
+    // not UNKNOWN. Neither `pending_overlay` (all PLACEHOLDER) nor
+    // `low_coverage` (> 50 % UNKNOWN) triggers, so FR/NL are no longer at risk.
+    // DE has 5 ACTIVE rules — also not at risk.
+    expect(summary.countriesAtRisk).not.toContain("FR");
+    expect(summary.countriesAtRisk).not.toContain("NL");
     expect(summary.countriesAtRisk).not.toContain("DE");
 
     expect(summary.topDeadlines.length).toBeLessThanOrEqual(10);

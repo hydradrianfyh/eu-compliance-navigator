@@ -15,15 +15,9 @@ interface WorkflowOverlay {
 const priorityCountries: WorkflowOverlay[] = [
   // NOTE: DE removed from factory-generated PLACEHOLDERS in Phase 11C (Path C).
   // Germany is now authored as 5 explicit ACTIVE overlay rules below with verified sources.
-  {
-    country: "FR",
-    countryLabel: "France",
-    registrationRef: "Carte grise / SIV system",
-    roadworthinessRef: "Contrôle technique (every 2 years after 4th year)",
-    insuranceRef: "Code des assurances, Art. L211-1",
-    taxRef: "Malus écologique / taxe sur les véhicules de société",
-    roadUseRef: "ZFE-m (Zones à Faibles Émissions mobilité) / Crit'Air vignette",
-  },
+  // NOTE: FR and NL removed from factory-generated PLACEHOLDERS in Phase H.3 / H.4.
+  // France and Netherlands are now authored as 5 SEED_UNVERIFIED overlay rules each
+  // below, sourced from Légifrance (FR) and wetten.overheid.nl (NL) respectively.
   {
     country: "IT",
     countryLabel: "Italy",
@@ -41,15 +35,6 @@ const priorityCountries: WorkflowOverlay[] = [
     insuranceRef: "Seguro obligatorio de responsabilidad civil",
     taxRef: "IVTM (Impuesto sobre Vehículos de Tracción Mecánica) + IEDMT",
     roadUseRef: "ZBE (Zonas de Bajas Emisiones) / DGT environmental label",
-  },
-  {
-    country: "NL",
-    countryLabel: "Netherlands",
-    registrationRef: "RDW kentekenregistratie",
-    roadworthinessRef: "APK (Algemene Periodieke Keuring)",
-    insuranceRef: "WAM (Wet aansprakelijkheidsverzekering motorrijtuigen)",
-    taxRef: "BPM (aanschafbelasting) + MRB (motorrijtuigenbelasting) — CO2-based",
-    roadUseRef: "Milieuzones (Amsterdam, Rotterdam, Utrecht, etc.)",
   },
   {
     country: "PL",
@@ -472,9 +457,557 @@ const germanyOverlayRules: Rule[] = [
   }),
 ];
 
+// ============================================================
+// Phase H.3 — France (FR) authored overlay
+// 5 SEED_UNVERIFIED rules, sources from Légifrance (verified URLs).
+// Kept SEED_UNVERIFIED (not ACTIVE like DE) because:
+//   - Bonus écologique barème subject to Q1 2026 parliamentary review
+//   - ZFE-m legislation under government proposal to narrow scope
+//   - human_reviewer null → awaiting ratification
+// ============================================================
+const franceOverlayRules: Rule[] = [
+  makeSeedRule({
+    stable_id: "REG-MS-FR-001",
+    title: "France — Vehicle Registration (Carte grise / Certificat d'immatriculation)",
+    short_label: "FR Registration (Carte grise)",
+    legal_family: "member_state_overlay",
+    jurisdiction: "FR",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L", "O", "AGRI"],
+    sources: [
+      {
+        label: "Code de la route — Articles R322-1 à R322-14",
+        source_family: "National legislation" as const,
+        reference: "Code de la route, Articles R322-1 à R322-14 (Délivrance du certificat d'immatriculation)",
+        official_url:
+          "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006074228/LEGISCTA000006175954",
+        oj_reference: null,
+        authoritative_reference: "Code de la route R322-1 à R322-14",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "FR" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2009-04-15",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2009-04-15",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "SIV (Système d'Immatriculation des Véhicules) launched 15 April 2009, replacing the FNI.",
+    },
+    obligation_text:
+      "Every vehicle placed in service on French public roads must be registered via the SIV (Système d'Immatriculation des Véhicules). OEM provides EU CoC to the final purchaser/importer within 4 weeks of delivery; owner/dealer applies for certificat d'immatriculation within 1 month at immatriculation.ants.gouv.fr. BEV automatically receives Crit'Air 0 vignette.",
+    owner_hint: "regulatory_affairs",
+    required_documents: [
+      "EU Certificate of Conformity (CoC)",
+      "Proof of identity (justificatif d'identité)",
+      "Proof of residence (justificatif de domicile)",
+      "Proof of RC auto insurance (attestation d'assurance)",
+      "CERFA application form (via ANTS portal)",
+    ],
+    ui_package: "country_overlay",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-FR-002",
+    title: "France — Periodic Technical Inspection (Contrôle technique périodique)",
+    short_label: "FR Contrôle technique",
+    legal_family: "member_state_overlay",
+    jurisdiction: "FR",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L"],
+    sources: [
+      {
+        label: "Code de la route — Articles L323-1, R323-1 à R323-22",
+        source_family: "National legislation" as const,
+        reference: "Code de la route, Articles L323-1, R323-1 à R323-22",
+        official_url:
+          "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006074228/LEGISCTA000006177100",
+        oj_reference: null,
+        authoritative_reference: "Code de la route L323-1, R323-*",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "FR" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2018-05-20",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2018-05-20",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "EU Directive 2014/45/UE transposed into French Code de la route effective 2018-05-20.",
+    },
+    obligation_text:
+      "M1 vehicles (≤ 3.5 t) must complete first contrôle technique within 6 months before the 4-year anniversary of first registration, then every 2 years. BEV: anti-pollution test waived; HV battery + regen brake visual/thermal checks added. Cross-reference: EU Directive 2014/45/UE.",
+    owner_hint: "aftersales",
+    ui_package: "country_overlay",
+    process_stage: "post_market",
+    recurring_post_market_obligation: true,
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-FR-003",
+    title: "France — Compulsory Third-Party Liability Insurance (Assurance RC auto)",
+    short_label: "FR Assurance RC",
+    legal_family: "member_state_overlay",
+    jurisdiction: "FR",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L", "O", "AGRI"],
+    sources: [
+      {
+        label: "Code des assurances — Articles L211-1 à L211-5",
+        source_family: "National legislation" as const,
+        reference: "Code des assurances, Articles L211-1 à L211-5 et R211-1 à R211-8",
+        official_url:
+          "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006073984/LEGISCTA000006176181",
+        oj_reference: null,
+        authoritative_reference: "Code des assurances L211-1",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "FR" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "1958-02-27",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "1958-02-27",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "Loi n° 58-208 du 27 février 1958 — compulsory motor insurance; codified into Code des assurances L211-1 et seq.",
+    },
+    obligation_text:
+      "Every vehicle owner/keeper must obtain and maintain third-party liability insurance (assurance RC auto) before circulation. Minimum coverage: unlimited for bodily injury; minimum per R211-7 for property damage. Proof of insurance must be presentable at roadside checks.",
+    owner_hint: "legal",
+    ui_package: "country_overlay",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-FR-004",
+    title: "France — Malus CO₂ / Bonus écologique (Fiscal + Incentive for BEV)",
+    short_label: "FR Malus/Bonus écologique",
+    legal_family: "member_state_overlay",
+    jurisdiction: "FR",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Code général des impôts — Malus écologique",
+        source_family: "National legislation" as const,
+        reference:
+          "Code général des impôts, Articles L. 321-1 à L. 323-1 (malus écologique) + Décret n° 2024-1360 du 24 décembre 2024 (bonus 2026)",
+        official_url: "https://www.legifrance.gouv.fr/loda/id/JORFTEXT000050627093",
+        oj_reference: "JORF n° 0300 du 25 décembre 2024",
+        authoritative_reference: "CGI L321-1 + Décret 2024-1360",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "FR" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2026-01-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: "2026-01-01",
+      applies_from_generic: "2026-01-01",
+      effective_to: null,
+      small_volume_derogation_until: "2026-06-30",
+      notes: "Décret n° 2024-1360 du 24 décembre 2024 effective 1 January 2026. BEV full exemption from malus ends 30 June 2026; afterwards 600 kg abatement.",
+    },
+    obligation_text:
+      "At first registration in France: importer/buyer pays malus CO₂ (threshold 108 g/km WLTP 2026, cap €80k) + malus masse (threshold 1 500 kg 2026). BEV (100 % electric) fully exempt from both until 30 June 2026; from 1 July 2026 a 600 kg abatement applies to mass calculation. BEV purchasers may claim bonus écologique (2026: €3 500–5 700 depending on income) if price ≤ €47 000 TTC and mass ≤ 2 400 kg. Bonus policy pending Q1 2026 parliamentary review — monitor Légifrance.",
+    owner_hint: "legal",
+    ui_package: "country_overlay",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    notes:
+      "ALERT: bonus écologique subject to Q1 2026 legislative amendment; verify rates against Légifrance monthly.",
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-FR-005",
+    title: "France — Low-Emission Zone Mobility (ZFE-m)",
+    short_label: "FR ZFE-m",
+    legal_family: "member_state_overlay",
+    jurisdiction: "FR",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L"],
+    sources: [
+      {
+        label: "Code général des collectivités territoriales L2213-4-1 et L2213-4-2",
+        source_family: "National legislation" as const,
+        reference:
+          "CGCT L2213-4-1 et L2213-4-2; Loi Climat et résilience n° 2021-1104 du 22 août 2021 art. 119",
+        official_url:
+          "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000043900313",
+        oj_reference: "JORF n° 0196 du 24 août 2021",
+        authoritative_reference: "CGCT L2213-4-1",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "FR" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2021-08-22",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2025-01-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "Loi Climat et résilience 2021-1104 published 22 August 2021; mandatory ZFE-m in agglomérations > 150 000 pop. by 1 January 2025.",
+    },
+    obligation_text:
+      "OEM / dealer must inform BEV purchasers that Crit'Air 0 vignette is automatically assigned at first registration and grants 24/7 access to all ZFE-m zones (Paris, Lyon mandatory; up to 42 agglomérations > 150 000 pop. phased in from 1 Jan 2025). BEVs face no circulation ban in any ZFE. Government April 2025 proposal to narrow mandatory ZFE to Paris/Lyon only is under parliamentary review — monitor.",
+    owner_hint: "regulatory_affairs",
+    required_documents: ["Crit'Air 0 vignette (auto-issued by ANTS at registration)"],
+    ui_package: "country_overlay",
+    process_stage: "post_market",
+    recurring_post_market_obligation: true,
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    notes:
+      "ALERT: April 2025 government proposal to suppress mandatory ZFE in 40 agglomérations under parliamentary review — re-check Légifrance quarterly.",
+  }),
+];
+
+// ============================================================
+// Phase H.4 — Netherlands (NL) authored overlay
+// 5 SEED_UNVERIFIED rules, sources from wetten.overheid.nl (verified URLs).
+// Kept SEED_UNVERIFIED because:
+//   - BPM 2027 fixed amount pending Belastingplan 2027 (announced Sept 2026)
+//   - MRB BEV discount phase-out schedule confirmed for 2026-2030 window
+//   - human_reviewer null → awaiting ratification
+// ============================================================
+const netherlandsOverlayRules: Rule[] = [
+  makeSeedRule({
+    stable_id: "REG-MS-NL-001",
+    title: "Netherlands — Vehicle Registration via RDW (Kenteken)",
+    short_label: "NL RDW Kenteken",
+    legal_family: "member_state_overlay",
+    jurisdiction: "NL",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L", "O", "AGRI"],
+    sources: [
+      {
+        label: "Wegenverkeerswet 1994 + Kentekenreglement",
+        source_family: "National legislation" as const,
+        reference:
+          "Wegenverkeerswet 1994, Articles 5a–5c + Kentekenreglement (Vehicle Registration Regulation)",
+        official_url: "https://wetten.overheid.nl/BWBR0006622",
+        oj_reference: null,
+        authoritative_reference: "Wegenverkeerswet 1994 Art. 5a-5c; Kentekenreglement",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "NL" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "1994-01-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "1994-01-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "Wegenverkeerswet 1994 entered into force 1 January 1995; Kentekenreglement updated periodically.",
+    },
+    obligation_text:
+      "Before operation on Dutch public roads, vehicle must be registered with RDW (Rijksdienst voor het Wegverkeer) and receive a Dutch kentekenkaart (registration card). For new EU-WVTA-approved vehicles, the card is issued at dealer sale. Imports require an RDW inspection. BEVs registered with standard kentekenkaart (no BEV-specific exemption from registration itself).",
+    owner_hint: "regulatory_affairs",
+    required_documents: [
+      "EU Certificate of Conformity (CoC)",
+      "Purchase invoice / proof of acquisition",
+      "BPM declaration (at first registration)",
+      "Identity documents",
+      "RDW inspection report (for non-EU-type-approved imports only)",
+    ],
+    ui_package: "country_overlay",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-NL-002",
+    title: "Netherlands — Periodic Technical Inspection (APK)",
+    short_label: "NL APK",
+    legal_family: "member_state_overlay",
+    jurisdiction: "NL",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L"],
+    sources: [
+      {
+        label: "Besluit voertuigen",
+        source_family: "National legislation" as const,
+        reference: "Wegenverkeerswet 1994 + Besluit voertuigen",
+        official_url: "https://wetten.overheid.nl/BWBR0025554",
+        oj_reference: null,
+        authoritative_reference: "Besluit voertuigen",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "NL" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2009-03-18",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2009-03-18",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "Besluit voertuigen (BWBR0025554) effective 18 March 2009; transposes EU Directive 2014/47/EU.",
+    },
+    obligation_text:
+      "M1 BEV: first APK (Algemene Periodieke Keuring) due within 4 years of first registration; biennial thereafter. BEV exempt from emissions testing; mandatory checks cover brake system, steering, lighting, tyres, structural integrity, HV battery containment (visual). Cross-reference: EU Directive 2014/47/EU transposed into NL law.",
+    owner_hint: "aftersales",
+    ui_package: "country_overlay",
+    process_stage: "post_market",
+    recurring_post_market_obligation: true,
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-NL-003",
+    title: "Netherlands — Compulsory Third-Party Liability Insurance (WAM)",
+    short_label: "NL WAM Insurance",
+    legal_family: "member_state_overlay",
+    jurisdiction: "NL",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L", "O", "AGRI"],
+    sources: [
+      {
+        label: "Wet aansprakelijkheidsverzekering motorrijtuigen (WAM)",
+        source_family: "National legislation" as const,
+        reference: "Wet aansprakelijkheidsverzekering motorrijtuigen (WAM) Art. 1–30",
+        official_url: "https://wetten.overheid.nl/BWBR0002415",
+        oj_reference: null,
+        authoritative_reference: "WAM Art. 1-30",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "NL" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "1963-01-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2023-12-23",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "WAM (BWBR0002415) originally 1963; minimum indemnity raised to €6,450,000 per personal-injury accident on 23 December 2023.",
+    },
+    obligation_text:
+      "Every owner/long-term user (≥ 1 year lease) of an M1 BEV must carry compulsory WA (third-party liability) insurance before road use or outside-private-garage parking. Minimum indemnity: €6,450,000 per accident for personal injury (as of 23 Dec 2023). Proof of insurance must be carried in the vehicle. Driving without WAM is a criminal offence.",
+    owner_hint: "legal",
+    ui_package: "country_overlay",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-NL-004",
+    title: "Netherlands — Motor Vehicle Tax (MRB + BPM)",
+    short_label: "NL MRB+BPM",
+    legal_family: "member_state_overlay",
+    jurisdiction: "NL",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Wet op de motorrijtuigenbelasting 1994 + Belastingplan 2026",
+        source_family: "National legislation" as const,
+        reference:
+          "Wet op de motorrijtuigenbelasting 1994 (BWBR0006324) + Wet op de belasting van personenauto's en motorrijwielen (BPM)",
+        official_url: "https://wetten.overheid.nl/BWBR0006324/",
+        oj_reference: null,
+        authoritative_reference: "Wet MRB 1994 + Wet BPM",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "NL" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2026-01-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: "2025-01-01",
+      applies_from_generic: "2026-01-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "Wet MRB 1994; Belastingplan 2026 effective 1 Jan 2026 sets BEV discount at 30 % of standard tariff. BPM full BEV exemption ended 31 Dec 2024.",
+    },
+    obligation_text:
+      "At first NL registration: BPM acquisition tax (flat-rate €667 2025 / ~€687 2026 for BEV; full BEV exemption ended 31 Dec 2024). Ongoing: MRB (annual motor tax) — 2026-2028 BEVs pay 70 % of standard tariff (30 % discount), phasing to 25 % discount in 2029 and parity with ICE in 2030+. BPM corporate-tax deductibility phases out 2027-2031.",
+    owner_hint: "legal",
+    ui_package: "country_overlay",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    notes:
+      "BPM 2027 fixed amount pending Belastingplan 2027 (Sept 2026 announcement). MRB phase-out schedule confirmed: 30% (2026-2028) → 25% (2029) → 0% (2030+).",
+  }),
+  makeSeedRule({
+    stable_id: "REG-MS-NL-005",
+    title: "Netherlands — Low-Emission Zones (Milieuzones, 4 cities)",
+    short_label: "NL Milieuzones",
+    legal_family: "member_state_overlay",
+    jurisdiction: "NL",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L"],
+    sources: [
+      {
+        label: "Wegenverkeerswet 1994 Art. 5c + municipal ordinances",
+        source_family: "National legislation" as const,
+        reference:
+          "Wegenverkeerswet 1994 Art. 5c; Amsterdam / Utrecht / Den Haag / Arnhem municipal milieuzone ordinances",
+        official_url: "https://www.milieuzones.nl/personen-en-bestelautos",
+        oj_reference: null,
+        authoritative_reference: "Wegenverkeerswet Art. 5c",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "NL" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2021-07-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2021-07-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "Den Haag green zone established 1 July 2021. Amsterdam blue zone tightened to Euro 5+ on 1 Jan 2025; Utrecht followed April 2025. BEV exemption universal across zones.",
+    },
+    obligation_text:
+      "M1 BEVs (0 g CO₂/km) are fully exempt from all 4 city milieuzones: Amsterdam (blue zone, tightened to Euro 5+ 1 Jan 2025), Utrecht (blue zone, April 2025), Den Haag (green zone, since 1 July 2021), Arnhem (green zone). No permit required; no fine risk. Separate zero-emission zones (ZES) for vans/trucks (N1+) launched 1 Jan 2025 — M1 BEVs out of scope.",
+    owner_hint: "regulatory_affairs",
+    ui_package: "country_overlay",
+    process_stage: "post_market",
+    recurring_post_market_obligation: true,
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+  }),
+];
+
 export const memberStateOverlayRules: Rule[] = [
   ...priorityCountries.flatMap(buildWorkflowRules),
   ...germanyOverlayRules,
+  ...franceOverlayRules,
+  ...netherlandsOverlayRules,
   makeSeedRule({
     stable_id: "REG-MS-CZ-001",
     title: "Czech Republic — General Overlay",
