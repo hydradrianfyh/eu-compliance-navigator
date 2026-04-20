@@ -1,5 +1,5 @@
 .next
-coverage
+/coverage
 dist
 node_modules
 out
