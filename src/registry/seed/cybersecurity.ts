@@ -93,6 +93,10 @@ export const cybersecurityRules = [
     owner_hint: "software_ota",
     ui_package: "horizontal",
     process_stage: "type_approval",
+    prerequisite_standards: [
+      "ISO 24089 (Road vehicles — Software update engineering)",
+    ],
+    related_rules: [{ rule_id: "REG-CS-001", relation: "complements" }],
   }),
   makeSeedRule({
     stable_id: "REG-CS-003",

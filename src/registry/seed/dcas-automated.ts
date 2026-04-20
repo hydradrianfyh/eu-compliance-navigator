@@ -44,6 +44,14 @@ export const dcasAutomatedRules = [
     planning_lead_time_months: 36,
     ui_package: "horizontal",
     process_stage: "type_approval",
+    prerequisite_standards: [
+      "ISO 26262 (functional safety — ASIL D for driving functions)",
+      "ISO 21448 (SOTIF — safety of the intended functionality)",
+    ],
+    related_rules: [
+      { rule_id: "REG-UN-079", relation: "requires" },
+      { rule_id: "REG-CS-001", relation: "requires" },
+    ],
   }),
   makeSeedRule({
     stable_id: "REG-AD-002",

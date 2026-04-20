@@ -206,5 +206,10 @@ export const aiGovernanceRules = [
     planning_lead_time_months: 24,
     ui_package: "horizontal",
     process_stage: "pre_ta",
+    prerequisite_standards: [
+      "ISO/PAS 8800:2024 (Road vehicles — Safety and artificial intelligence)",
+      "ISO 26262 (functional safety — when AI is part of a safety function)",
+      "ISO 21448 (SOTIF — intended functionality under learned behaviour)",
+    ],
   }),
 ];

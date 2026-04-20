@@ -45,6 +45,11 @@ export const materialsChemicalsRules = [
     owner_hint: "sustainability_materials",
     ui_package: "horizontal",
     process_stage: "post_market",
+    prerequisite_standards: [
+      "IEC 62619 (secondary cells and batteries — industrial applications safety)",
+      "ISO 12405 (electrically propelled road vehicles — traction battery packs and systems)",
+    ],
+    related_rules: [{ rule_id: "REG-UN-100", relation: "complements" }],
   }),
   makeSeedRule({
     stable_id: "REG-BAT-002",
@@ -251,5 +256,65 @@ export const materialsChemicalsRules = [
     owner_hint: "sustainability_materials",
     ui_package: "horizontal",
     process_stage: "pre_ta",
+  }),
+  makeSeedRule({
+    stable_id: "REG-CSRD-001",
+    title: "Corporate Sustainability Reporting Directive",
+    short_label: "CSRD",
+    legal_family: "materials_chemicals",
+    jurisdiction: "EU",
+    jurisdiction_level: "EU",
+    framework_group: ["MN", "L", "O", "AGRI"],
+    sources: [
+      makeSource(
+        "Framework directive",
+        "EUR-Lex",
+        "Directive (EU) 2022/2464 (CSRD)",
+      ),
+    ],
+    lifecycle_state: "PLACEHOLDER",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [],
+      fallback_if_missing: "unknown",
+    },
+    obligation_text:
+      "Pending Phase 14 authoring — vehicle-specific delegated act not yet published",
+    owner_hint: "sustainability_materials",
+    notes:
+      "CSRD sets sustainability reporting and ESRS obligations. A vehicle-sector-specific delegated act was anticipated but has been de-scoped by subsequent Omnibus legislation; the vehicle-sector reporting scope requires renewed review before authoring.",
+    ui_package: "horizontal",
+    process_stage: "post_market",
+  }),
+  makeSeedRule({
+    stable_id: "REG-ESPR-001",
+    title: "Ecodesign for Sustainable Products Regulation",
+    short_label: "ESPR",
+    legal_family: "materials_chemicals",
+    jurisdiction: "EU",
+    jurisdiction_level: "EU",
+    framework_group: ["MN", "L", "O", "AGRI"],
+    sources: [
+      makeSource(
+        "Framework regulation",
+        "EUR-Lex",
+        "Regulation (EU) 2024/1781 (ESPR)",
+      ),
+    ],
+    lifecycle_state: "PLACEHOLDER",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [],
+      fallback_if_missing: "unknown",
+    },
+    obligation_text:
+      "Pending Phase 14 authoring — vehicle-specific delegated act not yet published",
+    owner_hint: "sustainability_materials",
+    notes:
+      "ESPR Art. 2(1)(h) excludes motor vehicles from horizontal product requirements. Monitor Commission work for any tangential scopes (e.g. tyres, spare parts, digital product passport for vehicle components) that may be brought under ESPR via future delegated acts.",
+    ui_package: "horizontal",
+    process_stage: "post_market",
   }),
 ];

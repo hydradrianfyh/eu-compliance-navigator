@@ -2,7 +2,7 @@
 
 A config-driven compliance workbench for EU vehicle programs.
 
-**Status**: Phase 12 Path B shipped · 204 tests green · MY2027 BEV × DE demo live.
+**Status**: Phase 12 Path B shipped · 210 tests green · MY2027 BEV × DE demo live.
 
 > ⚠ **This tool is a navigation aid, not legal advice.** Always validate with your homologation partner and legal counsel before making market-entry decisions. See [Disclaimer](#disclaimer).
 
@@ -49,7 +49,7 @@ See [docs/phase12/demo-scripts/](docs/phase12/demo-scripts/) for three real 3-to
 │  applicability. Pure functions. No side effects.         │
 ├──────────────────────────────────────────────────────────┤
 │  REGISTRY LAYER                                          │
-│  137 typed rules · 17 legal families · 6 lifecycle states│
+│  142 typed rules · 17 legal families · 6 lifecycle states│
 │  Zod-validated schema. Content provenance tracked.       │
 ├──────────────────────────────────────────────────────────┤
 │  CONFIGURATION LAYER                                     │
@@ -61,7 +61,7 @@ See [docs/phase12/demo-scripts/](docs/phase12/demo-scripts/) for three real 3-to
 **Key invariant**: UI components only render `EvaluationResult`. They never call rule logic directly. See [ADR-P6 · Reusable layer seams](docs/adr/ADR-P6-reusable-layer-seams.md) for the extraction-ready architecture map.
 
 **Stats**:
-- **137** rules · **17** legal families
+- **142** rules · **17** legal families
 - **6** lifecycle states: `PLACEHOLDER` / `DRAFT` / `SEED_UNVERIFIED` / `SHADOW` / `ACTIVE` / `ARCHIVED`
 - **6** freshness states: `fresh` / `due_soon` / `overdue` / `critically_overdue` / `never_verified` / `drifted`
 - **21** golden-dataset anchors (CI-enforced against EUR-Lex SPARQL weekly)
@@ -115,7 +115,7 @@ npm install
 npm run dev          # http://localhost:3000
 
 # Quality gates
-npm test             # vitest — 204 tests
+npm test             # vitest — 210 tests
 npx tsc --noEmit     # type-check only
 npm run lint         # eslint
 
@@ -161,7 +161,7 @@ eu-compliance-navigator/
 │   ├── config/                 VehicleConfig schema + persistence
 │   ├── lib/                    Pure utilities (condition-to-text, classify-trust, …)
 │   └── styles/                 Semantic tokens + globals
-├── tests/                      204 tests (unit + UI + regression)
+├── tests/                      210 tests (unit + UI + regression)
 ├── fixtures/                   Pilot configurations
 ├── content/                    Authoring DSL + golden dataset
 ├── scripts/                    EUR-Lex watcher · content generator

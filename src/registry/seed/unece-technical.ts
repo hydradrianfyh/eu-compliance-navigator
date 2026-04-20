@@ -32,6 +32,12 @@ interface UneceAuthored {
     rule_id: string;
     relation: "requires" | "complements" | "supersedes" | "conflicts";
   }>;
+  /**
+   * ISO / SAE / EN standards this rule depends on. Only add high-confidence
+   * mappings (≥ 80 %). For uncertain ones, leave undefined — better than
+   * hallucinating a standard number.
+   */
+  prerequisiteStandards?: string[];
 }
 
 function uneceRule(
@@ -132,6 +138,9 @@ function uneceRule(
         }
       : {}),
     ...(authored?.related ? { related_rules: authored.related } : {}),
+    ...(authored?.prerequisiteStandards
+      ? { prerequisite_standards: authored.prerequisiteStandards }
+      : {}),
   });
 }
 
@@ -189,6 +198,11 @@ export const uneceTechnicalRules = [
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
       "Vehicle and its electrical / electronic sub-assemblies must pass EMC testing per UNECE R10 (immunity + emissions). BEV-specific: on-board and external charging interfaces subject to additional emissions measurement per R10 Supplements for electric vehicles.",
+    prerequisiteStandards: [
+      "CISPR 25 (radio disturbance — radiated emissions)",
+      "ISO 11451 (vehicle EMC — whole-vehicle immunity)",
+      "ISO 7637 (conducted electrical transients)",
+    ],
   }),
   uneceRule("013", "13", "Heavy Vehicle Braking", "R13 Braking (HD)", ["M2", "M3", "N2", "N3"], ["MN"]),
   uneceRule("013H", "13-H", "Passenger Car Braking", "R13-H Braking (PC)", ["M1", "N1"], ["MN"], {
@@ -201,6 +215,7 @@ export const uneceTechnicalRules = [
       { rule_id: "REG-UN-079", relation: "complements" },
       { rule_id: "REG-UN-140", relation: "complements" },
     ],
+    prerequisiteStandards: ["ISO 26262 (functional safety — brake ECU ASIL)"],
   }),
   uneceRule("014", "14", "Safety Belt Anchorages", "R14 Belt Anchorages", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
@@ -284,6 +299,7 @@ export const uneceTechnicalRules = [
       { rule_id: "REG-AD-001", relation: "complements" },
       { rule_id: "REG-AD-002", relation: "requires" },
     ],
+    prerequisiteStandards: ["ISO 26262 (functional safety — ACSF ASIL)"],
   }),
   uneceRule("083", "83", "Pollutant Emissions (Light-Duty)", "R83 Emissions (LD)", ["M1", "N1"], ["MN"]),
   uneceRule("094", "94", "Frontal Collision Protection", "R94 Frontal Impact", ["M1", "N1"], ["MN"], {
@@ -374,18 +390,129 @@ export const uneceTechnicalRules = [
       human_reviewer: "yanhao",
     },
     related_rules: [{ rule_id: "REG-BAT-001", relation: "complements" }],
+    prerequisite_standards: [
+      "ISO 26262 (functional safety — HV system ASIL)",
+      "ISO 6469 (electrically propelled road vehicles — safety specifications)",
+    ],
   }),
   uneceRule("110", "110", "CNG/LNG Fuel System", "R110 CNG/LNG", ["M1", "M2", "M3", "N1", "N2", "N3"]),
   uneceRule("118", "118", "Burning Behaviour of Interior Materials", "R118 Interior Fire", ["M2", "M3"], ["MN"]),
-  uneceRule("127", "127", "Pedestrian Safety", "R127 Pedestrian", ["M1", "N1"]),
+
+  // Phase H.6 — R127/R140/R141/R145/R149 enriched with authored content.
+  uneceRule("127", "127", "Pedestrian Safety", "R127 Pedestrian", ["M1", "N1"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
+    applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
+    obligationText:
+      "M1 and N1 vehicles must meet head-impact protection requirements on the bonnet / cowl area, upper-legform impact on the bumper, and A-pillar / windscreen header headform tests. Rev.4 Am.1 (2024) expanded the head-impact test zone and tightened jerk-limit thresholds.",
+    related: [
+      { rule_id: "REG-UN-094", relation: "complements" },
+      { rule_id: "REG-UN-095", relation: "complements" },
+      { rule_id: "REG-UN-135", relation: "complements" },
+    ],
+  }),
   uneceRule("129", "129", "Enhanced Child Restraint Systems (i-Size)", "R129 i-Size", [], ["MN"]),
   uneceRule("134", "134", "Hydrogen Vehicle Safety", "R134 Hydrogen", ["M1", "M2", "M3", "N1", "N2", "N3"]),
-  uneceRule("135", "135", "Pole Side Impact", "R135 Pole Impact", ["M1"]),
-  uneceRule("137", "137", "Frontal Impact (Full Width)", "R137 Full-Width Frontal", ["M1"]),
-  uneceRule("140", "140", "Electronic Stability Control (ESC)", "R140 ESC", ["M1", "M2", "M3", "N1", "N2", "N3"]),
-  uneceRule("141", "141", "Tyre Pressure Monitoring System", "R141 TPMS", ["M1"]),
-  uneceRule("142", "142", "Tyre Installation", "R142 Tyre Install", ["M1", "M2", "M3", "N1", "N2", "N3"]),
-  uneceRule("145", "145", "ISOFIX Anchorage Systems", "R145 ISOFIX", ["M1"]),
-  uneceRule("149", "149", "LED/ADB Headlamp", "R149 LED Headlamp", ["M1", "M2", "M3", "N1", "N2", "N3"]),
+  uneceRule("135", "135", "Pole Side Impact", "R135 Pole Impact", ["M1"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
+    applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
+    obligationText:
+      "M1 vehicles must pass pole side-impact test (32 km/h into rigid pole). Works in tandem with R94 / R95 to give a 3-axis collision protection envelope.",
+    related: [
+      { rule_id: "REG-UN-094", relation: "complements" },
+      { rule_id: "REG-UN-095", relation: "complements" },
+    ],
+  }),
+  uneceRule("137", "137", "Frontal Impact (Full Width)", "R137 Full-Width Frontal", ["M1"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
+    applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
+    obligationText:
+      "M1 vehicles must pass 50 km/h full-width rigid-barrier frontal impact with Hybrid-III / THOR dummy seated at restrained driver and passenger positions. Complements R94 offset frontal.",
+    related: [{ rule_id: "REG-UN-094", relation: "complements" }],
+  }),
+  uneceRule("140", "140", "Electronic Stability Control (ESC)", "R140 ESC", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
+    applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
+    obligationText:
+      "M1 / N1 must have an ESC system meeting R140 performance: per-wheel brake torque control, automatic yaw-rate correction, driver override logic, sine-with-dwell test, and failure-mode indicator. Required by R13-H 01 series for light vehicles.",
+    related: [
+      { rule_id: "REG-UN-013H", relation: "requires" },
+      { rule_id: "REG-UN-152", relation: "complements" },
+    ],
+    prerequisiteStandards: ["ISO 26262 (functional safety — brake ECU ASIL)"],
+  }),
+  uneceRule("141", "141", "Tyre Pressure Monitoring System", "R141 TPMS", ["M1"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
+    applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
+    obligationText:
+      "M1 vehicles must be equipped with TPMS that detects ≥ 20 % pressure loss on any tyre and alerts the driver within the time limits of Annex 3.",
+  }),
+  uneceRule("142", "142", "Tyre Installation", "R142 Tyre Install", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"]),
+  uneceRule("145", "145", "ISOFIX Anchorage Systems", "R145 ISOFIX", ["M1"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
+    applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
+    obligationText:
+      "M1 vehicles with ISOFIX or i-Size child seating provisions must provide rigid anchorages per R145 (pull-test strengths, geometry, top-tether installation instructions). Interoperates with R129 i-Size CRS systems.",
+    related: [
+      { rule_id: "REG-UN-014", relation: "complements" },
+      { rule_id: "REG-UN-016", relation: "complements" },
+      { rule_id: "REG-UN-129", relation: "complements" },
+    ],
+    prerequisiteStandards: ["ISO 13216-1 (ISOFIX attachment + testing)"],
+  }),
+  uneceRule("149", "149", "LED/ADB Headlamp", "R149 LED Headlamp", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    applyToNewTypesFrom: "2021-09-01",
+    applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
+    obligationText:
+      "M1 / N1 headlamps (driving / passing / fog) must meet R149 photometric limits, durability, and installation geometry. Adaptive Driving Beam (ADB) is optional and covered by R149 00/01-series amendments (no separate R161 in force).",
+    related: [{ rule_id: "REG-UN-048", relation: "complements" }],
+  }),
+
+  // Phase H.6 — new rules (previously missing from registry).
+  uneceRule("152", "152", "Advanced Emergency Braking System (AEBS)", "R152 AEBS (M1/N1)", ["M1", "N1"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    applyToNewTypesFrom: "2023-07-10",
+    applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
+    obligationText:
+      "M1 / N1 vehicles must be equipped with an Advanced Emergency Braking System per R152: forward collision warning followed by automatic braking for pedestrians, cyclists and vehicles. Sensor fusion (radar + camera) with ≥ 9 m/s² mean fully developed deceleration.",
+    related: [
+      { rule_id: "REG-UN-013H", relation: "requires" },
+      { rule_id: "REG-UN-140", relation: "complements" },
+      { rule_id: "REG-UN-155", relation: "complements" },
+    ],
+    prerequisiteStandards: [
+      "ISO 26262 (functional safety — ECU ASIL B/C)",
+      "ISO 21448 SOTIF (sensor perception safety)",
+    ],
+  }),
   uneceRule("153", "153", "Fuel System Integrity (Rear Impact)", "R153 Rear Fuel", ["M1", "N1"]),
+  uneceRule("158", "158", "Reversing Detection Devices", "R158 Reversing", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
+    applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
+    obligationText:
+      "M / N vehicles must provide direct driver rear visibility OR camera-monitor system OR detection system per R158, with rear-view image visible ≤ 2 s after reverse gear engagement and obstacle-warning response ≤ 0.6 s per Annexes 10-11.",
+    related: [{ rule_id: "REG-UN-046", relation: "complements" }],
+  }),
+  uneceRule("160", "160", "Event Data Recorder (EDR)", "R160 EDR", ["M1", "N1"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
+    applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
+    obligationText:
+      "M1 / N1 must log ≥ 21 mandatory data elements (acceleration, speed, throttle/brake, seat-belt, airbag, yaw/pitch/roll, impact trigger) at ≥ 10 Hz over a 5-s pre-crash / 5-s post-crash window, stored in a crash-survivable non-volatile memory and retrievable via OBD-II. 01 series enforced through 2024-07-01; 02 series [verify] adoption status.",
+    related: [
+      { rule_id: "REG-UN-094", relation: "complements" },
+      { rule_id: "REG-UN-095", relation: "complements" },
+      { rule_id: "REG-UN-155", relation: "complements" },
+    ],
+  }),
+
+  // Note: R161 (ADB) is NOT a standalone UNECE regulation as of 2026-04.
+  // ADB is covered by R149 00/01-series amendments. Do not add REG-UN-161.
 ];
