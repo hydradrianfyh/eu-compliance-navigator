@@ -1,5 +1,5 @@
 import { makeSeedRule, makeSource } from "@/registry/seed/shared";
-import type { Rule } from "@/registry/schema";
+import type { Rule, TriggerCondition } from "@/registry/schema";
 
 /**
  * Phase H.2 content enrichment:
@@ -38,6 +38,25 @@ interface UneceAuthored {
    * hallucinating a standard number.
    */
   prerequisiteStandards?: string[];
+  /**
+   * Phase I.2: extra trigger conditions appended to the default
+   * frameworkGroup / vehicleCategory pair. Used for powertrain-gated UN
+   * regulations (R34 hasFuelTank, R49 hasCombustionEngine, R67 fuelType=lpg,
+   * R101 M1/N1 — already via categories, R115 fuel retrofit, R117 tyre-level).
+   */
+  extraConditions?: TriggerCondition[];
+  /**
+   * Phase I.2: override the default fallback_if_missing = "unknown" for
+   * powertrain-gated UN rules where missing hasFuelTank / fuelType should
+   * resolve to NOT_APPLICABLE rather than UNKNOWN.
+   */
+  fallbackIfMissing?: "unknown" | "not_applicable";
+  /**
+   * Phase I.2: notes string persisted onto `temporal.notes` — lets callers
+   * record "aftermarket — OEM responsibility limited" or "Euro 7 HD takes
+   * over from 2028-05-29" without a separate schema change.
+   */
+  temporalNotes?: string;
 }
 
 function uneceRule(
@@ -49,7 +68,7 @@ function uneceRule(
   groups: ("MN" | "L" | "O" | "AGRI")[] = ["MN"],
   authored?: UneceAuthored,
 ): Rule {
-  const conditions =
+  const baseConditions: TriggerCondition[] =
     categories.length > 0
       ? [
           {
@@ -70,6 +89,9 @@ function uneceRule(
             value: groups,
           },
         ];
+  const conditions: TriggerCondition[] = authored?.extraConditions
+    ? [...baseConditions, ...authored.extraConditions]
+    : baseConditions;
 
   const source = authored?.officialUrl
     ? {
@@ -101,7 +123,7 @@ function uneceRule(
         applies_from_generic: null,
         effective_to: null,
         small_volume_derogation_until: null,
-        notes: null,
+        notes: authored.temporalNotes ?? null,
       }
     : undefined;
 
@@ -119,7 +141,7 @@ function uneceRule(
       mode: "declarative",
       match_mode: "all",
       conditions,
-      fallback_if_missing: "unknown",
+      fallback_if_missing: authored?.fallbackIfMissing ?? "unknown",
     },
     ...(temporal ? { temporal } : {}),
     obligation_text: obligationText,
@@ -255,7 +277,22 @@ export const uneceTechnicalRules = [
     obligationText:
       "Head restraints must meet height, width and rearward displacement requirements per R25 (amended by 2025/1122).",
   }),
-  uneceRule("034", "34", "Fire Prevention (Fuel Tank)", "R34 Fire Prevention", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"]),
+  uneceRule("034", "34", "Fire Prevention (Fuel Tank)", "R34 Fire Prevention", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    obligationText:
+      "Vehicles with liquid-fuel tanks (M/N/O) must meet R34 crash-resistance + fire-prevention tests: side impact, rear collision, rollover, vapor tightness, plus fuel-pipe routing + containment.",
+    extraConditions: [
+      {
+        field: "hasFuelTank",
+        operator: "is_true" as const,
+        value: true,
+        label: "Vehicle has a liquid or gaseous fuel tank",
+      },
+    ],
+    fallbackIfMissing: "not_applicable",
+    temporalNotes:
+      "Fuel-tank rule — applies only when vehicle has a liquid/gaseous fuel tank. Applies_to_new_types_from [verify]; defer until current consolidated revision text is reviewed.",
+  }),
   uneceRule("043", "43", "Safety Glazing", "R43 Safety Glass", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
@@ -280,6 +317,28 @@ export const uneceTechnicalRules = [
       "Installation of lighting + light-signalling on the vehicle must follow R48 geometry, photometric performance and electrical interconnection rules. Matrix LED / ADB per R149 triggers extra R48 annex.",
     related: [{ rule_id: "REG-UN-149", relation: "complements" }],
   }),
+  // Phase I.2 — heavy-duty exhaust emissions (R49).
+  uneceRule("049", "49", "Heavy-Duty Exhaust Emissions", "R49 HD Emissions", ["M2", "M3", "N2", "N3"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    revisionLabel: "Rev.7 (Euro VI-E/F)",
+    obligationText:
+      "Heavy-duty compression-ignition and gas engines (M2/M3/N2/N3) must meet R49.06 Euro VI exhaust limits (NOx, PM, NH3, PN) via WHSC + WHTC laboratory cycles and WNTE off-cycle. Euro 7 HD (Reg (EU) 2024/1257) supersedes for new type-approvals from 2028-05-29.",
+    extraConditions: [
+      {
+        field: "hasCombustionEngine",
+        operator: "is_true" as const,
+        value: true,
+        label: "Vehicle has a combustion engine",
+      },
+    ],
+    fallbackIfMissing: "not_applicable",
+    temporalNotes:
+      "R49 Rev.7 Euro VI-E/F current [verify exact revision]. Euro 7 HD (Reg (EU) 2024/1257) applies from 2028-05-29 new types.",
+    related: [
+      { rule_id: "REG-EM-002", relation: "complements" },
+      { rule_id: "REG-EM-012", relation: "complements" },
+    ],
+  }),
   uneceRule("051", "51", "Noise Emissions", "R51 Noise", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
@@ -289,6 +348,25 @@ export const uneceTechnicalRules = [
   }),
   uneceRule("058", "58", "Rear Underrun Protection", "R58 RUP", ["N2", "N3"], ["MN"]),
   uneceRule("066", "66", "Bus Body Strength (Rollover)", "R66 Bus Rollover", ["M2", "M3"], ["MN"]),
+  // Phase I.2 — LPG OEM fuel system approval (R67).
+  uneceRule("067", "67", "LPG OEM Fuel System", "R67 LPG", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    revisionLabel: "01 series",
+    obligationText:
+      "OEM LPG fuel systems must hold a type-approved LPG tank (R67 Part I) + vehicle installation approval (R67 Part II) covering pressure relief, piping, valves, electromagnetic safety, and refuelling-receptacle geometry.",
+    extraConditions: [
+      {
+        field: "fuelType",
+        operator: "eq" as const,
+        value: "lpg",
+        label: "Fuel type is LPG",
+      },
+    ],
+    fallbackIfMissing: "not_applicable",
+    temporalNotes:
+      "R67.01 [verify exact revision]. Applies to OEM LPG fuel systems only; aftermarket retrofit covered by R115.",
+    related: [{ rule_id: "REG-UN-115", relation: "complements" }],
+  }),
   uneceRule("079", "79", "Steering Equipment", "R79 Steering", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
@@ -302,6 +380,23 @@ export const uneceTechnicalRules = [
     prerequisiteStandards: ["ISO 26262 (functional safety — ACSF ASIL)"],
   }),
   uneceRule("083", "83", "Pollutant Emissions (Light-Duty)", "R83 Emissions (LD)", ["M1", "N1"], ["MN"]),
+  // Phase I.2 — engine power declaration (R85).
+  uneceRule("085", "85", "Engine Power", "R85 Engine Power", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    obligationText:
+      "M/N combustion vehicles (and electric drive) must declare net power and maximum 30-minute power per the R85 dynamometer test procedure. Declared values feed the CoC + type-approval certificate.",
+    extraConditions: [
+      {
+        field: "hasCombustionEngine",
+        operator: "is_true" as const,
+        value: true,
+        label: "Vehicle has a combustion engine",
+      },
+    ],
+    fallbackIfMissing: "not_applicable",
+    temporalNotes:
+      "R85 covers M/N with combustion and/or electric drive. Applies_to_new_types_from [verify].",
+  }),
   uneceRule("094", "94", "Frontal Collision Protection", "R94 Frontal Impact", ["M1", "N1"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
@@ -395,7 +490,50 @@ export const uneceTechnicalRules = [
       "ISO 6469 (electrically propelled road vehicles — safety specifications)",
     ],
   }),
+  // Phase I.2 — CO2 / FC light-duty (R101). UN counterpart to WLTP; Reg 2017/1151 is EU operative.
+  uneceRule("101", "101", "CO2 Emissions + Fuel/Energy Consumption (Light-Duty)", "R101 CO2/FC", ["M1", "N1"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    revisionLabel: "Rev.3",
+    obligationText:
+      "M1/N1 CO2 emissions + fuel/energy consumption measured per R101 (WLTP-compatible); includes PHEV utility-factor methodology + electric-range determination for BEV/PHEV.",
+    temporalNotes:
+      "R101 Rev.3 [verify exact revision]. R101 is the UN counterpart; Commission Reg (EU) 2017/1151 WLTP is the EU operative procedure.",
+    related: [
+      { rule_id: "REG-EM-004", relation: "complements" },
+      { rule_id: "REG-EM-009", relation: "complements" },
+    ],
+  }),
   uneceRule("110", "110", "CNG/LNG Fuel System", "R110 CNG/LNG", ["M1", "M2", "M3", "N1", "N2", "N3"]),
+  // Phase I.2 — LPG/CNG retrofit kits (R115). Aftermarket; OEM scope only if shipping kits.
+  uneceRule("115", "115", "LPG/CNG Retrofit Kits", "R115 Retrofit Kits", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    obligationText:
+      "Aftermarket LPG or CNG retrofit kits must hold R115 kit-level type-approval. OEM scope only if the manufacturer is selling retrofit solutions; installer and inspection responsibilities are national.",
+    extraConditions: [
+      {
+        field: "fuelType",
+        operator: "in" as const,
+        value: ["lpg", "cng"],
+        label: "Fuel type is LPG or CNG",
+      },
+    ],
+    fallbackIfMissing: "not_applicable",
+    temporalNotes:
+      "Aftermarket retrofit — OEM responsibility only if shipping retrofit solutions; not part of vehicle type-approval.",
+  }),
+  // Phase I.2 — Tyres (R117): rolling resistance + wet grip + noise.
+  uneceRule("117", "117", "Tyres — Rolling Resistance / Wet Grip / Noise", "R117 Tyres", ["M1", "M2", "M3", "N1", "N2", "N3", "O1", "O2", "O3", "O4"], ["MN", "O"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    revisionLabel: "02 series",
+    obligationText:
+      "Tyres fitted to M/N/O vehicles must meet rolling resistance + wet grip + external noise limits per R117. Underlies EU tyre-label Reg (EU) 2020/740 and the noise framework Reg (EU) 540/2014.",
+    temporalNotes:
+      "R117.02 [verify exact revision]. Tyres tested at component level; the vehicle-level obligation is to fit only R117-approved tyres.",
+    prerequisiteStandards: [
+      "ISO 28580 (rolling resistance measurement)",
+      "ISO 10844 (reference test-track surface for noise)",
+    ],
+  }),
   uneceRule("118", "118", "Burning Behaviour of Interior Materials", "R118 Interior Fire", ["M2", "M3"], ["MN"]),
 
   // Phase H.6 — R127/R140/R141/R145/R149 enriched with authored content.
