@@ -6,6 +6,11 @@
  * verification-queue subsection, but functional coverage data is already
  * comprehensive.
  *
+ * Phase J.5: expanded the verification view from the hardcoded 10-rule
+ * priority list to the full SEED_UNVERIFIED / DRAFT / PLACEHOLDER
+ * backlog, grouped by jurisdiction + legal family, with owner_hint as
+ * the recommended reviewer column.
+ *
  * © Yanhao FU
  */
 
@@ -22,6 +27,7 @@ import {
 } from "@/registry/verification";
 import type { VerificationReviewEntry } from "@/config/schema";
 import { CoveragePanel } from "@/components/phase3/CoveragePanel";
+import type { PendingRuleGroup } from "@/components/phase3/VerificationQueuePanel";
 import { ExportAsPdfButton } from "@/components/shared/ExportAsPdfButton";
 import { useAppShellStore } from "@/state/app-shell-store";
 
@@ -38,6 +44,8 @@ const priorityQueueIds: string[] = [
   "REG-AI-001",
 ];
 
+const pendingLifecycleStates = new Set(["SEED_UNVERIFIED", "DRAFT", "PLACEHOLDER"] as const);
+
 export default function CoveragePage() {
   const verificationReviewState = useAppShellStore(
     (state) => state.verificationReviewState,
@@ -47,36 +55,87 @@ export default function CoveragePage() {
     (state) => state.patchVerificationReview,
   );
 
-  const { coverageMatrix, verificationQueueState, verificationQueueCounts } =
-    useMemo(() => {
-      const effectiveRules = materializeRulesFromReviewState(
+  const {
+    coverageMatrix,
+    verificationQueueState,
+    verificationQueueCounts,
+    allPendingGroups,
+  } = useMemo(() => {
+    const effectiveRules = materializeRulesFromReviewState(
+      rawSeedRules,
+      verificationReviewState,
+    );
+    const registry = new RuleRegistry(effectiveRules);
+    const matrix = computeCoverageMatrix(
+      registry.getAllRules(),
+      registry.getEvaluableRules(),
+    );
+    const queue: VerificationQueueWorkflowItem[] =
+      buildPriorityVerificationQueueState(
         rawSeedRules,
         verificationReviewState,
+        priorityQueueIds,
       );
-      const registry = new RuleRegistry(effectiveRules);
-      const matrix = computeCoverageMatrix(
-        registry.getAllRules(),
-        registry.getEvaluableRules(),
-      );
-      const queue: VerificationQueueWorkflowItem[] =
-        buildPriorityVerificationQueueState(
-          rawSeedRules,
-          verificationReviewState,
-          priorityQueueIds,
-        );
-      const counts = queue.reduce(
-        (acc, item) => {
-          acc[item!.reviewEntry.workflow_status] += 1;
-          return acc;
-        },
-        { blocked: 0, partially_verified: 0, promotable: 0, promoted: 0 },
-      );
-      return {
-        coverageMatrix: matrix,
-        verificationQueueState: queue,
-        verificationQueueCounts: counts,
-      };
-    }, [verificationReviewState]);
+    const counts = queue.reduce(
+      (acc, item) => {
+        acc[item!.reviewEntry.workflow_status] += 1;
+        return acc;
+      },
+      { blocked: 0, partially_verified: 0, promotable: 0, promoted: 0 },
+    );
+
+    // Phase J.5: full verification backlog — every SEED_UNVERIFIED,
+    // DRAFT, or PLACEHOLDER rule grouped by jurisdiction + legal family,
+    // so reviewers can see the complete work queue rather than the
+    // hardcoded top-10 priority list.
+    const pendingRules = effectiveRules.filter((rule) =>
+      pendingLifecycleStates.has(
+        rule.lifecycle_state as "SEED_UNVERIFIED" | "DRAFT" | "PLACEHOLDER",
+      ),
+    );
+    const groupsMap = new Map<string, PendingRuleGroup>();
+    for (const rule of pendingRules) {
+      const key = `${rule.jurisdiction}::${rule.legal_family}`;
+      let group = groupsMap.get(key);
+      if (!group) {
+        group = {
+          groupLabel: `${rule.jurisdiction} · ${rule.legal_family}`,
+          jurisdiction: rule.jurisdiction,
+          legalFamily: rule.legal_family,
+          rules: [],
+        };
+        groupsMap.set(key, group);
+      }
+      group.rules.push({
+        stableId: rule.stable_id,
+        title: rule.title,
+        jurisdiction: rule.jurisdiction,
+        legalFamily: rule.legal_family,
+        lifecycleState: rule.lifecycle_state,
+        ownerHint: rule.owner_hint,
+      });
+    }
+    const groups: PendingRuleGroup[] = Array.from(groupsMap.values())
+      .map((group) => ({
+        ...group,
+        rules: [...group.rules].sort((a, b) =>
+          a.stableId < b.stableId ? -1 : a.stableId > b.stableId ? 1 : 0,
+        ),
+      }))
+      .sort((a, b) => {
+        if (a.jurisdiction !== b.jurisdiction) {
+          return a.jurisdiction < b.jurisdiction ? -1 : 1;
+        }
+        return a.legalFamily < b.legalFamily ? -1 : 1;
+      });
+
+    return {
+      coverageMatrix: matrix,
+      verificationQueueState: queue,
+      verificationQueueCounts: counts,
+      allPendingGroups: groups,
+    };
+  }, [verificationReviewState]);
 
   const handleVerificationReviewChange = (
     stableId: string,
@@ -109,6 +168,7 @@ export default function CoveragePage() {
         verificationCounts={verificationQueueCounts}
         promotionLog={promotionLog}
         onVerificationReviewChange={handleVerificationReviewChange}
+        allPendingGroups={allPendingGroups}
       />
     </div>
   );

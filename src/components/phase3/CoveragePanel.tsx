@@ -9,7 +9,10 @@ import type { FreshnessStatus } from "@/registry/schema";
 import { allSeedRules } from "@/registry/seed";
 import type { RulePromotabilityAssessment } from "@/registry/verification";
 import { processStages } from "@/shared/constants";
-import { VerificationQueuePanel } from "@/components/phase3/VerificationQueuePanel";
+import {
+  VerificationQueuePanel,
+  type PendingRuleGroup,
+} from "@/components/phase3/VerificationQueuePanel";
 
 interface CoveragePanelProps {
   matrix: CoverageMatrix;
@@ -28,6 +31,14 @@ interface CoveragePanelProps {
     stableId: string,
     patch: Partial<VerificationReviewEntry>,
   ) => void;
+  /**
+   * Phase J.5: when provided, the coverage panel renders an expanded
+   * verification view that shows every SEED_UNVERIFIED / DRAFT /
+   * PLACEHOLDER rule grouped by jurisdiction + legal family, instead of
+   * the hardcoded 10-rule priority queue. Backward-compatible: when
+   * undefined, the legacy priority-queue view is used.
+   */
+  allPendingGroups?: PendingRuleGroup[];
 }
 
 type GapCause = "no_rules" | "placeholder_only" | "source_unverified" | "all";
@@ -38,6 +49,7 @@ export function CoveragePanel({
   verificationCounts,
   promotionLog,
   onVerificationReviewChange,
+  allPendingGroups,
 }: CoveragePanelProps) {
   const [expanded, setExpanded] = useState(false);
   const [stageFilter, setStageFilter] = useState<string>("all");
@@ -302,6 +314,8 @@ export function CoveragePanel({
             counts={verificationCounts}
             promotionLog={promotionLog}
             onChange={onVerificationReviewChange}
+            viewMode={allPendingGroups ? "all-pending" : "priority-10"}
+            allPendingGroups={allPendingGroups}
           />
         </div>
       ) : null}

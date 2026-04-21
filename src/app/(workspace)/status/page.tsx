@@ -140,6 +140,76 @@ export default function StatusPage() {
         </p>
       </section>
 
+      {summary.countryCoverage.length > 0 ? (
+        <section className="status-country-coverage panel">
+          <h3>Coverage by target country</h3>
+          <p className="muted">
+            What&apos;s actionable today vs. pending human verification per
+            selected target country. APPLICABLE rules already have a
+            verified source; the &quot;of which pending verification&quot;
+            row flags rules held at CONDITIONAL because their source is
+            still SEED_UNVERIFIED.
+          </p>
+          <div className="status-country-coverage-grid">
+            {summary.countryCoverage.map((cc) => {
+              const evaluated = cc.applicable + cc.conditional;
+              return (
+                <article
+                  key={cc.country}
+                  className="status-country-coverage-card"
+                >
+                  <header>
+                    <strong>{cc.country}</strong>
+                    <span className="muted">
+                      {evaluated}{" "}
+                      {evaluated === 1
+                        ? "rule evaluated"
+                        : "rules evaluated"}
+                    </span>
+                  </header>
+                  <ul>
+                    <li className="status-country-row-applicable">
+                      <span>APPLICABLE</span>
+                      <span className="status-country-count">
+                        {cc.applicable}
+                      </span>
+                    </li>
+                    <li className="status-country-row-conditional">
+                      <span>CONDITIONAL</span>
+                      <span className="status-country-count">
+                        {cc.conditional}
+                      </span>
+                    </li>
+                    <li className="status-country-row-pending">
+                      <span>(of which pending verification)</span>
+                      <span className="status-country-count">
+                        {cc.pendingVerification}
+                      </span>
+                    </li>
+                    {cc.future > 0 ? (
+                      <li className="status-country-row-future">
+                        <span>FUTURE</span>
+                        <span className="status-country-count">
+                          {cc.future}
+                        </span>
+                      </li>
+                    ) : null}
+                    {cc.unknown > 0 ? (
+                      <li className="status-country-row-unknown">
+                        <span>UNKNOWN</span>
+                        <span className="status-country-count">
+                          {cc.unknown}
+                        </span>
+                      </li>
+                    ) : null}
+                  </ul>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      ) : null}
+
       <div className="status-columns">
         <section className="status-column panel">
           <h3>Top blockers</h3>

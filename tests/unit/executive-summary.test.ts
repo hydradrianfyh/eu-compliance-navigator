@@ -540,4 +540,99 @@ describe("buildExecutiveSummary", () => {
     );
     expect(xxDetail?.reason).toBe("no_overlay");
   });
+
+  it("produces per-country coverage projection for each selected target (J.5)", () => {
+    const config: VehicleConfig = {
+      ...baseVehicleConfig,
+      targetCountries: ["DE", "ES"],
+    };
+
+    // Horizontal EU rule, APPLICABLE — counted in both countries.
+    const horizontalActive = buildRule({
+      stable_id: "REG-EU-H1",
+      jurisdiction: "EU",
+      jurisdiction_level: "EU",
+      lifecycle_state: "ACTIVE",
+    });
+
+    // Horizontal EU rule, SEED_UNVERIFIED → CONDITIONAL (pending verification).
+    const horizontalSeed = buildRule({
+      stable_id: "REG-EU-H2",
+      jurisdiction: "EU",
+      jurisdiction_level: "EU",
+      lifecycle_state: "SEED_UNVERIFIED",
+    });
+
+    // DE overlay rule, ACTIVE — counted only for DE.
+    const deActive = buildRule({
+      stable_id: "REG-MS-DE-J5",
+      jurisdiction: "DE",
+      jurisdiction_level: "MEMBER_STATE",
+      legal_family: "member_state_overlay",
+      lifecycle_state: "ACTIVE",
+    });
+
+    // ES overlay rule, SEED_UNVERIFIED → CONDITIONAL.
+    const esSeed = buildRule({
+      stable_id: "REG-MS-ES-J5",
+      jurisdiction: "ES",
+      jurisdiction_level: "MEMBER_STATE",
+      legal_family: "member_state_overlay",
+      lifecycle_state: "SEED_UNVERIFIED",
+    });
+
+    const rules = [horizontalActive, horizontalSeed, deActive, esSeed];
+    const results = [
+      buildResult(horizontalActive, "APPLICABLE"),
+      buildResult(horizontalSeed, "CONDITIONAL"),
+      buildResult(deActive, "APPLICABLE"),
+      buildResult(esSeed, "CONDITIONAL"),
+    ];
+    const timeline = buildTimeline({ config, results, rules, now });
+    const summary = buildExecutiveSummary({
+      config,
+      results,
+      rules,
+      timeline,
+      now,
+    });
+
+    expect(summary.countryCoverage).toHaveLength(2);
+
+    const de = summary.countryCoverage.find((c) => c.country === "DE");
+    const es = summary.countryCoverage.find((c) => c.country === "ES");
+
+    // DE: horizontal APPLICABLE + DE APPLICABLE = 2; horizontal CONDITIONAL = 1.
+    expect(de?.applicable).toBe(2);
+    expect(de?.conditional).toBe(1);
+    expect(de?.pendingVerification).toBe(1);
+    expect(de?.pendingVerification).toBeLessThanOrEqual(de?.conditional ?? 0);
+
+    // ES: horizontal APPLICABLE = 1; horizontal CONDITIONAL + ES CONDITIONAL = 2.
+    expect(es?.applicable).toBe(1);
+    expect(es?.conditional).toBe(2);
+    expect(es?.pendingVerification).toBe(2);
+    expect(es?.pendingVerification).toBeLessThanOrEqual(es?.conditional ?? 0);
+
+    // Sanity: DE overlay rule is NOT counted in ES bucket.
+    expect(es?.applicable).not.toBe(2);
+  });
+
+  it("returns empty countryCoverage when targetCountries is empty (J.5)", () => {
+    const config: VehicleConfig = {
+      ...baseVehicleConfig,
+      targetCountries: [],
+    };
+    const rule = buildRule({ stable_id: "REG-EMPTY", jurisdiction: "EU" });
+    const results = [buildResult(rule, "APPLICABLE")];
+    const timeline = buildTimeline({ config, results, rules: [rule], now });
+    const summary = buildExecutiveSummary({
+      config,
+      results,
+      rules: [rule],
+      timeline,
+      now,
+    });
+    expect(summary.countryCoverage).toEqual([]);
+  });
 });

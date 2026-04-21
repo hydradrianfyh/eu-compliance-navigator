@@ -21,6 +21,33 @@ export interface DeadlineItem {
   owner_hint: string;
 }
 
+/**
+ * Phase J.5: per-country applicability breakdown for the Status tab.
+ *
+ * Each selected target country is projected onto the evaluated results
+ * so the user can see "what's actionable today" vs "what's still pending
+ * human verification" without having to cross-reference the Coverage tab.
+ *
+ * Rules counted per country:
+ *   - Rules whose jurisdiction matches the country (member-state overlay
+ *     or non-EU market rules)
+ *   - Rules that are horizontal (EU / UNECE) — these apply to every
+ *     selected country, so they're included in every country's bucket.
+ *
+ * `pendingVerification` is the subset of `conditional` whose rule is
+ * still at `SEED_UNVERIFIED`, i.e. blocked on human source verification
+ * rather than on vehicle-config uncertainty.
+ */
+export interface CountryCoverage {
+  country: string;
+  applicable: number;
+  conditional: number;
+  pendingVerification: number;
+  notApplicable: number;
+  unknown: number;
+  future: number;
+}
+
 export interface ExecutiveSummary {
   canEnterMarket: boolean;
   confidence: "high" | "medium" | "low";
@@ -66,6 +93,13 @@ export interface ExecutiveSummary {
     archived: number;
     total: number;
   };
+  /**
+   * Phase J.5: per-target-country coverage projection, parallel to
+   * `countriesAtRiskDetail` but showing the full applicability breakdown
+   * (APPLICABLE / CONDITIONAL / of-which-pending-verification / …).
+   * Empty array when `config.targetCountries` is empty.
+   */
+  countryCoverage: CountryCoverage[];
   generated_at: string;
 }
 
@@ -330,6 +364,66 @@ export function buildExecutiveSummary(args: {
   const canEnterMarket =
     !hasActiveThirdPartyEvidenceGap && countriesAtRisk.length === 0;
 
+  // Phase J.5: per-country applicability projection ----------------------
+  // For each selected target country, count rules that apply to that
+  // country (either horizontal EU/UNECE rules, or rules whose
+  // jurisdiction matches the country code) and bucket them by the
+  // applicability state produced by the engine.
+  //
+  // A rule is "in scope" for a country when:
+  //   - its jurisdiction_level is EU or UNECE (horizontal — applies to
+  //     all selected countries), OR
+  //   - its jurisdiction equals the country code (member-state overlay
+  //     or non-EU market rule).
+  //
+  // Rules whose jurisdiction is a *different* member state (e.g. a DE
+  // overlay rule when the projection is on FR) are excluded — they
+  // wouldn't fire for FR anyway.
+  const countryCoverage: CountryCoverage[] = config.targetCountries.map(
+    (country) => {
+      const bucket: CountryCoverage = {
+        country,
+        applicable: 0,
+        conditional: 0,
+        pendingVerification: 0,
+        notApplicable: 0,
+        unknown: 0,
+        future: 0,
+      };
+
+      for (const result of results) {
+        const isHorizontal =
+          result.jurisdiction_level === "EU" ||
+          result.jurisdiction_level === "UNECE";
+        const isForThisCountry = result.jurisdiction === country;
+        if (!isHorizontal && !isForThisCountry) continue;
+
+        switch (result.applicability) {
+          case "APPLICABLE":
+            bucket.applicable += 1;
+            break;
+          case "CONDITIONAL":
+            bucket.conditional += 1;
+            if (result.lifecycle_state === "SEED_UNVERIFIED") {
+              bucket.pendingVerification += 1;
+            }
+            break;
+          case "NOT_APPLICABLE":
+            bucket.notApplicable += 1;
+            break;
+          case "UNKNOWN":
+            bucket.unknown += 1;
+            break;
+          case "FUTURE":
+            bucket.future += 1;
+            break;
+        }
+      }
+
+      return bucket;
+    },
+  );
+
   // UX-002 reconciliation: expose registry-wide lifecycle totals so the
   // Status tab can explain "Indicative applicable: 0 (registry has 57
   // SEED_UNVERIFIED rules)" instead of looking like a silent contradiction
@@ -375,6 +469,7 @@ export function buildExecutiveSummary(args: {
     indicative_count,
     pending_authoring,
     registry_totals,
+    countryCoverage,
     generated_at: now.toISOString(),
   };
 }

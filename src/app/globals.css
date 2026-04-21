@@ -323,6 +323,57 @@ button {
   gap: 12px;
 }
 
+/* Phase J.5: full-backlog verification view (all-pending mode) */
+.verification-all-pending > p {
+  margin: 4px 0 12px 0;
+}
+
+.verification-backlog-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 12px;
+}
+
+.verification-backlog-group {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #fafafa;
+}
+
+.verification-backlog-group-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.verification-backlog-group-header strong {
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.verification-backlog-group-header .muted {
+  font-size: 11px;
+}
+
+.badge-lifecycle-seed_unverified {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge-lifecycle-draft {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.badge-lifecycle-placeholder {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
 .validation-hint {
   font-size: 11px;
   font-weight: 400;
@@ -1743,6 +1794,98 @@ ul {
   padding: 6px 0;
   font-size: 13px;
   border-bottom: 1px solid #f3f4f6;
+}
+
+/* Phase J.5: per-country coverage section on Status tab */
+
+.status-country-coverage {
+  padding: 16px 18px;
+}
+
+.status-country-coverage h3 {
+  margin: 0 0 6px 0;
+  font-size: 15px;
+}
+
+.status-country-coverage > p {
+  margin: 0 0 12px 0;
+  font-size: 12px;
+}
+
+.status-country-coverage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.status-country-coverage-card {
+  padding: 10px 12px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.status-country-coverage-card header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.status-country-coverage-card header strong {
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.status-country-coverage-card header .muted {
+  font-size: 11px;
+}
+
+.status-country-coverage-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12px;
+}
+
+.status-country-coverage-card li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 0;
+}
+
+.status-country-count {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.status-country-row-applicable {
+  color: #065f46;
+}
+
+.status-country-row-conditional {
+  color: #92400e;
+}
+
+.status-country-row-pending {
+  padding-left: 12px !important;
+  color: #6b7280;
+  font-size: 11px !important;
+}
+
+.status-country-row-future {
+  color: #1e40af;
+}
+
+.status-country-row-unknown {
+  color: #6b7280;
 }
 
 /* Plan tab */

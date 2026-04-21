@@ -41,6 +41,7 @@ function buildSummary(overrides: Partial<ExecutiveSummary> = {}): ExecutiveSumma
       archived: 0,
       total: 19,
     },
+    countryCoverage: [],
     generated_at: "2026-04-17T10:00:00Z",
     ...overrides,
   };
