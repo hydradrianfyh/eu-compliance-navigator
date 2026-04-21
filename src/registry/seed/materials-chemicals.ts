@@ -255,14 +255,19 @@ export const materialsChemicalsRules = [
     jurisdiction_level: "EU",
     framework_group: ["MN", "L"],
     sources: [
-      makeSource(
-        "Framework regulation",
-        "EUR-Lex",
-        "Regulation (EU) 2023/1542, Article 7 (carbon footprint declaration)",
-        "OJ L 191, 28.7.2023",
-      ),
+      {
+        label: "Framework regulation",
+        source_family: "EUR-Lex" as const,
+        reference: "Regulation (EU) 2023/1542, Article 7 (carbon footprint declaration)",
+        official_url: "https://eur-lex.europa.eu/eli/reg/2023/1542/oj",
+        oj_reference: "OJ L 191, 28.7.2023",
+        authoritative_reference: "CELEX:32023R1542",
+        last_verified_on: "2026-04-21",
+      },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-3-eu",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -274,6 +279,11 @@ export const materialsChemicalsRules = [
     owner_hint: "sustainability_materials",
     ui_package: "horizontal",
     process_stage: "pre_ta",
+    content_provenance: {
+      source_type: "eur_lex",
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
+    },
   }),
   makeSeedRule({
     stable_id: "REG-BAT-007",
@@ -284,13 +294,19 @@ export const materialsChemicalsRules = [
     jurisdiction_level: "EU",
     framework_group: ["MN", "L", "O", "AGRI"],
     sources: [
-      makeSource(
-        "EU agency requirement",
-        "ECHA",
-        "SCIP database under Waste Framework Directive 2008/98/EC, Art. 9(1)(i)",
-      ),
+      {
+        label: "EU agency requirement",
+        source_family: "ECHA" as const,
+        reference: "SCIP database under Waste Framework Directive 2008/98/EC, Art. 9(1)(i)",
+        official_url: "https://eur-lex.europa.eu/eli/dir/2008/98/oj",
+        oj_reference: "OJ L 312, 22.11.2008, p. 3",
+        authoritative_reference: "CELEX:32008L0098",
+        last_verified_on: "2026-04-21",
+      },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-3-eu",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -302,6 +318,11 @@ export const materialsChemicalsRules = [
     owner_hint: "sustainability_materials",
     ui_package: "horizontal",
     process_stage: "pre_ta",
+    content_provenance: {
+      source_type: "eur_lex",
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
+    },
   }),
   makeSeedRule({
     stable_id: "REG-BAT-008",

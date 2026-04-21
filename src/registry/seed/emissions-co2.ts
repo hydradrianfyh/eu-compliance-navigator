@@ -1,4 +1,4 @@
-import { makeSeedRule, makeSource } from "@/registry/seed/shared";
+import { makeSeedRule } from "@/registry/seed/shared";
 
 export const emissionsCo2Rules = [
   makeSeedRule({
@@ -224,14 +224,19 @@ export const emissionsCo2Rules = [
     jurisdiction_level: "EU",
     framework_group: ["MN"],
     sources: [
-      makeSource(
-        "Framework regulation",
-        "EUR-Lex",
-        "Commission Regulation (EU) 2017/1151 (WLTP implementing measures)",
-        "OJ L 175, 7.7.2017",
-      ),
+      {
+        label: "Framework regulation",
+        source_family: "EUR-Lex" as const,
+        reference: "Commission Regulation (EU) 2017/1151 (WLTP implementing measures)",
+        official_url: "https://eur-lex.europa.eu/eli/reg/2017/1151/oj",
+        oj_reference: "OJ L 175, 7.7.2017, p. 1",
+        authoritative_reference: "CELEX:32017R1151",
+        last_verified_on: "2026-04-21",
+      },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-3-eu",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -246,6 +251,11 @@ export const emissionsCo2Rules = [
     owner_hint: "powertrain_emissions",
     ui_package: "wvta_core",
     process_stage: "type_approval",
+    content_provenance: {
+      source_type: "eur_lex",
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
+    },
   }),
   makeSeedRule({
     stable_id: "REG-EM-005",
@@ -256,13 +266,19 @@ export const emissionsCo2Rules = [
     jurisdiction_level: "EU",
     framework_group: ["MN"],
     sources: [
-      makeSource(
-        "Framework regulation",
-        "EUR-Lex",
-        "Commission Regulation (EU) 2016/427 and amendments (RDE packages 1-4)",
-      ),
+      {
+        label: "Framework regulation",
+        source_family: "EUR-Lex" as const,
+        reference: "Commission Regulation (EU) 2016/427 and amendments (RDE packages 1-4)",
+        official_url: "https://eur-lex.europa.eu/eli/reg/2016/427/oj",
+        oj_reference: "OJ L 82, 31.3.2016, p. 1",
+        authoritative_reference: "CELEX:32016R0427",
+        last_verified_on: "2026-04-21",
+      },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-3-eu",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -277,6 +293,11 @@ export const emissionsCo2Rules = [
     owner_hint: "powertrain_emissions",
     ui_package: "wvta_core",
     process_stage: "type_approval",
+    content_provenance: {
+      source_type: "eur_lex",
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
+    },
   }),
 
   // Phase I.2 — ICE/PHEV breadth expansion.
