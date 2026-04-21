@@ -1,7 +1,7 @@
 # EU Compliance Navigator · User Guide (English)
 
-**Version**: Phase 12 Path B (2026-04-19)
-**Pilot in use**: MY2027 BEV × DE
+**Version**: Phase K.2 (2026-04-21) · 196 rules / 73 ACTIVE · 230 tests green
+**Pilots in use**: MY2027 BEV × DE · PHEV × DE·FR·NL · ICE × ES
 **中文版**: see [USER-GUIDE.md](./USER-GUIDE.md) (deeper per-field reference)
 
 ---
@@ -21,8 +21,8 @@ This tool is a **config-driven EU vehicle compliance workbench**. You enter a ve
 ### What this guide is **not**
 
 - Not legal advice — the tool outputs a structured checklist, not a legal opinion.
-- Not a complete legal library — 137 seed rules cover the major frameworks; gaps are explicitly marked as placeholder.
-- Not a universal market tool — currently DE-demo only; FR/NL are placeholder; other EU states deferred; non-EU markets unsupported.
+- Not a complete legal library — 196 seed rules (73 ACTIVE after human-review rounds 1-3) cover the major EU + DE / UK / ES / FR frameworks; remaining 123 gaps are explicitly marked non-ACTIVE with a per-rule "why pending" reason.
+- Not a universal market tool — currently DE (8 ACTIVE) + UK (11 ACTIVE) + ES (7 ACTIVE) + FR (5 ACTIVE, partial); NL is seed-only (0 ACTIVE); 22 other EU member states deferred; non-EU markets (CN/US/JP/TR) unsupported.
 
 ### How to read this guide
 
@@ -52,23 +52,31 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). At the top you'll see the blue **ScopeBanner**:
+Open [http://localhost:3000](http://localhost:3000). At the top you'll see the blue **ScopeBanner** with a 4-tier progressive-disclosure grid (refreshed in K.1):
 
-> Scope: EU horizontal + DE overlay ACTIVE · FR / NL overlay pending (Phase 13+) · Others (IT/ES/NL/..., CN/US/JP, customs) out of scope
+> ✓ Scope: Germany + UK production-grade · ES + FR partial · NL + others indicative · CN/US/JP/customs out of scope
 
-This banner tells you **what the tool really covers and what it doesn't pretend to cover**.
+Click the banner's "see full coverage" link to expand the 4 tiers (**production-grade** / **indicative** / **pending authoring** / **out of scope**), each showing rule counts per jurisdiction. This banner tells you **what the tool really covers and what it doesn't pretend to cover**.
 
-First visit lands on **Setup tab** with an Onboarding banner. Click **⚙** → **"Load MY2027 BEV sample"**. The tool fills the pilot config (22 rules triggered) and takes you to Status.
+First visit lands on **Setup tab** with an Onboarding banner. Click **⚙** → **"Load MY2027 BEV sample"**. The tool fills the pilot config (30 APPLICABLE rules) and takes you to Status.
 
 ### 1.2 Status tab verdict
 
-Top of Status tab is a **verdict card**:
+**New in K.2 — management-friendly exec summary at the top**. Before the full StatusHero you'll see a 3-second block:
+
+```
+Market entry status:  LIKELY OK · 30 applicable · 12 weeks to SOP
+Top urgent action: Submit R155 CSMS certificate (due 2026-10-15)
+  [See full breakdown ↓]
+```
+
+Below the exec block is the full **verdict card**:
 
 ```
 Market entry status:  LIKELY OK
 Confidence: Medium
-Coverage 72/100  Verified 17  Indicative 5  Pending 40
-Generated 2026-04-19 15:30 UTC
+Coverage 82/100  Verified 30  Indicative 8  Pending 12
+Generated 2026-04-21 15:30 UTC
 ```
 
 | Verdict | Meaning |
@@ -78,11 +86,22 @@ Generated 2026-04-19 15:30 UTC
 | **AT RISK** | Blocking issues exist |
 | **INDETERMINATE** | Not enough data (usually incomplete config) |
 
-Below: **Top blockers** · **Top deadlines** · **Countries at risk**. For FR / NL the tool honestly says "pending overlay — all rules placeholder (Phase 13+)".
+Below: **Top blockers** · **Top deadlines** · **Countries at risk**. For **NL** the tool honestly says "seed-only — 5 rules authored but 0 ACTIVE; confirm locally before relying". For **FR** the tool surfaces the 5 ACTIVE rules and flags the 7 remaining pending verification.
 
 ### 1.3 Plan tab · what to do when
 
-Click **Plan** tab. Left: **Timeline** anchored on SOP (Overdue / Immediate / Pre-SOP critical / Pre-SOP final / Post-SOP / Later / Unscheduled). Right: **Owner Dashboard** grouped by domain (cybersecurity / privacy / ADAS / …).
+Click **Plan** tab. **New in K.2 — exec summary at the top**:
+
+```
+SOP: 2027-01-15  ·  12 weeks to go
+Immediate: 4 tasks  ·  Pre-SOP critical: 11 tasks  ·  Pre-SOP final: 6 tasks
+Top 3 upcoming deadlines:
+  · R155 CSMS certificate — 2026-10-15
+  · R156 SUMS type-approval — 2026-11-30
+  · GSR2 ISA delegated act — 2026-12-15
+```
+
+Below: Left: **Timeline** anchored on SOP (Overdue / Immediate / Pre-SOP critical / Pre-SOP final / Post-SOP / Later / Unscheduled). Right: **Owner Dashboard** grouped by domain (cybersecurity / privacy / ADAS / …).
 
 Click a rule deep-link → jumps to Rules tab with the rule auto-expanded.
 
@@ -90,10 +109,12 @@ Click a rule deep-link → jumps to Rules tab with the rule auto-expanded.
 
 Rules are in three trust layers:
 
-- ✓ **VERIFIED** — source verified, trust it
-- ⚠ **INDICATIVE** — authored but source not yet verified
+- ✓ **VERIFIED** — source verified, trust it (73 ACTIVE rules after K.2)
+- ⚠ **INDICATIVE** — authored but source not yet verified (SEED_UNVERIFIED / DRAFT / SHADOW)
 - ○ **PENDING AUTHORING** — placeholder, not written
 - — **NEEDS YOUR INPUT** — your config is missing a required field
+
+**New in K.0**: non-ACTIVE rule cards (Indicative and Pending) display an inline **"Why indicative only"** callout sourced from `manual_review_reason`. This tells you — on every card — *why* the rule isn't production-grade (e.g. "awaiting EUR-Lex URL verification", "KBA architectural split pending — see DE-009 follow-up", "Windsor Framework NI provisions staged for 2026-10").
 
 Expand **REG-CS-001 R155 CSMS** to see 5 sections: Summary / Why it applies / What to do / Reference / My tracking. Top-right toggle: **Plain** (for business) ↔ **Engineering** (for devs).
 
@@ -354,7 +375,7 @@ Each sub-field triggers specific UNECE technical rules (R13H / R79 / R43 / R16 /
 
 ### 2.11 Load sample
 
-**⚙** → **Load MY2027 BEV sample**. First-time demo, standard config for regression, baseline of the 204 tests (`pilot-acceptance.test.ts`).
+**⚙** → **Load MY2027 BEV sample**. First-time demo, standard config for regression, baseline of the 230 tests (`pilot-acceptance.test.ts`).
 
 **Caveat**: Load sample **overwrites** current config. If filling your own project, **⚙** → **Clear saved state** first to back up (actually exports JSON), then load.
 
@@ -364,9 +385,21 @@ Each sub-field triggers specific UNECE technical rules (R13H / R79 / R43 / R16 /
 
 Management's primary tab.
 
+### 3.0 Exec summary block (K.2 addition · management-friendly)
+
+At the very top of Status, **above** the StatusHero, is a compact exec block that answers in **3 seconds**:
+
+```
+Market entry status:  LIKELY OK  ·  30 applicable  ·  12 weeks to SOP
+Top urgent action: Submit R155 CSMS certificate (due 2026-10-15)
+  [See full breakdown ↓]
+```
+
+Read this when you only have 30 seconds in a standup or an exec conversation. The `[See full breakdown]` link scrolls to the full hero card + metrics below. This is the piece meant for VPs and program managers who don't need the 4-metric reconciliation.
+
 ### 3.1 Four verdicts · LIKELY OK / OK WITH CAVEATS / AT RISK / INDETERMINATE
 
-Hero card:
+Hero card (below the exec block):
 
 ```
 Market entry status:  LIKELY OK
@@ -421,10 +454,14 @@ Up to 10 rules nearest deadline, ascending:
 
 ### 3.6 Countries at risk
 
-- `DE` ✓ (5 ACTIVE overlays) — not listed
-- `FR` ⚠ pending overlay — "all rules placeholder (Phase 13+)"
-- `NL` ⚠ same
-- `UK` ⚠ non-EU market — "UK AV Act listed but not fully integrated"
+Post-K.2 state (73 ACTIVE across all jurisdictions):
+
+- `DE` ✓ (8 ACTIVE overlays) — not listed as at-risk
+- `UK` ✓ (11 ACTIVE overlays, incl. AV Act 2024) — treated as production-grade non-EU market
+- `ES` 🟡 (7 ACTIVE + 7 indicative) — listed but with specifics; each indicative rule's card shows "why pending"
+- `FR` 🟡 (5 ACTIVE + 7 pending) — partial; listed with remaining backlog count
+- `NL` ⚠ (0 ACTIVE, 5 SEED_UNVERIFIED) — "seed-only: 5 rules authored, 0 verified; confirm locally"
+- Other EU states (IT/PL/BE/AT/SE/CZ/…) — out of scope, flagged as such
 
 Each at-risk entry includes **reason** — not just "has issues" but why.
 
@@ -437,6 +474,23 @@ Each at-risk entry includes **reason** — not just "has issues" but why.
 ## Part 4 · Task 3 · What to do when (Plan tab)
 
 Team leader's primary tab.
+
+### 4.0 Plan exec summary (K.2 addition)
+
+Above the timeline, K.2 adds a compact summary block:
+
+```
+SOP: 2027-01-15  ·  12 weeks to go  ·  42 tasks total
+Immediate (next 3mo): 4     Pre-SOP critical (−12mo→−3mo): 11
+Pre-SOP final (−3mo→SOP): 6 Post-SOP: 8   Later: 13
+
+Top 3 upcoming deadlines:
+  · 2026-10-15 — R155 CSMS certificate
+  · 2026-11-30 — R156 SUMS type-approval
+  · 2026-12-15 — GSR2 ISA delegated act
+```
+
+This gives a team leader or program manager a "do I need to worry?" answer in 5 seconds, before drilling into the full timeline + Owner Dashboard below.
 
 ### 4.1 SOP-anchored segments
 
@@ -490,12 +544,23 @@ Homologation lead's primary tab.
 
 | Segment | Icon | Meaning | Default |
 |---|---|---|---|
-| Verified | ✓ | ACTIVE + verified source — trust it | Expanded |
-| Indicative | ⚠ | SEED_UNVERIFIED / DRAFT / SHADOW — authored but source unverified | Expanded |
-| Pending authoring | ○ | PLACEHOLDER — not written | Collapsed (count shown) |
+| Verified | ✓ | ACTIVE + verified source — trust it (73 rules in current registry) | Expanded |
+| Indicative | ⚠ | SEED_UNVERIFIED / DRAFT / SHADOW — authored but source unverified (90 rules) | Expanded |
+| Pending authoring | ○ | PLACEHOLDER — not written (33 rules) | Collapsed (count shown) |
 | Needs your input | — | UNKNOWN due to missing config field | Expanded (if non-empty) |
 
-Each header shows rule count + hint, e.g. "✓ VERIFIED (17) — You can rely on these".
+Each header shows rule count + hint, e.g. "✓ VERIFIED (30 applicable) — You can rely on these".
+
+#### 5.1.1 "Why indicative only" callout (K.0 addition · inline on every non-ACTIVE card)
+
+Every **Indicative** and **Pending** rule card surfaces the `manual_review_reason` as a highlighted callout **inside** the card header. This means you no longer need to open a separate Coverage-tab queue to learn *why* a rule hasn't been promoted. Examples of real callouts you'll see:
+
+- "Awaiting EUR-Lex URL verification — CELEX ID pending SPARQL confirmation."
+- "KBA architectural split pending — see DE-009 follow-up."
+- "Windsor Framework NI provisions staged for 2026-10; Public Charge Point Regulations staging parallel."
+- "OJ reference located; last_verified_on pending reviewer sign-off."
+
+If a rule shows **Indicative** but you don't see a reason, that's a bug — open an issue.
 
 ### 5.2 FilterBar
 
@@ -632,7 +697,16 @@ For compliance reviewers or tool maintainers. Business users rarely need this.
 
 ### 6.1 Lifecycle distribution
 
-All 137 rules by lifecycle (ACTIVE / SEED_UNVERIFIED / DRAFT / SHADOW / PLACEHOLDER / ARCHIVED).
+All 196 rules by lifecycle. Current snapshot (post-K.2):
+
+```
+ACTIVE            73
+SEED_UNVERIFIED   75
+DRAFT             15
+SHADOW             0
+PLACEHOLDER       33
+ARCHIVED           0
+```
 
 ### 6.2 Freshness distribution
 
@@ -644,13 +718,16 @@ Only ACTIVE rules (freshness applies only to ACTIVE). Fresh / Due soon / Overdue
 
 Filters: Process stage, Gap cause (all / no_rules / placeholder_only / source_unverified).
 
-### 6.4 Member-state chips
+### 6.4 Member-state chips (refreshed in K.1)
 
-- 🟢 **DE (5)** — Operational guidance available
-- 🔵 **UK** — Non-EU market — post-Brexit rules apply
-- 🟠 **FR** — National overlay not yet authored (Phase 13+)
-- 🟠 **NL** — same
-- 🟡 **IT / ES / PL / BE / AT / SE / CZ** — Basic overlay only — verify locally
+Aligned with the 4-tier ScopeBanner:
+
+- 🟢 **DE (8 ACTIVE + 2 indicative)** — Production-grade guidance available
+- 🟢 **UK (11 ACTIVE + 2 DRAFT)** — Production-grade non-EU market overlay, incl. AV Act 2024
+- 🟡 **ES (7 ACTIVE + 7 indicative/DRAFT/PLACEHOLDER)** — Partial — indicative items carry per-rule "why pending" reasons
+- 🟡 **FR (5 ACTIVE + 7 null-URL/DRAFT)** — Partial — verification of remainder in progress
+- 🟠 **NL (0 ACTIVE, 5 SEED_UNVERIFIED)** — Seed-only — authored but not yet verified; authoring batch pending Phase K+
+- 🟠 **IT / PL / BE / AT / SE / CZ (5 PLACEHOLDER each)** — Placeholder — scope gap, verify locally
 
 ### 6.5 Verification Queue
 
@@ -728,16 +805,18 @@ Rule is **future-active** (FUTURE). E.g. AI Act Art. 6(1) Automotive starts appl
 
 If your SOP is after that date, rule flips to APPLICABLE. Before, doesn't trigger.
 
-### 8.4 What does ScopeBanner's "FR / NL overlay pending" mean?
+### 8.4 What does the ScopeBanner's tiered-coverage grid show?
 
-Tool currently has **no** content for FR / NL national rules. All `REG-MS-FR-*` / `REG-MS-NL-*` are PLACEHOLDER.
+The banner (refreshed in K.1) has 4 tiers — click to expand:
 
-**Selecting FR / NL as target does not pretend coverage** — the tool:
-1. Lists them in Status "Countries at risk"
-2. Shows the pending notice in ScopeBanner
-3. Greys out in Coverage chips
+1. **Production-grade** — DE (8 ACTIVE) + UK (11 ACTIVE) + EU horizontal (~45 ACTIVE). Trust these.
+2. **Partial / Indicative** — ES (7 ACTIVE / 7 pending) + FR (5 ACTIVE / 7 pending). Use with the per-rule "why pending" reason on each card.
+3. **Seed-only / Pending** — NL (5 SEED_UNVERIFIED, 0 ACTIVE). Not yet verified.
+4. **Out of scope** — IT / PL / BE / AT / SE / CZ (placeholder), plus CN / US / JP / TR / customs / CBAM / HS / ISO standards.
 
-**Phase 13+ fills FR / NL content**.
+**Selecting NL as target does not pretend coverage** — Status "Countries at risk" lists it and the rule cards themselves show "why indicative only".
+
+**Phase K+ fills NL ACTIVE content + remaining ES/FR verification.**
 
 ### 8.5 When does "Drifted" freshness appear?
 
@@ -868,14 +947,14 @@ Aligned with the in-UI GlossaryModal (⚙ menu → Open glossary).
 | ○ Never verified | No human review record. |
 | Drifted | Source metadata changed; review needed. |
 
-### B.4 Member-state overlay status (Coverage tab chips)
+### B.4 Member-state overlay status (Coverage tab chips · refreshed K.1)
 
-| Status | Wording |
-|---|---|
-| 🟢 Operational | "Operational guidance available" — DE has 5 ACTIVE |
-| 🟠 Placeholder | "National overlay not yet authored (Phase 13+)" — FR/NL |
-| 🟡 Basic | "Basic overlay only — verify locally" |
-| 🔵 Non-EU | "Non-EU market — post-Brexit rules apply" — UK etc. |
+| Status | Wording | Examples |
+|---|---|---|
+| 🟢 Production-grade | "Production-grade guidance available" | DE (8 ACTIVE), UK (11 ACTIVE) |
+| 🟡 Partial | "Partial — some ACTIVE, remaining pending verification" | ES (7 ACTIVE / 7 pending), FR (5 / 7 pending) |
+| 🟠 Seed-only | "Seed-only — authored but 0 verified; confirm locally" | NL (0 ACTIVE / 5 SEED_UNVERIFIED) |
+| 🟠 Placeholder | "Placeholder — scope gap, verify locally" | IT / PL / BE / AT / SE / CZ |
 
 ### B.5 Rule lifecycle (Coverage tab; business users usually don't need this)
 
@@ -887,6 +966,8 @@ Aligned with the in-UI GlossaryModal (⚙ menu → Open glossary).
 | `SHADOW` | New rule in 4-week gray release; capped at CONDITIONAL; shown as Indicative |
 | `PLACEHOLDER` | Stub entry, tracked for coverage but no content |
 | `ARCHIVED` | Retired, no longer evaluates |
+
+Every non-ACTIVE rule carries a `manual_review_reason` field (surfaced inline on the rule card since K.0) explaining *why* the rule hasn't been promoted. Typical values: "Awaiting EUR-Lex URL verification", "Pending OJ reference", "KBA architectural split — see follow-up", "Authored; last_verified_on pending reviewer sign-off".
 
 ---
 
@@ -906,7 +987,7 @@ Aligned with the in-UI GlossaryModal (⚙ menu → Open glossary).
 | 8 | Panoramic "find gaps" KPI | Success = 3 stakeholders walk their 5-min paths. Not exhaustive coverage. |
 | 9 | RegPulse-Agent feeder | Tool is a final product, not upstream for any downstream agent. |
 | 10 | Backend server | No backend. All localStorage. |
-| 11 | 27-country content expansion | DE only. FR/NL placeholder; 24 others not covered. |
+| 11 | 27-country content expansion | DE + UK + ES + FR (partial). NL seed-only; 22 other EU states placeholder. |
 | 12 | Early code extraction | Sprint 9 spike identifies reusable seams only — no monorepo / core-layer split. |
 | 13 | Related_rules dependency graph UI | related_rules is a data field; no visualization. |
 

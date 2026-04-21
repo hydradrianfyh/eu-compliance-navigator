@@ -18,7 +18,7 @@ npm run dev          # http://localhost:3000
 Verify:
 
 ```bash
-npm test             # 204 tests
+npm test             # 230 tests
 npx tsc --noEmit     # 0 errors
 npm run lint         # 0 errors
 ```
@@ -328,7 +328,7 @@ tests/
 └── regression/            Golden-dataset + drift CI checks
 ```
 
-30 test files, 204 tests. Goal: ≥80% line coverage on `src/engine/`, `src/registry/`, `src/lib/`.
+34 test files, 230 tests. Goal: ≥80% line coverage on `src/engine/`, `src/registry/`, `src/lib/`.
 
 ### 6.2 How to add a test
 
@@ -485,14 +485,29 @@ If your rule needs a condition not expressible in existing `EngineConfig` fields
 3. Use it in the rule's `trigger_logic`.
 4. Update `condition-to-text.ts` with a natural-language rendering.
 
+### 10.4 Propulsion/fuel derived flags (Phase I.1)
+
+The Euro 6/7/OBD/AdBlue/EVAP rule split introduced in Phase I.1 relies on this set of derived flags, all computed inside `buildEngineConfig`:
+
+| Flag | Derivation | Used by |
+|---|---|---|
+| `fuelType` | `config.fuel?.tankType ?? null` | emissions-family declarative triggers |
+| `hasCombustionEngine` | powertrain ∈ {ICE, HEV, PHEV} AND fuelType ∉ {null, none, h2} | REG-EM-013 Euro 7 combustion, R83, R49, EVAP, AdBlue |
+| `hasDieselEngine` | `hasCombustionEngine && fuelType === "diesel"` | diesel-specific NOx / AdBlue / aftertreatment rules |
+| `hasFuelTank` | fuelType ∉ {null, none} | R67 (LPG), R110 (CNG), R134 (H2), fuel-tank crash rules |
+| `hasOBD` | equal to `hasCombustionEngine` | OBD-family rules (REG-EM-OBD-001, R83) |
+| `isPlugInHybrid` | `powertrain === "PHEV"` | PHEV-specific documentation rules, WLTP utility factor |
+
+When you author a rule whose trigger depends on combustion/diesel specificity, prefer these flags over branching on raw `powertrain` + `fuel.tankType` strings. See `src/registry/seed/emissions-co2.ts` for examples.
+
 ---
 
 ## 11. How to add a new member-state overlay
 
-FR and NL overlays are currently placeholder. Adding a new country:
+Current coverage: DE (8 ACTIVE + 2 indicative), UK (11 ACTIVE + 2 DRAFT), ES (7 ACTIVE + 7 pending), FR (5 ACTIVE + 7 pending), NL (0 ACTIVE + 5 SEED_UNVERIFIED). Adding a new country (e.g. IT / PL / BE / AT / SE / CZ — currently 5-PLACEHOLDER skeletons per country):
 
 1. Add the country code to `targetCountryOptions.eu` in `src/shared/constants.ts` (if not already).
-2. Create rule entries in `src/registry/seed/member-state-overlay.ts`. Template from the DE overlay (5 ACTIVE rules: registration, roadworthiness, insurance, motor tax, low-emission zones).
+2. Create rule entries in `src/registry/seed/member-state-overlay.ts`. Template from the DE overlay (8 ACTIVE rules: registration FZV, roadworthiness §29 StVZO HU/AU, insurance PflVG, motor tax KraftStG, Umweltzone low-emission zones, E-Kennzeichen, …).
 3. Each country overlay rule needs:
     - `stable_id` pattern: `REG-MS-<CC>-<NNN>` (e.g. `REG-MS-FR-001`)
     - `jurisdiction: "<CC>"`, `jurisdiction_level: "MEMBER_STATE"`
@@ -522,26 +537,82 @@ No semver tags yet. When a stable "v1.0" is cut, use [CHANGELOG.md](./) (to be c
 
 - **localStorage only** — no multi-user, no audit trail. By design (ADR-P1). Will revisit only if a real second OEM tenant appears.
 - **Legacy `src/components/phase3/`** — retained as fallback. `Phase3MainPage` is not imported by any `(workspace)` route but sits behind `/legacy` for comparison. Phase G is the planned deletion window.
-- **UNECE Annex II coverage** — 32 rules still placeholder. Phase 13+ scope. ScopeBanner acknowledges this.
-- **FR / NL overlays** — placeholder. Phase 13+ scope.
+- **UNECE Annex II coverage** — 43 UNECE technical rules still SEED_UNVERIFIED. Phase K+ scope. ScopeBanner acknowledges this.
+- **NL overlay** — 5 SEED_UNVERIFIED, 0 ACTIVE. Phase K+ scope.
+- **FR / ES overlay remainder** — 7 rules each pending verification. Rolling workstream.
 - **Playwright E2E** — scaffolded, no real tests. Phase F scope.
 - **Type-approval extension workflow** — `approvalType` has 4 states; E-mark extension flow is not modelled separately. Would require schema-level work.
-- **DE overlay provenance** — only `REG-MS-DE-001` has `content_provenance` populated (Sprint 7). Remaining 4 DE rules follow the same pattern; populate when convenient.
+- **DE-009 KBA architectural split** — follow-up item from human-review round 1.
 
 ---
 
-## 14. Phase 13+ roadmap hooks
+## 14. Phase K+ roadmap hooks
 
 Not commitments, just natural next moves when priorities shift:
 
-1. **FR overlay** — same 5-rule template as DE, driven off `Legifrance` sources.
-2. **NL overlay** — same, driven off `wetten.overheid.nl`.
-3. **UNECE Annex II fill** — bulk-promote the 32 placeholder rules using EUR-Lex Annex II as the index.
-4. **Playwright E2E** — mirror `docs/phase12/demo-scripts/*.md` as three E2E tests (homologation / team-leader / management).
-5. **CHANGELOG.md** — extract "Implemented phases" from the old README into a versioned changelog.
-6. **`@ocn/compliance-core` package** — only if a second real project materialises (per ADR-P6).
+1. **NL overlay promotion** — 5 SEED_UNVERIFIED rules already authored, awaiting EUR-Lex (NL gazette) URL verification.
+2. **FR / ES overlay remainder** — 7 rules each at null-URL / DRAFT; verification follows the same Phase-J round cadence.
+3. **UNECE Annex II fill** — 43 residual SEED_UNVERIFIED regulations, driven off Annex II of 2018/858.
+4. **DE-009 KBA architectural split** — follow-up from human-review round 1.
+5. **Playwright E2E** — mirror `docs/phase12/demo-scripts/*.md` as three E2E tests (homologation / team-leader / management).
+6. **CHANGELOG.md** — extract "Implemented phases" into a versioned changelog.
+7. **`@ocn/compliance-core` package** — only if a second real project materialises (per ADR-P6).
 
 Anything outside this list is probably scope creep. Check [ux-refactor-spec-v2.md §3.6 non-goals](./phase12/ux-refactor-spec-v2.md) before committing.
+
+---
+
+## 15. `manual_review_reason` — the human-visible "why pending" field
+
+Every non-ACTIVE rule (SEED_UNVERIFIED, DRAFT, PLACEHOLDER, SHADOW) carries a `manual_review_reason: string | null` field at the top of its seed entry. Since Phase K.0 (`commit 1556ada`) this string is **rendered inline** in `RuleCardV2` as a "Why indicative only" callout — it is the first thing a user sees on a non-ACTIVE rule card.
+
+### 15.1 Authoring guidelines
+
+- **Be specific**. "Pending verification" is too vague. Prefer "Awaiting EUR-Lex URL verification — CELEX ID pending SPARQL confirmation." or "KBA architectural split pending — see DE-009 follow-up." or "Windsor Framework NI provisions staged for 2026-10."
+- **Name the next action**, not just the current state. What would un-block this rule?
+- **Keep it under ~200 chars**. It's a single callout line in the card header.
+- **Never leave it null on a non-ACTIVE rule**. The UI renders a visible gap and RuleCardV2 drops to a generic fallback.
+
+### 15.2 What it is NOT
+
+- Not legal advice — never put legal interpretation in this field.
+- Not a full changelog — that belongs in `promotionLog` or git history.
+- Not `content_provenance` — that's the ACTIVE-rule provenance record; `manual_review_reason` is the NON-ACTIVE complement.
+
+### 15.3 Surfacing in the UI
+
+Two places:
+- **RuleCardV2** (since K.0): inline "Why indicative only" callout at the top of the card header, visible for all SEED_UNVERIFIED / DRAFT / PLACEHOLDER rule cards.
+- **VerificationQueuePanel** (legacy): shows the same field in a per-rule row inside the Coverage tab.
+
+If you add a new non-ACTIVE rule without `manual_review_reason`, both surfaces fall back to a generic "Authored content pending verification" message. Fill it explicitly.
+
+---
+
+## 16. Phase timeline
+
+Concise one-line summary of each phase for new contributors orienting in the git log.
+
+| Phase | Goal | Ship state |
+|---|---|---|
+| **0** | Scaffolding + canonical baseline docs | Complete (see `docs/phase0/*`) |
+| **1** | Next.js + type system + Zod schemas | Complete |
+| **2** | Registry + rule engine + 34 seed rules | Complete |
+| **3** | Configuration UI (9-section form) | Complete |
+| **4** | Results view + trust badges + explainability | Complete |
+| **5** | Annotations + comparison + export | Complete |
+| **6** | Testing + docs + cleanup | Complete |
+| **7-9** | Pilot onboarding + evidence + coverage | Complete (210 tests green) |
+| **11** | Pilot-driven work guidance (11A-11E) | Complete |
+| **12** | Path B UX refactor (5-tab workspace, exec-oriented) | Complete (Sprint 10 shipped) |
+| **I** | Breadth expansion — fuel/ICE/PHEV flags, emissions split | Complete (Phase I.1-I.6) |
+| **J** | Production readiness — country overlays + verification backlog | Complete (Phase J.1-J.6) |
+| **J human-review rounds 1-3** | 39 promotions to ACTIVE (34 → 73 ACTIVE) | Complete |
+| **K.0** | "Why indicative only" inline UX | Complete (`1556ada`) |
+| **K.1** | Scope banner + glossary content refresh | Complete (`1bf6e79`) |
+| **K.2** | Status + Plan exec summaries | Complete (`3afaf9a`) |
+| **K.3** | Doc refresh (README + user-guide + this file) | **Current commit** |
+| **K.4+** | Homologation manual · NL ACTIVE batch · DE-009 split | Pending |
 
 ---
 

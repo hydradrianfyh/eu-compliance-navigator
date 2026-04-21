@@ -2,7 +2,7 @@
 
 A config-driven compliance workbench for EU vehicle programs.
 
-**Status**: Phase J production readiness complete · 196 rules · 230 tests green · MY2027 BEV × DE / PHEV × DE·FR·NL / ICE × ES pilots live · verification backlog tracked at [docs/phase-j/verification-backlog.md](docs/phase-j/verification-backlog.md).
+**Status**: Phase J + human-review rounds 1-3 shipped · K.1 / K.2 UX refresh live · 196 rules / **73 ACTIVE** · 230 tests green · MY2027 BEV × DE (30 APPLICABLE) / PHEV × DE·FR·NL / ICE × ES pilots live · verification backlog tracked at [docs/phase-j/verification-backlog.md](docs/phase-j/verification-backlog.md).
 
 > ⚠ **This tool is a navigation aid, not legal advice.** Always validate with your homologation partner and legal counsel before making market-entry decisions. See [Disclaimer](#disclaimer).
 
@@ -26,10 +26,10 @@ A config-driven compliance workbench for EU vehicle programs.
 
 ## 30-second tour
 
-1. **Setup** — enter a vehicle program (framework group, category, powertrain, automation level, markets, SOP date, ...)
-2. **Status** — see the top-line verdict (`LIKELY OK` / `OK WITH CAVEATS` / `AT RISK` / `INDETERMINATE`) with 4 coverage metrics, top blockers, top deadlines, countries at risk.
-3. **Plan** — SOP-anchored timeline (Immediate / Pre-SOP critical / Pre-SOP final / Post-SOP / Later / Unscheduled) + Owner Dashboard grouped by responsible team.
-4. **Rules** — tri-layer view: Verified / Indicative / Pending authoring / Needs your input. Each rule card has Summary, Why-it-applies, What-to-do, Reference, and your project tracking.
+1. **Setup** — enter a vehicle program (framework group, category, powertrain, fuel type, automation level, markets, SOP date, ...)
+2. **Status** — **new in K.2**: management-friendly 3-second exec summary at the top (verdict + three numbers + top urgent action + progressive-disclosure link), followed by the full StatusHero (verdict + 4 coverage metrics), top blockers, top deadlines, countries at risk.
+3. **Plan** — **new in K.2**: exec summary block (SOP + countdown + counts + top 3 upcoming deadlines) above the SOP-anchored timeline (Immediate / Pre-SOP critical / Pre-SOP final / Post-SOP / Later / Unscheduled) + Owner Dashboard grouped by responsible team.
+4. **Rules** — tri-layer view: Verified / Indicative / Pending authoring / Needs your input. Each rule card has Summary, Why-it-applies, What-to-do, Reference, and your project tracking. **New in K.0**: non-ACTIVE rule cards surface an inline "Why indicative only" callout sourced from `manual_review_reason`.
 5. **Coverage** — governance view: lifecycle distribution, freshness distribution, domain × process coverage matrix, member-state chips, verification queue, promotion log.
 
 See [docs/phase12/demo-scripts/](docs/phase12/demo-scripts/) for three real 3-to-5-minute walkthroughs (homologation lead · team leader · management).
@@ -49,7 +49,7 @@ See [docs/phase12/demo-scripts/](docs/phase12/demo-scripts/) for three real 3-to
 │  applicability. Pure functions. No side effects.         │
 ├──────────────────────────────────────────────────────────┤
 │  REGISTRY LAYER                                          │
-│  196 typed rules · 17 legal families · 6 lifecycle states│
+│  196 rules / 73 ACTIVE · 17 legal families · 6 lifecycle │
 │  Zod-validated schema. Content provenance tracked.       │
 ├──────────────────────────────────────────────────────────┤
 │  CONFIGURATION LAYER                                     │
@@ -61,11 +61,17 @@ See [docs/phase12/demo-scripts/](docs/phase12/demo-scripts/) for three real 3-to
 **Key invariant**: UI components only render `EvaluationResult`. They never call rule logic directly. See [ADR-P6 · Reusable layer seams](docs/adr/ADR-P6-reusable-layer-seams.md) for the extraction-ready architecture map.
 
 **Stats**:
-- **196** rules · **17** legal families
+- **196** rules · **17** legal families · **73 ACTIVE** (after human-review rounds 1-3)
 - **6** lifecycle states: `PLACEHOLDER` / `DRAFT` / `SEED_UNVERIFIED` / `SHADOW` / `ACTIVE` / `ARCHIVED`
 - **6** freshness states: `fresh` / `due_soon` / `overdue` / `critically_overdue` / `never_verified` / `drifted`
 - **21** golden-dataset anchors (CI-enforced against EUR-Lex SPARQL weekly)
-- **Member-state overlays**: DE (5 ACTIVE + 4 SEED_UNVERIFIED + 1 DRAFT = 10 total, incl. AltfahrzeugV ELV transposition) · FR (10 SEED_UNVERIFIED + 2 DRAFT = 12 total, incl. UTAC technical service) · NL (5 SEED_UNVERIFIED) · ES (10 SEED_UNVERIFIED + 3 DRAFT + 1 PLACEHOLDER = 14 total, incl. CCAA regional advisory) · UK non-EU market (1 ACTIVE + 11 SEED_UNVERIFIED + 3 DRAFT = 15 total, incl. AV Act 2024 + UK REACH + UK ETS monitoring)
+- **Per-country coverage**:
+  - 🟢 **DE** — 8 ACTIVE + 2 indicative (LSV pending legislation, KBA needs architectural split)
+  - 🟢 **UK** (non-EU market) — 11 ACTIVE + 2 DRAFT (Windsor Framework NI, Public Charge Point Regs staging)
+  - 🟢 **ES** — 7 ACTIVE + 7 indicative / DRAFT / PLACEHOLDER (per-rule honest "why pending" reasons on each card)
+  - 🟡 **FR** — 5 ACTIVE + 7 null-URL / DRAFT (partial coverage; verification in progress)
+  - 🟠 **NL** — 0 ACTIVE, 5 SEED_UNVERIFIED (authoring pending in Phase K+)
+  - 🟢 **EU horizontal** — ~45 ACTIVE covering Battery Reg (8 sub-obligations) · Euro 6 + Euro 7 split + OBD + EVAP + AdBlue · CO2 labeling · VECTO · WLTP · RDE · AI Act · Data Act · GDPR · PLD · R100 · R171 DCAS · R155/156/157 cyber+SW+ALKS
 - **13** non-goals explicitly honoured (see [spec §3.6](docs/phase12/ux-refactor-spec-v2.md))
 
 ---
@@ -74,20 +80,22 @@ See [docs/phase12/demo-scripts/](docs/phase12/demo-scripts/) for three real 3-to
 
 **In scope** — this tool evaluates:
 
-- EU horizontal regulations (WVTA 2018/858, GSR2, R155/R156/R157, GDPR, Data Act, AI Act, Battery, Euro 7, PLD)
-- Germany (DE) member-state overlay: registration (FZV) · roadworthiness (§29 StVZO HU/AU) · insurance (PflVG) · motor tax (KraftStG) · low-emission zones (Umweltzonen)
+- EU horizontal regulations (WVTA 2018/858, GSR2, R155/R156/R157, GDPR, Data Act, AI Act, Battery, Euro 6 + Euro 7 split, OBD/EVAP/AdBlue, PLD)
+- Germany (DE) member-state overlay (8 ACTIVE): registration (FZV) · roadworthiness (§29 StVZO HU/AU) · insurance (PflVG) · motor tax (KraftStG) · low-emission zones (Umweltzonen) · E-Kennzeichen · …
+- United Kingdom (UK) non-EU-market overlay (11 ACTIVE): Automated Vehicles Act 2024 cluster · post-Brexit registration · UK REACH · UK ETS monitoring
+- Spain (ES) partial overlay (7 ACTIVE, 7 pending) and France (FR) partial overlay (5 ACTIVE, 7 pending)
 
-**Pending human verification** (separate follow-up round):
+**Pending human verification** (tracked in separate rolling workstream):
 
-- FR (12 SEED_UNVERIFIED/DRAFT), NL (5 SEED_UNVERIFIED), ES (14 SEED_UNVERIFIED/DRAFT/PLACEHOLDER), UK (14 SEED_UNVERIFIED/DRAFT besides 1 ACTIVE AV Act), DE non-ACTIVE overlays (5 SEED_UNVERIFIED/DRAFT) — content authored, awaiting URL + date verification to promote to ACTIVE per source-policy.
-- Phase I.2 emissions rules (9 new + 6 UNECE) and Phase J.2 battery sub-obligations (BAT-008/009/010) — content authored, awaiting human source verification.
-- Full backlog tracked at [docs/phase-j/verification-backlog.md](docs/phase-j/verification-backlog.md).
+- **123 rules** at various non-ACTIVE lifecycles (75 SEED_UNVERIFIED + 15 DRAFT + 33 PLACEHOLDER). Human-review rounds 1-3 promoted 39 rules to ACTIVE since Phase J shipped — bringing the registry from 34 → 73 ACTIVE.
+- Outstanding batches: **NL** (0 ACTIVE yet, 5 SEED_UNVERIFIED authored) · **FR** remainder (7 rules) · **ES** remainder (7 rules) · **DE** non-ACTIVE (2 rules, incl. DE-009 KBA architectural split) · **UK** staging (2 DRAFT) · UNECE Annex II residual (43 SEED_UNVERIFIED).
+- Full backlog — regenerable via `npm run verification-backlog` — tracked at [docs/phase-j/verification-backlog.md](docs/phase-j/verification-backlog.md).
 
 **Out of scope** (explicit non-goals — see [ADRs](docs/adr/)):
 
-- UNECE Annex II technical regulations beyond the pilot-triggered set (32 rules still placeholder)
-- Other EU member states beyond DE/FR/NL/ES (IT/PL/BE/AT/SE/CZ/…)
-- Non-EU markets (CN/US/JP/UK/TR/…)
+- UNECE Annex II technical regulations beyond the pilot-triggered set (43 residual SEED_UNVERIFIED)
+- Other EU member states beyond DE/FR/NL/ES (IT/PL/BE/AT/SE/CZ/… — 5-PLACEHOLDER skeletons only)
+- Non-EU markets beyond UK (CN/US/JP/TR/…)
 - Customs / CBAM / HS classification / Rules-of-Origin / FTA rules
 - ISO standards prerequisites (26262 / 21448 / 21434 / 8800)
 - Multi-tenant SaaS, SSO / RBAC, PLM / ERP / QMS integration, supplier portal, legal sign-off workflow, backend server, RegPulse-Agent feeder pipeline
@@ -125,7 +133,7 @@ npm run build
 npm start
 ```
 
-First time? Open the app, click the **⚙ gear icon** in the top-right, then **"Load MY2027 BEV sample"**. You'll land on a pre-populated Setup with 22 ACTIVE pilot-triggered rules ready to explore.
+First time? Open the app, click the **⚙ gear icon** in the top-right, then **"Load MY2027 BEV sample"**. You'll land on a pre-populated Setup with 30 APPLICABLE pilot-triggered rules ready to explore (MY2027 BEV × DE pilot baseline).
 
 ---
 
@@ -180,7 +188,7 @@ This tool is a **navigation aid, not legal advice**. Rule content is authored fr
 
 - **No rule guarantees market approval.** Applicable regulations change; the tool's drift-alert CI detects source changes but does not replace human re-verification.
 - **No automated rule content is generated by LLM at runtime.** All evaluation is deterministic; every ACTIVE rule has a `content_provenance` record naming its reviewer and retrieval date.
-- **FR and NL overlays are placeholders** — the tool displays this explicitly in the ScopeBanner; do not assume coverage.
+- **FR coverage is partial (5 ACTIVE) and NL coverage is seed-only (0 ACTIVE)** — the ScopeBanner's 4-tier progressive disclosure (production-grade / indicative / pending / out of scope) and per-rule "Why indicative only" callouts communicate this explicitly; do not assume coverage on the basis of a country code being selectable.
 - **Always validate with your homologation partner** (TÜV / DEKRA / UTAC / RDW / KBA / VCA / …) and legal counsel before making market-entry decisions.
 
 ---

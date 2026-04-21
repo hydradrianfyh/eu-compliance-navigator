@@ -9,6 +9,35 @@ breadth expansion: promoting SEED_UNVERIFIED / DRAFT / PLACEHOLDER rules to
 ACTIVE once a human reviewer has attached an authoritative source, recorded
 the OJ/gazette citation, and stamped a verification date.
 
+## Current status (2026-04-21)
+
+**Registry state**: 196 rules · **73 ACTIVE** (up from 34 at Phase J ship) · 230 tests green.
+
+### Human-review rounds completed
+
+| Round | Scope | Outcome |
+|---|---|---|
+| **Round 1** | DE targeted | `379e574`, `b23ebfb` — promoted REG-MS-DE-006 E-Kennzeichen, DE-008, DE-010 to ACTIVE; enriched DE-007 + DE-009 (DE-009 flagged for architectural split follow-up). |
+| **Round 2a** | EU emissions + battery | `8fa919b` — 8 emissions rules + 2 battery sub-obligations promoted to ACTIVE (Euro 7 combustion split, OBD, EVAP, AdBlue family). |
+| **Round 2c** | ES country batch | `b8fdc7c` — 7 Spain rules promoted to ACTIVE with honest per-rule "why pending" reasons on the remaining 7. |
+| **Round 3 · UK** | UK non-EU market | `79e3574` — 10 UK rules promoted to ACTIVE (AV Act 2024 cluster + post-Brexit registration + UK ETS). |
+| **Round 3 · FR** | FR country batch | `d42ec2f` — 5 France rules promoted to ACTIVE; 7 remaining at null-URL / DRAFT. |
+| **Round 3 · EU** | EU residual | `afc4f50` — 4 remaining EU-horizontal rules promoted to ACTIVE. |
+
+**Total promoted since Phase J ship**: 39 rules (34 → 73 ACTIVE).
+
+### Backlog state
+
+After rounds 1–3, **123 rules** remain non-ACTIVE (75 SEED_UNVERIFIED + 15 DRAFT + 33 PLACEHOLDER). Regenerate with `npm run verification-backlog` — [verification-backlog.md](./verification-backlog.md) is the live snapshot.
+
+### Next up
+
+- **NL batch** — 5 SEED_UNVERIFIED rules authored, awaiting EUR-Lex (NL gazette) URL verification. 0 ACTIVE today.
+- **DE-009 architectural split** — KBA rule needs separation into cleaner sub-rules (flagged during round 1).
+- **UNECE Annex II residual** — 43 SEED_UNVERIFIED technical regulations.
+- **ES / FR remainder** — 7 each at null-URL / DRAFT, follow same cadence.
+- **Phase K+ UX** — K.0 (Why-indicative callout), K.1 (scope banner refresh), K.2 (exec summaries) shipped; K.3 (doc refresh, this change) in flight; K.4 (homologation manual) to follow.
+
 ## Contents
 
 - [`verification-backlog.md`](./verification-backlog.md) — auto-generated
