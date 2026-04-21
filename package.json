@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "test": "vitest run --coverage",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "verification-backlog": "tsx scripts/emit-verification-backlog.ts > docs/phase-j/verification-backlog.md"
   },
   "keywords": [],
   "author": "",
@@ -38,6 +39,7 @@
     "jsdom": "^29.0.2",
     "postcss": "^8.5.9",
     "tailwindcss": "^4.2.2",
+    "tsx": "^4.21.0",
     "typescript": "^6.0.2",
     "vitest": "^4.1.4"
   }
