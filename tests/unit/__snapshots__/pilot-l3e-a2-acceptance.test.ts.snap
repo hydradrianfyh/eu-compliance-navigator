@@ -413,6 +413,26 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-MS-DE-005",
   },
   {
+    "applicability": "CONDITIONAL",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-DE-006",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "DRAFT",
+    "rule_id": "REG-MS-DE-007",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-DE-008",
+  },
+  {
+    "applicability": "CONDITIONAL",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-DE-009",
+  },
+  {
     "applicability": "NOT_APPLICABLE",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-MS-FR-001",
@@ -436,6 +456,36 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "applicability": "NOT_APPLICABLE",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-MS-FR-005",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-FR-006",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "DRAFT",
+    "rule_id": "REG-MS-FR-007",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-FR-008",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-FR-009",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "DRAFT",
+    "rule_id": "REG-MS-FR-010",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-MS-FR-011",
   },
   {
     "applicability": "NOT_APPLICABLE",
@@ -904,10 +954,10 @@ exports[`Pilot L3e-A2 BEV acceptance > pilot coverage summary > prints coverage 
     "REG-MS-DE-005",
     "REG-PV-002",
   ],
-  "conditional": 7,
+  "conditional": 9,
   "future": 2,
-  "not_applicable": 84,
-  "total": 177,
+  "not_applicable": 92,
+  "total": 187,
   "unknown": 75,
 }
 `;

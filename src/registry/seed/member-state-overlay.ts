@@ -449,6 +449,261 @@ const germanyOverlayRules: Rule[] = [
     ui_package: "country_overlay",
     process_stage: "post_market",
   }),
+
+  // ============================================================
+  // Phase I.5 — Germany (DE) targeted fill-in (2026-04-21)
+  // 4 new rules appended: DE-006..009.
+  // 3 SEED_UNVERIFIED + 1 DRAFT. content_provenance.human_reviewer: null.
+  // [verify] markers live in notes / manual_review_reason only.
+  // ============================================================
+  makeSeedRule({
+    stable_id: "REG-MS-DE-006",
+    title: "Germany — E-Kennzeichen (Electric Vehicle Plate, EmoG)",
+    short_label: "DE E-Kennzeichen (EmoG)",
+    legal_family: "member_state_overlay",
+    jurisdiction: "DE",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Elektromobilitätsgesetz (EmoG) §2-3",
+        source_family: "National legislation" as const,
+        reference: "EmoG §2-§3 (Elektromobilitätsgesetz vom 5. Juni 2015) [verify consolidated text]",
+        official_url: null,
+        oj_reference: "BGBl. I 2015 S. 898 [verify]",
+        authoritative_reference: "EmoG §2-§3 [verify]",
+        last_verified_on: null,
+      },
+      {
+        label: "Straßenverkehrs-Zulassungs-Ordnung §23 (Kennzeichen)",
+        source_family: "National legislation" as const,
+        reference: "StVZO §23 (Kennzeichen) [verify]",
+        official_url: null,
+        oj_reference: null,
+        authoritative_reference: "StVZO §23 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "DE" },
+        { field: "batteryPresent", operator: "is_true", value: true },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2015-06-12",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2015-06-12",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "EmoG entered into force 12 June 2015 [verify].",
+    },
+    obligation_text:
+      "BEV, FCEV, and PHEV with at least 40 km electric range or CO2 ≤ 50 g/km may receive an 'E' suffix on the German license plate. The plate enables municipal privileges such as free or reduced parking, bus-lane access in select cities, and preferred parking at charging stations. Privilege application is discretionary by municipality.",
+    evidence_tasks: [
+      "E-Kennzeichen registration procedure via Zulassungsbehörde",
+      "Municipal privilege mapping per target city (DE-major)",
+      "PHEV electric-range / CO2 certification for EmoG qualification",
+    ],
+    owner_hint: "regulatory_affairs",
+    ui_package: "market_access",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+  }),
+
+  makeSeedRule({
+    stable_id: "REG-MS-DE-007",
+    title: "Germany — AFIR Transposition (Ladesäulenverordnung revision)",
+    short_label: "DE AFIR / LSV",
+    legal_family: "member_state_overlay",
+    jurisdiction: "DE",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Regulation (EU) 2023/1804 AFIR",
+        source_family: "EUR-Lex" as const,
+        reference: "Regulation (EU) 2023/1804 on the deployment of alternative fuels infrastructure (AFIR)",
+        official_url: "https://eur-lex.europa.eu/eli/reg/2023/1804/oj",
+        oj_reference: "OJ L, 2023/1804, 22.9.2023",
+        authoritative_reference: "CELEX:32023R1804",
+        last_verified_on: null,
+      },
+      {
+        label: "Ladesäulenverordnung (LSV) — revision pending",
+        source_family: "National legislation" as const,
+        reference: "Ladesäulenverordnung (LSV) — revision transposing AFIR [verify]",
+        official_url: null,
+        oj_reference: null,
+        authoritative_reference: "LSV [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "DRAFT",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "DE" },
+        { field: "readiness.offersPublicChargingInfra", operator: "is_true", value: true },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2024-04-13",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2024-04-13",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "AFIR entered into force 13 April 2024 per Art 24 [verify]. German Ladesäulenverordnung (LSV) revision transposing AFIR pending 2025-2026 [verify].",
+    },
+    obligation_text:
+      "OEMs operating public charging infrastructure in Germany must comply with AFIR-derived requirements on payment methods, pricing transparency, and charger deployment density. Operational transposition via revised Ladesäulenverordnung (LSV) is in progress.",
+    evidence_tasks: [
+      "LSV revision tracking",
+      "AFIR payment + transparency compliance",
+      "Deployment density reporting per AFIR Art 3-4",
+      "Public charge-point pricing display audit",
+    ],
+    manual_review_required: true,
+    manual_review_reason:
+      "LSV revision pending final publication. AFIR operational dates depend on German transposition.",
+    owner_hint: "regulatory_affairs",
+    ui_package: "market_access",
+    process_stage: "post_market",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+  }),
+
+  makeSeedRule({
+    stable_id: "REG-MS-DE-008",
+    title: "Germany — Company Car Taxation (Dienstwagenbesteuerung, EStG §6/§8)",
+    short_label: "DE Dienstwagensteuer",
+    legal_family: "member_state_overlay",
+    jurisdiction: "DE",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Einkommensteuergesetz §6(1)Nr.4 + §8(2)",
+        source_family: "National legislation" as const,
+        reference: "EStG §6(1)Nr.4 + §8(2) (Einkommensteuergesetz) [verify current thresholds]",
+        official_url: null,
+        oj_reference: null,
+        authoritative_reference: "EStG §6(1)Nr.4 + §8(2) [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "DE" },
+        { field: "salesModel", operator: "in", value: ["fleet", "mixed"] },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2019-01-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2019-01-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "BEV preferential treatment introduced via Jahressteuergesetz 2019 [verify exact Act number + §]. List-price thresholds updated periodically — confirm current threshold before customer-facing pricing.",
+    },
+    obligation_text:
+      "Company cars in Germany attract monthly benefit-in-kind (Dienstwagensteuer) at 0.25% of list price for BEV with list price up to €70,000; 0.5% for BEV over €70,000 and for PHEV meeting range/CO2 thresholds (60 km electric range or ≤50 g CO2/km); 1.0% for standard ICE. This is a major pricing lever for German B2B/fleet sales.",
+    evidence_tasks: [
+      "BEV list-price breakdown for Dienstwagen-tax calculation",
+      "PHEV electric-range / CO2 certification for 0.5% eligibility",
+      "Fleet customer training on German Dienstwagen taxation",
+      "Pricing-model update reflecting 2025 thresholds",
+    ],
+    owner_hint: "legal",
+    ui_package: "horizontal",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+  }),
+
+  makeSeedRule({
+    stable_id: "REG-MS-DE-009",
+    title: "Germany — KBA (Kraftfahrt-Bundesamt) National Type-Approval Authority",
+    short_label: "DE KBA TA Authority",
+    legal_family: "member_state_overlay",
+    jurisdiction: "DE",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L", "O", "AGRI"],
+    sources: [
+      {
+        label: "KBA-Zuständigkeitsverordnung + StVZO",
+        source_family: "National legislation" as const,
+        reference: "KBA-Zuständigkeitsverordnung + StVZO [verify]",
+        official_url: null,
+        oj_reference: null,
+        authoritative_reference: "KBA-Zuständigkeitsverordnung [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "DE" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2009-01-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2009-01-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "KBA (Kraftfahrt-Bundesamt) in Flensburg designated EU TA authority for Germany pre-dates WVTA Reg 2018/858 [verify earliest formal designation].",
+    },
+    obligation_text:
+      "The Kraftfahrt-Bundesamt (KBA) in Flensburg is the primary German EU type-approval authority. Chinese OEMs frequently obtain EU type approval via KBA then distribute EU-wide. The national homologation path for DE-only vehicles is also via KBA. Submission in German language is expected.",
+    evidence_tasks: [
+      "KBA type-approval dossier (German language)",
+      "TSS (Technische Dienste) designation",
+      "KBA liaison + regulatory pre-read meetings",
+      "EU TA certificate issuance + CoC template",
+      "National DE-specific addenda per KBA-Zuständigkeitsverordnung",
+    ],
+    owner_hint: "homologation",
+    planning_lead_time_months: 12,
+    ui_package: "wvta_core",
+    process_stage: "type_approval",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+  }),
 ];
 
 // ============================================================
@@ -724,6 +979,365 @@ const franceOverlayRules: Rule[] = [
     },
     notes:
       "ALERT: April 2025 government proposal to suppress mandatory ZFE in 40 agglomérations under parliamentary review — re-check Légifrance quarterly.",
+  }),
+
+  // ============================================================
+  // Phase I.5 — France (FR) targeted fill-in (2026-04-21)
+  // 6 new rules appended: FR-006..011.
+  // 4 SEED_UNVERIFIED + 2 DRAFT (FR-007 Prime, FR-010 LOM).
+  // content_provenance.human_reviewer: null on all.
+  // [verify] markers live in notes / manual_review_reason only.
+  // ============================================================
+  makeSeedRule({
+    stable_id: "REG-MS-FR-006",
+    title: "France — Crit'Air Vignette (Standalone)",
+    short_label: "FR Crit'Air vignette",
+    legal_family: "member_state_overlay",
+    jurisdiction: "FR",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L"],
+    sources: [
+      {
+        label: "Arrêté du 21 juin 2016 + Code de l'environnement R318-2",
+        source_family: "National legislation" as const,
+        reference: "Arrêté du 21 juin 2016 + Code de l'environnement Art. R318-2 [verify]",
+        official_url: null,
+        oj_reference: null,
+        authoritative_reference: "Code de l'environnement R318-2 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "FR" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2016-07-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2016-07-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "Arrêté du 21 juin 2016 effective from July 2016 [verify exact]. Crit'Air 0 applies to BEV/FCEV; 1 to PHEV and Euro 6 petrol; 2 to Euro 5 petrol + Euro 6 diesel; lower classes per older standards.",
+    },
+    obligation_text:
+      "Vehicles entering French ZFE-m zones must carry a Crit'Air vignette. Six classes reflect Euro emission + powertrain combinations. BEV and FCEV receive Crit'Air class 0 granting all-area access. Issuance is via the CERFA form or online portal. Non-display inside a ZFE is subject to a fixed penalty (€68).",
+    evidence_tasks: [
+      "Crit'Air CERFA issuance per vehicle",
+      "Dealer communications on Crit'Air class at sale",
+      "BEV/FCEV class 0 documentation in CoC annex",
+      "Fleet rollout + replacement-vignette process",
+    ],
+    owner_hint: "regulatory_affairs",
+    ui_package: "horizontal",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    related_rules: [
+      { rule_id: "REG-MS-FR-005", relation: "requires" },
+    ],
+  }),
+
+  makeSeedRule({
+    stable_id: "REG-MS-FR-007",
+    title: "France — Prime à la Conversion (Scrappage incentive for BEV/PHEV/FCEV)",
+    short_label: "FR Prime à la Conversion",
+    legal_family: "member_state_overlay",
+    jurisdiction: "FR",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Décret 2022-1761 + subsequent annual décrets",
+        source_family: "National legislation" as const,
+        reference: "Décret 2022-1761 + décrets d'application annuels 2024/2025/2026 [verify latest décret]",
+        official_url: null,
+        oj_reference: null,
+        authoritative_reference: "Décret 2022-1761 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "DRAFT",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "FR" },
+        { field: "powertrain", operator: "in", value: ["BEV", "PHEV", "FCEV"] },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2023-01-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2023-01-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "Programme renewed annually via décret; budget-constrained. 2026 conditions [verify latest décret].",
+    },
+    obligation_text:
+      "Customer-side scrappage incentive for BEV/PHEV/FCEV purchase, providing up to €5,000 depending on household income, age/type of the scrapped vehicle, and the Crit'Air class of the newly purchased vehicle. Budget is capped and may be exhausted mid-year.",
+    evidence_tasks: [
+      "Customer-eligibility screening tooling",
+      "Scrappage documentation template",
+      "Dealer application + payment-in-advance process",
+      "Budget availability monitoring",
+    ],
+    manual_review_required: true,
+    manual_review_reason:
+      "Prime à la conversion budget + conditions revised annually. Verify current state before customer-facing pricing.",
+    owner_hint: "legal",
+    ui_package: "market_access",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+  }),
+
+  makeSeedRule({
+    stable_id: "REG-MS-FR-008",
+    title: "France — Corporate Fleet Tax (TVS → TAVE + TAPVP, from 2025)",
+    short_label: "FR TAVE + TAPVP",
+    legal_family: "member_state_overlay",
+    jurisdiction: "FR",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Code général des impôts Art. 1010 + Loi de Finances 2025",
+        source_family: "National legislation" as const,
+        reference: "Code général des impôts Art. 1010 + Loi de Finances 2025 [verify exact CGI article revisions]",
+        official_url: null,
+        oj_reference: null,
+        authoritative_reference: "CGI Art. 1010 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "FR" },
+        { field: "salesModel", operator: "in", value: ["fleet", "mixed"] },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2025-01-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2025-01-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "From 1 Jan 2025 the former TVS was replaced by TAVE (CO2 emissions component) and TAPVP (pollutant-class component) under LF 2025 [verify exact CGI article revisions].",
+    },
+    obligation_text:
+      "French corporate fleet tax: from 1 January 2025, the former TVS (Taxe sur les véhicules de société) was replaced by TAVE (Taxe annuelle sur les émissions de CO2) and TAPVP (Taxe annuelle sur les polluants atmosphériques des véhicules particuliers). BEV is exempt from both. ICE and PHEV are taxed on CO2 band and Euro class. Relevant for B2B/fleet customer TCO.",
+    evidence_tasks: [
+      "Fleet-customer tax quote tooling covering TAVE+TAPVP",
+      "CO2 band + Euro class lookup per model",
+      "Annual TAVE/TAPVP filing template for customers",
+      "BEV-exemption documentation",
+    ],
+    owner_hint: "legal",
+    ui_package: "horizontal",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+  }),
+
+  makeSeedRule({
+    stable_id: "REG-MS-FR-009",
+    title: "France — TICPE Fuel Tax (Taxe intérieure sur les produits énergétiques)",
+    short_label: "FR TICPE",
+    legal_family: "member_state_overlay",
+    jurisdiction: "FR",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Code des impositions sur les biens et services Art. L312-35",
+        source_family: "National legislation" as const,
+        reference: "Code des impositions sur les biens et services (CIBS) Art. L312-35 [verify]",
+        official_url: null,
+        oj_reference: null,
+        authoritative_reference: "CIBS L312-35 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "FR" },
+        { field: "hasCombustionEngine", operator: "is_true", value: true },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2022-01-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2022-01-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "Code des impositions sur les biens et services (CIBS) entered into force 1 January 2022 replacing older CGI chapters on energy taxation [verify].",
+    },
+    obligation_text:
+      "Taxe intérieure sur la consommation des produits énergétiques (TICPE) applies to petrol and diesel at the pump. Regional modulations are permitted by law. TICPE materially affects the TCO of ICE and PHEV vehicles compared to BEV.",
+    evidence_tasks: [
+      "Fuel-cost benchmarking for ICE/PHEV customer TCO comms",
+      "Regional-variation awareness brief for commercial team",
+    ],
+    owner_hint: "legal",
+    ui_package: "horizontal",
+    process_stage: "post_market",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+  }),
+
+  makeSeedRule({
+    stable_id: "REG-MS-FR-010",
+    title: "France — LOM (Loi d'Orientation des Mobilités)",
+    short_label: "FR LOM",
+    legal_family: "member_state_overlay",
+    jurisdiction: "FR",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Loi n° 2019-1428 du 24 décembre 2019 — LOM + décrets d'application",
+        source_family: "National legislation" as const,
+        reference: "Loi 2019-1428 + décrets d'application [verify Loi number and date]",
+        official_url: "https://www.legifrance.gouv.fr/loda/id/JORFTEXT000039666574",
+        oj_reference: null,
+        authoritative_reference: "Loi 2019-1428 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "DRAFT",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "FR" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2019-12-26",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2019-12-26",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "LOM promulgated 24 December 2019, publication 26 December 2019 [verify Loi number and date]. Key décrets d'application partially still pending.",
+    },
+    obligation_text:
+      "Loi d'Orientation des Mobilités (LOM) establishes France's 2040 deadline for ending sale of new ICE passenger vehicles (superseded in aggregate by EU 2035 target under Reg 2019/631), plus obligations for large employers to adopt mobility plans, plus MaaS-style data-sharing requirements for connected fleets.",
+    evidence_tasks: [
+      "Corporate mobility plan (if French subsidiary >100 employees)",
+      "MaaS data-sharing assessment for connected fleet services",
+      "LOM 2040 ICE-ban vs EU 2035 tracking",
+    ],
+    manual_review_required: true,
+    manual_review_reason:
+      "LOM décrets d'application partially pending. 2040 national ICE-ban is superseded by EU 2035 at aggregate level.",
+    owner_hint: "regulatory_affairs",
+    ui_package: "horizontal",
+    process_stage: "pre_ta",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    related_rules: [
+      { rule_id: "REG-EM-003", relation: "complements" },
+    ],
+  }),
+
+  makeSeedRule({
+    stable_id: "REG-MS-FR-011",
+    title: "France — Malus Masse 2025 (Weight-based surtax for M1 passenger cars)",
+    short_label: "FR Malus masse",
+    legal_family: "member_state_overlay",
+    jurisdiction: "FR",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Loi de Finances 2024 + Loi de Finances 2025",
+        source_family: "National legislation" as const,
+        reference: "Loi de Finances 2024 + Loi de Finances 2025 [verify exact CGI article + threshold]",
+        official_url: null,
+        oj_reference: null,
+        authoritative_reference: "LF 2024 + LF 2025 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "FR" },
+        { field: "vehicleCategory", operator: "eq", value: "M1" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2022-01-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2022-01-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes: "Malus masse introduced via Loi de Finances 2022 [verify] with threshold tightened in LF 2024 and LF 2025. BEV exempt until 1 January 2026; from 2026, BEV receive 15% abatement on mass.",
+    },
+    obligation_text:
+      "A weight-based surtax of €10 per kilogram applies to M1 passenger vehicles above a 1,600 kg mass threshold at first registration in France. BEV are exempt until 1 January 2026, after which a 15% mass abatement applies. The surtax is stacked on top of the CO2-based malus.",
+    evidence_tasks: [
+      "Mass declaration on CoC for Malus calculation",
+      "Customer pricing adjustment incorporating Malus masse",
+      "BEV exemption tracking until 2026-01-01",
+      "15% BEV abatement from 2026 onwards",
+    ],
+    owner_hint: "legal",
+    ui_package: "market_access",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    related_rules: [
+      { rule_id: "REG-MS-FR-004", relation: "complements" },
+    ],
   }),
 ];
 
