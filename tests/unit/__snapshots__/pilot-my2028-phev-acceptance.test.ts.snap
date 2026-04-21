@@ -823,6 +823,11 @@ exports[`Pilot MY2028 PHEV acceptance > Layer 3 — coverage snapshot > matches 
     "rule_id": "REG-UN-137",
   },
   {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-138",
+  },
+  {
     "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-140",
@@ -970,8 +975,8 @@ exports[`Pilot MY2028 PHEV acceptance > pilot coverage summary > prints coverage
   ],
   "conditional": 55,
   "future": 0,
-  "not_applicable": 34,
-  "total": 187,
+  "not_applicable": 35,
+  "total": 188,
   "unknown": 75,
 }
 `;

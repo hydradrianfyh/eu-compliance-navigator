@@ -13,6 +13,22 @@
  *   - Temporal advancement moves ACTIVE-but-FUTURE rules into APPLICABLE.
  *   - AI Act Art. 6(1) timeline (REG-AI-004) gate is observed.
  */
+
+// Phase J audit notes (2026-04-20):
+//
+// The applicable_rule_ids list of ~18 is intentional and reflects the governance
+// hard-gate in src/engine/evaluator.ts:113-122.
+//
+// REG-EM-009 (PHEV CO2 Utility-Factor) and REG-EM-013 (Euro 7 Combustion Exhaust)
+// appear as CONDITIONAL rather than APPLICABLE because they are SEED_UNVERIFIED.
+// Their triggers DO fire correctly for PHEV (isPlugInHybrid=true, hasCombustionEngine=
+// true), but the hard-gate downgrades non-ACTIVE rules to at most CONDITIONAL.
+// Once these rules are promoted to ACTIVE in the separate human-verification round,
+// they will surface as APPLICABLE and the expected set will grow accordingly.
+//
+// This is NOT silent under-serving. Do not add these stable_ids to applicable_rule_ids
+// while they remain SEED_UNVERIFIED.
+
 export const pilotMY2028PHEVExpected = {
   hardAssertions: {
     applicable_rule_ids: [

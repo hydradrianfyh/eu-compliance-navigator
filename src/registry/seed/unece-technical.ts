@@ -57,6 +57,18 @@ interface UneceAuthored {
    * over from 2028-05-29" without a separate schema change.
    */
   temporalNotes?: string;
+  /**
+   * Phase J.1: per-rule evidence checklist, passed through `makeSeedRule`.
+   * Used by rules like R138 AVAS that need distinct type-approval + design
+   * documentation items beyond the default empty list.
+   */
+  evidenceTasks?: string[];
+  /**
+   * Phase J.1: override the factory's default manual_review_reason with a
+   * rule-specific message (e.g. "UNECE deep link + R138 revision number +
+   * exact EU effective dates [verify]").
+   */
+  manualReviewReason?: string;
 }
 
 function uneceRule(
@@ -147,7 +159,9 @@ function uneceRule(
     obligation_text: obligationText,
     owner_hint: "homologation",
     manual_review_reason:
+      authored?.manualReviewReason ??
       "UNECE regulation applicability depends on vehicle category and Annex II row. Requires verification against current consolidated text.",
+    ...(authored?.evidenceTasks ? { evidence_tasks: authored.evidenceTasks } : {}),
     ui_package: "wvta_core",
     process_stage: "type_approval",
     ...(authored
@@ -379,7 +393,19 @@ export const uneceTechnicalRules = [
     ],
     prerequisiteStandards: ["ISO 26262 (functional safety — ACSF ASIL)"],
   }),
-  uneceRule("083", "83", "Pollutant Emissions (Light-Duty)", "R83 Emissions (LD)", ["M1", "N1"], ["MN"]),
+  // Phase J.1 — R83 temporal clarification: UN counterpart to EU light-duty
+  // emissions (Reg (EC) 715/2007 + Impl Reg (EU) 2017/1151); Euro 7 supersedes
+  // for new types from 2026-11-29 under the EU framework, but R83 remains
+  // valid for 1958-Agreement contracting parties not transitioning.
+  uneceRule("083", "83", "Pollutant Emissions (Light-Duty)", "R83 Emissions (LD)", ["M1", "N1"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    temporalNotes:
+      "R83 is the UN counterpart to Reg (EC) 715/2007 + Impl Reg (EU) 2017/1151 for light-duty emissions. Current text aligns to Euro 6; Euro 7 (Reg (EU) 2024/1257) will supersede for new types from 2026-11-29. R83 remains valid under the 1958 Agreement for contracting parties not transitioning to Euro 7.",
+    related: [
+      { rule_id: "REG-EM-013", relation: "complements" },
+      { rule_id: "REG-EM-006", relation: "complements" },
+    ],
+  }),
   // Phase I.2 — engine power declaration (R85).
   uneceRule("085", "85", "Engine Power", "R85 Engine Power", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
@@ -569,6 +595,41 @@ export const uneceTechnicalRules = [
     obligationText:
       "M1 vehicles must pass 50 km/h full-width rigid-barrier frontal impact with Hybrid-III / THOR dummy seated at restrained driver and passenger positions. Complements R94 offset frontal.",
     related: [{ rule_id: "REG-UN-094", relation: "complements" }],
+  }),
+  // Phase J.1 — R138 AVAS. Closes the BEV silent-coverage gap: the engine
+  // already exposed `hasAVAS` and pilot fixtures set `lighting.avas: true`,
+  // but no rule consumed it. Trigger: M/N category without combustion engine
+  // (BEV + FCEV). SEED_UNVERIFIED until human ratifies the UNECE deep link,
+  // R138 revision number, and exact EU effective dates.
+  uneceRule("138", "138", "Acoustic Vehicle Alerting System (AVAS)", "R138 AVAS", ["M1", "M2", "N1", "N2"], ["MN"], {
+    officialUrl: "https://unece.org/transport/vehicle-regulations-wp29/standards/addenda-1958-agreement-regulations-121-140",
+    applyToNewTypesFrom: "2019-07-01",
+    applyToAllNewVehiclesFrom: "2021-07-01",
+    obligationText:
+      "Vehicles in M/N categories without a combustion engine (BEV and FCEV at low speed) must be equipped with an Acoustic Vehicle Alerting System (AVAS) per UNECE R138. The AVAS emits a continuous warning sound between standstill and approximately 20 km/h to alert vulnerable road users. The sound characteristics must meet R138 frequency-shift, minimum-level, and pause-switch restrictions.",
+    extraConditions: [
+      {
+        field: "hasCombustionEngine",
+        operator: "is_false" as const,
+        value: false,
+        label: "Vehicle has no combustion engine (BEV / FCEV)",
+      },
+    ],
+    fallbackIfMissing: "not_applicable",
+    temporalNotes:
+      "applies_to_new_types_from 2019-07-01 [verify]; applies_to_all_new_vehicles_from 2021-07-01 [verify]. EU transposition via Reg (EU) 540/2014 Art. 8 (noise-type approval). UNECE deep link + R138 revision number pending human verification.",
+    evidenceTasks: [
+      "R138 type-approval certificate",
+      "AVAS sound design specification (frequency profile, level vs speed)",
+      "Pause-switch logic documentation per R138 latest revision",
+      "Coordination with UN R51 overall vehicle noise compliance",
+    ],
+    related: [
+      { rule_id: "REG-UN-051", relation: "complements" },
+      { rule_id: "REG-UN-100", relation: "complements" },
+    ],
+    manualReviewReason:
+      "UNECE deep link + R138 revision number + exact EU effective dates [verify].",
   }),
   uneceRule("140", "140", "Electronic Stability Control (ESC)", "R140 ESC", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,

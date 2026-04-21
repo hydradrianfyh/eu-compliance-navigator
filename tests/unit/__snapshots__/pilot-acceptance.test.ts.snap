@@ -825,6 +825,11 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
   {
     "applicability": "CONDITIONAL",
     "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-138",
+  },
+  {
+    "applicability": "CONDITIONAL",
+    "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-140",
   },
   {
@@ -966,10 +971,10 @@ exports[`Pilot MY2027 BEV acceptance > pilot coverage summary > prints coverage 
     "REG-TA-001",
     "REG-UN-100",
   ],
-  "conditional": 50,
+  "conditional": 51,
   "future": 3,
   "not_applicable": 38,
-  "total": 187,
+  "total": 188,
   "unknown": 75,
 }
 `;

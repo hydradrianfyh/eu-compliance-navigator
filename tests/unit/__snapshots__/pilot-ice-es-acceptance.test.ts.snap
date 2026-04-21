@@ -5,7 +5,7 @@ exports[`Pilot MY2027 ICE M1 × ES acceptance > Layer 2 — snapshot coverage > 
   "applicable": 12,
   "conditional": 44,
   "future": 2,
-  "not_applicable": 54,
+  "not_applicable": 55,
   "unknown": 75,
 }
 `;

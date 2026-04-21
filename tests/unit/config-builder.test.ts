@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { defaultVehicleConfig } from "@/config/defaults";
-import type { VehicleConfig } from "@/config/schema";
+import { vehicleConfigSchema, type VehicleConfig } from "@/config/schema";
 import { buildEngineConfig } from "@/engine/config-builder";
 
 describe("powertrain + fuel flag derivation", () => {
@@ -131,5 +131,33 @@ describe("powertrain + fuel flag derivation", () => {
     expect(engine.hasCombustionEngine).toBe(true);
     expect(engine.hasFuelTank).toBe(true);
     expect(engine.hasOBD).toBe(true);
+  });
+
+  it("parses a pre-Phase-I persisted config missing readiness.offersPublicChargingInfra and defaults it to false", () => {
+    // Simulate a localStorage payload written before commit ff5f6de, when
+    // readiness.offersPublicChargingInfra did not yet exist in the schema.
+    // The Zod .optional().default(false) on readinessSchema must supply the
+    // field transparently — no migration step required.
+    const legacyReadiness = {
+      csmsAvailable: true,
+      sumsAvailable: true,
+      dpiaCompleted: true,
+      technicalDocStarted: true,
+      evidenceOwnerAssigned: true,
+      registrationAssumptionsKnown: true,
+      // offersPublicChargingInfra deliberately omitted.
+    };
+    const legacyPayload = {
+      ...defaultVehicleConfig,
+      readiness: legacyReadiness,
+    };
+
+    const parsed = vehicleConfigSchema.parse(legacyPayload);
+
+    expect(parsed.readiness.offersPublicChargingInfra).toBe(false);
+
+    const engine = buildEngineConfig(parsed);
+
+    expect(engine.readiness.offersPublicChargingInfra).toBe(false);
   });
 });

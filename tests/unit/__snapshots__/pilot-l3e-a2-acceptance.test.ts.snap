@@ -825,6 +825,11 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
   {
     "applicability": "NOT_APPLICABLE",
     "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-138",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-140",
   },
   {
@@ -956,8 +961,8 @@ exports[`Pilot L3e-A2 BEV acceptance > pilot coverage summary > prints coverage 
   ],
   "conditional": 9,
   "future": 2,
-  "not_applicable": 92,
-  "total": 187,
+  "not_applicable": 93,
+  "total": 188,
   "unknown": 75,
 }
 `;

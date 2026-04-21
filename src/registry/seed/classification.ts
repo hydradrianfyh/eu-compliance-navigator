@@ -114,6 +114,7 @@ export const ruleClassifications: Record<string, RuleClassification> = {
   "REG-UN-134": { domain: "ev_battery_safety", artifact_type: "technical_requirement" },
   "REG-UN-135": { domain: "vehicle_safety_passive", artifact_type: "technical_requirement" },
   "REG-UN-137": { domain: "vehicle_safety_passive", artifact_type: "technical_requirement" },
+  "REG-UN-138": { domain: "noise", artifact_type: "technical_requirement" },
   "REG-UN-140": { domain: "vehicle_safety_active", artifact_type: "technical_requirement" },
   "REG-UN-141": { domain: "vehicle_safety_active", artifact_type: "technical_requirement" },
   "REG-UN-142": { domain: "vehicle_safety_active", artifact_type: "technical_requirement" },
