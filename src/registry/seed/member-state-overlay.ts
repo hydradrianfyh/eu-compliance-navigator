@@ -1859,10 +1859,12 @@ const spainOverlayRules: Rule[] = [
         official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-1999-1826",
         oj_reference: "BOE núm. 22, de 26 de enero de 1999 [verify]",
         authoritative_reference: "RD 2822/1998 [verify]",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2c-es",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -1895,8 +1897,8 @@ const spainOverlayRules: Rule[] = [
     process_stage: "sop",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
     related_rules: [
       { rule_id: "REG-MS-ES-003", relation: "requires" },
@@ -1919,10 +1921,12 @@ const spainOverlayRules: Rule[] = [
         official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-2017-12841",
         oj_reference: "BOE núm. 269, de 6 de noviembre de 2017 [verify]",
         authoritative_reference: "RD 920/2017 [verify]",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2c-es",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -1949,8 +1953,8 @@ const spainOverlayRules: Rule[] = [
     recurring_post_market_obligation: true,
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
     notes:
       "BEV HV-system inspection scope [verify — confirm against current ITV Manual addenda published by Ministerio de Industria].",
@@ -1971,10 +1975,12 @@ const spainOverlayRules: Rule[] = [
         official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-2004-18911",
         oj_reference: "BOE núm. 267, de 5 de noviembre de 2004 [verify]",
         authoritative_reference: "RDL 8/2004 [verify]",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2c-es",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -2000,8 +2006,8 @@ const spainOverlayRules: Rule[] = [
     process_stage: "sop",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
     notes:
       "Minimum cover levels intentionally not hard-coded: amounts have been raised several times by EU-Directive transposition laws (including the 6th Motor Insurance Directive). Current minimum-cover figures [verify — check consolidated RDL 8/2004 text on boe.es].",
@@ -2022,10 +2028,12 @@ const spainOverlayRules: Rule[] = [
         official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28741",
         oj_reference: "BOE núm. 312, de 29 de diciembre de 1992 [verify]",
         authoritative_reference: "Ley 38/1992 Arts. 65-74 [verify]",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2c-es",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -2051,8 +2059,8 @@ const spainOverlayRules: Rule[] = [
     process_stage: "sop",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
     notes:
       "Current 2026 IEDMT thresholds and band rates [verify — confirm against consolidated Ley 38/1992 on boe.es].",
@@ -2073,10 +2081,12 @@ const spainOverlayRules: Rule[] = [
         official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-2004-4214",
         oj_reference: "BOE núm. 59, de 9 de marzo de 2004 [verify]",
         authoritative_reference: "RDL 2/2004 Arts. 92-99 [verify]",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2c-es",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -2103,8 +2113,8 @@ const spainOverlayRules: Rule[] = [
     recurring_post_market_obligation: true,
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
     notes:
       "Art. 95.6 bonificación reference [verify — confirm current article numbering against consolidated RDL 2/2004 on boe.es].",
@@ -2125,7 +2135,7 @@ const spainOverlayRules: Rule[] = [
         official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-2021-8447",
         oj_reference: "BOE núm. 121, de 21 de mayo de 2021 [verify]",
         authoritative_reference: "Ley 7/2021 Art. 14.3 [verify]",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "RD 1052/2022 que regula las ZBE",
@@ -2137,7 +2147,9 @@ const spainOverlayRules: Rule[] = [
         last_verified_on: null,
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2c-es",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -2165,8 +2177,8 @@ const spainOverlayRules: Rule[] = [
     recurring_post_market_obligation: true,
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
     related_rules: [
       { rule_id: "REG-MS-ES-007", relation: "requires" },
@@ -2291,10 +2303,12 @@ const spainOverlayRules: Rule[] = [
         official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-2010-10640",
         oj_reference: "BOE núm. 153, de 24 de junio de 2010 [verify]",
         authoritative_reference: "RD 750/2010 [verify]",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2c-es",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -2320,8 +2334,8 @@ const spainOverlayRules: Rule[] = [
     process_stage: "type_approval",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
   makeSeedRule({
