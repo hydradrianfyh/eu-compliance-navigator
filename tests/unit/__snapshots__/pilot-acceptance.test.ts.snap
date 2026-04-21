@@ -153,6 +153,21 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-BAT-007",
   },
   {
+    "applicability": "CONDITIONAL",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-BAT-008",
+  },
+  {
+    "applicability": "CONDITIONAL",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-BAT-009",
+  },
+  {
+    "applicability": "CONDITIONAL",
+    "lifecycle_state": "DRAFT",
+    "rule_id": "REG-BAT-010",
+  },
+  {
     "applicability": "UNKNOWN",
     "lifecycle_state": "PLACEHOLDER",
     "rule_id": "REG-CSRD-001",
@@ -971,10 +986,10 @@ exports[`Pilot MY2027 BEV acceptance > pilot coverage summary > prints coverage 
     "REG-TA-001",
     "REG-UN-100",
   ],
-  "conditional": 51,
+  "conditional": 54,
   "future": 3,
   "not_applicable": 38,
-  "total": 188,
+  "total": 191,
   "unknown": 75,
 }
 `;
