@@ -428,8 +428,8 @@ exports[`Pilot MY2028 PHEV acceptance > Layer 3 — coverage snapshot > matches 
     "rule_id": "REG-MS-DE-005",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-MS-DE-006",
   },
   {
@@ -987,7 +987,7 @@ exports[`Pilot MY2028 PHEV acceptance > Layer 3 — coverage snapshot > matches 
 
 exports[`Pilot MY2028 PHEV acceptance > pilot coverage summary > prints coverage breakdown 1`] = `
 {
-  "applicable": 23,
+  "applicable": 24,
   "applicable_ids": [
     "REG-AI-001",
     "REG-AI-004",
@@ -1009,11 +1009,12 @@ exports[`Pilot MY2028 PHEV acceptance > pilot coverage summary > prints coverage
     "REG-MS-DE-003",
     "REG-MS-DE-004",
     "REG-MS-DE-005",
+    "REG-MS-DE-006",
     "REG-PV-002",
     "REG-TA-001",
     "REG-UN-100",
   ],
-  "conditional": 60,
+  "conditional": 59,
   "future": 0,
   "not_applicable": 38,
   "total": 196,

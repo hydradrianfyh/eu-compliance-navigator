@@ -466,25 +466,39 @@ const germanyOverlayRules: Rule[] = [
     framework_group: ["MN"],
     sources: [
       {
-        label: "Elektromobilitätsgesetz (EmoG) §2-3",
+        // Phase J human-review round 1 (2026-04-21, reviewer: yanhao):
+        // Confirmed §2 Begriffsbestimmungen (BEV/PHEV/FCEV definitions),
+        // §3 Bevorrechtigungen (incl. §3(2) PHEV qualifying thresholds:
+        // CO2 ≤ 50 g/km or electric range ≥ 40 km), and §4 Kennzeichnung
+        // (authority for the special plate suffix). Prior seed cited
+        // StVZO §23 in error — StVZO §23 is about Oldtimer Gutachten,
+        // not Kennzeichen. Corrected to EmoG §2-§4.
+        label: "Elektromobilitätsgesetz (EmoG) §2-§4",
         source_family: "National legislation" as const,
-        reference: "EmoG §2-§3 (Elektromobilitätsgesetz vom 5. Juni 2015) [verify consolidated text]",
-        official_url: null,
-        oj_reference: "BGBl. I 2015 S. 898 [verify]",
-        authoritative_reference: "EmoG §2-§3 [verify]",
-        last_verified_on: null,
+        reference:
+          "EmoG vom 5. Juni 2015 (BGBl. I S. 898), §§2-4 (Begriffsbestimmungen, Bevorrechtigungen, Kennzeichnung)",
+        official_url: "https://www.gesetze-im-internet.de/emog/",
+        oj_reference: "BGBl. I 2015 S. 898",
+        authoritative_reference: "EmoG §2-§4",
+        last_verified_on: "2026-04-21",
       },
       {
-        label: "Straßenverkehrs-Zulassungs-Ordnung §23 (Kennzeichen)",
+        // FZV is the implementing regulation that actually governs
+        // license-plate issuance procedure (Zulassungsbehörde workflow).
+        // The EmoG is the authority; FZV is the mechanism.
+        label: "Fahrzeug-Zulassungsverordnung (FZV 2023) — Kennzeichen-Erteilung",
         source_family: "National legislation" as const,
-        reference: "StVZO §23 (Kennzeichen) [verify]",
-        official_url: null,
-        oj_reference: null,
-        authoritative_reference: "StVZO §23 [verify]",
-        last_verified_on: null,
+        reference:
+          "FZV vom 20. Juli 2023 (BGBl. 2023 I Nr. 199) — plate issuance procedure for EmoG-qualifying vehicles",
+        official_url: "https://www.gesetze-im-internet.de/fzv_2023/",
+        oj_reference: "BGBl. 2023 I Nr. 199",
+        authoritative_reference: "FZV (Kennzeichen issuance procedure)",
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-1",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -502,22 +516,24 @@ const germanyOverlayRules: Rule[] = [
       applies_from_generic: "2015-06-12",
       effective_to: null,
       small_volume_derogation_until: null,
-      notes: "EmoG entered into force 12 June 2015 [verify].",
+      notes:
+        "EmoG entered into force 12 June 2015 (BGBl. I S. 898). Current consolidated text on gesetze-im-internet.de.",
     },
     obligation_text:
-      "BEV, FCEV, and PHEV with at least 40 km electric range or CO2 ≤ 50 g/km may receive an 'E' suffix on the German license plate. The plate enables municipal privileges such as free or reduced parking, bus-lane access in select cities, and preferred parking at charging stations. Privilege application is discretionary by municipality.",
+      "BEV, FCEV, and PHEV qualifying under EmoG §3(2) (CO2 ≤ 50 g/km or electric range ≥ 40 km, evidenced via CoC under 2007/46/EC Annex IX or (EU) 168/2013 Art. 38) may receive an 'E' suffix on the German license plate per EmoG §4. The plate enables municipal privileges listed in EmoG §3(4): free or reduced parking on public roads, access to bus lanes or lanes designated for special purposes, exemptions from access/driving restrictions, and parking fee reductions. Privilege application is discretionary by municipality.",
     evidence_tasks: [
-      "E-Kennzeichen registration procedure via Zulassungsbehörde",
+      "E-Kennzeichen registration procedure via Zulassungsbehörde (FZV workflow)",
       "Municipal privilege mapping per target city (DE-major)",
-      "PHEV electric-range / CO2 certification for EmoG qualification",
+      "PHEV CoC evidence of CO2 ≤ 50 g/km or electric range ≥ 40 km per EmoG §3(2)",
+      "Customer-facing communication on bus-lane / parking privileges per municipality",
     ],
     owner_hint: "regulatory_affairs",
     ui_package: "market_access",
     process_stage: "sop",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
 

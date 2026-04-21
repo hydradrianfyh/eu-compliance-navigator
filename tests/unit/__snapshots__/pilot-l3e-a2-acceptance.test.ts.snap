@@ -428,8 +428,8 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-MS-DE-005",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-MS-DE-006",
   },
   {
@@ -987,7 +987,7 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
 
 exports[`Pilot L3e-A2 BEV acceptance > pilot coverage summary > prints coverage breakdown 1`] = `
 {
-  "applicable": 9,
+  "applicable": 10,
   "applicable_ids": [
     "REG-BAT-001",
     "REG-BAT-004",
@@ -997,9 +997,10 @@ exports[`Pilot L3e-A2 BEV acceptance > pilot coverage summary > prints coverage 
     "REG-MS-DE-003",
     "REG-MS-DE-004",
     "REG-MS-DE-005",
+    "REG-MS-DE-006",
     "REG-PV-002",
   ],
-  "conditional": 12,
+  "conditional": 11,
   "future": 2,
   "not_applicable": 98,
   "total": 196,
