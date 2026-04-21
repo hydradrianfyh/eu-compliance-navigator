@@ -113,6 +113,7 @@ export default function CoveragePage() {
         legalFamily: rule.legal_family,
         lifecycleState: rule.lifecycle_state,
         ownerHint: rule.owner_hint,
+        manualReviewReason: rule.manual_review_reason,
       });
     }
     const groups: PendingRuleGroup[] = Array.from(groupsMap.values())

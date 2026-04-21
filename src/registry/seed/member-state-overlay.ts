@@ -2233,6 +2233,8 @@ const spainOverlayRules: Rule[] = [
       retrieved_at: "2026-04-20",
       human_reviewer: null,
     },
+    manual_review_reason:
+      "Primary source is a DGT Resolución, not on the standard BOE consolidated-text URL pattern. Needs direct DGT citation + spot-check before ACTIVE promotion.",
     notes:
       "Exact class boundaries and PHEV electric-range threshold [verify — confirm against the current DGT Resolución on clasificación ambiental].",
   }),
@@ -2284,6 +2286,8 @@ const spainOverlayRules: Rule[] = [
       retrieved_at: "2026-04-20",
       human_reviewer: null,
     },
+    manual_review_reason:
+      "Exact Spanish Orden ministerial governing individual vehicle approval path is uncertain (RD 559/2010 was previously cited in error — it is actually the Industrial Registry regulation). Needs specific Orden lookup via Ministerio de Industria before promotion.",
     notes:
       "Correction vs earlier draft spec: RD 559/2010 = Registro Integrado Industrial (not individual vehicle approval). The individual-approval route sits under RD 750/2010 + specific Órdenes — exact RD + Orden ministerial combination [verify — confirm current consolidated BOE text].",
   }),
@@ -2391,6 +2395,8 @@ const spainOverlayRules: Rule[] = [
     related_rules: [
       { rule_id: "REG-EM-003", relation: "complements" },
     ],
+    manual_review_reason:
+      "Spanish national target year (Ley 7/2021 Art. 14 — 2040) is politically volatile and diverges from the EU-level Reg 2019/631 target (2035). DRAFT reflects legislative volatility, not a verification gap.",
     notes:
       "Correction vs earlier draft spec: Spanish national ZEV target is 2040 (not 2035). The EU-level 2035 target applies via Reg (EU) 2019/631 (REG-EM-003). [verify exact article wording].",
   }),
@@ -2433,6 +2439,8 @@ const spainOverlayRules: Rule[] = [
       retrieved_at: "2026-04-20",
       human_reviewer: null,
     },
+    manual_review_reason:
+      "Enactment status of 'Ley 3/2023 Movilidad Sostenible' unverifiable — the Sustainable Mobility Law was in parliamentary process through late 2024 and specific Ley number / BOE citation is not confirmed. PLACEHOLDER is correct until enactment is confirmed.",
     notes:
       "Correction vs earlier draft spec: cannot confirm 'Ley 3/2023, de 4 de enero' as the Movilidad Sostenible law. Kept at PLACEHOLDER until BOE reference is verified. Enactment status and final law number [verify — check BOE].",
   }),
@@ -2493,6 +2501,8 @@ const spainOverlayRules: Rule[] = [
       retrieved_at: "2026-04-20",
       human_reviewer: null,
     },
+    manual_review_reason:
+      "Plan MOVES III subsidy conditions and budget are set annually via CCAA convocatorias and periodic extension RDs (e.g., RD 821/2023). Amounts and eligibility change frequently — DRAFT reflects volatility, not a verification gap.",
     notes:
       "Current end date and budget availability [verify — check latest MITECO / IDAE convocatoria and extension RDs on boe.es before SOP].",
   }),
@@ -2558,6 +2568,8 @@ const spainOverlayRules: Rule[] = [
     related_rules: [
       { rule_id: "REG-BAT-001", relation: "complements" },
     ],
+    manual_review_reason:
+      "Primary BOE URL for RD 106/2008 (batteries) needs direct lookup. Prior seed erroneously cited RD 110/2015 (which is actually RAEE waste electronics, not batteries). Correction applied in Phase I.4 but URL still [verify].",
     notes:
       "Correction vs earlier draft spec: the Spanish batteries framework is RD 106/2008 (as amended), not RD 110/2015 (which covers RAEE / waste electrical and electronic equipment). Scope of RD 710/2015 modifications and current alignment with Reg (EU) 2023/1542 [verify — confirm against consolidated BOE text and MITECO guidance].",
   }),

@@ -44,6 +44,16 @@ export interface BulkExpansionSignal {
   expanded: boolean;
 }
 
+/**
+ * The generic default text set by `makeSeedRule` when a rule does not
+ * override `manual_review_reason`. Treated as equivalent to null so we
+ * only surface the "Why indicative only" callout when the authored
+ * reason is actually informative (honest, specific) — not the stock
+ * "requires source verification" string.
+ */
+const GENERIC_DEFAULT_REVIEW_REASON =
+  "Rule is not ACTIVE and requires source verification.";
+
 /** Sprint 3: human-readable label for content_provenance.source_type. */
 function provenanceLabel(sourceType: string): string {
   switch (sourceType) {
@@ -172,6 +182,35 @@ export function RuleCardV2({
   const primarySource = result.sources[0];
   const hasOfficialUrl = !!primarySource?.official_url;
 
+  // UX-honesty: surface the authored "why not ACTIVE" reason inline so
+  // users can distinguish a trust gap ("URL not yet verified") from a
+  // legislative gap ("regulation still being drafted"). Only shown when:
+  //   - lifecycle_state is not ACTIVE (gate from spec example), AND
+  //   - applicability is CONDITIONAL or UNKNOWN (engine's indicative
+  //     states — APPLICABLE by an ACTIVE rule is already trustworthy),
+  //     AND
+  //   - an authored, non-generic reason exists.
+  // The generic "requires source verification" stock string is
+  // deliberately filtered out — a callout saying nothing beyond the
+  // lifecycle badge already shown is noise, not signal.
+  const honestReviewReason = useMemo(() => {
+    if (result.lifecycle_state === "ACTIVE") return null;
+    if (
+      result.applicability !== "CONDITIONAL" &&
+      result.applicability !== "UNKNOWN"
+    ) {
+      return null;
+    }
+    const reason = (result.manual_review_reason ?? "").trim();
+    if (reason.length === 0) return null;
+    if (reason === GENERIC_DEFAULT_REVIEW_REASON) return null;
+    return reason;
+  }, [
+    result.lifecycle_state,
+    result.applicability,
+    result.manual_review_reason,
+  ]);
+
   // For the "Needs your input" case, offer a deep-link back to /setup.
   const firstMissingField = result.missing_inputs[0];
   const setupHref = firstMissingField
@@ -244,6 +283,11 @@ export function RuleCardV2({
             </p>
             {result.explanation ? (
               <p className="rule-card-v2-muted">{result.explanation}</p>
+            ) : null}
+            {honestReviewReason ? (
+              <aside className="rule-card-v2-why-pending">
+                <strong>Why indicative only:</strong> {honestReviewReason}
+              </aside>
             ) : null}
           </section>
 

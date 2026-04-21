@@ -38,6 +38,13 @@ export interface PendingRuleEntry {
   legalFamily: LegalFamily;
   lifecycleState: RuleLifecycleState;
   ownerHint: OwnerHint;
+  /**
+   * Honest "why not ACTIVE" reason surfaced to reviewers so they can
+   * distinguish a trust gap (URL not yet verified) from a legislative
+   * gap (regulation still being drafted). When null or empty, falls
+   * back to a lifecycle-state-based default rendered in the column.
+   */
+  manualReviewReason?: string | null;
 }
 
 export interface PendingRuleGroup {
@@ -66,6 +73,46 @@ interface VerificationQueuePanelProps {
    * by jurisdiction + legal family so the panel stays a pure renderer.
    */
   allPendingGroups?: PendingRuleGroup[];
+}
+
+/**
+ * The generic default text set by `makeSeedRule` when a rule does not
+ * override `manual_review_reason`. Treated as equivalent to null/empty
+ * for the "Why pending" column so we render the per-lifecycle fallback
+ * instead (which is strictly more informative).
+ */
+const GENERIC_DEFAULT_REASON = "Rule is not ACTIVE and requires source verification.";
+
+/** Cap for inline display; hover tooltip shows the full text. */
+const WHY_PENDING_TRUNCATE_AT = 120;
+
+function lifecycleFallbackReason(state: RuleLifecycleState): string {
+  switch (state) {
+    case "SEED_UNVERIFIED":
+      return "Pending human source verification";
+    case "DRAFT":
+      return "Pending legislation or operational detail";
+    case "PLACEHOLDER":
+      return "Pending authoring";
+    default:
+      return "Pending review";
+  }
+}
+
+function renderWhyPending(
+  reason: string | null | undefined,
+  lifecycleState: RuleLifecycleState,
+): { display: string; full: string } {
+  const trimmed = (reason ?? "").trim();
+  const effective =
+    trimmed.length === 0 || trimmed === GENERIC_DEFAULT_REASON
+      ? lifecycleFallbackReason(lifecycleState)
+      : trimmed;
+  const display =
+    effective.length > WHY_PENDING_TRUNCATE_AT
+      ? `${effective.slice(0, WHY_PENDING_TRUNCATE_AT - 1).trimEnd()}…`
+      : effective;
+  return { display, full: effective };
 }
 
 export function VerificationQueuePanel({
@@ -108,26 +155,39 @@ export function VerificationQueuePanel({
                       <th scope="col">Rule</th>
                       <th scope="col">Title</th>
                       <th scope="col">Lifecycle</th>
+                      <th scope="col">Why pending</th>
                       <th scope="col">Recommended reviewer</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {group.rules.map((rule) => (
-                      <tr key={rule.stableId}>
-                        <td>
-                          <strong>{rule.stableId}</strong>
-                        </td>
-                        <td>{rule.title}</td>
-                        <td>
-                          <span
-                            className={`badge badge-lifecycle-${rule.lifecycleState.toLowerCase()}`}
+                    {group.rules.map((rule) => {
+                      const reason = renderWhyPending(
+                        rule.manualReviewReason,
+                        rule.lifecycleState,
+                      );
+                      return (
+                        <tr key={rule.stableId}>
+                          <td>
+                            <strong>{rule.stableId}</strong>
+                          </td>
+                          <td>{rule.title}</td>
+                          <td>
+                            <span
+                              className={`badge badge-lifecycle-${rule.lifecycleState.toLowerCase()}`}
+                            >
+                              {rule.lifecycleState}
+                            </span>
+                          </td>
+                          <td
+                            className="verification-why-pending"
+                            title={reason.full}
                           >
-                            {rule.lifecycleState}
-                          </span>
-                        </td>
-                        <td>{rule.ownerHint}</td>
-                      </tr>
-                    ))}
+                            <em>{reason.display}</em>
+                          </td>
+                          <td>{rule.ownerHint}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </section>
