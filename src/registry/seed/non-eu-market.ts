@@ -945,4 +945,161 @@ export const nonEuMarketRules = [
       human_reviewer: null,
     },
   }),
+
+  // ============================================================
+  // Phase J.3 — UK Non-EU-Market targeted fill-in (2026-04-21)
+  // REG-UK-014 UK REACH 2020 (SEED_UNVERIFIED — post-Brexit HSE-operated
+  // chemical substances regulation).
+  // REG-UK-015 UK ETS Road Transport Scope (DRAFT monitoring — scope
+  // extension to road fuels ~2027).
+  // content_provenance.human_reviewer: null on both.
+  // [verify] markers confined to notes / manual_review_reason.
+  // ============================================================
+  makeSeedRule({
+    stable_id: "REG-UK-014",
+    title: "UK REACH 2020 (post-Brexit chemical substances regulation)",
+    short_label: "UK REACH",
+    legal_family: "non_eu_market",
+    jurisdiction: "UK",
+    jurisdiction_level: "NON_EU_MARKET",
+    framework_group: ["MN", "L", "O", "AGRI"],
+    sources: [
+      {
+        label: "REACH (Amendment) (EU Exit) Regulations 2019",
+        source_family: "Other official" as const,
+        reference:
+          "The REACH etc. (Amendment etc.) (EU Exit) Regulations 2019 (SI 2019/758) [verify SI number]",
+        official_url: "https://www.legislation.gov.uk/uksi/2019/758/contents/made",
+        oj_reference: null,
+        authoritative_reference: "SI 2019/758 [verify]",
+        last_verified_on: null,
+      },
+      {
+        label: "Health and Safety (Amendment) (EU Exit) Regulations 2020",
+        source_family: "Other official" as const,
+        reference:
+          "The Health and Safety (Amendment) (EU Exit) Regulations 2020 [verify SI number]",
+        official_url: null,
+        oj_reference: null,
+        authoritative_reference: "HSE (Amendment) (EU Exit) Regs 2020 [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "UK" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2021-01-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2021-01-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes:
+        "UK REACH operates via the HSE (Health and Safety Executive) — post-Brexit divergence. GB-specific registration required for substances placed on GB market in addition to EU REACH for NI (under Windsor Framework).",
+    },
+    obligation_text:
+      "Chemical substances in vehicle materials placed on the GB market must be registered under UK REACH (operated by HSE). UK REACH diverged from EU REACH post-Brexit: separate registration + SVHC authorisation regime. NI remains under EU REACH per Windsor Framework. Chinese OEMs must register substances with HSE and comply with UK-specific SVHC candidate list updates.",
+    evidence_tasks: [
+      "HSE registration dossier for each substance",
+      "UK SVHC candidate list tracking",
+      "NI dual-route compliance (EU REACH via Windsor Framework)",
+      "Supply-chain declaration for UK REACH distinct from EU REACH",
+    ],
+    manual_review_required: true,
+    manual_review_reason:
+      "SI 2019/758 citation + UK REACH HSE operational detail [verify]. Divergence timeline and SVHC list synchronisation with EU REACH [verify].",
+    owner_hint: "sustainability_materials",
+    ui_package: "horizontal",
+    process_stage: "pre_ta",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    related_rules: [
+      { rule_id: "REG-BAT-002", relation: "complements" },
+      { rule_id: "REG-UK-011", relation: "complements" },
+    ],
+  }),
+
+  makeSeedRule({
+    stable_id: "REG-UK-015",
+    title: "UK Emissions Trading Scheme — Road Transport Scope (2027)",
+    short_label: "UK ETS Road Scope",
+    legal_family: "non_eu_market",
+    jurisdiction: "UK",
+    jurisdiction_level: "NON_EU_MARKET",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "UK Emissions Trading Scheme Order 2020",
+        source_family: "Other official" as const,
+        reference: "UK Emissions Trading Scheme Order 2020 (SI 2020/1265) [verify]",
+        official_url: "https://www.legislation.gov.uk/uksi/2020/1265/contents/made",
+        oj_reference: null,
+        authoritative_reference: "SI 2020/1265 [verify]",
+        last_verified_on: null,
+      },
+      {
+        label: "UK government announcement on extending ETS to road transport fuels",
+        source_family: "Other official" as const,
+        reference:
+          "UK government announcement on extending UK ETS to road transport fuels [verify — DESNZ / HMT policy source]",
+        official_url: null,
+        oj_reference: null,
+        authoritative_reference: null,
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "DRAFT",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "UK" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: null,
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2027-01-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes:
+        "UK ETS extension to road transport fuels announced to apply from ~2027 [verify exact start date + upstream scope — applies to fuel suppliers, not vehicle OEMs directly, but is material for B2B fleet customer TCO].",
+    },
+    obligation_text:
+      "UK Emissions Trading Scheme is expected to extend to road transport fuels from around 2027. Scheme applies upstream at fuel supplier level, not to vehicle OEMs directly. OEMs and their B2B fleet customers should monitor scope definition and pricing impact on fleet operating costs.",
+    evidence_tasks: [
+      "UK ETS extension scope-definition tracking",
+      "Fleet-customer TCO impact modelling when scope confirmed",
+      "Coordination with UK fuel suppliers for pass-through pricing visibility",
+    ],
+    manual_review_required: true,
+    manual_review_reason:
+      "UK ETS road scope start date, scope definition, and permit allocation rules pending [verify]. Relevance to vehicle OEMs is indirect (affects fuel customers, not OEMs).",
+    owner_hint: "regulatory_affairs",
+    ui_package: "horizontal",
+    process_stage: "post_market",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    related_rules: [
+      { rule_id: "REG-UK-005", relation: "complements" },
+      { rule_id: "REG-EM-003", relation: "complements" },
+    ],
+  }),
 ];

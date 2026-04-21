@@ -704,6 +704,78 @@ const germanyOverlayRules: Rule[] = [
       human_reviewer: null,
     },
   }),
+
+  // ============================================================
+  // Phase J.3 — Germany (DE) targeted fill-in (2026-04-21)
+  // AltfahrzeugV — German ELV transposition (SEED_UNVERIFIED).
+  // content_provenance.human_reviewer: null.
+  // [verify] markers confined to notes / manual_review_reason.
+  // ============================================================
+  makeSeedRule({
+    stable_id: "REG-MS-DE-010",
+    title: "Germany — End-of-Life Vehicles (AltfahrzeugV)",
+    short_label: "DE AltfahrzeugV",
+    legal_family: "member_state_overlay",
+    jurisdiction: "DE",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Altfahrzeug-Verordnung (AltfahrzeugV)",
+        source_family: "National legislation" as const,
+        reference:
+          "Altfahrzeug-Verordnung (AltfahrzeugV) + Altfahrzeug-Gesetz [verify consolidated text]",
+        official_url: "https://www.gesetze-im-internet.de/altautov/",
+        oj_reference: null,
+        authoritative_reference: "AltfahrzeugV [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "DE" },
+        { field: "vehicleCategory", operator: "in", value: ["M1", "N1"] },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2002-07-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2002-07-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes:
+        "German transposition of Dir 2000/53/EC ELV. 95% recovery + 85% recycling targets from 2015-01-01. Revision to align with pending EU ELV Regulation (COM(2023) 451) expected post-adoption [verify]. Entry into force date [verify].",
+    },
+    obligation_text:
+      "Vehicle producers placing M1/N1 vehicles on the German market must register with the Altfahrzeug-Verordnung producer-responsibility scheme, operate take-back at no cost to last holder via authorised dismantling centres, issue Verwertungsnachweis (Certificate of Destruction) on disposal, and publish Demontage-Informationen (dismantling information) per Art. 8 equivalent within 6 months of new-type launch — in German language.",
+    evidence_tasks: [
+      "AltfahrzeugV producer-responsibility scheme registration per § 3",
+      "Authorised dismantler network contract + coverage per Bundesland",
+      "Verwertungsnachweis template (German)",
+      "Demontage-Informationen sheet in German within 6 months of new-type launch",
+      "Annual 95/85% target compliance reporting to Bundesamt",
+    ],
+    manual_review_required: true,
+    manual_review_reason:
+      "AltfahrzeugV version currency and alignment with pending EU ELV Regulation [verify]. Bundesländer-level variation of authorised dismantler networks [verify].",
+    owner_hint: "sustainability_materials",
+    ui_package: "horizontal",
+    process_stage: "post_market",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    related_rules: [
+      { rule_id: "REG-BAT-003", relation: "complements" },
+    ],
+  }),
 ];
 
 // ============================================================
@@ -1337,6 +1409,79 @@ const franceOverlayRules: Rule[] = [
     },
     related_rules: [
       { rule_id: "REG-MS-FR-004", relation: "complements" },
+    ],
+  }),
+
+  // ============================================================
+  // Phase J.3 — France (FR) targeted fill-in (2026-04-21)
+  // UTAC approval pathway (SEED_UNVERIFIED).
+  // content_provenance.human_reviewer: null.
+  // [verify] markers confined to notes / manual_review_reason.
+  // ============================================================
+  makeSeedRule({
+    stable_id: "REG-MS-FR-012",
+    title: "France — UTAC-CERAM Technical Service and Approval Pathway",
+    short_label: "FR UTAC TA Pathway",
+    legal_family: "member_state_overlay",
+    jurisdiction: "FR",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN", "L", "O", "AGRI"],
+    sources: [
+      {
+        label: "UTAC-CERAM — designated technical service (Reg (EU) 2018/858 Annex III)",
+        source_family: "Other official" as const,
+        reference:
+          "UTAC-CERAM technical service designation under Reg (EU) 2018/858 Annex III + DGEC delegation [verify legal basis]",
+        official_url: null,
+        oj_reference: null,
+        authoritative_reference: "UTAC designation [verify]",
+        last_verified_on: null,
+      },
+    ],
+    lifecycle_state: "SEED_UNVERIFIED",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "FR" },
+        { field: "approvalType", operator: "in", value: ["new_type"] },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2020-09-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2020-09-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes:
+        "UTAC-CERAM is France's primary designated technical service for EU WVTA. Dossiers may be submitted in French or English; some ministerial addenda require French.",
+    },
+    obligation_text:
+      "French type-approval dossiers for Chinese OEMs seeking EU WVTA via the French authority route go through UTAC-CERAM (Union Technique de l'Automobile, du motocycle et du Cycle). UTAC coordinates testing witness and approval recommendations with the Direction Générale de l'Énergie et du Climat (DGEC) at the Ministry of Ecological Transition. French-language addenda may be required for national-specific items.",
+    evidence_tasks: [
+      "UTAC-CERAM technical service engagement letter",
+      "Test witness scheduling per Reg 2018/858 Annex III",
+      "French-language addenda (national provisions) per DGEC requirements",
+      "Coordination with French technical service vs KBA / RDW cross-recognition under WVTA",
+    ],
+    manual_review_required: true,
+    manual_review_reason:
+      "UTAC delegation legal basis [verify]. French-addenda requirements vary by vehicle category [verify]. Cross-recognition of KBA / RDW approvals in France [verify].",
+    owner_hint: "homologation",
+    planning_lead_time_months: 12,
+    ui_package: "wvta_core",
+    process_stage: "type_approval",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    related_rules: [
+      { rule_id: "REG-TA-001", relation: "complements" },
+      { rule_id: "REG-MS-FR-001", relation: "complements" },
     ],
   }),
 ];
@@ -2336,6 +2481,74 @@ const spainOverlayRules: Rule[] = [
     ],
     notes:
       "Correction vs earlier draft spec: the Spanish batteries framework is RD 106/2008 (as amended), not RD 110/2015 (which covers RAEE / waste electrical and electronic equipment). Scope of RD 710/2015 modifications and current alignment with Reg (EU) 2023/1542 [verify — confirm against consolidated BOE text and MITECO guidance].",
+  }),
+
+  // ============================================================
+  // Phase J.3 — Spain (ES) CCAA Regional Variation Notice (2026-04-21)
+  // DRAFT advisory rule — schema does not support sub-country regions
+  // (Madrid, Catalunya, País Vasco, Comunitat Valenciana, Andalucía).
+  // content_provenance.human_reviewer: null.
+  // ============================================================
+  makeSeedRule({
+    stable_id: "REG-MS-ES-014",
+    title: "Spain — CCAA Regional Variation Notice",
+    short_label: "ES CCAA Variation Notice",
+    legal_family: "member_state_overlay",
+    jurisdiction: "ES",
+    jurisdiction_level: "MEMBER_STATE",
+    framework_group: ["MN"],
+    sources: [
+      makeSource(
+        "Advisory aggregate",
+        "National legislation",
+        "Multiple CCAA regional ordinances — see individual CCAA sub-regulations",
+      ),
+    ],
+    lifecycle_state: "DRAFT",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetCountries", operator: "includes", value: "ES" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: null,
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2023-01-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes:
+        "Regional variations are non-static — CCAAs periodically revise their ZBE, MOVES convocatoria, and tax rebates. Recommend quarterly re-check of municipal and CCAA announcements.",
+    },
+    obligation_text:
+      "Spain's automotive compliance landscape fragments by autonomous community (CCAA). Chinese OEM programmes targeting ES must conduct separate due diligence for each CCAA of material entry, covering five variation axes: (1) ZBE boundary + fee schedule + exemption conditions, (2) DGT Etiqueta Ambiental enforcement level and municipal penalties, (3) Plan MOVES convocatoria specific to the CCAA (budget, eligibility, deadlines), (4) IEDMT regional rebate scheme, (5) local ITV station operator contracting. Priority CCAAs with material variation: Madrid, Catalunya, País Vasco, Comunitat Valenciana, Andalucía.",
+    evidence_tasks: [
+      "Madrid: verify Madrid 360 ZBE ordinance + MOVES Comunidad convocatoria + ITV operator (ITEVELESA, SGS)",
+      "Catalunya: verify ZBE Rondes Barcelona + T-Verda + Generalitat MOVES + ITV operator (Applus+)",
+      "País Vasco: verify Bilbao / Donostia ZBE + Euskadi MOVES + Itevebasa ITV",
+      "Comunitat Valenciana: verify València ZBE + MOVES autonómico + ITV operator (SITVAL)",
+      "Andalucía: verify Málaga / Sevilla ZBE schedule + Junta de Andalucía MOVES + ITV operator (Veiasa)",
+    ],
+    manual_review_required: true,
+    manual_review_reason:
+      "Aggregate advisory rule. Individual CCAA ordinances not codified in registry — schema does not support sub-country regions. Requires separate regional due diligence per CCAA before customer-facing cost quotes.",
+    owner_hint: "regulatory_affairs",
+    ui_package: "horizontal",
+    process_stage: "sop",
+    content_provenance: {
+      source_type: "national_gazette",
+      retrieved_at: "2026-04-20",
+      human_reviewer: null,
+    },
+    related_rules: [
+      { rule_id: "REG-MS-ES-006", relation: "complements" },
+      { rule_id: "REG-MS-ES-007", relation: "complements" },
+      { rule_id: "REG-MS-ES-012", relation: "complements" },
+    ],
   }),
 ];
 
