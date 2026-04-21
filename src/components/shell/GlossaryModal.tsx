@@ -148,22 +148,22 @@ const GROUPS: readonly GlossaryGroup[] = [
       {
         term: <strong>Operational (green)</strong>,
         definition:
-          "Country overlay has verified ACTIVE content. Example: DE has 5 ACTIVE rules (registration, HU/AU, PflVG, KraftStG, Umweltzonen).",
+          "Country has verified ACTIVE rules. Example: Germany (8 ACTIVE — registration, HU/AU, PflVG, KraftStG, Umweltzonen, E-plate, company-car tax, scrappage), UK (11 ACTIVE), Spain (7 ACTIVE), France (5 ACTIVE).",
+      },
+      {
+        term: <strong>Indicative (amber)</strong>,
+        definition:
+          "Country has authored rules awaiting human source verification. Example: several specific rules in DE, UK, ES, and FR are pending reviewer sign-off (e.g. DE LSV AFIR transposition, FR Crit'Air, ES Etiqueta Ambiental).",
       },
       {
         term: <strong>Placeholder (slate)</strong>,
         definition:
-          "National overlay not yet authored. Example: FR and NL are scheduled for Phase 12.",
-      },
-      {
-        term: <strong>Basic (amber)</strong>,
-        definition:
-          "Skeletal overlay exists but has not been reviewed. Verify locally before acting.",
+          "National overlay not yet authored. Example: Netherlands (5 SEED_UNVERIFIED rules pending promotion), Italy / Poland / Belgium / Austria / Sweden / Czechia (factory stubs only).",
       },
       {
         term: <strong>Non-EU (blue)</strong>,
         definition:
-          "Country is outside the EU type-approval framework. Post-Brexit / bilateral rules apply.",
+          "Country is outside the EU type-approval framework. Example: UK operates under post-Brexit GBTA (11 ACTIVE rules in this tool).",
       },
     ],
   },

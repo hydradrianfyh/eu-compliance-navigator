@@ -1,12 +1,12 @@
 "use client";
 
 /**
- * ScopeBanner — always-visible top strip declaring the tool's coverage.
+ * ScopeBanner — always-visible top strip declaring the tool's tiered coverage.
  *
- * Rationale: stakeholders who see "Countries at risk: All targeted markets
- * covered" and "FR/NL pending overlay" on different screens must never
- * wonder which side is lying. The banner tells them up front what's in
- * scope, what's pending, and what's deferred to Phase 13+.
+ * Rationale: a manager opening the tool must grok what's actionable vs.
+ * what's indicative vs. what's blank in 3 seconds. Collapsed state is one
+ * line; expanded state is a 4-tier grid (production-grade / indicative /
+ * not yet authored / out of scope) with rule counts per jurisdiction.
  *
  * © Yanhao FU
  */
@@ -26,13 +26,14 @@ export function ScopeBanner() {
         ⓘ
       </span>
       <span className="scope-banner-summary">
-        <strong>Scope:</strong> EU horizontal + DE overlay ACTIVE ·{" "}
-        <span className="scope-banner-pending">FR / NL</span> overlay pending
-        (Phase 13+) ·{" "}
+        <strong>✓ Scope:</strong> Germany + UK production-grade ·{" "}
+        <span className="scope-banner-indicative">Spain + France indicative</span>{" "}
+        ·{" "}
+        <span className="scope-banner-pending">Netherlands + others pending</span>{" "}
+        ·{" "}
         <span className="scope-banner-deferred">
-          Others (IT/ES/NL/..., CN/US/JP, customs)
-        </span>{" "}
-        out of scope
+          CN/US/JP/customs out of scope
+        </span>
       </span>
       <button
         type="button"
@@ -44,33 +45,105 @@ export function ScopeBanner() {
       </button>
       {expanded ? (
         <div className="scope-banner-detail">
-          <dl>
-            <dt>✓ In scope (verified)</dt>
-            <dd>
-              EU horizontal regulations (WVTA 2018/858, GSR2, R155/R156/R157,
-              GDPR, Data Act, AI Act, Battery, Euro 7, PLD) · Germany (DE)
-              overlay: FZV registration, §29 StVZO HU/AU, PflVG insurance,
-              KraftStG tax, Umweltzonen
-            </dd>
-            <dt>⚠ Pending overlay (Phase 13+)</dt>
-            <dd>
-              France (FR) and Netherlands (NL) overlays are placeholder — no
-              ACTIVE national rules yet. Evaluation treats them as UNKNOWN.
-            </dd>
-            <dt>○ Out of scope (this phase)</dt>
-            <dd>
-              UNECE Annex II technical regulations (32 rules, source URLs not
-              yet verified) · Other EU member states (IT/ES/PL/...) ·
-              Non-EU markets (CN/US/JP/UK/TR) · Customs / CBAM / HS
-              classification / FTA Rules-of-Origin · ISO standards prerequisites
-            </dd>
-            <dt>Disclaimer</dt>
-            <dd>
-              This tool is a navigation aid, not legal advice. Always validate
-              with your homologation partner and legal counsel before
-              making market-entry decisions.
-            </dd>
-          </dl>
+          <div className="scope-banner-detail-tiers">
+            <section className="scope-tier scope-tier-verified">
+              <p className="scope-tier-heading">
+                <span aria-hidden="true">✓</span>
+                Production-grade (fully verified, safe to act on)
+              </p>
+              <div className="scope-tier-body">
+                <p>
+                  <strong>EU horizontal: ~45 rules</strong> — WVTA, GSR2,
+                  R155/156/157, Euro 6/7, Battery Regulation, AI Act, Data Act,
+                  GDPR, PLD, R100, R171 DCAS
+                </p>
+                <p>
+                  <strong>Germany (DE): 8 rules</strong> — registration (FZV),
+                  roadworthiness (§29 StVZO HU/AU), insurance (PflVG), motor
+                  tax (KraftStG), low-emission zones (BImSchV), E-plate
+                  (EmoG), company-car tax (EStG), scrappage (AltfahrzeugV)
+                </p>
+                <p>
+                  <strong>UK (non-EU market): 11 rules</strong> — GBTA,
+                  DVLA V5C, MoT, VED, insurance (RTA 1988), London ULEZ,
+                  regional CAZ, Scotland LEZ, ZEV sales mandate, UK GDPR,
+                  automated vehicles (AV Act 2024)
+                </p>
+                <p>
+                  <strong>Spain (ES): 7 rules</strong> — DGT registration, ITV,
+                  insurance, IEDMT, IVTM, ZBE (Ley 7/2021), WVTA transposition
+                  (RD 750/2010)
+                </p>
+                <p>
+                  <strong>France (FR): 5 rules</strong> — SIV registration,
+                  contrôle technique, assurance RC, bonus/malus CO2, ZFE-m
+                </p>
+              </div>
+            </section>
+
+            <section className="scope-tier scope-tier-indicative">
+              <p className="scope-tier-heading">
+                <span aria-hidden="true">◐</span>
+                Indicative (authored but source pending human verification —
+                use as pointer, confirm with official text)
+              </p>
+              <div className="scope-tier-body">
+                <p>
+                  <strong>Germany: 2</strong> — LSV AFIR transposition, KBA
+                  statutory chain
+                </p>
+                <p>
+                  <strong>UK: 2</strong> — Windsor Framework (NI), Public
+                  Charge Point Regulations
+                </p>
+                <p>
+                  <strong>Spain: 7</strong> — Etiqueta Ambiental,
+                  Homologación Individual, ZEV 2040, Ley 3/2023 Movilidad,
+                  MOVES III, batteries RD 106/2008, CCAA variation
+                </p>
+                <p>
+                  <strong>France: 7</strong> — Crit&apos;Air, Prime à la
+                  Conversion, TVS → TAVE+TAPVP, TICPE, LOM, Malus Masse, UTAC
+                </p>
+              </div>
+            </section>
+
+            <section className="scope-tier scope-tier-pending">
+              <p className="scope-tier-heading">
+                <span aria-hidden="true">○</span>
+                Not yet authored (no coverage — user must do separate research)
+              </p>
+              <div className="scope-tier-body">
+                <p>
+                  <strong>Netherlands (NL): 5 rules pending authoring</strong>
+                </p>
+                <p>
+                  <strong>Other EU (IT, PL, BE, AT, SE, CZ)</strong> —
+                  factory stubs only
+                </p>
+              </div>
+            </section>
+
+            <section className="scope-tier scope-tier-out">
+              <p className="scope-tier-heading">
+                <span aria-hidden="true">✕</span>
+                Out of scope (explicit non-goals)
+              </p>
+              <div className="scope-tier-body">
+                <p>
+                  Non-EU markets (CN, US, JP, TR) · Customs / CBAM / HS / FTA
+                  · ISO standards prerequisites · UNECE Annex II beyond
+                  pilot-triggered set
+                </p>
+              </div>
+            </section>
+          </div>
+
+          <p className="scope-banner-disclaimer">
+            This tool is a navigation aid, not legal advice. Always validate
+            with your homologation partner and legal counsel before
+            market-entry decisions.
+          </p>
         </div>
       ) : null}
     </aside>

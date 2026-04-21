@@ -273,10 +273,11 @@ export function CoveragePanel({
               data-testid="pending-overlays-callout"
               style={{ marginTop: "0.75rem" }}
             >
-              <div className="font-medium text-amber-900">Pending national overlays</div>
+              <div className="font-medium text-amber-900">National overlay status</div>
               <p className="mt-1 text-amber-800">
-                France (FR) and Netherlands (NL) overlay rules are placeholders awaiting authoring in Phase 12.
-                Evaluation currently treats them as UNKNOWN. Germany (DE) has 5 ACTIVE overlay rules as of Phase 11C.
+                Germany (8 ACTIVE), UK (11 ACTIVE), Spain (7 ACTIVE), and France (5 ACTIVE) have verified overlays.
+                Netherlands (5 rules pending authoring) and other EU member states (IT, PL, BE, AT, SE, CZ — factory
+                stubs only) do not. See scope banner for the full tier breakdown.
               </p>
             </div>
           </section>

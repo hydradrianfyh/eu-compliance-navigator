@@ -2508,6 +2508,82 @@ html.print-setup-tab .advanced-section:not([open]) {
   line-height: 1.5;
 }
 
+/* K.1 · Collapsed summary inline accents (indicative amber alongside
+   existing .scope-banner-pending and .scope-banner-deferred) */
+
+.scope-banner-indicative {
+  color: #b45309;
+  font-weight: 600;
+}
+
+/* K.1 · 4-tier scope detail (production-grade / indicative / pending / out) */
+
+.scope-banner-detail-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.scope-tier {
+  padding: 10px 12px;
+  border-radius: var(--radius-md, 8px);
+  border: 1px solid;
+  line-height: 1.5;
+}
+
+.scope-tier-heading {
+  font-weight: 600;
+  margin: 0 0 4px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.scope-tier-body {
+  margin: 0;
+  font-size: 12px;
+}
+
+.scope-tier-body p {
+  margin: 2px 0;
+}
+
+.scope-tier-body strong {
+  font-weight: 600;
+}
+
+.scope-tier-verified {
+  background: var(--trust-verified-bg, #d1fae5);
+  border-color: var(--trust-verified-border, #a7f3d0);
+  color: var(--trust-verified-fg, #065f46);
+}
+
+.scope-tier-indicative {
+  background: var(--trust-indicative-bg, #fef3c7);
+  border-color: var(--trust-indicative-border, #fde68a);
+  color: var(--trust-indicative-fg, #92400e);
+}
+
+.scope-tier-pending {
+  background: var(--trust-pending-bg, #f3f4f6);
+  border-color: var(--trust-pending-border, #e5e7eb);
+  color: var(--trust-pending-fg, #374151);
+}
+
+.scope-tier-out {
+  background: #f9fafb;
+  border-color: #e5e7eb;
+  color: #6b7280;
+}
+
+.scope-banner-disclaimer {
+  margin: 10px 0 0;
+  font-size: 11px;
+  color: var(--text-muted, #6b7280);
+  font-style: italic;
+}
+
 /* UX-003: Country-at-risk reason coloring */
 
 .status-country-pending_overlay strong {

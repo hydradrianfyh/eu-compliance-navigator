@@ -267,7 +267,7 @@ export default function StatusPage() {
               {summary.countriesAtRiskDetail.map((c) => {
                 const reasonLabel =
                   c.reason === "pending_overlay"
-                    ? "pending overlay — all rules placeholder (Phase 13+)"
+                    ? "pending overlay — national rules not yet authored"
                     : c.reason === "no_overlay"
                       ? "no overlay rules in registry yet"
                       : `low coverage — ${c.unknown_count} of ${c.total_overlay_rules} rules UNKNOWN`;
