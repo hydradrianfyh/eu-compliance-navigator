@@ -21,6 +21,7 @@ import { materializeRulesFromReviewState } from "@/registry/verification";
 import { groupTimelineBySOP } from "@/lib/timeline-sop-groups";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ExportAsPdfButton } from "@/components/shared/ExportAsPdfButton";
+import { PlanExecSummary } from "@/components/shell/PlanExecSummary";
 import { useAppShellStore } from "@/state/app-shell-store";
 
 export default function PlanPage() {
@@ -29,7 +30,7 @@ export default function PlanPage() {
     (state) => state.verificationReviewState,
   );
 
-  const { groupedTimeline, ownerDashboard } = useMemo(() => {
+  const { timeline, groupedTimeline, ownerDashboard } = useMemo(() => {
     const effectiveRules = materializeRulesFromReviewState(
       rawSeedRules,
       verificationReviewState,
@@ -39,7 +40,7 @@ export default function PlanPage() {
       registry.getEvaluableRules(),
       buildEngineConfig(config),
     );
-    const timeline = buildTimeline({
+    const rawTimeline = buildTimeline({
       config,
       results: evaluated,
       rules: effectiveRules,
@@ -49,8 +50,9 @@ export default function PlanPage() {
       rules: effectiveRules,
     });
     return {
+      timeline: rawTimeline,
       groupedTimeline: groupTimelineBySOP(
-        timeline,
+        rawTimeline,
         config.sopDate,
         config.firstRegistrationDate,
       ),
@@ -82,7 +84,14 @@ export default function PlanPage() {
         </div>
       </header>
 
-      <div className="plan-columns">
+      <PlanExecSummary
+        timeline={timeline}
+        groupedTimeline={groupedTimeline}
+        sopDate={config.sopDate}
+        firstRegistrationDate={config.firstRegistrationDate}
+      />
+
+      <div id="plan-full-detail" className="plan-columns">
         <section className="plan-column plan-column-timeline">
           {groupedTimeline.segments.map((segment) => (
             <details

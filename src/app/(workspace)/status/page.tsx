@@ -21,6 +21,10 @@ import { rawSeedRules } from "@/registry/seed";
 import { materializeRulesFromReviewState } from "@/registry/verification";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ExportAsPdfButton } from "@/components/shared/ExportAsPdfButton";
+import {
+  StatusExecSummary,
+  type ExecVerdict,
+} from "@/components/shell/StatusExecSummary";
 import { breakdownMonths, formatMonthsLabel } from "@/lib/format-months";
 import { useAppShellStore } from "@/state/app-shell-store";
 
@@ -28,7 +32,10 @@ function confidenceLabel(c: "high" | "medium" | "low"): string {
   return { high: "High", medium: "Medium", low: "Low" }[c];
 }
 
-function marketVerdict(canEnter: boolean, confidence: "high" | "medium" | "low") {
+function marketVerdict(
+  canEnter: boolean,
+  confidence: "high" | "medium" | "low",
+): ExecVerdict {
   if (canEnter && confidence === "high") return "LIKELY OK";
   if (canEnter) return "OK WITH CAVEATS";
   if (confidence === "high") return "AT RISK";
@@ -91,7 +98,15 @@ export default function StatusPage() {
       <div className="tab-actions tab-actions-floating">
         <ExportAsPdfButton tabClass="status-tab" />
       </div>
-      <section className={`status-hero panel ${verdictClass}`}>
+      <StatusExecSummary
+        summary={summary}
+        verdict={verdict}
+        targetCountries={config.targetCountries}
+      />
+      <section
+        id="status-full-detail"
+        className={`status-hero panel ${verdictClass}`}
+      >
         <header className="status-hero-header">
           <span className="status-hero-eyebrow">Market entry status</span>
           <h1 className="status-hero-verdict">{verdict}</h1>

@@ -2051,6 +2051,247 @@ ul {
   font-size: 12px;
 }
 
+/* ==========================================================================
+   Phase K.2 — Management-friendly 3-second exec summary
+   Shared visual style for StatusExecSummary + PlanExecSummary. Sized
+   intentionally small (~2 screen inches) so the detailed StatusHero /
+   timeline remain the authoritative views for engineers.
+   ========================================================================== */
+
+.status-exec,
+.plan-exec {
+  background: var(--surface-card, #ffffff);
+  border: 1px solid var(--border-default, #e5e7eb);
+  border-radius: var(--radius-lg, 12px);
+  border-left-width: 6px;
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: var(--shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.05));
+}
+
+/* Tone rails — left border picks up the semantic token for the verdict. */
+.status-exec-positive,
+.plan-exec-positive {
+  border-left-color: var(--status-ok, #059669);
+}
+
+.status-exec-caution,
+.plan-exec-caution {
+  border-left-color: var(--status-attention, #d97706);
+}
+
+.status-exec-blocker,
+.plan-exec-blocker {
+  border-left-color: var(--status-blocker, #dc2626);
+}
+
+.status-exec-neutral {
+  border-left-color: var(--status-info, #6b7280);
+}
+
+.status-exec-header,
+.plan-exec-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-exec-verdict {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill, 999px);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.status-exec-verdict-positive {
+  background: var(--trust-verified-bg, #d1fae5);
+  color: var(--trust-verified-fg, #065f46);
+  border: 1px solid var(--trust-verified-border, #a7f3d0);
+}
+
+.status-exec-verdict-caution {
+  background: var(--trust-indicative-bg, #fef3c7);
+  color: var(--trust-indicative-fg, #92400e);
+  border: 1px solid var(--trust-indicative-border, #fde68a);
+}
+
+.status-exec-verdict-blocker {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.status-exec-verdict-neutral {
+  background: var(--surface-muted, #f9fafb);
+  color: var(--text-secondary, #374151);
+  border: 1px solid var(--border-default, #e5e7eb);
+}
+
+.status-exec-verdict-icon {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.status-exec-verdict-label {
+  white-space: nowrap;
+}
+
+.status-exec-sentence {
+  flex: 1;
+  color: var(--text-primary, #111827);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.plan-exec-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill, 999px);
+  font-weight: 700;
+  font-size: 13px;
+  background: var(--surface-muted, #f9fafb);
+  color: var(--text-primary, #111827);
+  border: 1px solid var(--border-default, #e5e7eb);
+}
+
+.plan-exec-badge-icon {
+  color: var(--brand-primary, #0f172a);
+}
+
+.plan-exec-countdown {
+  color: var(--text-secondary, #374151);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.status-exec-numbers,
+.plan-exec-numbers {
+  margin: 0;
+  color: var(--text-secondary, #374151);
+  font-size: 14px;
+}
+
+.status-exec-numbers strong,
+.plan-exec-numbers strong {
+  color: var(--text-primary, #111827);
+  font-weight: 700;
+  margin-right: 2px;
+}
+
+.status-exec-urgent,
+.plan-exec-urgent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  background: var(--surface-muted, #f9fafb);
+  border: 1px solid var(--border-muted, #f3f4f6);
+  border-radius: var(--radius-md, 8px);
+}
+
+.status-exec-urgent-label,
+.plan-exec-urgent-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted, #6b7280);
+}
+
+.status-exec-urgent-body {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-primary, #111827);
+  line-height: 1.45;
+}
+
+.status-exec-urgent-marker,
+.plan-exec-urgent-marker {
+  color: var(--status-attention, #d97706);
+  margin-right: 6px;
+  font-weight: 700;
+}
+
+.status-exec-urgent-when {
+  color: var(--text-muted, #6b7280);
+}
+
+.plan-exec-urgent-list {
+  list-style: none;
+  padding: 0;
+  margin: 2px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.plan-exec-urgent-list li {
+  font-size: 13px;
+  color: var(--text-primary, #111827);
+  line-height: 1.45;
+}
+
+.plan-exec-urgent-list a {
+  color: var(--text-primary, #111827);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.plan-exec-urgent-list a:hover,
+.plan-exec-urgent-list a:focus-visible {
+  text-decoration: underline;
+}
+
+.plan-exec-urgent-when,
+.plan-exec-urgent-none,
+.status-exec-urgent-none {
+  color: var(--text-muted, #6b7280);
+  font-size: 12px;
+  margin: 0;
+}
+
+.status-exec-disclosure,
+.plan-exec-disclosure {
+  align-self: flex-start;
+  font-size: 12px;
+  color: var(--text-secondary, #374151);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.status-exec-disclosure:hover,
+.status-exec-disclosure:focus-visible,
+.plan-exec-disclosure:hover,
+.plan-exec-disclosure:focus-visible {
+  text-decoration: underline;
+  color: var(--text-primary, #111827);
+}
+
+@media (max-width: 640px) {
+  .status-exec,
+  .plan-exec {
+    padding: 14px 16px;
+  }
+  .status-exec-verdict-label,
+  .plan-exec-badge-label {
+    font-size: 12px;
+  }
+  .status-exec-sentence,
+  .plan-exec-countdown {
+    font-size: 13px;
+  }
+}
+
 /* Coverage tab */
 
 .coverage-tab {
