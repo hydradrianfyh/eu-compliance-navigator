@@ -43,7 +43,7 @@
 
 两个文件，结构对齐。
 
-### 3.1 `docs/PROJECT-JOURNEY.md`（中文主版，约 6000-8000 字）
+### 3.1 `docs/PROJECT-JOURNEY.md`（中文主版，约 8000-11000 字 — Part 2 扩充后的新目标）
 
 六部分 + 导航 map：
 
@@ -61,20 +61,217 @@ Part 1 — 开场叙事（500-700 字）
   - 下一步：NL batch / UNECE Annex II / Phase L features
   目标：任何读者读完这一页后能回答 "是什么 / 做到哪了 / 要去哪"。
 
-Part 2 — 技术沉淀（Technical; 约 1500 字）
-  2.1 架构四层（UI / Evaluation / Registry / Configuration）— 为什么这么分
-  2.2 Hard-gate 原则：非 ACTIVE rules 不能返回 APPLICABLE — 保护用户不被噪音误导
-  2.3 Schema 里承重的三个字段：
-      - lifecycle_state — governance 的唯一真相
-      - content_provenance — 反幻觉的基础 (human_reviewer: null = not trusted yet)
-      - manual_review_reason — 承认不确定性，在 UI 上 surface 出来
-  2.4 Factory patterns: makeSeedRule + uneceRule — 为什么工厂锁 lifecycle
-  2.5 Pilot fixture 作为 regression anchor — applicable_rule_ids "可增不可减" 原则
-  2.6 反幻觉栈：
-      - [verify] markers 限制在 notes / manual_review_reason
-      - source-policy.md 的 3-field ACTIVE gate
-      - Research agent parallel dispatch 作为防编造机制
-      - 人工核验轮真的抓到错（StVZO §23 例）
+Part 2 — 技术沉淀（Technical; 扩充到约 3000-4000 字，最重的一部分）
+  理念：即使某个观察当时看起来平常，未来可能是关键灵感。宁多不漏。
+
+  2.1 架构四层（UI / Evaluation / Registry / Configuration）
+    2.1.1 为什么这么分层（责任分离 + 可测试 + 可迁移数据层）
+    2.1.2 每层的严格边界:
+      - UI 不计算（只 render EvaluationResult）
+      - Evaluator 无副作用（pure function of config × rule → result）
+      - Registry 是 pure data (Zod validated)
+      - Configuration 是 input (VehicleConfig → EngineConfig 派生)
+    2.1.3 怎么知道边界被破坏 — code reviewer 重复 flag 一句话：
+      "UI 开始计算了，移回 engine"（Phase J.5 就这样被 reviewer 指出）
+    2.1.4 可迁移：任何有"决策逻辑 + 可变 input + 规则数据"的系统都受益
+      类似系统：权限引擎、feature flag 系统、报销审批、合规扫描
+
+  2.2 Hard-gate 原则：governance 在评估层强制，不在 authoring 层
+    2.2.1 规则：非 ACTIVE rules 永远不能返回 APPLICABLE
+    2.2.2 实现位置：src/engine/evaluator.ts:113-121（硬编码降级）
+    2.2.3 反面教训：如果在 authoring 层依赖 "自觉"，一定漏
+      → 应该让评估层强制执行，让作者无法违背
+    2.2.4 可迁移：任何 data quality tier × output confidence 的系统都能用
+      例：数据质量 → 决策置信度、模型版本 → 预测 surface、证据等级 → 诊断建议
+
+  2.3 Schema 里承重的三个字段
+    2.3.1 lifecycle_state — governance 的唯一真相
+      5 状态：PLACEHOLDER / DRAFT / SEED_UNVERIFIED / ACTIVE / ARCHIVED
+      promotion gate 不是 "编辑字段" 而是 "满足条件"
+    2.3.2 content_provenance.human_reviewer — 真正的信任信号
+      **关键洞察**：不是 lifecycle_state — 可以有 ACTIVE 但 human_reviewer:null
+      的规则（早期 ACTIVE 推广但未经核验）。Phase J 反幻觉就是把 "信任" 从
+      lifecycle 抽离到独立字段。
+      → governance 状态 vs 数据血统 = 两个正交维度
+    2.3.3 manual_review_reason — 承认不确定性并在 UI 上 surface
+      **关键洞察**：用户困惑不是因为"不知道"，是因为"不知道为什么不知道"。
+      把 meta-information（为什么 pending）提升为 primary information（UI
+      里 "Why indicative only" callout）就解决了混乱。Phase K.0 发现的，
+      schema 里早就有这字段只是没 surface。
+    2.3.4 可迁移模式：任何产品凡是显示"灰色/待定/未决" 状态的，都应该附带
+      "为什么" 字段显式化
+
+  2.4 Factory patterns（工厂比约定强）
+    2.4.1 makeSeedRule — 应用 schema 默认值 + 让 Zod 运行时验证
+    2.4.2 uneceRule — 强制锁 lifecycle 到 SEED_UNVERIFIED
+      教训：factory 可以 enforce invariants 是 prose / convention 做不到的
+      （无论文档怎么写，新人都会绕过；工厂强制则绕不过）
+    2.4.3 Additive extension — 可选字段保留向后兼容
+      - UneceAuthored.evidenceTasks / manualReviewReason 是 Phase J.1 加的
+      - 老 callers 不填 → 默认值；新 callers 可用
+      - Zod `.optional().default(false)` 让 Phase I.3 的
+        offersPublicChargingInfra 加进来而没打破用户 localStorage
+    2.4.4 可迁移：schema 演进 + factory pattern 是长期系统的必备基础设施
+
+  2.5 Pilot fixture 作为 regression anchor
+    2.5.1 "applicable_rule_ids 可增不可减" 原则
+      Phase I/J 每个 commit 前必 verify: BEV × DE pilot 的 APPLICABLE 集合不能缩水
+      如果缩了，说明有 regression — 需要记录理由才能接受
+    2.5.2 用 fixture 验证 end-to-end 行为，不用 unit test 验证内部细节
+      (fixture = 一个真实项目配置；evaluation 必须在这个配置下稳定)
+    2.5.3 Soft range assertions: `conditional_count_range: [25, 60]`
+      表达测试意图（"应该有几十条 CONDITIONAL"）而非具体数字（避免因
+      authoring 增量持续 churn）
+    2.5.4 Snapshot tests 作为 audit artifacts
+      `git diff tests/unit/__snapshots__/` 是每次提交前的 manual review step —
+      snapshot 不是真相，是审计证据
+    2.5.5 可迁移：任何有"配置 → 结果"的系统都应该有 golden fixture
+
+  2.6 反幻觉栈（多层防御，不是单点）
+    2.6.1 Schema 层：content_provenance.human_reviewer: null = "不可信"
+      governance test 跑 validateRegistryIntegrity(activeWithoutUrl / 
+      activeWithoutOjReference / activeWithoutVerification) 作为 hard gate
+    2.6.2 Authoring 层：[verify] markers
+      **严格约束**：只能出现在 notes / manual_review_reason / 
+      source.oj_reference，**不能**污染 obligation_text（用户看到的文字）
+      Phase I.4 ES 批次因 [verify] 漏到 obligation 被 code reviewer 打回
+    2.6.3 Review 层：两轮 loop（spec reviewer + code reviewer）
+    2.6.4 Test 层：governance test 看 registry integrity
+      pilot acceptance test 看行为稳定性
+    2.6.5 UI 层：lifecycle badges + "Why indicative only" callout
+      向用户 surfacing "我不是完全相信这条"
+    2.6.6 Human 层：人工核验轮真的抓到 AI 抓不到的错
+      例：StVZO §23 引用是 Oldtimer，不是 Kennzeichen — research agent
+      没抓到，人工浏览器打开页面一看立刻发现
+    2.6.7 AI-vs-AI 层：parallel research agents triangulate 信息
+      例：ES 批次 research agent 查出 5 处 spec 错误（RD 559/2010 是
+      Industrial Registry 不是 homologación individual；Ley 7/2021 ZEV
+      target 是 2040 不是 2035；RD 110/2015 是 RAEE 不是 batteries）
+    2.6.8 **关键教训**：每层都有失败模式，多层冗余才靠谱
+      各层抓到的错类型互补：
+      - Schema 层抓缺字段
+      - Review 层抓内容 vs scope 偏差
+      - Test 层抓行为 regression
+      - UI 层抓用户认知盲区
+      - Human 抓事实错误（最贵但最 ground-truth）
+      - AI research 抓 citation 错误（便宜可并行）
+
+  2.7 数据模型的关键决策
+    2.7.1 RuleTemporalScope 7-field 结构（替代单 effective_from/to）
+      entry_into_force / applies_to_new_types_from / applies_to_all_new_vehicles_from
+      / applies_to_first_registration_from / applies_from_generic /
+      effective_to / small_volume_derogation_until
+      支持 automotive phase-in pattern — 一条法规可能对新型号从 YYYY 开始，
+      对所有新车从 YYYY+2 开始，对小批量延迟到 YYYY+5
+      **可迁移**：任何"多时点生效"的法规/政策系统都需要这个
+    2.7.2 Trigger logic: 声明式为主 + escape hatch 到 custom evaluator
+      80% declarative / 20% custom — 选择性复杂（selective complexity）
+      避免了"要么全 DSL 要么全代码"的二元陷阱
+    2.7.3 OwnerHint 受控词汇表（12 个预定义 owner 类别）
+      homologation / safety_engineering / cybersecurity / software_ota /
+      privacy_data_protection / ai_governance / sustainability_materials /
+      legal / aftersales / regulatory_affairs / powertrain_emissions /
+      connected_services / other
+      enable: filtering + aggregation + 跨规则 ownership dashboard
+      **可迁移**：controlled vocabulary > free text, 任何要支持跨切面视图的系统
+    2.7.4 Related rules 作为 directed graph
+      `{ rule_id: "REG-CS-001", relation: "complements" | "requires" | "conflicts" }`
+      enable 导航 + 一致性检查 + 依赖可视化
+
+  2.8 Engine 层的 config-as-pure-input 模式
+    2.8.1 VehicleConfig → EngineConfig 派生
+    2.8.2 整个 evaluation 是 pure function of config — 无副作用
+    2.8.3 Phase I.1 加的 5 个派生 flag 保持这个 invariant:
+      hasCombustionEngine / hasDieselEngine / hasFuelTank / hasOBD / isPlugInHybrid
+      都是 VehicleConfig.powertrain + VehicleConfig.fuel 的派生
+    2.8.4 **教训**：如果 state immutable + derivable，其他系统跟着简化
+      URL 分享、localStorage persist、undo/redo、time-travel debug 全都 cheap
+
+  2.9 规则拆分：ADR-H7 Euro 7 三分
+    一条"regulation"（Reg (EU) 2024/1257 Euro 7）太粗粒度，按 powertrain 拆为：
+    - REG-EM-001 Euro 7 框架 (M1/N1 所有车型)
+    - REG-EM-013 Euro 7 combustion exhaust + OBFCM (hasCombustionEngine)
+    - REG-EM-014 Euro 7 battery durability (batteryPresent)
+    **可迁移原则**：如果一条规则的 trigger 条件内部有分支，拆成多条更清晰
+    否则用户看到 evidence_tasks 会是 ICE + BEV 的混合，没法直接 assign
+
+  2.10 Subagent-driven development 经验
+    2.10.1 新 subagent + clean prompt > 单 agent + 长 history
+    2.10.2 Context switching cost（新 agent spin-up）< context pollution cost
+      （session 变长导致模型注意力分散）
+    2.10.3 但 parallel implementer 有冲突风险（两个 agent 同时改一个文件）
+      → 序列化 commits，不并行 implement
+    2.10.4 Research agents parallel OK — 他们不写 code，天然无冲突
+    2.10.5 **金句**：agent-to-agent 工作模式，每个 agent 是一个 "disposable
+      worker" — 用完即弃；不要和 agent 建立长对话。
+
+  2.11 文件组织（per-responsibility, not per-domain）
+    src/registry/seed/*.ts 按 legal_family 分：
+    - vehicle-approval.ts / general-safety.ts / cybersecurity.ts / 
+      emissions-co2.ts / materials-chemicals.ts 等
+    另外还有横切文件:
+    - shared.ts — 工厂
+    - classification.ts — 横切 enrichment
+    - evidence-enrichment.ts — 横切
+    - freshness-data.ts — 横切
+    - index.ts — composition（applyEnrichments 合并）
+    **教训**：一个文件一个 responsibility，便于定位 + review + reason。
+    当某文件超过 ~1500-2000 行（member-state-overlay.ts 到 2400），就该拆
+
+  2.12 UI 语言 vs Engine 语言的显式映射
+    Engine 说: ACTIVE / SEED_UNVERIFIED / DRAFT / PLACEHOLDER / ARCHIVED
+    UI 说: Verified / Indicative / Pending
+    TrustBadge 组件做翻译
+    **教训**：用户词汇 ≠ 治理词汇；给 schema 原生 term 保留精确语义，
+    用户表达用更直观、更少的概念。
+
+  2.13 Schema 不支持的东西怎么办
+    ES CCAA 子国家地区变异：schema 没 region 字段
+    → 不 hack schema，加一条 aggregate advisory rule（REG-MS-ES-014）
+      告诉用户 "这个维度需要你自己另做尽调"
+    **教训**：承认工具边界比强行扩展 schema 好 — 工具不对用户撒谎
+
+  2.14 Evidence tasks 必须可操作
+    ❌ "Ensure compliance with Art. 13"
+    ✓ "Battery label artwork approval per Annex VI format including QR linking to passport"
+    ✓ "Demontage-Informationen sheet in German within 6 months of new-type launch"
+    每条 evidence_task 是一个具体的 deliverable（文档、测试、sign-off），
+    可 checkbox 化、可 assign 到 owner_hint
+    **教训**：抽象义务在 authoring 时就要变具体 — 工具不把锅甩给用户
+
+  2.15 信任的三个正交轴（关键抽象洞察）
+    人们常把这三个混在一起，实际是独立的：
+    - 信任（Trust）: 这条规则的源头可不可信？→ lifecycle_state / human_reviewer
+    - 适用性（Applicability）: 对当前项目适用吗？→ trigger logic
+    - 新鲜度（Freshness）: 最近核验过吗？→ last_verified_on + review cadence
+    **可迁移**：任何规则引擎 / 政策系统 / 知识库都受益于这个分离
+
+  2.16 金句 / 可复用 principles 集（以后拿出来直接用）
+    - "Non-ACTIVE rules must never return APPLICABLE"（governance 第一原则）
+    - "UI renders, engine computes"
+    - "[verify] 活在 notes 里，永远不进 obligation_text"
+    - "Pilot regression anchor: applicable_rule_ids may grow but must not shrink"
+    - "Silent under-serving 是最差的失败模式" (PHEV fixture 诊断)
+    - "Fresh subagent beats long conversation"
+    - "Dispatch parallel research agents BEFORE writing anything"
+    - "Human verification catches real errors AI verification cannot"
+    - "Trust ≠ Lifecycle ≠ Applicability — three separate axes"
+    - "Factories enforce invariants, prose/convention cannot"
+    - "Controlled vocabulary > free text"
+    - "If your data is immutable + derivable, the rest of the system simplifies"
+    - "Schema 不支持的事情，告诉用户而不是 hack"
+    - "Test snapshot 是 audit artifact，不是 baseline"
+    - "Additive schema changes should default; existing data shouldn't break"
+    - "承认工具边界比假装全能强" (CCAA 例)
+    - "Evidence tasks 是 deliverable，不是 aspiration"
+
+  2.17 反例：session 里讨论过但没采用的决策（以备后用）
+    - 考虑过：把 CCAA 拆成 per-region rules — 拒绝（schema 不支持，hack 代价过高）
+    - 考虑过：引入后端 API — 拒绝（AGENTS.md non-goal，保持零后端）
+    - 考虑过：UNECE R161 独立规则 — 拒绝（ADB 在 R149 内部，新规则是幻觉）
+    - 考虑过：LLM runtime 评估 — 拒绝（reproducibility + cost + latency 三重代价）
+    - 考虑过：把 Ley 3/2023 ES 标 ACTIVE — 拒绝（enactment 未核实）
+    教训：这些"没做"的决策记下来比"做了"的更有 reference 价值
 
 Part 3 — 产品 / UX 决策（Product; 约 1200 字）
   3.1 Progressive disclosure 原则 — 管理层 3 秒可懂 / 工程师能深挖
@@ -187,9 +384,9 @@ Part 6 — Open risks + technical debt + 重来会怎么做（约 1000 字）
   - 交接（我 → 下一任 maintainer）: 全读
 ```
 
-### 3.2 `docs/PROJECT-JOURNEY-EN.md`（英文伴随版，约 4000-5500 字）
+### 3.2 `docs/PROJECT-JOURNEY-EN.md`（英文伴随版，约 5500-7500 words）
 
-同样的 6 部分结构，精简英文版。目标读者：不读中文的子集（国际合作方、TÜV 联络人、有非中文参与者的投资人对话）。交叉引用中文版以取详细内容。
+同样的 6 部分结构，Part 2 同样扩充。目标读者：不读中文的子集（国际合作方、TÜV 联络人、有非中文参与者的投资人对话）。交叉引用中文版以取详细内容；但 Part 2 的技术 principles + 金句在英文版里要完整保留（因为是可迁移给其他项目的"code smell / design smell" 级别的洞察，英文读者更可能在新项目复用）。
 
 ---
 
@@ -293,11 +490,14 @@ writing-plans 技能会把这些做成实现 plan：
 ## 8. 完成的定义（DoD）
 
 - 两个文件都存在：`docs/PROJECT-JOURNEY.md`（zh）+ `docs/PROJECT-JOURNEY-EN.md`（en）
-- 中文版 6000-8000 字，英文版 4000-5500 words
+- 中文版 8000-11000 字，英文版 5500-7500 words（Part 2 扩充后的新目标）
 - 两份都有全部 6 parts + navigation map
+- **Part 2 技术沉淀 独占 3000-4000 字（zh）/ 2200-3000 words（en）** — 是最重的一部分
+- **Part 2 的"金句集"（§2.16）+ "反例决策"（§2.17）必须都保留** — 以后回来翻的最高价值部分
+- **信任三轴（§2.15）的抽象洞察必须独立章节讲透** — 可复用性最高
 - Budget 部分每个数字都有范围 + "session-estimated" 免责
 - 无编造的竞品 / 市场数据
-- 至少 8-10 个 phase anchor commit SHA 被引用
+- 至少 8-10 个 phase anchor commit SHA 被引用（技术部分增加具体 commit refs 引用密度）
 - 交叉引用 README / USER-GUIDE / DEVELOPER / HOMOLOGATION-HANDBOOK / docs/phase0 在自然的位置出现
 - 每个文件末尾有 navigation map
 - `grep -nE "\\[verify\\]"` 在正文部分返回零（附录的 marker OK）

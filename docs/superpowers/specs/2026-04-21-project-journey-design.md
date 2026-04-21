@@ -42,7 +42,7 @@ This document fills that gap.
 
 Two files, mirror structure.
 
-### 3.1 `docs/PROJECT-JOURNEY.md` (中文 primary, ~6000-8000 字)
+### 3.1 `docs/PROJECT-JOURNEY.md` (中文 primary, ~8000-11000 字 — Part 2 expanded)
 
 Six parts + navigation map:
 
@@ -59,20 +59,239 @@ Part 1 — 开场叙事 (500-700 字)
   - 下一步：NL batch / UNECE Annex II / Phase L features
   目标：任何读者读这 1 页后知道整个项目 "是什么 / 做到哪了 / 要去哪"。
 
-Part 2 — 技术沉淀 (Technical; ~1500 字)
-  2.1 架构四层 (UI / Evaluation / Registry / Configuration) — 为什么这样分
-  2.2 Hard-gate 原则：非 ACTIVE rules 不能返回 APPLICABLE — 保护用户不被噪音误导
-  2.3 Load-bearing schema fields:
-      - lifecycle_state — governance 的唯一真相
-      - content_provenance — 反幻觉的基础 (human_reviewer: null = not trusted yet)
-      - manual_review_reason — 承认不确定性，surfacing 在 UI
-  2.4 Factory patterns: makeSeedRule + uneceRule — 为什么工厂锁 lifecycle
-  2.5 Pilot fixture 作为 regression anchor — applicable_rule_ids "可增不可减" 原则
-  2.6 反幻觉栈：
-      - [verify] markers confined to notes/manual_review_reason
-      - source-policy.md 的 3-field ACTIVE gate
-      - Research agent parallel dispatch 作为防编造机制
-      - 人工核验轮 catches real errors (StVZO §23 例)
+Part 2 — Technical distillation (~3000-4000 字 zh / ~2200-3000 words en; the heaviest part)
+  Principle: even a seemingly small observation today may be the key inspiration
+  later. Prefer over-documenting over losing.
+
+  2.1 Four-layer architecture (UI / Evaluation / Registry / Configuration)
+    2.1.1 Why this split (responsibility separation + testability + data-layer migratability)
+    2.1.2 Strict boundaries per layer:
+      - UI does not compute (only renders EvaluationResult)
+      - Evaluator has no side effects (pure function of config × rule → result)
+      - Registry is pure data (Zod validated)
+      - Configuration is input (VehicleConfig → EngineConfig derived)
+    2.1.3 How we know boundaries were breached — code reviewer flagged repeatedly:
+      "UI is starting to compute — move it back to engine" (Phase J.5 caught this)
+    2.1.4 Transferable: any system with "decision logic + mutable inputs + rule data"
+      benefits. Similar systems: permission engines, feature-flag systems,
+      expense approval, compliance scanning.
+
+  2.2 Hard-gate principle: governance enforced at evaluation layer, not authoring
+    2.2.1 Rule: non-ACTIVE rules can NEVER return APPLICABLE
+    2.2.2 Implementation: src/engine/evaluator.ts:113-121 (hard-coded downgrade)
+    2.2.3 Counter-lesson: if you rely on author "self-discipline" at authoring layer,
+      it WILL leak. Enforce at evaluation layer so authors can't violate.
+    2.2.4 Transferable: any data-quality-tier × output-confidence system can use this.
+      E.g., data quality → decision confidence, model version → prediction surface,
+      evidence level → diagnostic suggestion.
+
+  2.3 Three load-bearing schema fields
+    2.3.1 lifecycle_state — single source of truth for governance
+      5 states: PLACEHOLDER / DRAFT / SEED_UNVERIFIED / ACTIVE / ARCHIVED
+      Promotion gate is not "edit this field" but "satisfy these conditions"
+    2.3.2 content_provenance.human_reviewer — the REAL trust signal
+      **Key insight**: not lifecycle_state — you can have ACTIVE rules with
+      human_reviewer: null (early ACTIVE promotions before verification).
+      Phase J anti-hallucination separated "trust" from lifecycle into its
+      own field.
+      → governance state vs data lineage = two orthogonal axes
+    2.3.3 manual_review_reason — acknowledge uncertainty AND surface in UI
+      **Key insight**: user confusion is not "they don't know" — it's
+      "they don't know why they don't know". Promoting meta-information
+      (why pending) to primary information (UI callout "Why indicative only")
+      solves the confusion. Phase K.0 discovered this; the field had been
+      in the schema all along, just not surfaced.
+    2.3.4 Transferable pattern: any product that shows "gray/pending/undecided"
+      state should have a "why" field surfaced explicitly.
+
+  2.4 Factory patterns (factories are stronger than conventions)
+    2.4.1 makeSeedRule — applies schema defaults + enables Zod runtime validation
+    2.4.2 uneceRule — hard-locks lifecycle to SEED_UNVERIFIED
+      Lesson: factories can enforce invariants that prose/convention cannot
+      (no matter what docs say, new authors bypass; factories block)
+    2.4.3 Additive extension — optional fields preserving backward compat
+      - UneceAuthored.evidenceTasks / manualReviewReason added in Phase J.1
+      - Old callers omit → defaults kick in; new callers use extensions
+      - Zod `.optional().default(false)` let Phase I.3's
+        offersPublicChargingInfra land without breaking user localStorage
+    2.4.4 Transferable: schema evolution + factory pattern = essential
+      infrastructure for long-lived systems
+
+  2.5 Pilot fixture as regression anchor
+    2.5.1 "applicable_rule_ids may grow but must not shrink" rule
+      Every Phase I/J commit verifies: BEV × DE pilot APPLICABLE set didn't shrink
+      If shrunk, that's a regression — requires recorded justification to accept
+    2.5.2 Use fixture to verify end-to-end behavior, not unit tests on internals
+      (fixture = one real project config; evaluation must be stable under it)
+    2.5.3 Soft range assertions: `conditional_count_range: [25, 60]`
+      Tests express intent ("should have a few dozen CONDITIONALs"), not
+      specific numbers (which churn constantly with authoring)
+    2.5.4 Snapshot tests as audit artifacts
+      `git diff tests/unit/__snapshots__/` is a manual review step before every
+      commit — snapshots are evidence, not ground truth
+    2.5.5 Transferable: any "config → result" system benefits from a golden fixture
+
+  2.6 Anti-hallucination stack (multi-layer defense, not single point)
+    2.6.1 Schema layer: content_provenance.human_reviewer: null = "untrusted"
+      governance test runs validateRegistryIntegrity (activeWithoutUrl /
+      activeWithoutOjReference / activeWithoutVerification) as hard gate
+    2.6.2 Authoring layer: [verify] markers
+      **Strict constraint**: appear only in notes / manual_review_reason /
+      source.oj_reference — NEVER in obligation_text (user-facing prose).
+      Phase I.4 ES batch got sent back by code reviewer for this violation.
+    2.6.3 Review layer: two-loop review (spec reviewer + code reviewer)
+    2.6.4 Test layer: governance test for registry integrity;
+      pilot acceptance test for behavior stability
+    2.6.5 UI layer: lifecycle badges + "Why indicative only" callout
+      surface to user that "we don't fully trust this"
+    2.6.6 Human layer: human verification catches errors AI cannot
+      Example: StVZO §23 citation is Oldtimer, not Kennzeichen —
+      research agents missed; human opened page in browser, found instantly
+    2.6.7 AI-vs-AI layer: parallel research agents triangulate information
+      Example: ES batch research agent caught 5 spec errors (RD 559/2010
+      is Industrial Registry not homologación individual; Ley 7/2021 ZEV
+      target is 2040 not 2035; RD 110/2015 is RAEE not batteries)
+    2.6.8 **Key lesson**: every layer has failure modes; multi-layer redundancy
+      is what works. Each layer catches different classes of errors:
+      - Schema layer catches missing fields
+      - Review layer catches content-vs-scope mismatch
+      - Test layer catches behavioral regression
+      - UI layer catches user cognition blind spots
+      - Human catches factual errors (most expensive, most ground-truth)
+      - AI research catches citation errors (cheap, parallelizable)
+
+  2.7 Key data-model decisions
+    2.7.1 RuleTemporalScope 7-field structure (replacing single effective_from/to)
+      entry_into_force / applies_to_new_types_from / applies_to_all_new_vehicles_from
+      / applies_to_first_registration_from / applies_from_generic /
+      effective_to / small_volume_derogation_until
+      Supports automotive phase-in pattern — one regulation may apply to new
+      types from YYYY, to all new vehicles from YYYY+2, with small-volume
+      derogation until YYYY+5
+      **Transferable**: any "multi-date effective" regulation/policy system needs this
+    2.7.2 Trigger logic: declarative-primary + custom-evaluator escape hatch
+      80% declarative / 20% custom — selective complexity
+      Avoided the "all-DSL or all-code" binary trap
+    2.7.3 OwnerHint controlled vocabulary (12 predefined owner categories)
+      homologation / safety_engineering / cybersecurity / software_ota /
+      privacy_data_protection / ai_governance / sustainability_materials /
+      legal / aftersales / regulatory_affairs / powertrain_emissions /
+      connected_services / other
+      Enables: filtering + aggregation + cross-rule ownership dashboard
+      **Transferable**: controlled vocabulary > free text for any system
+      requiring cross-cutting views
+    2.7.4 Related rules as directed graph
+      `{ rule_id: "REG-CS-001", relation: "complements" | "requires" | "conflicts" }`
+      Enables navigation + consistency checking + dependency visualization
+
+  2.8 Engine layer's config-as-pure-input pattern
+    2.8.1 VehicleConfig → EngineConfig derivation
+    2.8.2 Entire evaluation is a pure function of config — no side effects
+    2.8.3 Phase I.1's 5 new derived flags preserve this invariant:
+      hasCombustionEngine / hasDieselEngine / hasFuelTank / hasOBD / isPlugInHybrid
+      All derived from VehicleConfig.powertrain + VehicleConfig.fuel
+    2.8.4 **Lesson**: if state is immutable + derivable, other subsystems simplify
+      URL sharing, localStorage persist, undo/redo, time-travel debug all become cheap
+
+  2.9 Rule splitting: ADR-H7 Euro 7 three-way split
+    One "regulation" (Reg (EU) 2024/1257 Euro 7) was too coarse-grained;
+    split by powertrain into:
+    - REG-EM-001 Euro 7 framework (all M1/N1)
+    - REG-EM-013 Euro 7 combustion exhaust + OBFCM (hasCombustionEngine)
+    - REG-EM-014 Euro 7 battery durability (batteryPresent)
+    **Transferable principle**: if a single rule's trigger has conditional
+    branching within itself, split into multiple rules. Otherwise evidence_tasks
+    becomes a mix of ICE + BEV tasks, un-assignable.
+
+  2.10 Subagent-driven development lessons
+    2.10.1 Fresh subagent + clean prompt > single agent + long history
+    2.10.2 Context switching cost (new agent spin-up) < context pollution cost
+      (long session degrades model attention)
+    2.10.3 But parallel implementer has conflict risk (two agents editing same file)
+      → sequentialize commits, don't parallelize implementation
+    2.10.4 Research agents CAN parallel — they don't write code, so no conflicts
+    2.10.5 **Aphorism**: agent-to-agent workflow is "disposable workers" pattern —
+      use once and discard; don't build long conversations with any single agent.
+
+  2.11 File organization (per-responsibility, not per-domain)
+    src/registry/seed/*.ts split by legal_family:
+    - vehicle-approval.ts / general-safety.ts / cybersecurity.ts /
+      emissions-co2.ts / materials-chemicals.ts / etc.
+    Plus cross-cutting files:
+    - shared.ts — factories
+    - classification.ts — cross-cutting enrichment
+    - evidence-enrichment.ts — cross-cutting
+    - freshness-data.ts — cross-cutting
+    - index.ts — composition (applyEnrichments merges)
+    **Lesson**: one file per responsibility eases locate + review + reason.
+    When a file exceeds ~1500-2000 lines (member-state-overlay.ts hit 2400),
+    split.
+
+  2.12 UI language vs Engine language — explicit mapping
+    Engine says: ACTIVE / SEED_UNVERIFIED / DRAFT / PLACEHOLDER / ARCHIVED
+    UI says: Verified / Indicative / Pending
+    TrustBadge component does the translation
+    **Lesson**: user vocabulary ≠ governance vocabulary. Keep schema-native
+    terms for precise semantics; user-facing terms should be fewer and
+    more intuitive.
+
+  2.13 What to do when schema doesn't support something
+    ES CCAA sub-country regional variations: schema has no region field
+    → Don't hack the schema. Add one aggregate advisory rule (REG-MS-ES-014)
+      telling the user "this dimension needs separate due diligence"
+    **Lesson**: acknowledging tool boundaries beats force-extending schema —
+    the tool shouldn't lie to the user.
+
+  2.14 Evidence tasks must be actionable
+    ❌ "Ensure compliance with Art. 13"
+    ✓ "Battery label artwork approval per Annex VI format including QR
+      linking to passport"
+    ✓ "Demontage-Informationen sheet in German within 6 months of new-type
+      launch"
+    Each evidence_task is a specific deliverable (document, test, sign-off),
+    checkable + assignable by owner_hint
+    **Lesson**: abstract obligations must be concretized at authoring time —
+    don't pass the buck to the user.
+
+  2.15 Three orthogonal axes of trust (a key abstraction insight)
+    People often conflate these; they're independent:
+    - Trust: is the source of this rule trustworthy? → lifecycle_state / human_reviewer
+    - Applicability: does it apply to the current project? → trigger logic
+    - Freshness: recently verified? → last_verified_on + review cadence
+    **Transferable**: any rule engine / policy system / knowledge base benefits
+    from this separation.
+
+  2.16 Aphorism + reusable principles catalog (pluck-and-use)
+    - "Non-ACTIVE rules must never return APPLICABLE" (governance first-principle)
+    - "UI renders, engine computes"
+    - "[verify] lives in notes, never in obligation_text"
+    - "Pilot regression anchor: applicable_rule_ids may grow but must not shrink"
+    - "Silent under-serving is the worst failure mode" (PHEV fixture diagnosis)
+    - "Fresh subagent beats long conversation"
+    - "Dispatch parallel research agents BEFORE writing anything"
+    - "Human verification catches real errors AI verification cannot"
+    - "Trust ≠ Lifecycle ≠ Applicability — three separate axes"
+    - "Factories enforce invariants, prose/convention cannot"
+    - "Controlled vocabulary > free text"
+    - "If your data is immutable + derivable, the rest of the system simplifies"
+    - "When the schema doesn't support X, tell the user — don't hack"
+    - "Test snapshot is audit artifact, not baseline"
+    - "Additive schema changes should default; existing data shouldn't break"
+    - "Acknowledge tool boundaries rather than fake omniscience" (CCAA example)
+    - "Evidence tasks are deliverables, not aspirations"
+
+  2.17 Counter-examples: decisions we considered but rejected (for future reference)
+    - Considered: split CCAA into per-region rules. Rejected: schema doesn't
+      support; hack cost too high.
+    - Considered: introduce backend API. Rejected: AGENTS.md non-goal; keep
+      zero-backend.
+    - Considered: UNECE R161 as standalone rule. Rejected: ADB is inside R149;
+      standalone would be a hallucination.
+    - Considered: LLM runtime evaluation. Rejected: reproducibility + cost +
+      latency triple penalty.
+    - Considered: mark Ley 3/2023 ES ACTIVE. Rejected: enactment status unverified.
+    Lesson: "rejected" decisions are more valuable reference than "adopted"
+    decisions — they encode constraint knowledge.
 
 Part 3 — 产品 / UX 决策 (Product; ~1200 字)
   3.1 Progressive disclosure 原则 — 管理层 3 秒 / 工程师深挖
@@ -176,9 +395,9 @@ Part 6 — Open risks + technical debt + what we'd do differently (~1000 字)
   - 交接 (我 → 下一任 maintainer): 全读
 ```
 
-### 3.2 `docs/PROJECT-JOURNEY-EN.md` (English companion, ~4000-5500 字)
+### 3.2 `docs/PROJECT-JOURNEY-EN.md` (English companion, ~5500-7500 words)
 
-Same 6-part structure, condensed. Targets the subset of audiences who don't read Chinese (international partners, TÜV liaisons, investor conversations with non-Chinese participants). Cross-references to the Chinese version for detail.
+Same 6-part structure, Part 2 equally expanded. Target audience: subset who don't read Chinese (international partners, TÜV liaisons, investor conversations with non-Chinese participants). Cross-references Chinese version for detail; but **Part 2 technical principles + aphorisms must be preserved in full in the English version** (they're transferable "code smell / design smell"-level insights, and English-speaking readers are more likely to reuse them on new projects).
 
 ---
 
@@ -282,11 +501,14 @@ This is pure documentation. `tsc / lint / vitest` should not be affected. Run th
 ## 8. Definition of Done
 
 - Both files exist at `docs/PROJECT-JOURNEY.md` (zh) + `docs/PROJECT-JOURNEY-EN.md` (en)
-- Zh version is 6000-8000 字, En version is 4000-5500 words
+- Zh version is 8000-11000 字, En version is 5500-7500 words (Part 2 expanded target)
 - All 6 parts + navigation map present in both files
+- **Part 2 Technical occupies 3000-4000 字 zh / 2200-3000 words en** — the heaviest part
+- **Part 2's aphorism catalog (§2.16) + rejected-decisions (§2.17) must both be preserved** — highest reference value when returning later
+- **Three-axis trust insight (§2.15) must have its own standalone section** — highest transferability
 - Every numerical claim in budget section has range + "session-estimated" disclaimer
 - No fabricated competitor / market data
-- Major commit SHAs cited (at least 8-10 as phase anchors)
+- Major commit SHAs cited (at least 8-10 as phase anchors, with increased density in technical section)
 - Cross-references to README / USER-GUIDE / DEVELOPER / HOMOLOGATION-HANDBOOK / docs/phase0 present where natural
 - Navigation map at end of each file
 - `grep -nE "\\[verify\\]"` returns zero results in main prose of either file (markers OK in appendix)
