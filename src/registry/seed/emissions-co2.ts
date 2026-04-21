@@ -301,7 +301,7 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2007/715/oj",
         oj_reference: "OJ L 171, 29.6.2007, p. 1",
         authoritative_reference: "CELEX:32007R0715",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "WLTP implementing regulation",
@@ -310,7 +310,7 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2017/1151/oj",
         oj_reference: "OJ L 175, 7.7.2017, p. 1",
         authoritative_reference: "CELEX:32017R1151",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "RDE package 4",
@@ -319,10 +319,12 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2018/1832/oj",
         oj_reference: "OJ L 301, 27.11.2018, p. 1",
         authoritative_reference: "CELEX:32018R1832",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2-horizontal",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -358,8 +360,8 @@ export const emissionsCo2Rules = [
     process_stage: "type_approval",
     content_provenance: {
       source_type: "eur_lex",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
   makeSeedRule({
@@ -378,7 +380,7 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/dir/1998/69/oj",
         oj_reference: "OJ L 350, 28.12.1998, p. 1",
         authoritative_reference: "CELEX:31998L0069",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "Euro 5/6 integration",
@@ -387,7 +389,7 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2007/715/oj",
         oj_reference: "OJ L 171, 29.6.2007, p. 1",
         authoritative_reference: "CELEX:32007R0715",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "WLTP-era OBD",
@@ -396,10 +398,12 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2017/1151/oj",
         oj_reference: "OJ L 175, 7.7.2017, p. 1",
         authoritative_reference: "CELEX:32017R1151",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2-horizontal",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -433,8 +437,8 @@ export const emissionsCo2Rules = [
     process_stage: "type_approval",
     content_provenance: {
       source_type: "eur_lex",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
     prerequisite_standards: [
       "ISO 15031 (communication between vehicle and external equipment)",
@@ -457,7 +461,7 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2007/715/oj",
         oj_reference: "OJ L 171, 29.6.2007, p. 1",
         authoritative_reference: "CELEX:32007R0715",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "Implementing act (Annex VI)",
@@ -475,10 +479,12 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2017/1151/oj",
         oj_reference: "OJ L 175, 7.7.2017, p. 1",
         authoritative_reference: "CELEX:32017R1151",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2-horizontal",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -513,8 +519,8 @@ export const emissionsCo2Rules = [
     notes: "Diesel fuel systems are excluded from EVAP due to negligible vapor pressure.",
     content_provenance: {
       source_type: "eur_lex",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
   makeSeedRule({
@@ -533,7 +539,7 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2023/443/oj",
         oj_reference: "OJ L 66, 2.3.2023 [verify p. 1]",
         authoritative_reference: "CELEX:32023R0443",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "UN counterpart — R101",
@@ -551,10 +557,12 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2019/631/oj",
         oj_reference: "OJ L 111, 25.4.2019, p. 13",
         authoritative_reference: "CELEX:32019R0631",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2-horizontal",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -589,8 +597,8 @@ export const emissionsCo2Rules = [
     process_stage: "type_approval",
     content_provenance: {
       source_type: "eur_lex",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
     related_rules: [
       { rule_id: "REG-UN-101", relation: "requires" },
@@ -613,7 +621,7 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2007/715/oj",
         oj_reference: "OJ L 171, 29.6.2007, p. 1",
         authoritative_reference: "CELEX:32007R0715",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "Euro 7 NOx tightening",
@@ -622,7 +630,7 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2024/1257/oj",
         oj_reference: "OJ L, 2024/1257, 8 May 2024",
         authoritative_reference: "CELEX:32024R1257",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "RDE methodology (Annex IIIA)",
@@ -631,10 +639,12 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2017/1151/oj",
         oj_reference: "OJ L 175, 7.7.2017, p. 1",
         authoritative_reference: "CELEX:32017R1151",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2-horizontal",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -669,8 +679,8 @@ export const emissionsCo2Rules = [
     process_stage: "type_approval",
     content_provenance: {
       source_type: "eur_lex",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
     prerequisite_standards: [
       "ISO 22241 (diesel engines — NOx reduction agent AUS 32)",
@@ -695,10 +705,12 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/dir/1999/94/oj",
         oj_reference: "OJ L 12, 18.1.2000, p. 16",
         authoritative_reference: "CELEX:31999L0094",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2-horizontal",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -732,8 +744,8 @@ export const emissionsCo2Rules = [
     process_stage: "sop",
     content_provenance: {
       source_type: "eur_lex",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
   makeSeedRule({
@@ -752,7 +764,7 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2017/2400/oj",
         oj_reference: "OJ L 349, 29.12.2017, p. 1",
         authoritative_reference: "CELEX:32017R2400",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "HD CO2 fleet targets",
@@ -761,7 +773,7 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2019/1242/oj",
         oj_reference: "OJ L 198, 25.7.2019, p. 202",
         authoritative_reference: "CELEX:32019R1242",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "HD CO2 monitoring",
@@ -770,10 +782,12 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2018/956/oj",
         oj_reference: "OJ L 173, 9.7.2018, p. 1",
         authoritative_reference: "CELEX:32018R0956",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2-horizontal",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -808,8 +822,8 @@ export const emissionsCo2Rules = [
     process_stage: "type_approval",
     content_provenance: {
       source_type: "eur_lex",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
   makeSeedRule({
@@ -828,7 +842,7 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2024/1257/oj",
         oj_reference: "OJ L, 2024/1257, 8 May 2024",
         authoritative_reference: "CELEX:32024R1257",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "Implementing regulation (exhaust/evaporative)",
@@ -837,7 +851,7 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg_impl/2025/1706/oj",
         oj_reference: "OJ L, 2025/1706, 5 September 2025",
         authoritative_reference: "CELEX:32025R1706",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "Implementing regulation (OBFCM/OBM/EVP)",
@@ -846,10 +860,12 @@ export const emissionsCo2Rules = [
         official_url: "https://eur-lex.europa.eu/eli/reg_impl/2025/1707/oj",
         oj_reference: "OJ L, 2025/1707, 5 September 2025",
         authoritative_reference: "CELEX:32025R1707",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2-horizontal",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -885,8 +901,8 @@ export const emissionsCo2Rules = [
     process_stage: "type_approval",
     content_provenance: {
       source_type: "eur_lex",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
     related_rules: [
       { rule_id: "REG-EM-001", relation: "complements" },

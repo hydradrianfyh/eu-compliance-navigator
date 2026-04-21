@@ -319,10 +319,12 @@ export const materialsChemicalsRules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2023/1542/oj",
         oj_reference: "OJ L 191, 28.7.2023",
         authoritative_reference: "CELEX:32023R1542",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2-horizontal",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -367,8 +369,8 @@ export const materialsChemicalsRules = [
     process_stage: "sop",
     content_provenance: {
       source_type: "eur_lex",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
   makeSeedRule({
@@ -387,10 +389,12 @@ export const materialsChemicalsRules = [
         official_url: "https://eur-lex.europa.eu/eli/reg/2023/1542/oj",
         oj_reference: "OJ L 191, 28.7.2023",
         authoritative_reference: "CELEX:32023R1542",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-2-horizontal",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -426,8 +430,8 @@ export const materialsChemicalsRules = [
     process_stage: "sop",
     content_provenance: {
       source_type: "eur_lex",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
   makeSeedRule({
