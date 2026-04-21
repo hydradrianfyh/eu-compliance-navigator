@@ -547,21 +547,26 @@ const germanyOverlayRules: Rule[] = [
     framework_group: ["MN"],
     sources: [
       {
+        // Phase J human-review round 1 (2026-04-21, reviewer: yanhao):
+        // AFIR ELI URL confirmed. Stays DRAFT because German LSV transposition
+        // is the operative national-level obligation source and is genuinely
+        // still pending revision (not a verification gap — a legislative gap).
         label: "Regulation (EU) 2023/1804 AFIR",
         source_family: "EUR-Lex" as const,
-        reference: "Regulation (EU) 2023/1804 on the deployment of alternative fuels infrastructure (AFIR)",
+        reference: "Regulation (EU) 2023/1804 on the deployment of alternative fuels infrastructure (AFIR), Art. 24",
         official_url: "https://eur-lex.europa.eu/eli/reg/2023/1804/oj",
         oj_reference: "OJ L, 2023/1804, 22.9.2023",
         authoritative_reference: "CELEX:32023R1804",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
-        label: "Ladesäulenverordnung (LSV) — revision pending",
+        label: "Ladesäulenverordnung (LSV) — current version + pending AFIR-transposition revision",
         source_family: "National legislation" as const,
-        reference: "Ladesäulenverordnung (LSV) — revision transposing AFIR [verify]",
-        official_url: null,
-        oj_reference: null,
-        authoritative_reference: "LSV [verify]",
+        reference:
+          "Ladesäulenverordnung vom 9. März 2016 (BGBl. I S. 457), last amended 2023; AFIR-transposition revision pending adoption",
+        official_url: "https://www.gesetze-im-internet.de/lsv/",
+        oj_reference: "BGBl. I 2016 S. 457",
+        authoritative_reference: "LSV",
         last_verified_on: null,
       },
     ],
@@ -583,25 +588,26 @@ const germanyOverlayRules: Rule[] = [
       applies_from_generic: "2024-04-13",
       effective_to: null,
       small_volume_derogation_until: null,
-      notes: "AFIR entered into force 13 April 2024 per Art 24 [verify]. German Ladesäulenverordnung (LSV) revision transposing AFIR pending 2025-2026 [verify].",
+      notes:
+        "AFIR entered into force 13 April 2024 per Art 24. German Ladesäulenverordnung (LSV) revision transposing AFIR pending — track via BMWK and BMDV consultations.",
     },
     obligation_text:
-      "OEMs operating public charging infrastructure in Germany must comply with AFIR-derived requirements on payment methods, pricing transparency, and charger deployment density. Operational transposition via revised Ladesäulenverordnung (LSV) is in progress.",
+      "OEMs operating public charging infrastructure in Germany must comply with AFIR-derived requirements on payment methods (contactless), pricing transparency (per-kWh display), and ad-hoc access without contract. Operational German transposition via revised Ladesäulenverordnung (LSV) is in progress; interim guidance is the direct AFIR text plus current LSV where not superseded.",
     evidence_tasks: [
-      "LSV revision tracking",
-      "AFIR payment + transparency compliance",
+      "LSV revision tracking (BMWK / BMDV consultations)",
+      "AFIR contactless payment + per-kWh price display compliance",
       "Deployment density reporting per AFIR Art 3-4",
-      "Public charge-point pricing display audit",
+      "Ad-hoc (contract-free) access provision for ≥50 kW chargers",
     ],
     manual_review_required: true,
     manual_review_reason:
-      "LSV revision pending final publication. AFIR operational dates depend on German transposition.",
+      "LSV revision pending final publication. Holds in DRAFT until the transposed German rule is published in BGBl.",
     owner_hint: "regulatory_affairs",
     ui_package: "market_access",
     process_stage: "post_market",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
+      retrieved_at: "2026-04-21",
       human_reviewer: null,
     },
   }),
@@ -616,16 +622,27 @@ const germanyOverlayRules: Rule[] = [
     framework_group: ["MN"],
     sources: [
       {
+        // Phase J human-review round 1 (2026-04-21, reviewer: yanhao):
+        // URL pattern-verified against BMJV canonical convention (same pattern
+        // as verified REG-MS-DE-001 FZV URL). §6(1)Nr.4 governs private use
+        // of business vehicles (Entnahmewert); §8(2) governs employee
+        // benefit-in-kind valuation. The 0.25% / 0.5% / 1% progression and
+        // BEV/PHEV preferential treatment are codified in these sections.
+        // The €70,000 list-price threshold is subject to periodic legislative
+        // adjustment — specific amount flagged [verify] in temporal.notes.
         label: "Einkommensteuergesetz §6(1)Nr.4 + §8(2)",
         source_family: "National legislation" as const,
-        reference: "EStG §6(1)Nr.4 + §8(2) (Einkommensteuergesetz) [verify current thresholds]",
-        official_url: null,
-        oj_reference: null,
-        authoritative_reference: "EStG §6(1)Nr.4 + §8(2) [verify]",
-        last_verified_on: null,
+        reference:
+          "EStG §6(1) Nr. 4 (Entnahme Kraftfahrzeug) + §8(2) (Sachbezüge Arbeitnehmer) — BEV/PHEV Dienstwagen-Vergünstigung",
+        official_url: "https://www.gesetze-im-internet.de/estg/",
+        oj_reference: "BGBl. I 2009 S. 3366 (consolidated Bekanntmachung)",
+        authoritative_reference: "EStG §6(1) Nr. 4 + §8(2)",
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-1",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -643,23 +660,24 @@ const germanyOverlayRules: Rule[] = [
       applies_from_generic: "2019-01-01",
       effective_to: null,
       small_volume_derogation_until: null,
-      notes: "BEV preferential treatment introduced via Jahressteuergesetz 2019 [verify exact Act number + §]. List-price thresholds updated periodically — confirm current threshold before customer-facing pricing.",
+      notes:
+        "BEV 0.25% preferential rate introduced 2019 (JStG 2019); list-price threshold raised to €70,000 via Wachstumschancengesetz (2024) from prior €60,000 [verify current-year threshold via EStG consolidated text — thresholds can change annually]. PHEV preferential rate 0.5% requires ≥60 km electric range OR ≤50 g/km CO2 (thresholds tightened over time — current thresholds [verify]).",
     },
     obligation_text:
-      "Company cars in Germany attract monthly benefit-in-kind (Dienstwagensteuer) at 0.25% of list price for BEV with list price up to €70,000; 0.5% for BEV over €70,000 and for PHEV meeting range/CO2 thresholds (60 km electric range or ≤50 g CO2/km); 1.0% for standard ICE. This is a major pricing lever for German B2B/fleet sales.",
+      "Company cars in Germany attract monthly benefit-in-kind taxation (Dienstwagensteuer) on private use. Base rate is 1.0% of list price per month; BEV with list price up to €70,000 qualify for a reduced 0.25% rate; BEV over €70,000 and qualifying PHEV pay 0.5%. Qualifying PHEV must meet the electric-range or CO2 threshold in force at the date of first registration (currently ≥60 km or ≤50 g/km). Dienstwagenbesteuerung is a material B2B/fleet pricing lever — the 4× gap between BEV-qualified and ICE rates is often decisive in fleet purchase decisions.",
     evidence_tasks: [
-      "BEV list-price breakdown for Dienstwagen-tax calculation",
-      "PHEV electric-range / CO2 certification for 0.5% eligibility",
-      "Fleet customer training on German Dienstwagen taxation",
-      "Pricing-model update reflecting 2025 thresholds",
+      "BEV list-price breakdown (BLP) + check against current €70,000 threshold",
+      "PHEV CoC evidence of electric range or CO2 meeting current EStG §6(1) Nr. 4 threshold",
+      "Fleet-customer briefing on 0.25% vs 0.5% vs 1% rate scale",
+      "Pricing-model annual refresh for threshold changes",
     ],
     owner_hint: "legal",
     ui_package: "horizontal",
     process_stage: "sop",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
 
@@ -673,12 +691,32 @@ const germanyOverlayRules: Rule[] = [
     framework_group: ["MN", "L", "O", "AGRI"],
     sources: [
       {
-        label: "KBA-Zuständigkeitsverordnung + StVZO",
+        // Phase J human-review round 1 (2026-04-21, reviewer: yanhao):
+        // Enriched with statutory chain but NOT promoted to ACTIVE — the
+        // KBA authority chain runs through StVG §31 + EG-FGV + several
+        // Zuständigkeitsverordnungen, and the precise statutory citation
+        // depends on whether you're asking about EU type-approval
+        // (EG-FGV) or national small-series (StVZO + KBA guidance). A
+        // single-source ACTIVE promotion would be misleading. Human
+        // reviewer must decide which specific authority chain to pin in
+        // a follow-up round (likely: split into two rules, one for EU-TA
+        // via KBA and one for national small-series).
+        label: "Straßenverkehrsgesetz §31 (KBA establishment)",
         source_family: "National legislation" as const,
-        reference: "KBA-Zuständigkeitsverordnung + StVZO [verify]",
-        official_url: null,
+        reference: "StVG §31 — Errichtung des Kraftfahrt-Bundesamtes",
+        official_url: "https://www.gesetze-im-internet.de/stvg/__31.html",
         oj_reference: null,
-        authoritative_reference: "KBA-Zuständigkeitsverordnung [verify]",
+        authoritative_reference: "StVG §31",
+        last_verified_on: null,
+      },
+      {
+        label: "EG-Fahrzeuggenehmigungsverordnung (EG-FGV)",
+        source_family: "National legislation" as const,
+        reference:
+          "EG-FGV — German national implementation of EU WVTA (originally Dir 2007/46/EC, now Reg (EU) 2018/858). Designates KBA as the competent German authority.",
+        official_url: "https://www.gesetze-im-internet.de/eg-fgv_2011/",
+        oj_reference: null,
+        authoritative_reference: "EG-FGV",
         last_verified_on: null,
       },
     ],
@@ -692,31 +730,35 @@ const germanyOverlayRules: Rule[] = [
       fallback_if_missing: "not_applicable",
     },
     temporal: {
-      entry_into_force: "2009-01-01",
+      entry_into_force: "2011-01-01",
       applies_to_new_types_from: null,
       applies_to_all_new_vehicles_from: null,
       applies_to_first_registration_from: null,
-      applies_from_generic: "2009-01-01",
+      applies_from_generic: "2011-01-01",
       effective_to: null,
       small_volume_derogation_until: null,
-      notes: "KBA (Kraftfahrt-Bundesamt) in Flensburg designated EU TA authority for Germany pre-dates WVTA Reg 2018/858 [verify earliest formal designation].",
+      notes:
+        "KBA (Kraftfahrt-Bundesamt) in Flensburg is Germany's designated EU type-approval authority via EG-FGV. The EG-FGV currently in force is the 2011 consolidation as amended. National small-series approval uses StVZO procedure separately. [verify whether registry should split this into two distinct rules in follow-up round.]",
     },
     obligation_text:
-      "The Kraftfahrt-Bundesamt (KBA) in Flensburg is the primary German EU type-approval authority. Chinese OEMs frequently obtain EU type approval via KBA then distribute EU-wide. The national homologation path for DE-only vehicles is also via KBA. Submission in German language is expected.",
+      "The Kraftfahrt-Bundesamt (KBA) in Flensburg is the primary German EU type-approval authority, designated via EG-FGV (EG-Fahrzeuggenehmigungsverordnung) implementing Reg (EU) 2018/858. Chinese OEMs frequently obtain EU type approval via KBA and then distribute EU-wide. A separate national small-series / national homologation path for DE-only vehicles exists under StVZO. All formal submissions must be in German.",
     evidence_tasks: [
-      "KBA type-approval dossier (German language)",
-      "TSS (Technische Dienste) designation",
-      "KBA liaison + regulatory pre-read meetings",
-      "EU TA certificate issuance + CoC template",
-      "National DE-specific addenda per KBA-Zuständigkeitsverordnung",
+      "KBA type-approval dossier (German language per EG-FGV)",
+      "Designated Technische Dienste (TSS) contract",
+      "KBA regulatory pre-read / Vorgespräch",
+      "EU TA certificate + CoC template alignment",
+      "DE-specific national addenda (where national small-series applies separately)",
     ],
     owner_hint: "homologation",
     planning_lead_time_months: 12,
+    manual_review_required: true,
+    manual_review_reason:
+      "KBA authority chain runs through StVG §31 + EG-FGV (EU-TA) + StVZO (national small-series). Registry may need to split into two rules in follow-up verification round.",
     ui_package: "wvta_core",
     process_stage: "type_approval",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
+      retrieved_at: "2026-04-21",
       human_reviewer: null,
     },
   }),
@@ -737,17 +779,27 @@ const germanyOverlayRules: Rule[] = [
     framework_group: ["MN"],
     sources: [
       {
+        // Phase J human-review round 1 (2026-04-21, reviewer: yanhao):
+        // URL pattern-verified against BMJV canonical convention (same
+        // pattern as verified REG-MS-DE-001 FZV URL + REG-MS-DE-006
+        // EmoG URL). AltfahrzeugV transposes Dir 2000/53/EC ELV into
+        // German law; entered into force via Art. 1 of Altfahrzeug-
+        // Gesetz (BGBl. I 2002 S. 2199), with implementing regulation
+        // at BGBl. I 2002 S. 2214. Current consolidated text on
+        // gesetze-im-internet.de.
         label: "Altfahrzeug-Verordnung (AltfahrzeugV)",
         source_family: "National legislation" as const,
         reference:
-          "Altfahrzeug-Verordnung (AltfahrzeugV) + Altfahrzeug-Gesetz [verify consolidated text]",
+          "Altfahrzeug-Verordnung vom 21. Juni 2002 (BGBl. I S. 2214) — German transposition of Dir 2000/53/EC ELV",
         official_url: "https://www.gesetze-im-internet.de/altautov/",
-        oj_reference: null,
-        authoritative_reference: "AltfahrzeugV [verify]",
-        last_verified_on: null,
+        oj_reference: "BGBl. I 2002 S. 2214",
+        authoritative_reference: "AltfahrzeugV",
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-1",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -766,27 +818,24 @@ const germanyOverlayRules: Rule[] = [
       effective_to: null,
       small_volume_derogation_until: null,
       notes:
-        "German transposition of Dir 2000/53/EC ELV. 95% recovery + 85% recycling targets from 2015-01-01. Revision to align with pending EU ELV Regulation (COM(2023) 451) expected post-adoption [verify]. Entry into force date [verify].",
+        "German transposition of Dir 2000/53/EC ELV. 95% recovery + 85% recycling targets from 2015-01-01. The pending EU ELV Regulation (COM(2023) 451) will supersede Dir 2000/53/EC; when adopted, AltfahrzeugV will likely be aligned or repealed. Bundesländer-level variation in authorised dismantler networks — operationally material but outside statutory scope.",
     },
     obligation_text:
-      "Vehicle producers placing M1/N1 vehicles on the German market must register with the Altfahrzeug-Verordnung producer-responsibility scheme, operate take-back at no cost to last holder via authorised dismantling centres, issue Verwertungsnachweis (Certificate of Destruction) on disposal, and publish Demontage-Informationen (dismantling information) per Art. 8 equivalent within 6 months of new-type launch — in German language.",
+      "Vehicle producers placing M1/N1 vehicles on the German market must register with the AltfahrzeugV producer-responsibility scheme, operate take-back at no cost to last holder via authorised dismantling centres (anerkannte Entsorgungsfachbetriebe), issue a Verwertungsnachweis (Certificate of Destruction) on disposal, and publish Demontage-Informationen (dismantling information) per §5 within 6 months of new-type launch — in German. Achievement of 95% reuse+recovery and 85% reuse+recycling targets is reported annually to the Bundesumweltministerium.",
     evidence_tasks: [
-      "AltfahrzeugV producer-responsibility scheme registration per § 3",
-      "Authorised dismantler network contract + coverage per Bundesland",
-      "Verwertungsnachweis template (German)",
-      "Demontage-Informationen sheet in German within 6 months of new-type launch",
-      "Annual 95/85% target compliance reporting to Bundesamt",
+      "AltfahrzeugV producer-responsibility scheme registration (§3 AltfahrzeugV)",
+      "Authorised dismantler (Entsorgungsfachbetrieb) network contract covering Bundesländer of sale",
+      "Verwertungsnachweis template in German",
+      "Demontage-Informationen (§5) published within 6 months of new-type launch",
+      "Annual 95/85% compliance reporting to Bundesumweltministerium",
     ],
-    manual_review_required: true,
-    manual_review_reason:
-      "AltfahrzeugV version currency and alignment with pending EU ELV Regulation [verify]. Bundesländer-level variation of authorised dismantler networks [verify].",
     owner_hint: "sustainability_materials",
     ui_package: "horizontal",
     process_stage: "post_market",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
     related_rules: [
       { rule_id: "REG-BAT-003", relation: "complements" },
