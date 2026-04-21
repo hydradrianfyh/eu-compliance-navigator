@@ -246,6 +246,13 @@ Setup progress: ████████░░ 5 of 6 sections complete
 - **Example**: `{ ac: true, dc: true, bidirectional: true }` (pilot)
 - **Pitfall & impact**: All false treats EV as range-extender and misses charging rules. Not marking `bidirectional` misses future V2G/V2L obligations.
 
+#### 2.5.4 `fuel.tankType` — Fuel type (Phase I)
+- UI: "Fuel type" · enum (nullable) · optional (shown for non-BEV powertrains)
+- Options: `petrol` · `diesel` · `lpg` · `cng` · `lng` · `h2` · `none`
+- **Purpose**: Precise fuel specification for combustion and hybrid vehicles. Complements `powertrain`: where `powertrain` says *"the vehicle has a combustion engine"*, `fuel.tankType` says *"and it burns petrol (or diesel, etc.)"*. BEV and pure-electric two-wheelers should use `none`.
+- **Example**: `petrol` (ICE×ES pilot) · `petrol` (PHEV pilot) · `none` (BEV pilot)
+- **Pitfall & impact**: Wrong fuel type can under-trigger diesel-specific OBD/NOx rules (REG-EM-013, R49 HD-diesel, NOx aftertreatment) or over-trigger LPG/CNG-specific R67/R110 conversion rules. Drives the derived flags `hasCombustionEngine`, `hasDieselEngine`, `hasFuelTank`, `hasOBD`, `isPlugInHybrid` used by the Euro 7 rule split (framework REG-EM-001 + combustion REG-EM-013 + battery durability REG-EM-014) and by emissions-family UNECE regulations.
+
 ### 2.6 ADAS & Automated Driving
 
 "How self-driving is this vehicle?"

@@ -566,6 +566,29 @@ Setup progress: ████████░░ 5 of 6 sections complete
 
 ---
 
+#### 2.5.4 `fuel.tankType` — 燃料类型（Phase I 新增）
+
+| 属性 | 值 |
+|---|---|
+| UI 标签 | "Fuel type" |
+| 数据类型 | 枚举（可空） |
+| 选项 | `petrol`（汽油）· `diesel`（柴油）· `lpg`（液化石油气）· `cng`（压缩天然气）· `lng`（液化天然气）· `h2`（氢）· `none`（无燃料，纯电） |
+| 必填 | ⬜（仅在 powertrain 非 BEV 时出现） |
+
+**作用**：为内燃机/混动车型提供精确燃料信息。与 `powertrain` 互补——`powertrain` 说"**这辆车有内燃机**"，`fuel.tankType` 说"**它烧的是汽油/柴油/其他**"。BEV 和纯电两轮车应选 `none`。
+
+**何时填**：项目定义内燃/混动动力配置时。BEV 可跳过（缺省 `none`）。
+
+**示例值**：`petrol`（ICE×ES pilot、PHEV pilot）· `none`（BEV pilot）
+
+**常见错误**：
+- 柴油车填成汽油：会漏掉柴油专属 OBD/NOx 规则（REG-EM-013、R49 HD-diesel、NOx 后处理）
+- LPG/CNG 填成汽油：会漏掉 R67/R110 改装相关规则
+
+**影响哪些规则触发**：驱动衍生 flag `hasCombustionEngine` / `hasDieselEngine` / `hasFuelTank` / `hasOBD` / `isPlugInHybrid`。影响 Euro 7 三拆规则（框架 REG-EM-001 + 内燃 REG-EM-013 + 电池耐久 REG-EM-014）及 UNECE 排放族规则。
+
+---
+
 ### 2.6 ADAS & Automated Driving · 辅助驾驶与自动驾驶
 
 这一段回答"**这辆车能自己开到什么程度**"。

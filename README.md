@@ -2,7 +2,7 @@
 
 A config-driven compliance workbench for EU vehicle programs.
 
-**Status**: Phase 12 Path B shipped · 210 tests green · MY2027 BEV × DE demo live.
+**Status**: Phase I breadth expansion complete · 187 rules · 224 tests green · MY2027 BEV × DE / PHEV × DE·FR·NL / ICE × ES pilots live.
 
 > ⚠ **This tool is a navigation aid, not legal advice.** Always validate with your homologation partner and legal counsel before making market-entry decisions. See [Disclaimer](#disclaimer).
 
@@ -49,7 +49,7 @@ See [docs/phase12/demo-scripts/](docs/phase12/demo-scripts/) for three real 3-to
 │  applicability. Pure functions. No side effects.         │
 ├──────────────────────────────────────────────────────────┤
 │  REGISTRY LAYER                                          │
-│  142 typed rules · 17 legal families · 6 lifecycle states│
+│  187 typed rules · 17 legal families · 6 lifecycle states│
 │  Zod-validated schema. Content provenance tracked.       │
 ├──────────────────────────────────────────────────────────┤
 │  CONFIGURATION LAYER                                     │
@@ -61,12 +61,11 @@ See [docs/phase12/demo-scripts/](docs/phase12/demo-scripts/) for three real 3-to
 **Key invariant**: UI components only render `EvaluationResult`. They never call rule logic directly. See [ADR-P6 · Reusable layer seams](docs/adr/ADR-P6-reusable-layer-seams.md) for the extraction-ready architecture map.
 
 **Stats**:
-- **142** rules · **17** legal families
+- **187** rules · **17** legal families
 - **6** lifecycle states: `PLACEHOLDER` / `DRAFT` / `SEED_UNVERIFIED` / `SHADOW` / `ACTIVE` / `ARCHIVED`
 - **6** freshness states: `fresh` / `due_soon` / `overdue` / `critically_overdue` / `never_verified` / `drifted`
 - **21** golden-dataset anchors (CI-enforced against EUR-Lex SPARQL weekly)
-- **DE** member-state overlay: 5 ACTIVE rules
-- **FR / NL** overlay: pending Phase 13+
+- **Member-state overlays**: DE (5 ACTIVE) · FR (11 SEED_UNVERIFIED) · NL (5 SEED_UNVERIFIED) · ES (13 SEED_UNVERIFIED) · UK non-EU market (13 SEED_UNVERIFIED, of which 1 ACTIVE = AV Act)
 - **13** non-goals explicitly honoured (see [spec §3.6](docs/phase12/ux-refactor-spec-v2.md))
 
 ---
@@ -78,14 +77,15 @@ See [docs/phase12/demo-scripts/](docs/phase12/demo-scripts/) for three real 3-to
 - EU horizontal regulations (WVTA 2018/858, GSR2, R155/R156/R157, GDPR, Data Act, AI Act, Battery, Euro 7, PLD)
 - Germany (DE) member-state overlay: registration (FZV) · roadworthiness (§29 StVZO HU/AU) · insurance (PflVG) · motor tax (KraftStG) · low-emission zones (Umweltzonen)
 
-**Pending** (Phase 13+):
+**Pending human verification** (separate follow-up round):
 
-- France (FR) and Netherlands (NL) overlays — structure in place, content not authored.
+- FR (11 SEED_UNVERIFIED), NL (5 SEED_UNVERIFIED), ES (13 SEED_UNVERIFIED), UK (12 SEED_UNVERIFIED/DRAFT) — content authored, awaiting URL + date verification to promote to ACTIVE per source-policy.
+- Phase I.2 emissions rules (9 new + 6 UNECE) — content authored, awaiting human source verification.
 
 **Out of scope** (explicit non-goals — see [ADRs](docs/adr/)):
 
 - UNECE Annex II technical regulations beyond the pilot-triggered set (32 rules still placeholder)
-- Other EU member states (IT/ES/PL/BE/AT/SE/CZ/…)
+- Other EU member states beyond DE/FR/NL/ES (IT/PL/BE/AT/SE/CZ/…)
 - Non-EU markets (CN/US/JP/UK/TR/…)
 - Customs / CBAM / HS classification / Rules-of-Origin / FTA rules
 - ISO standards prerequisites (26262 / 21448 / 21434 / 8800)
@@ -115,7 +115,7 @@ npm install
 npm run dev          # http://localhost:3000
 
 # Quality gates
-npm test             # vitest — 210 tests
+npm test             # vitest — 224 tests
 npx tsc --noEmit     # type-check only
 npm run lint         # eslint
 
@@ -161,7 +161,7 @@ eu-compliance-navigator/
 │   ├── config/                 VehicleConfig schema + persistence
 │   ├── lib/                    Pure utilities (condition-to-text, classify-trust, …)
 │   └── styles/                 Semantic tokens + globals
-├── tests/                      210 tests (unit + UI + regression)
+├── tests/                      224 tests (unit + UI + regression)
 ├── fixtures/                   Pilot configurations
 ├── content/                    Authoring DSL + golden dataset
 ├── scripts/                    EUR-Lex watcher · content generator
