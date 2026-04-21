@@ -84,7 +84,7 @@ export const nonEuMarketRules = [
         official_url: "https://www.legislation.gov.uk/uksi/2020/818/contents/made",
         oj_reference: null,
         authoritative_reference: "SI 2020/818 [verify]",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "VCA Vehicle Type Approval guidance",
@@ -96,7 +96,9 @@ export const nonEuMarketRules = [
         last_verified_on: null,
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-3-uk",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -137,8 +139,8 @@ export const nonEuMarketRules = [
     process_stage: "type_approval",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
 
@@ -158,7 +160,7 @@ export const nonEuMarketRules = [
         official_url: "https://www.legislation.gov.uk/ukpga/1994/22/contents",
         oj_reference: null,
         authoritative_reference: "VERA 1994 c.22",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "Secondary legislation — registration regulations",
@@ -170,7 +172,9 @@ export const nonEuMarketRules = [
         last_verified_on: null,
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-3-uk",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -204,8 +208,8 @@ export const nonEuMarketRules = [
     process_stage: "sop",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
 
@@ -225,7 +229,7 @@ export const nonEuMarketRules = [
         official_url: "https://www.legislation.gov.uk/ukpga/1988/52/section/47",
         oj_reference: null,
         authoritative_reference: "RTA 1988 s.47",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "Secondary — Motor Vehicle (Tests) Regulations 1981",
@@ -246,7 +250,9 @@ export const nonEuMarketRules = [
         last_verified_on: null,
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-3-uk",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -281,8 +287,8 @@ export const nonEuMarketRules = [
     process_stage: "post_market",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
 
@@ -302,7 +308,7 @@ export const nonEuMarketRules = [
         official_url: "https://www.legislation.gov.uk/ukpga/1994/22/contents",
         oj_reference: null,
         authoritative_reference: "VERA 1994 c.22",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "Finance Act 2022 (BEV VED change)",
@@ -314,7 +320,9 @@ export const nonEuMarketRules = [
         last_verified_on: null,
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-3-uk",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -350,8 +358,8 @@ export const nonEuMarketRules = [
     process_stage: "sop",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
 
@@ -371,10 +379,12 @@ export const nonEuMarketRules = [
         official_url: "https://www.legislation.gov.uk/ukpga/1988/52/part/VI",
         oj_reference: null,
         authoritative_reference: "RTA 1988 ss.143, 145",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-3-uk",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -410,8 +420,8 @@ export const nonEuMarketRules = [
     process_stage: "sop",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
     notes: "Current statutory minimum property-damage cover figure [verify].",
   }),
@@ -432,7 +442,7 @@ export const nonEuMarketRules = [
         official_url: "https://www.legislation.gov.uk/ukpga/1999/29/contents",
         oj_reference: null,
         authoritative_reference: "GLA Act 1999 c.29",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "Framework — Transport Act 2000",
@@ -453,7 +463,9 @@ export const nonEuMarketRules = [
         last_verified_on: null,
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-3-uk",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -492,8 +504,8 @@ export const nonEuMarketRules = [
     process_stage: "post_market",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
 
@@ -513,7 +525,7 @@ export const nonEuMarketRules = [
         official_url: "https://www.legislation.gov.uk/ukpga/2021/30/contents/enacted",
         oj_reference: null,
         authoritative_reference: "Environment Act 2021 c.30",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "Framework — Transport Act 2000 Part III",
@@ -534,7 +546,9 @@ export const nonEuMarketRules = [
         last_verified_on: null,
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-3-uk",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -574,8 +588,8 @@ export const nonEuMarketRules = [
     process_stage: "post_market",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
 
@@ -595,7 +609,7 @@ export const nonEuMarketRules = [
         official_url: "https://www.legislation.gov.uk/asp/2019/17/contents",
         oj_reference: null,
         authoritative_reference: "Transport (Scotland) Act 2019 asp 17 Part 1",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "Local authority LEZ Scheme Orders",
@@ -607,7 +621,9 @@ export const nonEuMarketRules = [
         last_verified_on: null,
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-3-uk",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -646,8 +662,8 @@ export const nonEuMarketRules = [
     process_stage: "post_market",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
 
@@ -667,7 +683,7 @@ export const nonEuMarketRules = [
         official_url: "https://www.legislation.gov.uk/uksi/2023/1633/contents/made",
         oj_reference: null,
         authoritative_reference: "SI 2023/1633 [verify]",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "OZEV guidance",
@@ -679,7 +695,9 @@ export const nonEuMarketRules = [
         last_verified_on: null,
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-3-uk",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -717,8 +735,8 @@ export const nonEuMarketRules = [
     process_stage: "pre_ta",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
   }),
 
@@ -812,7 +830,7 @@ export const nonEuMarketRules = [
         official_url: "https://www.legislation.gov.uk/ukpga/2018/12/contents/enacted",
         oj_reference: null,
         authoritative_reference: "DPA 2018 c.12",
-        last_verified_on: null,
+        last_verified_on: "2026-04-21",
       },
       {
         label: "Retained EU law — UK GDPR",
@@ -825,7 +843,9 @@ export const nonEuMarketRules = [
         last_verified_on: null,
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-21",
+    promoted_by: "phase-j-human-round-3-uk",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -865,8 +885,8 @@ export const nonEuMarketRules = [
     process_stage: "post_market",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-21",
+      human_reviewer: "yanhao",
     },
     notes:
       "Trigger gates on hasConnectedServices (plus UK target) as a practical proxy for UK data-subject personal-data processing; engine does not support nested OR expressions so processesPersonalData is not separately evaluated here. Offline personal-data processing (e.g., on-vehicle biometric capture with no cloud link) must be audited separately for UK GDPR applicability. Pattern differs from REG-PV-001 (GDPR), which uses match_mode: \"any\" across both data-processing flags without a country gate because GDPR applies market-wide in the EU.",

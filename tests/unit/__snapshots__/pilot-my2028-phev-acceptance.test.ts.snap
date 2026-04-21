@@ -619,47 +619,47 @@ exports[`Pilot MY2028 PHEV acceptance > Layer 3 — coverage snapshot > matches 
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UK-002",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UK-003",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UK-004",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UK-005",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UK-006",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UK-007",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UK-008",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UK-009",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UK-010",
   },
   {
@@ -669,7 +669,7 @@ exports[`Pilot MY2028 PHEV acceptance > Layer 3 — coverage snapshot > matches 
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UK-012",
   },
   {
