@@ -276,7 +276,26 @@ export const uneceTechnicalRules = [
       "ISO 7637 (conducted electrical transients)",
     ],
   }),
-  uneceRule("013", "13", "Heavy Vehicle Braking", "R13 Braking (HD)", ["M2", "M3", "N2", "N3"], ["MN"]),
+  uneceRule("013", "13", "Heavy Vehicle Braking", "R13 Braking (HD)", ["M2", "M3", "N2", "N3"], ["MN"], {
+    officialUrl: "https://unece.org/transport/documents/2025/01/standards/addendum-12-un-regulation-no-13-revision-8-amendment-13",
+    revisionLabel: "Rev.8 Am.13",
+    applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
+    applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
+    obligationText:
+      "Heavy-duty vehicles (M2/M3/N2/N3) and their trailers must meet R13 service, secondary, parking and endurance brake requirements, including ABS (Annex 13), electronic braking system architecture, compatibility bands for tractor-trailer combinations, and automatic brake adjustment. The 11-series amendments extend ESC requirements to applicable categories.",
+    evidenceTasks: [
+      "R13 type-approval certificate for vehicle and brake system",
+      "ABS Category 1 test report per Annex 13",
+      "Brake compatibility band validation for tractor-trailer combinations",
+      "ESC performance evidence per Annex 21 where applicable",
+    ],
+    related: [
+      { rule_id: "REG-UN-013H", relation: "complements" },
+      { rule_id: "REG-UN-140", relation: "complements" },
+    ],
+    temporalNotes:
+      "R13 Rev.8 Amendment 13 (January 2025) is the most recent addendum at the time of authoring. R13 is the heavy-duty counterpart of R13-H; light-duty M1/N1 use R13-H. [verify] exact revision progression if further supplements have been adopted.",
+  }),
   uneceRule("013H", "13-H", "Passenger Car Braking", "R13-H Braking (PC)", ["M1", "N1"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
@@ -350,7 +369,23 @@ export const uneceTechnicalRules = [
     obligationText:
       "All glazing (windscreen, side, rear, sunroof) must be R43-approved — light transmittance, fragmentation, penetration, weathering.",
   }),
-  uneceRule("044", "44", "Child Restraint Systems", "R44 Child Seats", [], ["MN"]),
+  uneceRule("044", "44", "Child Restraint Systems", "R44 Child Seats", [], ["MN"], {
+    officialUrl: "https://www.unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/r044r2e.pdf",
+    revisionLabel: "Rev.2 (04 series)",
+    obligationText:
+      "R44 establishes uniform provisions for the approval of restraining devices for child occupants of power-driven vehicles. It classifies CRS into five weight groups (0, 0+, I, II, III) and covers seat-belt-installed and ISOFIX-installed systems. R44 is a component-level regulation: vehicle manufacturers must ensure vehicle seats can accept R44-approved CRS; CRS manufacturers carry the direct type-approval burden. R44 remains in force in parallel with R129 i-Size, but new ISOFIX CRS approvals now flow only through R129.",
+    evidenceTasks: [
+      "Vehicle owner manual CRS compatibility statements per R44 weight groups",
+      "Seat geometry and belt anchorage compliance enabling R44 CRS installation",
+    ],
+    related: [
+      { rule_id: "REG-UN-129", relation: "supersedes" },
+      { rule_id: "REG-UN-014", relation: "complements" },
+      { rule_id: "REG-UN-145", relation: "complements" },
+    ],
+    temporalNotes:
+      "R44 Rev.2 consolidated text dated February 2008; 04-series amendments continue to be supplemented. R44 remains valid in parallel with R129 but ISOFIX CRS now only approved under R129. [verify] current amendment sequence.",
+  }),
   uneceRule("046", "46", "Rear-View Mirrors and Devices", "R46 Mirrors", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
@@ -396,8 +431,39 @@ export const uneceTechnicalRules = [
     obligationText:
       "Vehicle pass-by noise must stay within R51.03 limits. BEV-specific: no combustion noise, but AVAS per R138 mandatory.",
   }),
-  uneceRule("058", "58", "Rear Underrun Protection", "R58 RUP", ["N2", "N3"], ["MN"]),
-  uneceRule("066", "66", "Bus Body Strength (Rollover)", "R66 Bus Rollover", ["M2", "M3"], ["MN"]),
+  uneceRule("058", "58", "Rear Underrun Protection", "R58 RUP", ["N2", "N3"], ["MN"], {
+    officialUrl: "https://unece.org/transport/documents/2022/08/standards/un-regulation-no-58-rev-3-amendment-3",
+    revisionLabel: "Rev.3 Am.3",
+    applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
+    applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
+    obligationText:
+      "N2 / N3 goods vehicles must be fitted with a rear underrun protective device (RUPD) meeting R58 geometry and force-resistance requirements. The RUPD must withstand defined loads at specified test points without exceeding maximum rearward deflection, preventing small passenger vehicles from underriding the truck in a rear-end collision. The 03 series (Rev.3) adds reinforced requirements for height, ground-clearance and side-lateral span.",
+    evidenceTasks: [
+      "R58 type-approval certificate for the RUPD",
+      "Installation drawings showing compliance with geometric limits (height, ground clearance, lateral span)",
+      "Force-resistance test reports at P1, P2, P3 test points",
+    ],
+    related: [
+      { rule_id: "REG-UN-073", relation: "complements" },
+    ],
+    temporalNotes:
+      "R58 Rev.3 Amendment 3 published August 2022. Applies to N2/N3 (not M1); phase-in dates follow EU Annex II general pattern — [verify] exact dates if distinct from GSR2 baseline.",
+  }),
+  uneceRule("066", "66", "Bus Body Strength (Rollover)", "R66 Bus Rollover", ["M2", "M3"], ["MN"], {
+    officialUrl: "https://unece.org/transport/vehicle-regulations-wp29/standards/addenda-1958-agreement-regulations-61-80",
+    revisionLabel: "02 series",
+    applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
+    applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
+    obligationText:
+      "Large passenger vehicles (single-deck rigid or articulated buses / coaches, M2 or M3, Classes II and III, >22 passengers) must demonstrate that their superstructure retains a defined residual survival space during and after a 0.8 m drop rollover test. Five equivalent approval routes are available (Annexes 5-9): full-vehicle rollover, body-section rollover, quasi-static body-section loading, quasi-static component calculation, or computer simulation.",
+    evidenceTasks: [
+      "Rollover test report per Annex 5, OR equivalent evidence per Annexes 6-9",
+      "Superstructure strength calculation or simulation report",
+      "Residual space compliance documentation",
+    ],
+    temporalNotes:
+      "R66 current baseline is the 02 series of amendments. [verify] deep link — landing page used here pending confirmation of the specific 02-series consolidated-text URL.",
+  }),
   // Phase I.2 — LPG OEM fuel system approval (R67).
   uneceRule("067", "67", "LPG OEM Fuel System", "R67 LPG", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
@@ -565,7 +631,32 @@ export const uneceTechnicalRules = [
       { rule_id: "REG-EM-009", relation: "complements" },
     ],
   }),
-  uneceRule("110", "110", "CNG/LNG Fuel System", "R110 CNG/LNG", ["M1", "M2", "M3", "N1", "N2", "N3"]),
+  uneceRule("110", "110", "CNG/LNG Fuel System", "R110 CNG/LNG", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
+    officialUrl: "https://unece.org/transport/documents/2022/09/standards/un-regulation-no-110-rev6-amend4",
+    revisionLabel: "Rev.6 Am.4 (04/05 series)",
+    obligationText:
+      "Vehicles using compressed natural gas (CNG) and/or liquefied natural gas (LNG) in their propulsion system must have type-approved CNG/LNG components (Part I — cylinders, fittings, pressure-relief devices, valves) and approved vehicle installation (Part II — fuel lines, filling receptacle, automatic shut-off, ventilation of gas-tight housing). Crash-integrity, fire-resistance, and temperature-cycle tests apply to tanks and piping.",
+    evidenceTasks: [
+      "R110 Part I type-approval certificates for CNG/LNG tanks and safety components",
+      "R110 Part II vehicle-installation type-approval certificate",
+      "Piping routing, pressure-relief, and gas-tight-housing ventilation drawings",
+    ],
+    extraConditions: [
+      {
+        field: "fuelType",
+        operator: "in" as const,
+        value: ["cng", "lng"],
+        label: "Fuel type is CNG or LNG",
+      },
+    ],
+    fallbackIfMissing: "not_applicable",
+    related: [
+      { rule_id: "REG-UN-115", relation: "complements" },
+      { rule_id: "REG-UN-067", relation: "complements" },
+    ],
+    temporalNotes:
+      "R110 Rev.6 Amendment 4 published September 2022. OEM CNG/LNG fuel systems only; aftermarket retrofit covered by R115. [verify] current supplement if post-2022 updates have been adopted.",
+  }),
   // Phase I.2 — LPG/CNG retrofit kits (R115). Aftermarket; OEM scope only if shipping kits.
   uneceRule("115", "115", "LPG/CNG Retrofit Kits", "R115 Retrofit Kits", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
@@ -596,7 +687,24 @@ export const uneceTechnicalRules = [
       "ISO 10844 (reference test-track surface for noise)",
     ],
   }),
-  uneceRule("118", "118", "Burning Behaviour of Interior Materials", "R118 Interior Fire", ["M2", "M3"], ["MN"]),
+  uneceRule("118", "118", "Burning Behaviour of Interior Materials", "R118 Interior Fire", ["M2", "M3"], ["MN"], {
+    officialUrl: "https://unece.org/transport/documents/2023/02/standards/un-regulation-no-118-rev3",
+    revisionLabel: "Rev.3 (03 series)",
+    applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
+    applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
+    obligationText:
+      "Interior materials of M3 Class II and Class III buses / coaches (and M2 in the harmonised scope) must pass R118 tests for horizontal burning rate (Annex 6), melting behaviour (Annex 7), vertical burning rate (Annex 8), capability to repel fuel/lubricant (Annex 9), and flame-propagation resistance for electrical cables (Annex 10). City buses (M3 Class I) are excluded from R118 material scope.",
+    evidenceTasks: [
+      "R118 type-approval certificate or test reports per Annexes 6-10",
+      "Material datasheet demonstrating each tested property",
+      "Cable flame-propagation test reports per Annex 10 (for bundled electrical harness)",
+    ],
+    related: [
+      { rule_id: "REG-UN-066", relation: "complements" },
+    ],
+    temporalNotes:
+      "R118 Rev.3 consolidated text published February 2023. 04 series of amendments was proposed (December 2020) but adoption status [verify].",
+  }),
 
   // Phase H.6 — R127/R140/R141/R145/R149 enriched with authored content.
   uneceRule("127", "127", "Pedestrian Safety", "R127 Pedestrian", ["M1", "N1"], ["MN"], {
@@ -611,8 +719,50 @@ export const uneceTechnicalRules = [
       { rule_id: "REG-UN-135", relation: "complements" },
     ],
   }),
-  uneceRule("129", "129", "Enhanced Child Restraint Systems (i-Size)", "R129 i-Size", [], ["MN"]),
-  uneceRule("134", "134", "Hydrogen Vehicle Safety", "R134 Hydrogen", ["M1", "M2", "M3", "N1", "N2", "N3"]),
+  uneceRule("129", "129", "Enhanced Child Restraint Systems (i-Size)", "R129 i-Size", [], ["MN"], {
+    officialUrl: "https://unece.org/sites/default/files/2021-05/R129r4e.pdf",
+    revisionLabel: "Rev.4 (03 series)",
+    obligationText:
+      "R129 (known as i-Size) establishes uniform provisions for the approval of Enhanced Child Restraint Systems (ECRS). It replaces the weight-based R44 classification with a stature-based (height) scheme and requires ISOFIX attachment plus a third anchorage (top tether or support leg). Testing covers dynamic frontal and side sled tests, inversion resistance, and installation compatibility with i-Size seating positions. R129 is a component-level regulation; vehicle OEMs must provide i-Size-marked seating positions per the ISOFIX anchorage framework (R145).",
+    evidenceTasks: [
+      "i-Size seating position identification in vehicle owner manual",
+      "ISOFIX + top-tether anchorage compliance per R145 (enabling R129 CRS)",
+      "Vehicle seat geometry compatible with i-Size envelope",
+    ],
+    related: [
+      { rule_id: "REG-UN-044", relation: "supersedes" },
+      { rule_id: "REG-UN-145", relation: "requires" },
+      { rule_id: "REG-UN-014", relation: "complements" },
+    ],
+    temporalNotes:
+      "R129 Rev.4 consolidated text published May 2021. R129 entered into force 9 July 2013; the 03 series is current with ongoing supplements. ISOFIX CRS now only approved via R129 (R44 remains valid in parallel but not for new ISOFIX approvals).",
+  }),
+  uneceRule("134", "134", "Hydrogen Vehicle Safety", "R134 Hydrogen", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
+    officialUrl: "https://unece.org/sites/default/files/2025-01/R134r1am3e.pdf",
+    revisionLabel: "Rev.1 Am.3",
+    obligationText:
+      "Hydrogen-fuelled vehicles (fuel-cell electric vehicles and hydrogen ICE) must demonstrate safety-related performance per R134: Compressed Hydrogen Storage System (CHSS) pressure-cycle / gas-leakage / fire / bonfire / burst tests, piping and joint integrity, automatic shut-off on impact, hydrogen detection in the passenger compartment (post-crash), and electric-powertrain isolation for FCEVs. A 02 series of amendments (transposing GTR No. 13 Amendment 1) is in the WP.29 adoption pipeline.",
+    evidenceTasks: [
+      "R134 type-approval certificate for the vehicle and CHSS",
+      "CHSS bonfire / pressure-cycle / burst test reports",
+      "Hydrogen-leak detection and automatic shut-off validation",
+      "Post-crash electrical isolation evidence (FCEV) coordinated with R100",
+    ],
+    extraConditions: [
+      {
+        field: "fuelType",
+        operator: "eq" as const,
+        value: "h2",
+        label: "Fuel type is hydrogen (FCEV or H2-ICE)",
+      },
+    ],
+    fallbackIfMissing: "not_applicable",
+    related: [
+      { rule_id: "REG-UN-100", relation: "complements" },
+    ],
+    temporalNotes:
+      "R134 Rev.1 Amendment 3 published January 2025. Proposed 02 series (aligning with GTR 13 Am.1) submitted to WP.29 at the 191st session (November 2023); adoption timing [verify]. Rule only triggers for hydrogen-fuelled vehicles; BEVs without H2 are excluded.",
+  }),
   uneceRule("135", "135", "Pole Side Impact", "R135 Pole Impact", ["M1"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
@@ -686,7 +836,25 @@ export const uneceTechnicalRules = [
     obligationText:
       "M1 vehicles must be equipped with TPMS that detects ≥ 20 % pressure loss on any tyre and alerts the driver within the time limits of Annex 3.",
   }),
-  uneceRule("142", "142", "Tyre Installation", "R142 Tyre Install", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"]),
+  uneceRule("142", "142", "Tyre Installation", "R142 Tyre Install", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
+    officialUrl: "https://unece.org/transport/documents/2022/11/standards/un-regulation-no-142-rev-1-amend-1",
+    revisionLabel: "Rev.1 Am.1 (01 series)",
+    applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
+    applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
+    obligationText:
+      "R142 covers the installation of tyres on M/N category vehicles: every tyre fitted as original equipment must be compatible with the vehicle's maximum speed, load index and axle load, and must itself hold a valid type-approval under R30 (car tyres), R54 (commercial-vehicle tyres) or R117 (rolling resistance / wet grip / noise). The vehicle OEM carries responsibility for correct tyre / rim matching and for specifying permissible tyre sizes on the CoC.",
+    evidenceTasks: [
+      "R142 vehicle-level type-approval certificate",
+      "Tyre type-approval references (R30 / R54 / R117) listed on the CoC",
+      "Rim-tyre compatibility matrix and speed/load-index validation",
+    ],
+    related: [
+      { rule_id: "REG-UN-117", relation: "requires" },
+      { rule_id: "REG-UN-141", relation: "complements" },
+    ],
+    temporalNotes:
+      "R142 Rev.1 Amendment 2 / Addendum 141 published December 2021; Rev.1 Amendment 1 deep-link from November 2022. ETRTO proposed a new Supplement in December 2024 [verify] adoption status.",
+  }),
   uneceRule("145", "145", "ISOFIX Anchorage Systems", "R145 ISOFIX", ["M1"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
@@ -726,7 +894,34 @@ export const uneceTechnicalRules = [
       "ISO 21448 SOTIF (sensor perception safety)",
     ],
   }),
-  uneceRule("153", "153", "Fuel System Integrity (Rear Impact)", "R153 Rear Fuel", ["M1", "N1"]),
+  uneceRule("153", "153", "Fuel System Integrity (Rear Impact)", "R153 Rear Fuel", ["M1", "N1"], ["MN"], {
+    officialUrl: "https://unece.org/transport/documents/2021/03/standards/un-regulation-no-153-fuel-system-integrity-and-electric-power",
+    revisionLabel: "original series + Am.4 (2024)",
+    obligationText:
+      "M1 and N1 vehicles must maintain fuel system integrity (R153 Part A — liquid-fuel and gaseous-fuel tanks) AND electric power-train safety (R153 Part B — REESS, HV electrical isolation) after a defined rear-impact collision against a 70% overlap moving-deformable barrier at 80 km/h. R153 extends the legacy R34 rear-impact scope to cover BEV/HEV/PHEV HV electrical safety, closing the gap between combustion-era and electrified rear-crash requirements.",
+    evidenceTasks: [
+      "R153 type-approval certificate (Part A and/or Part B as applicable)",
+      "Rear-impact test report per Annex 3 / Annex 4 procedures",
+      "Post-crash fuel-leak rate measurement (Part A)",
+      "Post-crash HV electrical isolation + no-REESS-displacement evidence (Part B)",
+    ],
+    extraConditions: [
+      {
+        field: "vehicleCategory",
+        operator: "in" as const,
+        value: ["M1", "N1"],
+        label: "M1 / N1 light-duty",
+      },
+    ],
+    fallbackIfMissing: "not_applicable",
+    related: [
+      { rule_id: "REG-UN-034", relation: "complements" },
+      { rule_id: "REG-UN-100", relation: "complements" },
+      { rule_id: "REG-UN-094", relation: "complements" },
+    ],
+    temporalNotes:
+      "R153 original series entered into force 22 January 2021 as an annex to the 1958 Agreement. Amendment 3 published March 2024; Amendment 4 published October 2024. A 01 series of amendments was proposed August 2024 [verify] adoption status.",
+  }),
   uneceRule("158", "158", "Reversing Detection Devices", "R158 Reversing", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,

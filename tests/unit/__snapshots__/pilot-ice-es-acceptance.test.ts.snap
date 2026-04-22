@@ -3,10 +3,10 @@
 exports[`Pilot MY2027 ICE M1 × ES acceptance > Layer 2 — snapshot coverage > applicability counts snapshot > counts 1`] = `
 {
   "applicable": 23,
-  "conditional": 35,
+  "conditional": 36,
   "future": 3,
-  "not_applicable": 60,
-  "unknown": 75,
+  "not_applicable": 64,
+  "unknown": 70,
 }
 `;
 
