@@ -264,6 +264,14 @@ export const uneceTechnicalRules = [
   // 15 M1-BEV-priority R-series rules now carry UNECE primary URL,
   // GSR2 Annex II phase-in dates, and a one-paragraph obligation.
   // All remain SEED_UNVERIFIED (human_reviewer null) until ratified.
+  uneceRule("007", "7", "Position, Stop, Direction-Indicator, End-Outline Marker Lamps", "R7 Lamps", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    obligationText:
+      "Position lamps, stop lamps, direction-indicator lamps, end-outline marker lamps and side-marker lamps fitted to the vehicle must be R7-type-approved components. R7 is a component-level regulation — the lamp manufacturer carries the direct type-approval burden; the OEM verifies that installed lamps bear R7 approval marks. Vehicle-level installation geometry, angular coverage and electrical interconnection are covered by R48. R87 DRL, R91 side-marker and R149 LED/ADB are separate component regulations.",
+    related: [{ rule_id: "REG-UN-048", relation: "complements" }],
+    temporalNotes:
+      "R7 current series of amendments [verify]. Applies across M, N, O vehicle categories via Annex II of Regulation (EU) 2018/858.",
+  }),
   uneceRule("010", "10", "Electromagnetic Compatibility (EMC)", "R10 EMC", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: "https://unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/2019/E-ECE-324-Add.9-Rev.6.pdf",
     revisionLabel: "Rev.6 (06 series)",
@@ -369,6 +377,24 @@ export const uneceTechnicalRules = [
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
       "Head restraints must meet height, width and rearward displacement requirements per R25 (amended by 2025/1122).",
+  }),
+  uneceRule("028", "28", "Audible Warning Devices (Horns)", "R28 Horns", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    obligationText:
+      "Audible warning devices (horns) fitted to motor vehicles must be R28-type-approved components. Continuous-tone sound-pressure level must fall within 93-112 dB(A) measured at 7 m in front of the vehicle at the horn's resonant operating voltage, with stable fundamental pitch and defined duty cycle. Vehicle-level mounting angle and activation logic covered by R28 Part II.",
+    temporalNotes:
+      "R28 current series of amendments [verify]. Component-level regulation — OEM verifies R28 approval marks on fitted horn units.",
+  }),
+  uneceRule("030", "30", "Pneumatic Tyres for Passenger Cars and Trailers", "R30 Car Tyres", ["M1", "O1", "O2"], ["MN", "O"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    obligationText:
+      "Pneumatic tyres fitted to M1 passenger cars and O1 / O2 trailers (≤ 3.5 t GVM) must be R30-type-approved — covers dimensional sidewall marking (size designation, load index, speed symbol), load-endurance testing, high-speed performance, and minimum tread depth. R54 covers commercial-vehicle tyres (M2/M3/N/O3/O4). Complements R117 (rolling resistance / wet grip / pass-by noise) and R142 (vehicle-level tyre installation).",
+    related: [
+      { rule_id: "REG-UN-117", relation: "complements" },
+      { rule_id: "REG-UN-142", relation: "complements" },
+    ],
+    temporalNotes:
+      "R30 current series of amendments [verify]. R54 covers commercial-vehicle tyres — not added here; out of BEV × DE pilot scope.",
   }),
   uneceRule("034", "34", "Fire Prevention (Fuel Tank)", "R34 Fire Prevention", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
@@ -569,6 +595,17 @@ export const uneceTechnicalRules = [
     temporalNotes:
       "R85 covers M/N with combustion and/or electric drive. Applies_to_new_types_from [verify].",
   }),
+  uneceRule("087", "87", "Daytime Running Lamps (DRL)", "R87 DRL", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    obligationText:
+      "Daytime running lamps (DRL) fitted to M / N vehicles must be R87-type-approved components — axial luminous intensity 400-1200 cd, white colour, automatic activation when the vehicle's propulsion system is engaged, automatic deactivation when dipped-beam headlamps are switched on. Mandatory on all new EU-registered M1 / N1 since 7 February 2011 per Directive 2008/89/EC. Vehicle-level installation geometry (symmetrical pair, ≥ 600 mm spacing, height 250-1500 mm) covered by R48.",
+    related: [
+      { rule_id: "REG-UN-048", relation: "complements" },
+      { rule_id: "REG-UN-007", relation: "complements" },
+    ],
+    temporalNotes:
+      "R87 current series of amendments [verify]. DRL fitment mandated EU-wide from 2011-02-07 for M1/N1 (Directive 2008/89/EC). LED variants also covered by R128.",
+  }),
   uneceRule("094", "94", "Frontal Collision Protection", "R94 Frontal Impact", ["M1", "N1"], ["MN"], {
     officialUrl: "https://unece.org/transport/documents/2022/12/standards/regulation-no-94-rev4",
     revisionLabel: "Rev.4",
@@ -716,6 +753,28 @@ export const uneceTechnicalRules = [
       "R110 Rev.6 Amendment 4 published September 2022. OEM CNG/LNG fuel systems only; aftermarket retrofit covered by R115. [verify] current supplement if post-2022 updates have been adopted.",
   }),
   // Phase I.2 — LPG/CNG retrofit kits (R115). Aftermarket; OEM scope only if shipping kits.
+  uneceRule("112", "112", "Asymmetrical Passing-Beam Headlamps (Filament / Halogen / HID)", "R112 Asym Headlamps", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    obligationText:
+      "Asymmetrical passing-beam headlamps (typical right-hand-traffic or left-hand-traffic configuration with clear cut-off) using filament, halogen or HID light sources must be R112-type-approved components. Photometric cut-off geometry, colour (white), illuminance at defined test points and glare protection verified per R112 Annexes 3-4. R149 supersedes for new LED / adaptive-driving-beam (ADB) approvals; R112 remains valid for existing filament / halogen designs.",
+    related: [
+      { rule_id: "REG-UN-149", relation: "supersedes" },
+      { rule_id: "REG-UN-048", relation: "complements" },
+    ],
+    temporalNotes:
+      "R112 current series of amendments [verify]. R149 (2021) consolidates R98 / R112 / R113 for LED / ADB — new approvals migrate there; R112 stays valid for existing designs.",
+  }),
+  uneceRule("113", "113", "Symmetrical Passing-Beam Headlamps", "R113 Sym Headlamps", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    obligationText:
+      "Symmetrical passing-beam headlamps — typically fitted to vehicles crossing between left-hand-traffic and right-hand-traffic territories without beam adjustment — must be R113-type-approved. Photometric performance verified for a symmetrical cut-off with no preferential glare orientation. R149 supersedes for new LED / adaptive-driving-beam approvals; R113 remains valid for existing designs.",
+    related: [
+      { rule_id: "REG-UN-149", relation: "supersedes" },
+      { rule_id: "REG-UN-048", relation: "complements" },
+    ],
+    temporalNotes:
+      "R113 current series of amendments [verify]. Largely supplanted by R149 for new LED / ADB approvals.",
+  }),
   uneceRule("115", "115", "LPG/CNG Retrofit Kits", "R115 Retrofit Kits", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
     obligationText:
@@ -733,6 +792,13 @@ export const uneceTechnicalRules = [
       "Aftermarket retrofit — OEM responsibility only if shipping retrofit solutions; not part of vehicle type-approval.",
   }),
   // Phase I.2 — Tyres (R117): rolling resistance + wet grip + noise.
+  uneceRule("116", "116", "Protection Against Unauthorized Use (Anti-Theft)", "R116 Anti-Theft", ["M1", "N1"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    obligationText:
+      "M1 and N1 vehicles must be fitted with an electronic immobilizer meeting R116 performance: automatic activation within 60 s of power-off, de-activation within 10 s to re-enable the propulsion system, ≥ 50 000 activation / deactivation cycles, resistance to defined masking / manipulation attacks. If an alarm system is additionally fitted it must satisfy R116 Part IV (trigger detection, sounder level, tamper detection). Mechanical steering / transmission / brake locks covered by R116 Parts II-III as alternatives or supplements.",
+    temporalNotes:
+      "R116 current series of amendments [verify]. Retained under Annex II of Regulation (EU) 2018/858 from the pre-2018/858 vehicle-approval framework.",
+  }),
   uneceRule("117", "117", "Tyres — Rolling Resistance / Wet Grip / Noise", "R117 Tyres", ["M1", "M2", "M3", "N1", "N2", "N3", "O1", "O2", "O3", "O4"], ["MN", "O"], {
     officialUrl: "https://unece.org/sites/default/files/2025-09/R117r5e.pdf",
     revisionLabel: "Rev.5 (02 series + supplements)",
@@ -772,6 +838,13 @@ export const uneceTechnicalRules = [
   }),
 
   // Phase H.6 — R127/R140/R141/R145/R149 enriched with authored content.
+  uneceRule("125", "125", "Driver's Forward Field of View", "R125 Forward Vision", ["M1"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    obligationText:
+      "M1 drivers must have a defined 180° forward direct field of view conforming to R125 geometric sightline criteria. A-pillar binocular obstruction angle ≤ 6°, no occlusion by steering wheel rim or dashboard within defined sightline zones, minimum unobstructed arc through windscreen and front side windows. Eye-point ellipsoid reference (SgRP-based) per R125 Annex 4.",
+    temporalNotes:
+      "R125 current series of amendments [verify]. Applies to M1 passenger cars only; M2 / M3 forward-vision requirements sit with bus-specific rules (R107 / R66). Relevant where A-pillar geometry is changed — review for facelift and new-type approvals.",
+  }),
   uneceRule("127", "127", "Pedestrian Safety", "R127 Pedestrian", ["M1", "N1"], ["MN"], {
     officialUrl: "https://unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/2018/R127r2e.pdf",
     revisionLabel: "Rev.2 (02 series)",
@@ -791,6 +864,19 @@ export const uneceTechnicalRules = [
     humanReviewer: "yanhao",
     promotedOn: "2026-04-22",
     promotedBy: "phase-l-round-3",
+  }),
+  uneceRule("128", "128", "LED Light Sources", "R128 LED Sources", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
+    officialUrl: UNECE_PRIMARY_PORTAL,
+    obligationText:
+      "LED light sources intended for use in R112 / R113 / R149 headlamps and other R-approved signal lamps (R7 position / stop, R87 DRL, R91 side-marker, R148 direction indicator) must be R128-type-approved — covers luminous flux, chromaticity, thermal degradation and dimensional compliance to standardized LED categories. Replaceable vs non-replaceable source types have distinct annexes. Vehicle installation and photometric integration with the host lamp covered by R48.",
+    related: [
+      { rule_id: "REG-UN-048", relation: "complements" },
+      { rule_id: "REG-UN-149", relation: "complements" },
+      { rule_id: "REG-UN-007", relation: "complements" },
+      { rule_id: "REG-UN-087", relation: "complements" },
+    ],
+    temporalNotes:
+      "R128 current series of amendments [verify]. Component-level — OEM verifies R128 approval marks on LED sources specified in the vehicle's lamp BOM.",
   }),
   uneceRule("129", "129", "Enhanced Child Restraint Systems (i-Size)", "R129 i-Size", [], ["MN"], {
     officialUrl: "https://unece.org/sites/default/files/2021-05/R129r4e.pdf",

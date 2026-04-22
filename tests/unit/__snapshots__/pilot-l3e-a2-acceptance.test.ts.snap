@@ -693,6 +693,11 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-001",
   },
   {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-007",
+  },
+  {
     "applicability": "NOT_APPLICABLE",
     "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-010",
@@ -731,6 +736,16 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "applicability": "NOT_APPLICABLE",
     "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-025",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-028",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-030",
   },
   {
     "applicability": "UNKNOWN",
@@ -798,6 +813,11 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-085",
   },
   {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-087",
+  },
+  {
     "applicability": "NOT_APPLICABLE",
     "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-094",
@@ -825,7 +845,22 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
   {
     "applicability": "UNKNOWN",
     "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-112",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-113",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
     "rule_id": "REG-UN-115",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-116",
   },
   {
     "applicability": "NOT_APPLICABLE",
@@ -838,9 +873,19 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-118",
   },
   {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-125",
+  },
+  {
     "applicability": "NOT_APPLICABLE",
     "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-127",
+  },
+  {
+    "applicability": "UNKNOWN",
+    "lifecycle_state": "SEED_UNVERIFIED",
+    "rule_id": "REG-UN-128",
   },
   {
     "applicability": "UNKNOWN",
@@ -1004,7 +1049,7 @@ exports[`Pilot L3e-A2 BEV acceptance > pilot coverage summary > prints coverage 
   "conditional": 9,
   "future": 3,
   "not_applicable": 104,
-  "total": 196,
-  "unknown": 69,
+  "total": 205,
+  "unknown": 78,
 }
 `;

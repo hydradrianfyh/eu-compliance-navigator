@@ -1,10 +1,13 @@
 # Phase L — UNECE Annex II Completion
 
 Phase L delivered UNECE factory unlock + bare-stub content fill-in + BEV-priority
-ACTIVE-ization across 3 sequential rounds (L.1, L.2, L.3).
+ACTIVE-ization across 3 sequential rounds (L.1, L.2, L.3), followed by missing
+R-number addition (L.4), second promotion batch (L.5), and ES SEED_UNVERIFIED
+cleanup (L.6).
 
 - Spec: [`docs/superpowers/specs/2026-04-22-unece-annex-ii-completion-design.md`](../superpowers/specs/2026-04-22-unece-annex-ii-completion-design.md) (+ `-zh.md`)
-- Plan: [`docs/superpowers/plans/2026-04-22-phase-l-unece-annex-ii.md`](../superpowers/plans/2026-04-22-phase-l-unece-annex-ii.md)
+- Plan (L.1–L.3): [`docs/superpowers/plans/2026-04-22-phase-l-unece-annex-ii.md`](../superpowers/plans/2026-04-22-phase-l-unece-annex-ii.md)
+- Plan (L.4–L.6): [`docs/superpowers/plans/2026-04-22-phase-l-round-4-5-6.md`](../superpowers/plans/2026-04-22-phase-l-round-4-5-6.md)
 
 ## Round outcomes
 
@@ -12,20 +15,22 @@ ACTIVE-ization across 3 sequential rounds (L.1, L.2, L.3).
 |---|---|---|
 | L.1 | `9a1dcf5` | Factory unlock via `UneceAuthored.lifecycleOverride` + 5 new unit tests. `canPromote` gate requires all of: deep-link URL (≠ `UNECE_PRIMARY_PORTAL`), revision label, `lastVerifiedOn`, `humanReviewer`. |
 | L.2 | `bb87e4c` | 11 bare factory-stub UNECE rules enriched with authored blocks (obligation text, evidence tasks, related refs, powertrain gating) — all kept at `SEED_UNVERIFIED`. |
-| L.3 | (this commit) | 12 of 12 BEV-priority UNECE rules promoted to ACTIVE via the L.1 factory unlock. |
+| L.3 | `4adecf3` | 12 of 12 BEV-priority UNECE rules promoted to ACTIVE via the L.1 factory unlock. |
+| L.4 | (this commit) | 9 missing R-numbers (R7, R28, R30, R87, R112, R113, R116, R125, R128) added as authored `SEED_UNVERIFIED` stubs. Portal URL, obligation text, component-level vs whole-vehicle scope, cross-references (R48 / R149) recorded. No promotions. |
 
 ## Delta metrics
 
-| Metric | Before Phase L | After Phase L |
-|---|---|---|
-| Registry total rules | 196 | 196 (unchanged — pure promotions) |
-| Global ACTIVE rules | 73 | **85** (+12) |
-| UNECE ACTIVE rules | 1 (REG-UN-100 only) | **13** (+12) |
-| BEV × DE pilot APPLICABLE | 30 | **42** (+12) |
-| BEV × DE pilot CONDITIONAL | 47 | 36 (−11) |
-| BEV × DE pilot UNKNOWN | 70 | 69 (−1) |
-| Verification backlog pending | 123 | 111 (−12) |
-| Tests | 230 | **236** (+6 from L.1 factory tests + L.3 positive-case extension) |
+| Metric | Before Phase L | After L.3 | After L.4 |
+|---|---|---|---|
+| Registry total rules | 196 | 196 | **205** (+9 new R-numbers) |
+| Global ACTIVE rules | 73 | **85** (+12) | 85 (unchanged in L.4) |
+| UNECE ACTIVE rules | 1 (REG-UN-100 only) | **13** (+12) | 13 (unchanged in L.4) |
+| UNECE authored rules | 33 | 39 (+6 portal-linked enrichments) | **48** (+9) |
+| BEV × DE pilot APPLICABLE | 30 | **42** (+12) | 42 (new rules are UNKNOWN, not APPLICABLE) |
+| BEV × DE pilot CONDITIONAL | 47 | 36 | 36 |
+| BEV × DE pilot UNKNOWN | 70 | 69 | **78** (+9, one per new SEED_UNVERIFIED rule) |
+| Verification backlog pending | 123 | 111 | **120** (+9) |
+| Tests | 230 | **236** | 236 (unchanged; count + snapshots refreshed) |
 
 ## Rules promoted to ACTIVE in L.3
 
@@ -74,15 +79,25 @@ preserves auditability.
 - Verification backlog: `docs/phase-j/verification-backlog.md`
   regenerated (`npm run verification-backlog`)
 
-## What's next (not in Phase L)
+## Rules added in L.4 (9 authored `SEED_UNVERIFIED` stubs)
 
-- **Phase L.4 candidate**: add missing R-numbers still absent from the
-  registry (R7 exterior projections, R28 audible warning, R30 car tyres,
-  R87 DRL, R112 asymmetric headlamps, R113 symmetric headlamps, R116
-  anti-theft, R125 driver forward vision, R128 LED retrofit).
-- **Phase L.5+ candidate**: second ACTIVE-promotion batch for remaining
-  authored UNECE rules (R14, R21, R25, R34, R43, R44, R51, R83, R85,
-  R118, R129, R134, R135, R137, R138, R140, R141, R142, R145, R149,
-  R158, etc.) as deep-link URLs are verified.
-- **Phase L never-planned**: CBAM / customs / non-EU market UNECE
-  expansion (explicit non-goal per AGENTS.md).
+| Rule | R-number | Title | Scope |
+|---|---|---|---|
+| REG-UN-007 | R7 | Position / Stop / Direction-Indicator / End-Outline Marker Lamps | Component-level · M / N · complements R48 |
+| REG-UN-028 | R28 | Audible Warning Devices (Horns) | Component-level · M / N |
+| REG-UN-030 | R30 | Pneumatic Tyres for Passenger Cars and Trailers | Component-level · M1, O1, O2 · complements R117 / R142 |
+| REG-UN-087 | R87 | Daytime Running Lamps (DRL) | Component-level · M / N · complements R48 / R7 |
+| REG-UN-112 | R112 | Asymmetrical Passing-Beam Headlamps (Filament / Halogen / HID) | Component-level · M / N · R149 supersedes for LED / ADB |
+| REG-UN-113 | R113 | Symmetrical Passing-Beam Headlamps | Component-level · M / N · R149 supersedes for LED / ADB |
+| REG-UN-116 | R116 | Protection Against Unauthorized Use (Anti-Theft) | Whole-vehicle · M1 / N1 |
+| REG-UN-125 | R125 | Driver's Forward Field of View | Whole-vehicle · M1 |
+| REG-UN-128 | R128 | LED Light Sources | Component-level · M / N · complements R48 / R149 / R7 / R87 |
+
+All 9 rules use `UNECE_PRIMARY_PORTAL` as `officialUrl` (deep-link verification deferred to L.7), no `revisionLabel`, no `applyToNewTypesFrom` / `applyToAllNewVehiclesFrom` — the lifecycle stays `SEED_UNVERIFIED` and the hard gate ensures UNKNOWN result on any config.
+
+## What's next
+
+- **Phase L.5** (in-flight): second ACTIVE-promotion batch — all-powertrain sweep targeting ~20 of the existing authored UNECE rules (Tier A 13 universal + Tier B 2 BEV/FCEV + Tier C 5 PHEV/ICE). Deep-link URL research dominates effort. See [`docs/superpowers/plans/2026-04-22-phase-l-round-4-5-6.md`](../superpowers/plans/2026-04-22-phase-l-round-4-5-6.md) § L.5.
+- **Phase L.6** (planned): ES SEED_UNVERIFIED cleanup — verify + promote REG-MS-ES-007 / -008 / -013 (Etiqueta Ambiental, Homologación Individual, RD 106/2008 batteries waste).
+- **Phase L.7** (not yet scheduled): deep-link URL verification for the 9 R-numbers added in L.4; HD / bus / niche rules deferred from L.5 (R13, R49, R58, R66, R67, R85, R110, R115, R118, R135, R137).
+- **Phase L never-planned**: CBAM / customs / non-EU market UNECE expansion (explicit non-goal per AGENTS.md).
