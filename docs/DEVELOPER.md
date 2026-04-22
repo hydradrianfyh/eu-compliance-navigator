@@ -18,7 +18,7 @@ npm run dev          # http://localhost:3000
 Verify:
 
 ```bash
-npm test             # 230 tests
+npm test             # 236 tests
 npx tsc --noEmit     # 0 errors
 npm run lint         # 0 errors
 ```
@@ -328,7 +328,7 @@ tests/
 └── regression/            Golden-dataset + drift CI checks
 ```
 
-34 test files, 230 tests. Goal: ≥80% line coverage on `src/engine/`, `src/registry/`, `src/lib/`.
+35 test files, 236 tests. Goal: ≥80% line coverage on `src/engine/`, `src/registry/`, `src/lib/`.
 
 ### 6.2 How to add a test
 
@@ -504,7 +504,7 @@ When you author a rule whose trigger depends on combustion/diesel specificity, p
 
 ## 11. How to add a new member-state overlay
 
-Current coverage: DE (8 ACTIVE + 2 indicative), UK (11 ACTIVE + 2 DRAFT), ES (7 ACTIVE + 7 pending), FR (5 ACTIVE + 7 pending), NL (0 ACTIVE + 5 SEED_UNVERIFIED). Adding a new country (e.g. IT / PL / BE / AT / SE / CZ — currently 5-PLACEHOLDER skeletons per country):
+Current coverage: DE (8 ACTIVE + 2 indicative), UK (11 ACTIVE + 2 DRAFT), ES (**9 ACTIVE** + 5 pending after Phase L.6), FR (5 ACTIVE + 7 pending), NL (0 ACTIVE + 5 SEED_UNVERIFIED). Adding a new country (e.g. IT / PL / BE / AT / SE / CZ — currently 5-PLACEHOLDER skeletons per country):
 
 1. Add the country code to `targetCountryOptions.eu` in `src/shared/constants.ts` (if not already).
 2. Create rule entries in `src/registry/seed/member-state-overlay.ts`. Template from the DE overlay (8 ACTIVE rules: registration FZV, roadworthiness §29 StVZO HU/AU, insurance PflVG, motor tax KraftStG, Umweltzone low-emission zones, E-Kennzeichen, …).
@@ -611,7 +611,14 @@ Concise one-line summary of each phase for new contributors orienting in the git
 | **K.0** | "Why indicative only" inline UX | Complete (`1556ada`) |
 | **K.1** | Scope banner + glossary content refresh | Complete (`1bf6e79`) |
 | **K.2** | Status + Plan exec summaries | Complete (`3afaf9a`) |
-| **K.3** | Doc refresh (README + user-guide + this file) | **Current commit** |
+| **K.3** | Doc refresh (README + user-guide + this file) | Complete |
+| **L.1** | UNECE factory unlock via `lifecycleOverride` + safety gates | Complete (`9a1dcf5`) |
+| **L.2** | 11 bare UNECE stubs → authored SEED_UNVERIFIED | Complete (`bb87e4c`) |
+| **L.3** | 12 BEV-priority UNECE rules → ACTIVE (73 → 85) | Complete (`4adecf3`) |
+| **L.4** | 9 missing R-numbers (R7/R28/R30/R87/R112/R113/R116/R125/R128) as authored stubs | Complete (`d44d779`) |
+| **L.5** | 14 UNECE rules → ACTIVE (85 → 99), all-powertrain sweep | Complete (`f317ee2`) |
+| **L.6** | ES SEED_UNVERIFIED cleanup (-007 + -013 → ACTIVE; -008 Homologación Individual held) | Complete (`85b05fd`) |
+| **L.7+** | Deep-link URL verification for L.4 stubs + L.5 holdouts + ES-008 Orden ministerial | Pending |
 | **K.4+** | Homologation manual · NL ACTIVE batch · DE-009 split | Pending |
 
 ---

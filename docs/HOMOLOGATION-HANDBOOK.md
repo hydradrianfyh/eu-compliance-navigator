@@ -1,6 +1,6 @@
 # 准入工程师实操手册 · Homologation Engineer Handbook
 
-**版本**：Phase K.4（2026-04-21）· 196 条规则 / 73 条 ACTIVE · 230 tests green
+**版本**：Phase L.6（2026-04-22）· 205 条规则 / **101 条 ACTIVE** · 236 tests green
 **适用对象**：中国 OEM 计划欧盟市场准入的**一线 homologation / regulatory affairs 工程师**（非管理层）
 **语言**：中文（English companion: [HOMOLOGATION-HANDBOOK-EN.md](./HOMOLOGATION-HANDBOOK-EN.md)）
 **相关文档**：通用使用说明见 [USER-GUIDE.md](./USER-GUIDE.md)，开发者文档见 [DEVELOPER.md](./DEVELOPER.md)
@@ -529,7 +529,7 @@ Queue 按优先级排序：
 - **工程师行动**：Plan tab 看到 Euro 7 FUTURE 时，排查 `applies_to_new_types_from` 是否在 SOP 之后的安全 margin。若 SOP 日期 volatility 高，提前做 Euro 7 可选 dual-stream 认证路径。
 
 **ES 覆盖（场景特有）**：
-- **ES 7 ACTIVE**：REG-MS-ES-001 Matriculación (DGT) · REG-MS-ES-002 ITV（路检）· REG-MS-ES-003 Seguro Obligatorio · REG-MS-ES-004 IEDMT（注册税，petrol ICE 有 CO2 档位税率）· REG-MS-ES-005 IVTM（市政车辆税）· REG-MS-ES-006 ZBE（低排放区）· REG-MS-ES-009 WVTA RD 750/2010 转置。
+- **ES 9 ACTIVE**（L.6 之后）：REG-MS-ES-001 Matriculación (DGT) · REG-MS-ES-002 ITV（路检）· REG-MS-ES-003 Seguro Obligatorio · REG-MS-ES-004 IEDMT（注册税，petrol ICE 有 CO2 档位税率）· REG-MS-ES-005 IVTM（市政车辆税）· REG-MS-ES-006 ZBE（低排放区）· REG-MS-ES-007 Etiqueta Ambiental（DGT 环保标）· REG-MS-ES-009 WVTA RD 750/2010 转置 · REG-MS-ES-013 Pilas y Acumuladores（RD 106/2008 + RD 710/2015）。剩余 REG-MS-ES-008 Homologación Individual 仍 SEED_UNVERIFIED，待 Orden ministerial 核实。
 - **ES 7 pending**（CONDITIONAL）：REG-MS-ES-007 Etiqueta Ambiental（DGT 环保贴纸，petrol Euro 6/7 通常获 ECO 或 C 标）· REG-MS-ES-010 ZEV 2040（2040 年禁售内燃）· REG-MS-ES-012 MOVES III（BEV 补贴，ICE 无关）· 等等。
 
 **CCAA（自治区）变异预警**：西班牙有 17 个 autonomous communities（CCAA），各自对 ITV、ZBE 有额外实施细则。**工具只给国家级规则**，CCAA 级要你自己做 per-region due diligence。例如 Madrid Central ZBE 和 Barcelona ZBE 各有不同进入限制。

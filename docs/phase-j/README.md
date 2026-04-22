@@ -9,9 +9,11 @@ breadth expansion: promoting SEED_UNVERIFIED / DRAFT / PLACEHOLDER rules to
 ACTIVE once a human reviewer has attached an authoritative source, recorded
 the OJ/gazette citation, and stamped a verification date.
 
-## Current status (2026-04-21)
+## Current status (post Phase L.6, 2026-04-22)
 
-**Registry state**: 196 rules · **73 ACTIVE** (up from 34 at Phase J ship) · 230 tests green.
+**Registry state**: 205 rules · **101 ACTIVE** (up from 34 at Phase J ship) · 236 tests green.
+
+> Phase L.1–L.6 extended Phase J's source-governance work: UNECE factory unlock (L.1) + 11 authored stubs (L.2) + 12 BEV-priority promotions (L.3) + 9 new R-numbers as stubs (L.4) + 14 second-batch promotions (L.5) + 2 ES SEED cleanups (L.6). Net effect: 73 → 101 ACTIVE (+28), backlog 123 → 104. See [docs/phase-l/README.md](../phase-l/README.md).
 
 ### Human-review rounds completed
 
@@ -24,19 +26,21 @@ the OJ/gazette citation, and stamped a verification date.
 | **Round 3 · FR** | FR country batch | `d42ec2f` — 5 France rules promoted to ACTIVE; 7 remaining at null-URL / DRAFT. |
 | **Round 3 · EU** | EU residual | `afc4f50` — 4 remaining EU-horizontal rules promoted to ACTIVE. |
 
-**Total promoted since Phase J ship**: 39 rules (34 → 73 ACTIVE).
+**Total promoted since Phase J ship**: 39 rules (34 → 73 ACTIVE) in rounds 1–3; plus 28 more in Phase L.3 / L.5 / L.6 (73 → 101 ACTIVE).
 
 ### Backlog state
 
-After rounds 1–3, **123 rules** remain non-ACTIVE (75 SEED_UNVERIFIED + 15 DRAFT + 33 PLACEHOLDER). Regenerate with `npm run verification-backlog` — [verification-backlog.md](./verification-backlog.md) is the live snapshot.
+After Phase L.6, **104 rules** remain non-ACTIVE. Regenerate with `npm run verification-backlog` — [verification-backlog.md](./verification-backlog.md) is the live snapshot.
 
 ### Next up
 
 - **NL batch** — 5 SEED_UNVERIFIED rules authored, awaiting EUR-Lex (NL gazette) URL verification. 0 ACTIVE today.
 - **DE-009 architectural split** — KBA rule needs separation into cleaner sub-rules (flagged during round 1).
-- **UNECE Annex II residual** — 43 SEED_UNVERIFIED technical regulations.
-- **ES / FR remainder** — 7 each at null-URL / DRAFT, follow same cadence.
-- **Phase K+ UX** — K.0 (Why-indicative callout), K.1 (scope banner refresh), K.2 (exec summaries) shipped; K.3 (doc refresh, this change) in flight; K.4 (homologation manual) to follow.
+- **UNECE Annex II residual** — 17 SEED_UNVERIFIED technical regulations (down from 43): HD / bus / niche rules (R13, R49, R58, R66, R67, R85, R110, R115, R118, R135, R137) + 6 L.5 holdouts (R25, R51, R101, R140, R34, R145). L.3 + L.5 promoted 26 R-series rules to ACTIVE.
+- **L.4 new stubs** — 9 R-numbers (R7, R28, R30, R87, R112, R113, R116, R125, R128) await deep-link verification in L.7.
+- **ES-008 Homologación Individual** — RD 750/2010 BOE URL confirmed, Orden ministerial citation still pending (L.6 research documented).
+- **FR remainder** — 7 rules at null-URL / DRAFT.
+- **Phase K+ / L+ UX** — K.0 (Why-indicative callout), K.1 (scope banner refresh), K.2 (exec summaries), K.3 (doc refresh) shipped; K.4 (homologation manual) live; L.1-L.6 shipped.
 
 ## Contents
 

@@ -1,6 +1,6 @@
 # EU Compliance Navigator · User Guide (English)
 
-**Version**: Phase K.2 (2026-04-21) · 196 rules / 73 ACTIVE · 230 tests green
+**Version**: Phase L.6 (2026-04-22) · 205 rules / **101 ACTIVE** · 236 tests green
 **Pilots in use**: MY2027 BEV × DE · PHEV × DE·FR·NL · ICE × ES
 **中文版**: see [USER-GUIDE.md](./USER-GUIDE.md) (deeper per-field reference)
 
@@ -21,8 +21,8 @@ This tool is a **config-driven EU vehicle compliance workbench**. You enter a ve
 ### What this guide is **not**
 
 - Not legal advice — the tool outputs a structured checklist, not a legal opinion.
-- Not a complete legal library — 196 seed rules (73 ACTIVE after human-review rounds 1-3) cover the major EU + DE / UK / ES / FR frameworks; remaining 123 gaps are explicitly marked non-ACTIVE with a per-rule "why pending" reason.
-- Not a universal market tool — currently DE (8 ACTIVE) + UK (11 ACTIVE) + ES (7 ACTIVE) + FR (5 ACTIVE, partial); NL is seed-only (0 ACTIVE); 22 other EU member states deferred; non-EU markets (CN/US/JP/TR) unsupported.
+- Not a complete legal library — 205 seed rules (**101 ACTIVE** after Phase L.1–L.6, including 27 UNECE R-series + 9 ES overlay) cover the major EU + DE / UK / ES / FR + UNECE frameworks; remaining 104 gaps are explicitly marked non-ACTIVE with a per-rule "why pending" reason.
+- Not a universal market tool — currently DE (8 ACTIVE) + UK (11 ACTIVE) + ES (**9 ACTIVE** after L.6) + FR (5 ACTIVE, partial); NL is seed-only (0 ACTIVE); 22 other EU member states deferred; non-EU markets (CN/US/JP/TR) unsupported.
 
 ### How to read this guide
 
@@ -109,7 +109,7 @@ Click a rule deep-link → jumps to Rules tab with the rule auto-expanded.
 
 Rules are in three trust layers:
 
-- ✓ **VERIFIED** — source verified, trust it (73 ACTIVE rules after K.2)
+- ✓ **VERIFIED** — source verified, trust it (101 ACTIVE rules after Phase L.6)
 - ⚠ **INDICATIVE** — authored but source not yet verified (SEED_UNVERIFIED / DRAFT / SHADOW)
 - ○ **PENDING AUTHORING** — placeholder, not written
 - — **NEEDS YOUR INPUT** — your config is missing a required field
@@ -375,7 +375,7 @@ Each sub-field triggers specific UNECE technical rules (R13H / R79 / R43 / R16 /
 
 ### 2.11 Load sample
 
-**⚙** → **Load MY2027 BEV sample**. First-time demo, standard config for regression, baseline of the 230 tests (`pilot-acceptance.test.ts`).
+**⚙** → **Load MY2027 BEV sample**. First-time demo, standard config for regression, baseline of the 236 tests (`pilot-acceptance.test.ts`).
 
 **Caveat**: Load sample **overwrites** current config. If filling your own project, **⚙** → **Clear saved state** first to back up (actually exports JSON), then load.
 
@@ -454,11 +454,11 @@ Up to 10 rules nearest deadline, ascending:
 
 ### 3.6 Countries at risk
 
-Post-K.2 state (73 ACTIVE across all jurisdictions):
+Post-L.6 state (101 ACTIVE across all jurisdictions):
 
 - `DE` ✓ (8 ACTIVE overlays) — not listed as at-risk
 - `UK` ✓ (11 ACTIVE overlays, incl. AV Act 2024) — treated as production-grade non-EU market
-- `ES` 🟡 (7 ACTIVE + 7 indicative) — listed but with specifics; each indicative rule's card shows "why pending"
+- `ES` 🟢 (9 ACTIVE + 5 indicative after L.6) — listed; remaining Homologación Individual needs Orden ministerial verification
 - `FR` 🟡 (5 ACTIVE + 7 pending) — partial; listed with remaining backlog count
 - `NL` ⚠ (0 ACTIVE, 5 SEED_UNVERIFIED) — "seed-only: 5 rules authored, 0 verified; confirm locally"
 - Other EU states (IT/PL/BE/AT/SE/CZ/…) — out of scope, flagged as such
@@ -697,7 +697,7 @@ For compliance reviewers or tool maintainers. Business users rarely need this.
 
 ### 6.1 Lifecycle distribution
 
-All 196 rules by lifecycle. Current snapshot (post-K.2):
+All 205 rules by lifecycle. Current snapshot (post-L.6):
 
 ```
 ACTIVE            73
@@ -724,7 +724,7 @@ Aligned with the 4-tier ScopeBanner:
 
 - 🟢 **DE (8 ACTIVE + 2 indicative)** — Production-grade guidance available
 - 🟢 **UK (11 ACTIVE + 2 DRAFT)** — Production-grade non-EU market overlay, incl. AV Act 2024
-- 🟡 **ES (7 ACTIVE + 7 indicative/DRAFT/PLACEHOLDER)** — Partial — indicative items carry per-rule "why pending" reasons
+- 🟢 **ES (9 ACTIVE + 5 indicative/DRAFT/PLACEHOLDER)** — Production-grade after L.6 (Etiqueta Ambiental + RD 106/2008 promoted); Homologación Individual still pending Orden ministerial citation
 - 🟡 **FR (5 ACTIVE + 7 null-URL/DRAFT)** — Partial — verification of remainder in progress
 - 🟠 **NL (0 ACTIVE, 5 SEED_UNVERIFIED)** — Seed-only — authored but not yet verified; authoring batch pending Phase K+
 - 🟠 **IT / PL / BE / AT / SE / CZ (5 PLACEHOLDER each)** — Placeholder — scope gap, verify locally
@@ -810,7 +810,7 @@ If your SOP is after that date, rule flips to APPLICABLE. Before, doesn't trigge
 The banner (refreshed in K.1) has 4 tiers — click to expand:
 
 1. **Production-grade** — DE (8 ACTIVE) + UK (11 ACTIVE) + EU horizontal (~45 ACTIVE). Trust these.
-2. **Partial / Indicative** — ES (7 ACTIVE / 7 pending) + FR (5 ACTIVE / 7 pending). Use with the per-rule "why pending" reason on each card.
+2. **Partial / Indicative** — ES remaining 5 pending (incl. Homologación Individual) + FR (5 ACTIVE / 7 pending). Use with the per-rule "why pending" reason on each card.
 3. **Seed-only / Pending** — NL (5 SEED_UNVERIFIED, 0 ACTIVE). Not yet verified.
 4. **Out of scope** — IT / PL / BE / AT / SE / CZ (placeholder), plus CN / US / JP / TR / customs / CBAM / HS / ISO standards.
 
@@ -952,7 +952,7 @@ Aligned with the in-UI GlossaryModal (⚙ menu → Open glossary).
 | Status | Wording | Examples |
 |---|---|---|
 | 🟢 Production-grade | "Production-grade guidance available" | DE (8 ACTIVE), UK (11 ACTIVE) |
-| 🟡 Partial | "Partial — some ACTIVE, remaining pending verification" | ES (7 ACTIVE / 7 pending), FR (5 / 7 pending) |
+| 🟡 Partial | "Partial — some ACTIVE, remaining pending verification" | ES remaining 5 pending (after L.6), FR (5 / 7 pending) |
 | 🟠 Seed-only | "Seed-only — authored but 0 verified; confirm locally" | NL (0 ACTIVE / 5 SEED_UNVERIFIED) |
 | 🟠 Placeholder | "Placeholder — scope gap, verify locally" | IT / PL / BE / AT / SE / CZ |
 

@@ -1,6 +1,6 @@
 # Homologation Engineer Handbook
 
-**Version**: Phase K.4 (2026-04-21) · 196 rules / 73 ACTIVE · 230 tests green
+**Version**: Phase L.6 (2026-04-22) · 205 rules / **101 ACTIVE** · 236 tests green
 **Audience**: Working-level homologation / regulatory affairs engineers at Chinese OEMs planning EU market entry. **Not for managers.**
 **Language**: English companion — Chinese primary at [HOMOLOGATION-HANDBOOK.md](./HOMOLOGATION-HANDBOOK.md)
 **Related**: General reference in [USER-GUIDE-EN.md](./USER-GUIDE-EN.md); developer docs in [DEVELOPER.md](./DEVELOPER.md)
@@ -502,7 +502,7 @@ Six scenarios covering your daily work. Each uses a pilot or real variant with s
 - **Engineer action**: when Euro 7 shows FUTURE on Plan, verify `applies_to_new_types_from` is well after SOP. If SOP date is volatile, consider a dual-stream certification path in advance.
 
 **ES coverage (scenario-specific)**:
-- **ES 7 ACTIVE**: REG-MS-ES-001 Matriculación (DGT) · REG-MS-ES-002 ITV (inspection) · REG-MS-ES-003 Seguro Obligatorio · REG-MS-ES-004 IEDMT (registration tax — petrol ICE has CO2-bracket rate) · REG-MS-ES-005 IVTM (municipal vehicle tax) · REG-MS-ES-006 ZBE · REG-MS-ES-009 WVTA RD 750/2010.
+- **ES 9 ACTIVE** (after L.6): REG-MS-ES-001 Matriculación (DGT) · REG-MS-ES-002 ITV (inspection) · REG-MS-ES-003 Seguro Obligatorio · REG-MS-ES-004 IEDMT (registration tax — petrol ICE has CO2-bracket rate) · REG-MS-ES-005 IVTM (municipal vehicle tax) · REG-MS-ES-006 ZBE · REG-MS-ES-007 Etiqueta Ambiental (DGT environmental sticker) · REG-MS-ES-009 WVTA RD 750/2010 · REG-MS-ES-013 Pilas y Acumuladores (RD 106/2008 + RD 710/2015). Remaining REG-MS-ES-008 Homologación Individual still SEED_UNVERIFIED pending Orden ministerial citation.
 - **ES 7 pending (CONDITIONAL)**: REG-MS-ES-007 Etiqueta Ambiental (DGT sticker; petrol Euro 6/7 usually ECO or C) · REG-MS-ES-010 ZEV 2040 · REG-MS-ES-012 MOVES III (BEV subsidy, irrelevant for ICE) · others.
 
 **CCAA (autonomous-community) variation alert**: Spain has 17 CCAAs with their own ITV / ZBE implementation details. **The tool provides national-level rules only**. Per-CCAA due diligence is yours (e.g. Madrid Central ZBE vs Barcelona ZBE have distinct entry rules).
@@ -741,7 +741,7 @@ The tool is not a one-shot audit. It spans the program lifecycle from pre-TA thr
 
 ## Closing
 
-This manual is for the **working-level homologation engineer** whose day is spent with regulation text, official sources, and TÜV / KBA auditors. The tool does not replace your judgment; it organizes the 73 ACTIVE regulations you use daily into a searchable, exportable, SOP-anchored working surface.
+This manual is for the **working-level homologation engineer** whose day is spent with regulation text, official sources, and TÜV / KBA auditors. The tool does not replace your judgment; it organizes the 101 ACTIVE regulations you use daily into a searchable, exportable, SOP-anchored working surface.
 
 **Best way to use this manual**: walk through [Part 1 Quickstart](#part-1--your-first-30-minutes-quickstart) (30 min), then use [Part 6 scenarios](#part-6--common-scenarios-walkthroughs) as a reference during real work. When you start a new program, put the [Part 8 cadence](#part-8--workflow-cadence) into your calendar.
 
