@@ -693,8 +693,8 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-001",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-010",
   },
   {
@@ -703,8 +703,8 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-013",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-013H",
   },
   {
@@ -713,13 +713,13 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-014",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-016",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-017",
   },
   {
@@ -748,13 +748,13 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-044",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-046",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-048",
   },
   {
@@ -783,8 +783,8 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-067",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-079",
   },
   {
@@ -798,13 +798,13 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-085",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-094",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-095",
   },
   {
@@ -828,8 +828,8 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-115",
   },
   {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-117",
   },
   {
@@ -838,8 +838,8 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-118",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-127",
   },
   {
@@ -893,8 +893,8 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-UN-149",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-152",
   },
   {
@@ -987,7 +987,7 @@ exports[`Pilot MY2027 BEV acceptance > Layer 3 — coverage snapshot > matches t
 
 exports[`Pilot MY2027 BEV acceptance > pilot coverage summary > prints coverage breakdown 1`] = `
 {
-  "applicable": 30,
+  "applicable": 42,
   "applicable_ids": [
     "REG-AI-001",
     "REG-BAT-001",
@@ -1018,12 +1018,24 @@ exports[`Pilot MY2027 BEV acceptance > pilot coverage summary > prints coverage 
     "REG-MS-FR-005",
     "REG-PV-002",
     "REG-TA-001",
+    "REG-UN-010",
+    "REG-UN-013H",
+    "REG-UN-016",
+    "REG-UN-017",
+    "REG-UN-046",
+    "REG-UN-048",
+    "REG-UN-079",
+    "REG-UN-094",
+    "REG-UN-095",
     "REG-UN-100",
+    "REG-UN-117",
+    "REG-UN-127",
+    "REG-UN-152",
   ],
-  "conditional": 47,
+  "conditional": 36,
   "future": 4,
   "not_applicable": 45,
   "total": 196,
-  "unknown": 70,
+  "unknown": 69,
 }
 `;

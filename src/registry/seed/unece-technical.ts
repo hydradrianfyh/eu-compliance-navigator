@@ -265,7 +265,8 @@ export const uneceTechnicalRules = [
   // GSR2 Annex II phase-in dates, and a one-paragraph obligation.
   // All remain SEED_UNVERIFIED (human_reviewer null) until ratified.
   uneceRule("010", "10", "Electromagnetic Compatibility (EMC)", "R10 EMC", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/2019/E-ECE-324-Add.9-Rev.6.pdf",
+    revisionLabel: "Rev.6 (06 series)",
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
@@ -275,6 +276,11 @@ export const uneceTechnicalRules = [
       "ISO 11451 (vehicle EMC — whole-vehicle immunity)",
       "ISO 7637 (conducted electrical transients)",
     ],
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-3",
   }),
   uneceRule("013", "13", "Heavy Vehicle Braking", "R13 Braking (HD)", ["M2", "M3", "N2", "N3"], ["MN"], {
     officialUrl: "https://unece.org/transport/documents/2025/01/standards/addendum-12-un-regulation-no-13-revision-8-amendment-13",
@@ -297,7 +303,8 @@ export const uneceTechnicalRules = [
       "R13 Rev.8 Amendment 13 (January 2025) is the most recent addendum at the time of authoring. R13 is the heavy-duty counterpart of R13-H; light-duty M1/N1 use R13-H. [verify] exact revision progression if further supplements have been adopted.",
   }),
   uneceRule("013H", "13-H", "Passenger Car Braking", "R13-H Braking (PC)", ["M1", "N1"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/2018/R013hr4e.pdf",
+    revisionLabel: "Rev.4",
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
@@ -307,6 +314,11 @@ export const uneceTechnicalRules = [
       { rule_id: "REG-UN-140", relation: "complements" },
     ],
     prerequisiteStandards: ["ISO 26262 (functional safety — brake ECU ASIL)"],
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-3",
   }),
   uneceRule("014", "14", "Safety Belt Anchorages", "R14 Belt Anchorages", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
@@ -317,20 +329,32 @@ export const uneceTechnicalRules = [
     related: [{ rule_id: "REG-UN-145", relation: "complements" }],
   }),
   uneceRule("016", "16", "Safety Belts and Restraint Systems", "R16 Safety Belts", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://www.unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/2018/R016r9e.pdf",
+    revisionLabel: "Rev.9",
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
       "Safety belts + pretensioners must pass R16 tests (static strength, dynamic test, durability). SBR integration with seatbelt reminder per R16 Supplement 8+.",
     related: [{ rule_id: "REG-UN-014", relation: "requires" }],
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-3",
   }),
   uneceRule("017", "17", "Seat Strength", "R17 Seat Strength", ["M1", "N1"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://unece.org/transport/documents/2023/08/standards/un-regulation-no-17-rev7",
+    revisionLabel: "Rev.7",
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
       "Seats, their anchorages and head restraints must pass R17 static strength and dynamic sled tests.",
     related: [{ rule_id: "REG-UN-025", relation: "complements" }],
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-3",
   }),
   uneceRule("021", "21", "Interior Fittings", "R21 Interior Fittings", ["M1"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
@@ -387,20 +411,34 @@ export const uneceTechnicalRules = [
       "R44 Rev.2 consolidated text dated February 2008; 04-series amendments continue to be supplemented. R44 remains valid in parallel with R129 but ISOFIX CRS now only approved under R129. [verify] current amendment sequence.",
   }),
   uneceRule("046", "46", "Rear-View Mirrors and Devices", "R46 Mirrors", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://unece.org/transport/documents/2023/07/standards/regulation-no-46-revision-7",
+    revisionLabel: "Rev.7",
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
       "Indirect-vision devices (mirrors + Camera Monitor Systems per R46 06 series) must meet field-of-view, glare and durability requirements.",
     related: [{ rule_id: "REG-UN-158", relation: "complements" }],
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-3",
   }),
   uneceRule("048", "48", "Installation of Lighting and Light-Signalling Devices", "R48 Lighting Install", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://www.unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/2015/R048r12e.pdf",
+    revisionLabel: "Rev.12 (07 series)",
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
       "Installation of lighting + light-signalling on the vehicle must follow R48 geometry, photometric performance and electrical interconnection rules. Matrix LED / ADB per R149 triggers extra R48 annex.",
     related: [{ rule_id: "REG-UN-149", relation: "complements" }],
+    temporalNotes:
+      "R48 Rev.12 is the current consolidated text; 08 series (2021) and 09 series (2023) amendment proposals are in the WP.29 pipeline. [verify] exact supplement if newer consolidated text is published.",
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-3",
   }),
   // Phase I.2 — heavy-duty exhaust emissions (R49).
   uneceRule("049", "49", "Heavy-Duty Exhaust Emissions", "R49 HD Emissions", ["M2", "M3", "N2", "N3"], ["MN"], {
@@ -484,7 +522,8 @@ export const uneceTechnicalRules = [
     related: [{ rule_id: "REG-UN-115", relation: "complements" }],
   }),
   uneceRule("079", "79", "Steering Equipment", "R79 Steering", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://unece.org/sites/default/files/2024-04/R079r5e.pdf",
+    revisionLabel: "Rev.5 (04 series)",
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
@@ -494,6 +533,11 @@ export const uneceTechnicalRules = [
       { rule_id: "REG-AD-002", relation: "requires" },
     ],
     prerequisiteStandards: ["ISO 26262 (functional safety — ACSF ASIL)"],
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-3",
   }),
   // Phase J.1 — R83 temporal clarification: UN counterpart to EU light-duty
   // emissions (Reg (EC) 715/2007 + Impl Reg (EU) 2017/1151); Euro 7 supersedes
@@ -526,7 +570,8 @@ export const uneceTechnicalRules = [
       "R85 covers M/N with combustion and/or electric drive. Applies_to_new_types_from [verify].",
   }),
   uneceRule("094", "94", "Frontal Collision Protection", "R94 Frontal Impact", ["M1", "N1"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://unece.org/transport/documents/2022/12/standards/regulation-no-94-rev4",
+    revisionLabel: "Rev.4",
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
@@ -535,9 +580,17 @@ export const uneceTechnicalRules = [
       { rule_id: "REG-UN-095", relation: "complements" },
       { rule_id: "REG-UN-100", relation: "requires" },
     ],
+    temporalNotes:
+      "R94 Rev.4 published December 2022 is the current consolidated text. A 05 series of amendments entered into force in June 2024 with further upgrade (UNR94/5) anticipated in November 2026 [verify].",
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-3",
   }),
   uneceRule("095", "95", "Side Collision Protection", "R95 Side Impact", ["M1", "N1"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://unece.org/transport/documents/2024/02/standards/un-regulation-no-95-revision-4-amendment-3",
+    revisionLabel: "Rev.4 Am.3",
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
@@ -546,6 +599,11 @@ export const uneceTechnicalRules = [
       { rule_id: "REG-UN-094", relation: "complements" },
       { rule_id: "REG-UN-135", relation: "complements" },
     ],
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-3",
   }),
   makeSeedRule({
     stable_id: "REG-UN-100",
@@ -676,16 +734,23 @@ export const uneceTechnicalRules = [
   }),
   // Phase I.2 — Tyres (R117): rolling resistance + wet grip + noise.
   uneceRule("117", "117", "Tyres — Rolling Resistance / Wet Grip / Noise", "R117 Tyres", ["M1", "M2", "M3", "N1", "N2", "N3", "O1", "O2", "O3", "O4"], ["MN", "O"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
-    revisionLabel: "02 series",
+    officialUrl: "https://unece.org/sites/default/files/2025-09/R117r5e.pdf",
+    revisionLabel: "Rev.5 (02 series + supplements)",
+    applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
+    applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
       "Tyres fitted to M/N/O vehicles must meet rolling resistance + wet grip + external noise limits per R117. Underlies EU tyre-label Reg (EU) 2020/740 and the noise framework Reg (EU) 540/2014.",
     temporalNotes:
-      "R117.02 [verify exact revision]. Tyres tested at component level; the vehicle-level obligation is to fit only R117-approved tyres.",
+      "R117 Rev.5 consolidated text published September 2025. 04 series of amendments in WP.29 pipeline [verify adoption]. Tyres tested at component level; the vehicle-level obligation is to fit only R117-approved tyres.",
     prerequisiteStandards: [
       "ISO 28580 (rolling resistance measurement)",
       "ISO 10844 (reference test-track surface for noise)",
     ],
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-3",
   }),
   uneceRule("118", "118", "Burning Behaviour of Interior Materials", "R118 Interior Fire", ["M2", "M3"], ["MN"], {
     officialUrl: "https://unece.org/transport/documents/2023/02/standards/un-regulation-no-118-rev3",
@@ -708,7 +773,8 @@ export const uneceTechnicalRules = [
 
   // Phase H.6 — R127/R140/R141/R145/R149 enriched with authored content.
   uneceRule("127", "127", "Pedestrian Safety", "R127 Pedestrian", ["M1", "N1"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/2018/R127r2e.pdf",
+    revisionLabel: "Rev.2 (02 series)",
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
@@ -718,6 +784,13 @@ export const uneceTechnicalRules = [
       { rule_id: "REG-UN-095", relation: "complements" },
       { rule_id: "REG-UN-135", relation: "complements" },
     ],
+    temporalNotes:
+      "R127 Rev.2 (2018) is the last published consolidated text; 03 series of amendments in WP.29 pipeline since 2022 [verify adoption]. Obligation text references subsequent Rev.4 Am.1 (2024) — confirm once that consolidated text is available.",
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-3",
   }),
   uneceRule("129", "129", "Enhanced Child Restraint Systems (i-Size)", "R129 i-Size", [], ["MN"], {
     officialUrl: "https://unece.org/sites/default/files/2021-05/R129r4e.pdf",
@@ -879,7 +952,8 @@ export const uneceTechnicalRules = [
 
   // Phase H.6 — new rules (previously missing from registry).
   uneceRule("152", "152", "Advanced Emergency Braking System (AEBS)", "R152 AEBS (M1/N1)", ["M1", "N1"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://unece.org/transport/documents/2023/06/standards/un-regulation-no-152-rev2",
+    revisionLabel: "Rev.2",
     applyToNewTypesFrom: "2023-07-10",
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
@@ -893,6 +967,11 @@ export const uneceTechnicalRules = [
       "ISO 26262 (functional safety — ECU ASIL B/C)",
       "ISO 21448 SOTIF (sensor perception safety)",
     ],
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-3",
   }),
   uneceRule("153", "153", "Fuel System Integrity (Rear Impact)", "R153 Rear Fuel", ["M1", "N1"], ["MN"], {
     officialUrl: "https://unece.org/transport/documents/2021/03/standards/un-regulation-no-153-fuel-system-integrity-and-electric-power",

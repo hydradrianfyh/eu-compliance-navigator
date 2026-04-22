@@ -2,11 +2,11 @@
 
 exports[`Pilot MY2027 ICE M1 × ES acceptance > Layer 2 — snapshot coverage > applicability counts snapshot > counts 1`] = `
 {
-  "applicable": 23,
-  "conditional": 36,
+  "applicable": 35,
+  "conditional": 25,
   "future": 3,
   "not_applicable": 64,
-  "unknown": 70,
+  "unknown": 69,
 }
 `;
 
@@ -35,5 +35,17 @@ exports[`Pilot MY2027 ICE M1 × ES acceptance > Layer 2 — snapshot coverage > 
   "REG-MS-ES-009",
   "REG-PV-002",
   "REG-TA-001",
+  "REG-UN-010",
+  "REG-UN-013H",
+  "REG-UN-016",
+  "REG-UN-017",
+  "REG-UN-046",
+  "REG-UN-048",
+  "REG-UN-079",
+  "REG-UN-094",
+  "REG-UN-095",
+  "REG-UN-117",
+  "REG-UN-127",
+  "REG-UN-152",
 ]
 `;

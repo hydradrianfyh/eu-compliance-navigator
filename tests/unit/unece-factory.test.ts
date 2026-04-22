@@ -21,14 +21,16 @@ function byId(stableId: string) {
 
 describe("uneceRule factory — Phase L.1 lifecycle unlock", () => {
   it("existing authored rules without lifecycleOverride stay SEED_UNVERIFIED", () => {
-    // REG-UN-094 (R94 Frontal impact) is authored but no lifecycleOverride.
-    const rule = byId("REG-UN-094");
+    // REG-UN-025 (R25 Head Restraints) is authored but no lifecycleOverride
+    // and its officialUrl is still the primary portal — factory must keep
+    // it at SEED_UNVERIFIED.
+    const rule = byId("REG-UN-025");
     expect(rule.lifecycle_state).toBe("SEED_UNVERIFIED");
   });
 
   it("factory-default rules (no authored block) stay SEED_UNVERIFIED", () => {
-    // REG-UN-058 (R58 rear underrun) is a bare stub at time of L.1.
-    // After L.2 it will have authored content but still SEED_UNVERIFIED.
+    // REG-UN-058 (R58 rear underrun) has an authored block from Phase L.2
+    // but no lifecycleOverride — still SEED_UNVERIFIED.
     const rule = byId("REG-UN-058");
     expect(rule.lifecycle_state).toBe("SEED_UNVERIFIED");
   });
@@ -40,12 +42,18 @@ describe("uneceRule factory — Phase L.1 lifecycle unlock", () => {
     expect(rule.lifecycle_state).toBe("ACTIVE");
   });
 
-  // Note: Tests for the positive case (lifecycleOverride → ACTIVE) and the
-  // portal-URL-rejection case are exercised by real rules in L.3, where
-  // authored blocks gain `lifecycleOverride: "ACTIVE"`. At the L.1 commit
-  // point, no factory call uses the new field yet — the machinery is dormant
-  // but correctly wired. See tests in tests/unit/pilot-acceptance.test.ts
-  // after L.3 for end-to-end coverage.
+  // Phase L.3 — positive case: lifecycleOverride + deep-link URL + revision
+  // label + lastVerifiedOn + humanReviewer all present → factory emits ACTIVE.
+  it("Phase L.3 promoted rule (REG-UN-094) is ACTIVE with populated last_verified_on", () => {
+    const rule = byId("REG-UN-094");
+    expect(rule.lifecycle_state).toBe("ACTIVE");
+    expect(rule.sources[0]?.official_url).toBeDefined();
+    expect(rule.sources[0]?.official_url).not.toBe(UNECE_PRIMARY_PORTAL);
+    expect(rule.sources[0]?.last_verified_on).toBe("2026-04-22");
+    expect(rule.content_provenance?.human_reviewer).toBe("yanhao");
+    expect(rule.promoted_on).toBe("2026-04-22");
+    expect(rule.promoted_by).toBe("phase-l-round-3");
+  });
 
   it("factory output is stable across rebuilds (deterministic)", () => {
     const first = byId("REG-UN-094");
