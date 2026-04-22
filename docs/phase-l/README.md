@@ -17,21 +17,22 @@ cleanup (L.6).
 | L.2 | `bb87e4c` | 11 bare factory-stub UNECE rules enriched with authored blocks (obligation text, evidence tasks, related refs, powertrain gating) — all kept at `SEED_UNVERIFIED`. |
 | L.3 | `4adecf3` | 12 of 12 BEV-priority UNECE rules promoted to ACTIVE via the L.1 factory unlock. |
 | L.4 | `d44d779` | 9 missing R-numbers (R7, R28, R30, R87, R112, R113, R116, R125, R128) added as authored `SEED_UNVERIFIED` stubs. Portal URL, obligation text, component-level vs whole-vehicle scope, cross-references (R48 / R149) recorded. No promotions. |
-| L.5 | (this commit) | 14 of 20 target UNECE rules promoted to ACTIVE via the L.1 factory unlock. 6 deferred (R25, R51, R101, R140, R34, R145) pending deep-link URL verification. R83 trigger logic enriched with `hasCombustionEngine` gating (excludes BEV / FCEV correctly). |
+| L.5 | `f317ee2` | 14 of 20 target UNECE rules promoted to ACTIVE via the L.1 factory unlock. 6 deferred (R25, R51, R101, R140, R34, R145) pending deep-link URL verification. R83 trigger logic enriched with `hasCombustionEngine` gating (excludes BEV / FCEV correctly). |
+| L.6 | (this commit) | 2 of 3 ES SEED_UNVERIFIED rules promoted to ACTIVE — REG-MS-ES-007 Etiqueta Ambiental (BOE-A-2016-3828) and REG-MS-ES-013 Batteries RD 106/2008 (BOE-A-2008-2387 + BOE-A-2015-8340). REG-MS-ES-008 Homologación Individual held at SEED_UNVERIFIED — RD 750/2010 BOE URL confirmed in force but specific Orden ministerial for individual-approval path could not be located with high confidence. |
 
 ## Delta metrics
 
-| Metric | Before Phase L | After L.3 | After L.4 | After L.5 |
-|---|---|---|---|---|
-| Registry total rules | 196 | 196 | 205 | 205 (unchanged — pure promotions) |
-| Global ACTIVE rules | 73 | 85 (+12) | 85 | **99** (+14) |
-| UNECE ACTIVE rules | 1 (REG-UN-100 only) | 13 (+12) | 13 | **27** (+14) |
-| UNECE authored rules | 33 | 39 | 48 | 48 (unchanged) |
-| BEV × DE pilot APPLICABLE | 30 | 42 (+12) | 42 | **51** (+9) |
-| BEV × DE pilot CONDITIONAL | 47 | 36 | 36 | **27** (−9) |
-| BEV × DE pilot UNKNOWN | 70 | 69 | 78 | 78 |
-| Verification backlog pending | 123 | 111 | 120 | **106** (−14) |
-| Tests | 230 | 236 | 236 | 236 (unchanged; L.5 snapshot refresh) |
+| Metric | Before Phase L | After L.3 | After L.4 | After L.5 | After L.6 |
+|---|---|---|---|---|---|
+| Registry total rules | 196 | 196 | 205 | 205 | 205 |
+| Global ACTIVE rules | 73 | 85 (+12) | 85 | 99 (+14) | **101** (+2) |
+| UNECE ACTIVE rules | 1 | 13 | 13 | 27 | 27 |
+| ES ACTIVE rules | 7 | 7 | 7 | 7 | **9** (+2: -007, -013) |
+| BEV × DE pilot APPLICABLE | 30 | 42 | 42 | 51 | 51 (ES rules do not trigger DE pilot) |
+| BEV × DE pilot CONDITIONAL | 47 | 36 | 36 | 27 | 27 |
+| ICE × ES pilot APPLICABLE | — | — | — | 43 | **44** (+1: REG-MS-ES-007) |
+| Verification backlog pending | 123 | 111 | 120 | 106 | **104** (−2) |
+| Tests | 230 | 236 | 236 | 236 | 236 (snapshots refreshed) |
 
 ## Rules promoted to ACTIVE in L.3
 
@@ -130,8 +131,26 @@ All 14 promotions carry `lastVerifiedOn: 2026-04-22`, `humanReviewer: yanhao`, `
 
 All 6 remain at SEED_UNVERIFIED with portal URL — factory hard gate ensures UNKNOWN / CONDITIONAL result only.
 
+## Rules promoted to ACTIVE in L.6 (2 of 3)
+
+| Rule | Title | BOE URL | Notes |
+|---|---|---|---|
+| REG-MS-ES-007 | Etiqueta Ambiental DGT | `https://www.boe.es/buscar/act.php?id=BOE-A-2016-3828` | Resolución DGT 13 April 2016, modifying earlier Resolución of 8 January 2016. Confirmed current. |
+| REG-MS-ES-013 | Batteries & Accumulators Waste Framework | `https://www.boe.es/buscar/act.php?id=BOE-A-2008-2387` + `https://www.boe.es/buscar/act.php?id=BOE-A-2015-8340` | RD 106/2008 + RD 710/2015 transposing Directive 2013/56/UE. Both in force; Reg (EU) 2023/1542 progressively supersedes at EU level. |
+
+All L.6 promotions carry `last_verified_on: 2026-04-22`, `human_reviewer: yanhao`, `promoted_on: 2026-04-22`, `promoted_by: phase-l-round-6`.
+
+## Rules held back in L.6 (1 deferred)
+
+| Rule | Reason |
+|---|---|
+| REG-MS-ES-008 (Homologación Individual) | RD 750/2010 BOE URL confirmed in force (not repealed). But the specific Orden ministerial governing individual-approval procedures could NOT be located on BOE with ≥ 80 % confidence. RD 750/2010 preamble references "sucesivas órdenes ministeriales" and delegates to RD 2028/1986; no standalone Orden ITC / PCM for individual approval was confirmed via BOE search. Defer to L.7 human research at Ministerio de Industria. |
+
 ## What's next
 
-- **Phase L.6** (in-flight): ES SEED_UNVERIFIED cleanup — verify + promote REG-MS-ES-007 / -008 / -013 (Etiqueta Ambiental, Homologación Individual, RD 106/2008 batteries waste).
-- **Phase L.7** (not yet scheduled): deep-link URL verification for the 9 R-numbers added in L.4 (R7, R28, R30, R87, R112, R113, R116, R125, R128); re-attempt deep-link verification for the 6 L.5 holdouts (R25, R51, R101, R140, R34, R145); HD / bus / niche rules (R13, R49, R58, R66, R67, R85, R110, R115, R118, R135, R137).
+- **Phase L.7** (not yet scheduled):
+  - Deep-link URL verification for the 9 R-numbers added in L.4 (R7, R28, R30, R87, R112, R113, R116, R125, R128).
+  - Re-attempt deep-link verification for the 6 UNECE L.5 holdouts (R25, R51, R101, R140, R34, R145).
+  - Locate the specific Orden ministerial for REG-MS-ES-008 Homologación Individual (requires Ministerio de Industria direct research).
+  - HD / bus / niche UNECE rules (R13, R49, R58, R66, R67, R85, R110, R115, R118, R135, R137) — re-evaluate when HD / bus pilots defined.
 - **Phase L never-planned**: CBAM / customs / non-EU market UNECE expansion (explicit non-goal per AGENTS.md).

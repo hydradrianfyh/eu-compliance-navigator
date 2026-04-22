@@ -2206,14 +2206,16 @@ const spainOverlayRules: Rule[] = [
       {
         label: "Resolución DGT clasificación ambiental de vehículos",
         source_family: "National legislation" as const,
-        reference: "Resolución de la Dirección General de Tráfico de 13 de abril de 2016, sobre clasificación ambiental de vehículos [verify exact BOE citation]",
-        official_url: null,
-        oj_reference: null,
-        authoritative_reference: "Resolución DGT 13 abril 2016 [verify]",
-        last_verified_on: null,
+        reference: "Resolución de la Dirección General de Tráfico de 13 de abril de 2016, sobre clasificación ambiental de vehículos",
+        official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-2016-3828",
+        oj_reference: "BOE núm. 96, de 21 de abril de 2016",
+        authoritative_reference: "Resolución DGT 13 abril 2016 (BOE-A-2016-3828)",
+        last_verified_on: "2026-04-22",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-22",
+    promoted_by: "phase-l-round-6",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -2240,13 +2242,11 @@ const spainOverlayRules: Rule[] = [
     process_stage: "sop",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-22",
+      human_reviewer: "yanhao",
     },
-    manual_review_reason:
-      "Primary source is a DGT Resolución, not on the standard BOE consolidated-text URL pattern. Needs direct DGT citation + spot-check before ACTIVE promotion.",
     notes:
-      "Exact class boundaries and PHEV electric-range threshold [verify — confirm against the current DGT Resolución on clasificación ambiental].",
+      "L.6 verification (2026-04-22): BOE-A-2016-3828 (Resolución DGT 13 April 2016) is the primary classification instrument, published BOE núm. 96 of 21 April 2016. Modifies the earlier Resolución of 8 January 2016. Classes: 0 emisiones (BEV, FCEV, REEV, PHEV ≥ 40 km electric range), ECO (HEV, CNG/LPG, PHEV < 40 km), C (Euro 6 petrol / Euro 6d diesel), B (Euro 4-5 petrol / Euro 5-6b diesel), no label (pre-Euro 4). No superseding Resolución located post-2016.",
   }),
   makeSeedRule({
     stable_id: "REG-MS-ES-008",
@@ -2293,13 +2293,13 @@ const spainOverlayRules: Rule[] = [
     process_stage: "type_approval",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
+      retrieved_at: "2026-04-22",
       human_reviewer: null,
     },
     manual_review_reason:
-      "Exact Spanish Orden ministerial governing individual vehicle approval path is uncertain (RD 559/2010 was previously cited in error — it is actually the Industrial Registry regulation). Needs specific Orden lookup via Ministerio de Industria before promotion.",
+      "L.6 research (2026-04-22) confirmed RD 750/2010 remains in force (primary WVTA framework) but could NOT locate a single definitive Orden ministerial governing the individual-approval path with ≥ 80 % confidence. RD 750/2010 preamble references 'sucesivas órdenes ministeriales' incorporating EU Directives and delegates procedures established in RD 2028/1986; no standalone Orden ITC/PCM for individual approval was confirmed via BOE search. Defer ACTIVE promotion until specific Orden ministerial citation is located via Ministerio de Industria direct lookup.",
     notes:
-      "Correction vs earlier draft spec: RD 559/2010 = Registro Integrado Industrial (not individual vehicle approval). The individual-approval route sits under RD 750/2010 + specific Órdenes — exact RD + Orden ministerial combination [verify — confirm current consolidated BOE text].",
+      "Correction vs earlier draft spec: RD 559/2010 = Registro Integrado Industrial (not individual vehicle approval). The individual-approval route sits under RD 750/2010 + specific Órdenes. L.6 research (2026-04-22) confirmed RD 750/2010 BOE URL but did not locate the specific Orden ministerial; rule stays SEED_UNVERIFIED pending further human research at Ministerio de Industria.",
   }),
   makeSeedRule({
     stable_id: "REG-MS-ES-009",
@@ -2528,23 +2528,25 @@ const spainOverlayRules: Rule[] = [
       {
         label: "RD 106/2008 sobre pilas y acumuladores y la gestión ambiental de sus residuos",
         source_family: "National legislation" as const,
-        reference: "Real Decreto 106/2008, de 1 de febrero, sobre pilas y acumuladores y la gestión ambiental de sus residuos [verify]",
-        official_url: null,
-        oj_reference: "BOE núm. 37, de 12 de febrero de 2008 [verify]",
-        authoritative_reference: "RD 106/2008 [verify]",
-        last_verified_on: null,
+        reference: "Real Decreto 106/2008, de 1 de febrero, sobre pilas y acumuladores y la gestión ambiental de sus residuos",
+        official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-2008-2387",
+        oj_reference: "BOE núm. 37, de 12 de febrero de 2008",
+        authoritative_reference: "RD 106/2008 (BOE-A-2008-2387)",
+        last_verified_on: "2026-04-22",
       },
       {
         label: "RD 710/2015 modificación RD 106/2008",
         source_family: "National legislation" as const,
-        reference: "Real Decreto 710/2015, de 24 de julio, por el que se modifica el RD 106/2008 [verify exact scope]",
-        official_url: null,
-        oj_reference: null,
-        authoritative_reference: "RD 710/2015 [verify]",
-        last_verified_on: null,
+        reference: "Real Decreto 710/2015, de 24 de julio, por el que se modifica el RD 106/2008 (transposición de Directiva 2013/56/UE)",
+        official_url: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-8340",
+        oj_reference: "BOE núm. 177, de 25 de julio de 2015",
+        authoritative_reference: "RD 710/2015 (BOE-A-2015-8340)",
+        last_verified_on: "2026-04-22",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-22",
+    promoted_by: "phase-l-round-6",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -2572,16 +2574,14 @@ const spainOverlayRules: Rule[] = [
     recurring_post_market_obligation: true,
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-22",
+      human_reviewer: "yanhao",
     },
     related_rules: [
       { rule_id: "REG-BAT-001", relation: "complements" },
     ],
-    manual_review_reason:
-      "Primary BOE URL for RD 106/2008 (batteries) needs direct lookup. Prior seed erroneously cited RD 110/2015 (which is actually RAEE waste electronics, not batteries). Correction applied in Phase I.4 but URL still [verify].",
     notes:
-      "Correction vs earlier draft spec: the Spanish batteries framework is RD 106/2008 (as amended), not RD 110/2015 (which covers RAEE / waste electrical and electronic equipment). Scope of RD 710/2015 modifications and current alignment with Reg (EU) 2023/1542 [verify — confirm against consolidated BOE text and MITECO guidance].",
+      "L.6 verification (2026-04-22): RD 106/2008 (BOE-A-2008-2387) is the base Spanish framework on batteries and accumulators. Modified by RD 710/2015 (BOE-A-2015-8340) transposing Directive 2013/56/UE. Both remain in force. Regulation (EU) 2023/1542 (REG-BAT-001) is directly applicable and progressively supersedes national provisions on substance limits, passport and due diligence; Spanish transposition aligning with 2023/1542 is ongoing. Correction vs earlier draft: the Spanish batteries framework is RD 106/2008, NOT RD 110/2015 (the latter covers RAEE / waste electrical and electronic equipment).",
   }),
 
   // ============================================================
