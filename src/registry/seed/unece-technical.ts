@@ -329,12 +329,18 @@ export const uneceTechnicalRules = [
     promotedBy: "phase-l-round-3",
   }),
   uneceRule("014", "14", "Safety Belt Anchorages", "R14 Belt Anchorages", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/2020/R014r6e.pdf",
+    revisionLabel: "Rev.6 (07 series)",
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
       "Seatbelt anchorages must withstand pull-tests per R14. Anchorage locations + ISOFIX integration aligned with R145.",
     related: [{ rule_id: "REG-UN-145", relation: "complements" }],
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-5",
   }),
   uneceRule("016", "16", "Safety Belts and Restraint Systems", "R16 Safety Belts", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: "https://www.unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/2018/R016r9e.pdf",
@@ -365,11 +371,17 @@ export const uneceTechnicalRules = [
     promotedBy: "phase-l-round-3",
   }),
   uneceRule("021", "21", "Interior Fittings", "R21 Interior Fittings", ["M1"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://unece.org/sites/default/files/2021-05/R021r2am3e.pdf",
+    revisionLabel: "Rev.2 Am.3",
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
       "Interior fittings (dashboard, controls, trim) must meet R21 head-impact geometry and energy-absorption criteria.",
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-5",
   }),
   uneceRule("025", "25", "Head Restraints", "R25 Head Restraints", ["M1", "N1"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
@@ -413,11 +425,19 @@ export const uneceTechnicalRules = [
       "Fuel-tank rule — applies only when vehicle has a liquid/gaseous fuel tank. Applies_to_new_types_from [verify]; defer until current consolidated revision text is reviewed.",
   }),
   uneceRule("043", "43", "Safety Glazing", "R43 Safety Glass", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/R043r3e.pdf",
+    revisionLabel: "Rev.3",
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
       "All glazing (windscreen, side, rear, sunroof) must be R43-approved — light transmittance, fragmentation, penetration, weathering.",
+    temporalNotes:
+      "R43 Rev.3 consolidated text is the current confirmed deep link. A 01 series of amendments has been proposed via GAR but no newer consolidated revision confirmed live [verify].",
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-5",
   }),
   uneceRule("044", "44", "Child Restraint Systems", "R44 Child Seats", [], ["MN"], {
     officialUrl: "https://www.unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/r044r2e.pdf",
@@ -435,6 +455,11 @@ export const uneceTechnicalRules = [
     ],
     temporalNotes:
       "R44 Rev.2 consolidated text dated February 2008; 04-series amendments continue to be supplemented. R44 remains valid in parallel with R129 but ISOFIX CRS now only approved under R129. [verify] current amendment sequence.",
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-5",
   }),
   uneceRule("046", "46", "Rear-View Mirrors and Devices", "R46 Mirrors", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: "https://unece.org/transport/documents/2023/07/standards/regulation-no-46-revision-7",
@@ -570,13 +595,30 @@ export const uneceTechnicalRules = [
   // for new types from 2026-11-29 under the EU framework, but R83 remains
   // valid for 1958-Agreement contracting parties not transitioning.
   uneceRule("083", "83", "Pollutant Emissions (Light-Duty)", "R83 Emissions (LD)", ["M1", "N1"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/2020/R083r5am8e.pdf",
+    revisionLabel: "Rev.5 Am.8 (07 series)",
+    obligationText:
+      "M1 / N1 combustion vehicles must meet R83 tailpipe-emission limits via the WLTP laboratory cycle (Type 1), evaporative-emissions test (Type 4), and durability test (Type 5). R83 is the UN counterpart to Reg (EC) 715/2007 + Impl. Reg (EU) 2017/1151 for light-duty emissions. Aligned to Euro 6e-bis. Euro 7 (Reg (EU) 2024/1257) supersedes for new types from 2026-11-29; R83 remains valid under the 1958 Agreement for contracting parties not transitioning to Euro 7.",
+    extraConditions: [
+      {
+        field: "hasCombustionEngine",
+        operator: "is_true" as const,
+        value: true,
+        label: "Vehicle has a combustion engine",
+      },
+    ],
+    fallbackIfMissing: "not_applicable",
     temporalNotes:
-      "R83 is the UN counterpart to Reg (EC) 715/2007 + Impl Reg (EU) 2017/1151 for light-duty emissions. Current text aligns to Euro 6; Euro 7 (Reg (EU) 2024/1257) will supersede for new types from 2026-11-29. R83 remains valid under the 1958 Agreement for contracting parties not transitioning to Euro 7.",
+      "R83 Rev.5 Amendment 8 published September 2020 represents the current consolidated 07-series text. Euro 7 supersedes for new type-approvals from 2026-11-29 (Reg (EU) 2024/1257).",
     related: [
       { rule_id: "REG-EM-013", relation: "complements" },
       { rule_id: "REG-EM-006", relation: "complements" },
     ],
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-5",
   }),
   // Phase I.2 — engine power declaration (R85).
   uneceRule("085", "85", "Engine Power", "R85 Engine Power", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
@@ -895,6 +937,11 @@ export const uneceTechnicalRules = [
     ],
     temporalNotes:
       "R129 Rev.4 consolidated text published May 2021. R129 entered into force 9 July 2013; the 03 series is current with ongoing supplements. ISOFIX CRS now only approved via R129 (R44 remains valid in parallel but not for new ISOFIX approvals).",
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-5",
   }),
   uneceRule("134", "134", "Hydrogen Vehicle Safety", "R134 Hydrogen", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: "https://unece.org/sites/default/files/2025-01/R134r1am3e.pdf",
@@ -921,6 +968,11 @@ export const uneceTechnicalRules = [
     ],
     temporalNotes:
       "R134 Rev.1 Amendment 3 published January 2025. Proposed 02 series (aligning with GTR 13 Am.1) submitted to WP.29 at the 191st session (November 2023); adoption timing [verify]. Rule only triggers for hydrogen-fuelled vehicles; BEVs without H2 are excluded.",
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-5",
   }),
   uneceRule("135", "135", "Pole Side Impact", "R135 Pole Impact", ["M1"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
@@ -947,7 +999,8 @@ export const uneceTechnicalRules = [
   // (BEV + FCEV). SEED_UNVERIFIED until human ratifies the UNECE deep link,
   // R138 revision number, and exact EU effective dates.
   uneceRule("138", "138", "Acoustic Vehicle Alerting System (AVAS)", "R138 AVAS", ["M1", "M2", "N1", "N2"], ["MN"], {
-    officialUrl: "https://unece.org/transport/vehicle-regulations-wp29/standards/addenda-1958-agreement-regulations-121-140",
+    officialUrl: "https://unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/2017/R138r1e.pdf",
+    revisionLabel: "Rev.1 (01 series)",
     applyToNewTypesFrom: "2019-07-01",
     applyToAllNewVehiclesFrom: "2021-07-01",
     obligationText:
@@ -962,7 +1015,7 @@ export const uneceTechnicalRules = [
     ],
     fallbackIfMissing: "not_applicable",
     temporalNotes:
-      "applies_to_new_types_from 2019-07-01 [verify]; applies_to_all_new_vehicles_from 2021-07-01 [verify]. EU transposition via Reg (EU) 540/2014 Art. 8 (noise-type approval). UNECE deep link + R138 revision number pending human verification.",
+      "R138 Rev.1 (01 series) consolidated text published November 2017. EU transposition via Reg (EU) 540/2014 Art. 8 (noise-type approval); applies_to_new_types_from 2019-07-01, applies_to_all_new_vehicles_from 2021-07-01. A Rev.2 / 02 series upgrade is in the WP.29 pipeline as of 2025 [verify] adoption timing.",
     evidenceTasks: [
       "R138 type-approval certificate",
       "AVAS sound design specification (frequency profile, level vs speed)",
@@ -973,8 +1026,11 @@ export const uneceTechnicalRules = [
       { rule_id: "REG-UN-051", relation: "complements" },
       { rule_id: "REG-UN-100", relation: "complements" },
     ],
-    manualReviewReason:
-      "UNECE deep link + R138 revision number + exact EU effective dates [verify].",
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-5",
   }),
   uneceRule("140", "140", "Electronic Stability Control (ESC)", "R140 ESC", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
@@ -989,11 +1045,17 @@ export const uneceTechnicalRules = [
     prerequisiteStandards: ["ISO 26262 (functional safety — brake ECU ASIL)"],
   }),
   uneceRule("141", "141", "Tyre Pressure Monitoring System", "R141 TPMS", ["M1"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://www.unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/2017/R141e.pdf",
+    revisionLabel: "Original (00 series)",
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
       "M1 vehicles must be equipped with TPMS that detects ≥ 20 % pressure loss on any tyre and alerts the driver within the time limits of Annex 3.",
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-5",
   }),
   uneceRule("142", "142", "Tyre Installation", "R142 Tyre Install", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
     officialUrl: "https://unece.org/transport/documents/2022/11/standards/un-regulation-no-142-rev-1-amend-1",
@@ -1013,6 +1075,11 @@ export const uneceTechnicalRules = [
     ],
     temporalNotes:
       "R142 Rev.1 Amendment 2 / Addendum 141 published December 2021; Rev.1 Amendment 1 deep-link from November 2022. ETRTO proposed a new Supplement in December 2024 [verify] adoption status.",
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-5",
   }),
   uneceRule("145", "145", "ISOFIX Anchorage Systems", "R145 ISOFIX", ["M1"], ["MN"], {
     officialUrl: UNECE_PRIMARY_PORTAL,
@@ -1028,12 +1095,18 @@ export const uneceTechnicalRules = [
     prerequisiteStandards: ["ISO 13216-1 (ISOFIX attachment + testing)"],
   }),
   uneceRule("149", "149", "LED/ADB Headlamp", "R149 LED Headlamp", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://unece.org/sites/default/files/2021-03/R149e.pdf",
+    revisionLabel: "Original (00 series)",
     applyToNewTypesFrom: "2021-09-01",
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
-      "M1 / N1 headlamps (driving / passing / fog) must meet R149 photometric limits, durability, and installation geometry. Adaptive Driving Beam (ADB) is optional and covered by R149 00/01-series amendments (no separate R161 in force).",
+      "M1 / N1 headlamps (driving / passing / fog) must meet R149 photometric limits, durability, and installation geometry. Adaptive Driving Beam (ADB) is optional and covered by R149 00/01-series amendments (no separate R161 in force). R149 supersedes R98 / R112 / R113 for new LED / ADB approvals.",
     related: [{ rule_id: "REG-UN-048", relation: "complements" }],
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-5",
   }),
 
   // Phase H.6 — new rules (previously missing from registry).
@@ -1086,17 +1159,31 @@ export const uneceTechnicalRules = [
     ],
     temporalNotes:
       "R153 original series entered into force 22 January 2021 as an annex to the 1958 Agreement. Amendment 3 published March 2024; Amendment 4 published October 2024. A 01 series of amendments was proposed August 2024 [verify] adoption status.",
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-5",
   }),
   uneceRule("158", "158", "Reversing Detection Devices", "R158 Reversing", ["M1", "M2", "M3", "N1", "N2", "N3"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://unece.org/sites/default/files/2024-02/R158am2e.pdf",
+    revisionLabel: "Original + Am.2",
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
       "M / N vehicles must provide direct driver rear visibility OR camera-monitor system OR detection system per R158, with rear-view image visible ≤ 2 s after reverse gear engagement and obstacle-warning response ≤ 0.6 s per Annexes 10-11.",
     related: [{ rule_id: "REG-UN-046", relation: "complements" }],
+    temporalNotes:
+      "R158 Amendment 2 published February 2024 is the latest confirmed deep link; consolidated 'original + Am.1 + Am.2' single PDF not yet published. Supplements to Series 4 in progress at WP.29.",
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-5",
   }),
   uneceRule("160", "160", "Event Data Recorder (EDR)", "R160 EDR", ["M1", "N1"], ["MN"], {
-    officialUrl: UNECE_PRIMARY_PORTAL,
+    officialUrl: "https://unece.org/sites/default/files/2023-10/R160E.pdf",
+    revisionLabel: "Original + Am.2",
     applyToNewTypesFrom: GSR2_APPLIES_NEW_TYPES_FROM,
     applyToAllNewVehiclesFrom: GSR2_APPLIES_ALL_NEW_VEHICLES_FROM,
     obligationText:
@@ -1106,6 +1193,11 @@ export const uneceTechnicalRules = [
       { rule_id: "REG-UN-095", relation: "complements" },
       { rule_id: "REG-UN-155", relation: "complements" },
     ],
+    lifecycleOverride: "ACTIVE",
+    lastVerifiedOn: "2026-04-22",
+    humanReviewer: "yanhao",
+    promotedOn: "2026-04-22",
+    promotedBy: "phase-l-round-5",
   }),
 
   // Note: R161 (ADB) is NOT a standalone UNECE regulation as of 2026-04.

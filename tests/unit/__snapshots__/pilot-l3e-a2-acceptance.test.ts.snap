@@ -714,7 +714,7 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-014",
   },
   {
@@ -729,7 +729,7 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-021",
   },
   {
@@ -754,12 +754,12 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-043",
   },
   {
     "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-044",
   },
   {
@@ -804,7 +804,7 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
   },
   {
     "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-083",
   },
   {
@@ -889,12 +889,12 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
   },
   {
     "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-129",
   },
   {
     "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-134",
   },
   {
@@ -909,7 +909,7 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-138",
   },
   {
@@ -919,12 +919,12 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-141",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-142",
   },
   {
@@ -934,7 +934,7 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-149",
   },
   {
@@ -944,17 +944,17 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
   },
   {
     "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-153",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-158",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UN-160",
   },
   {

@@ -16,21 +16,22 @@ cleanup (L.6).
 | L.1 | `9a1dcf5` | Factory unlock via `UneceAuthored.lifecycleOverride` + 5 new unit tests. `canPromote` gate requires all of: deep-link URL (≠ `UNECE_PRIMARY_PORTAL`), revision label, `lastVerifiedOn`, `humanReviewer`. |
 | L.2 | `bb87e4c` | 11 bare factory-stub UNECE rules enriched with authored blocks (obligation text, evidence tasks, related refs, powertrain gating) — all kept at `SEED_UNVERIFIED`. |
 | L.3 | `4adecf3` | 12 of 12 BEV-priority UNECE rules promoted to ACTIVE via the L.1 factory unlock. |
-| L.4 | (this commit) | 9 missing R-numbers (R7, R28, R30, R87, R112, R113, R116, R125, R128) added as authored `SEED_UNVERIFIED` stubs. Portal URL, obligation text, component-level vs whole-vehicle scope, cross-references (R48 / R149) recorded. No promotions. |
+| L.4 | `d44d779` | 9 missing R-numbers (R7, R28, R30, R87, R112, R113, R116, R125, R128) added as authored `SEED_UNVERIFIED` stubs. Portal URL, obligation text, component-level vs whole-vehicle scope, cross-references (R48 / R149) recorded. No promotions. |
+| L.5 | (this commit) | 14 of 20 target UNECE rules promoted to ACTIVE via the L.1 factory unlock. 6 deferred (R25, R51, R101, R140, R34, R145) pending deep-link URL verification. R83 trigger logic enriched with `hasCombustionEngine` gating (excludes BEV / FCEV correctly). |
 
 ## Delta metrics
 
-| Metric | Before Phase L | After L.3 | After L.4 |
-|---|---|---|---|
-| Registry total rules | 196 | 196 | **205** (+9 new R-numbers) |
-| Global ACTIVE rules | 73 | **85** (+12) | 85 (unchanged in L.4) |
-| UNECE ACTIVE rules | 1 (REG-UN-100 only) | **13** (+12) | 13 (unchanged in L.4) |
-| UNECE authored rules | 33 | 39 (+6 portal-linked enrichments) | **48** (+9) |
-| BEV × DE pilot APPLICABLE | 30 | **42** (+12) | 42 (new rules are UNKNOWN, not APPLICABLE) |
-| BEV × DE pilot CONDITIONAL | 47 | 36 | 36 |
-| BEV × DE pilot UNKNOWN | 70 | 69 | **78** (+9, one per new SEED_UNVERIFIED rule) |
-| Verification backlog pending | 123 | 111 | **120** (+9) |
-| Tests | 230 | **236** | 236 (unchanged; count + snapshots refreshed) |
+| Metric | Before Phase L | After L.3 | After L.4 | After L.5 |
+|---|---|---|---|---|
+| Registry total rules | 196 | 196 | 205 | 205 (unchanged — pure promotions) |
+| Global ACTIVE rules | 73 | 85 (+12) | 85 | **99** (+14) |
+| UNECE ACTIVE rules | 1 (REG-UN-100 only) | 13 (+12) | 13 | **27** (+14) |
+| UNECE authored rules | 33 | 39 | 48 | 48 (unchanged) |
+| BEV × DE pilot APPLICABLE | 30 | 42 (+12) | 42 | **51** (+9) |
+| BEV × DE pilot CONDITIONAL | 47 | 36 | 36 | **27** (−9) |
+| BEV × DE pilot UNKNOWN | 70 | 69 | 78 | 78 |
+| Verification backlog pending | 123 | 111 | 120 | **106** (−14) |
+| Tests | 230 | 236 | 236 | 236 (unchanged; L.5 snapshot refresh) |
 
 ## Rules promoted to ACTIVE in L.3
 
@@ -95,9 +96,42 @@ preserves auditability.
 
 All 9 rules use `UNECE_PRIMARY_PORTAL` as `officialUrl` (deep-link verification deferred to L.7), no `revisionLabel`, no `applyToNewTypesFrom` / `applyToAllNewVehiclesFrom` — the lifecycle stays `SEED_UNVERIFIED` and the hard gate ensures UNKNOWN result on any config.
 
+## Rules promoted to ACTIVE in L.5 (14 rules)
+
+| Rule | Title | URL | Revision |
+|---|---|---|---|
+| REG-UN-014 | R14 Safety Belt Anchorages | `https://unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/2020/R014r6e.pdf` | Rev.6 (07 series) |
+| REG-UN-021 | R21 Interior Fittings | `https://unece.org/sites/default/files/2021-05/R021r2am3e.pdf` | Rev.2 Am.3 |
+| REG-UN-043 | R43 Safety Glazing | `https://unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/R043r3e.pdf` | Rev.3 |
+| REG-UN-044 | R44 Child Restraint Systems (legacy) | `https://www.unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/r044r2e.pdf` | Rev.2 (04 series) |
+| REG-UN-083 | R83 Pollutant Emissions (LD) | `https://unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/2020/R083r5am8e.pdf` | Rev.5 Am.8 (07 series) |
+| REG-UN-129 | R129 i-Size Child Restraints | `https://unece.org/sites/default/files/2021-05/R129r4e.pdf` | Rev.4 (03 series) |
+| REG-UN-134 | R134 Hydrogen Vehicle Safety | `https://unece.org/sites/default/files/2025-01/R134r1am3e.pdf` | Rev.1 Am.3 |
+| REG-UN-138 | R138 AVAS (BEV / FCEV silent vehicles) | `https://unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/2017/R138r1e.pdf` | Rev.1 (01 series) |
+| REG-UN-141 | R141 TPMS | `https://www.unece.org/fileadmin/DAM/trans/main/wp29/wp29regs/2017/R141e.pdf` | Original (00 series) |
+| REG-UN-142 | R142 Tyre Installation | `https://unece.org/transport/documents/2022/11/standards/un-regulation-no-142-rev-1-amend-1` | Rev.1 Am.1 (01 series) |
+| REG-UN-149 | R149 LED / ADB Headlamp | `https://unece.org/sites/default/files/2021-03/R149e.pdf` | Original (00 series) |
+| REG-UN-153 | R153 Fuel System Integrity (Rear Impact) | `https://unece.org/transport/documents/2021/03/standards/un-regulation-no-153-fuel-system-integrity-and-electric-power` | original + Am.4 (2024) |
+| REG-UN-158 | R158 Reversing Detection Devices | `https://unece.org/sites/default/files/2024-02/R158am2e.pdf` | Original + Am.2 |
+| REG-UN-160 | R160 Event Data Recorder (EDR) | `https://unece.org/sites/default/files/2023-10/R160E.pdf` | Original + Am.2 |
+
+All 14 promotions carry `lastVerifiedOn: 2026-04-22`, `humanReviewer: yanhao`, `promotedOn: 2026-04-22`, `promotedBy: phase-l-round-5`. R44 and R142 reused existing L.2-enriched deep links. R83 extended with `hasCombustionEngine` trigger gating so BEV / FCEV correctly evaluate to NOT_APPLICABLE.
+
+## Rules held back in L.5 (6 deferred)
+
+| Rule | Reason |
+|---|---|
+| REG-UN-025 (R25 Head Restraints) | Consolidated PDF deep link not located on unece.org — only landing-page references. EUR-Lex mirrors exist; defer to a Phase L.7 targeted round. |
+| REG-UN-051 (R51 Noise Emissions) | No `fileadmin` or `sites/default/files` deep-link confirmed for the 03-series Rev.3/Rev.4 consolidated text. |
+| REG-UN-101 (R101 CO2 + Fuel/Energy Consumption LD) | Agent found a `ECE-TRANS-WP29-2025-101e_clean.pdf` working-doc URL; not a consolidated-regulation deep link. Also being superseded by R154 for new approvals. |
+| REG-UN-140 (R140 ESC) | Portal-only path; consolidated PDF not found. Amendments Supp.1-3 exist but no single consolidated URL. |
+| REG-UN-034 (R34 Fire Prevention — Fuel Tank) | Only admin-doc URL (WP.29-194-14e.pdf) found, not a standalone R34 consolidated PDF. |
+| REG-UN-145 (R145 ISOFIX Anchorages) | 00 series (2017) + supplements 1-4 tracked in GAR but no stable consolidated deep link on unece.org. |
+
+All 6 remain at SEED_UNVERIFIED with portal URL — factory hard gate ensures UNKNOWN / CONDITIONAL result only.
+
 ## What's next
 
-- **Phase L.5** (in-flight): second ACTIVE-promotion batch — all-powertrain sweep targeting ~20 of the existing authored UNECE rules (Tier A 13 universal + Tier B 2 BEV/FCEV + Tier C 5 PHEV/ICE). Deep-link URL research dominates effort. See [`docs/superpowers/plans/2026-04-22-phase-l-round-4-5-6.md`](../superpowers/plans/2026-04-22-phase-l-round-4-5-6.md) § L.5.
-- **Phase L.6** (planned): ES SEED_UNVERIFIED cleanup — verify + promote REG-MS-ES-007 / -008 / -013 (Etiqueta Ambiental, Homologación Individual, RD 106/2008 batteries waste).
-- **Phase L.7** (not yet scheduled): deep-link URL verification for the 9 R-numbers added in L.4; HD / bus / niche rules deferred from L.5 (R13, R49, R58, R66, R67, R85, R110, R115, R118, R135, R137).
+- **Phase L.6** (in-flight): ES SEED_UNVERIFIED cleanup — verify + promote REG-MS-ES-007 / -008 / -013 (Etiqueta Ambiental, Homologación Individual, RD 106/2008 batteries waste).
+- **Phase L.7** (not yet scheduled): deep-link URL verification for the 9 R-numbers added in L.4 (R7, R28, R30, R87, R112, R113, R116, R125, R128); re-attempt deep-link verification for the 6 L.5 holdouts (R25, R51, R101, R140, R34, R145); HD / bus / niche rules (R13, R49, R58, R66, R67, R85, R110, R115, R118, R135, R137).
 - **Phase L never-planned**: CBAM / customs / non-EU market UNECE expansion (explicit non-goal per AGENTS.md).
