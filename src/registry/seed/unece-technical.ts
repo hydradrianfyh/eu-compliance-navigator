@@ -69,6 +69,28 @@ interface UneceAuthored {
    * exact EU effective dates [verify]").
    */
   manualReviewReason?: string;
+  /**
+   * Phase L.1: opt-in ACTIVE lifecycle for properly verified rules.
+   * Only applied when ALL of these are satisfied:
+   * - officialUrl is set and NOT equal to UNECE_PRIMARY_PORTAL (must be deep link)
+   * - revisionLabel is non-null
+   * - lastVerifiedOn is non-null ISO date
+   * - humanReviewer is non-null identifier
+   * Defaults undefined → rule stays SEED_UNVERIFIED.
+   */
+  lifecycleOverride?: "ACTIVE";
+
+  /** ISO date string; required if lifecycleOverride === "ACTIVE". */
+  lastVerifiedOn?: string;
+
+  /** Reviewer identifier (e.g. "yanhao"); required if lifecycleOverride === "ACTIVE". */
+  humanReviewer?: string;
+
+  /** ISO date when promotion happened; required if lifecycleOverride === "ACTIVE". */
+  promotedOn?: string;
+
+  /** Promotion session/round identifier; required if lifecycleOverride === "ACTIVE". */
+  promotedBy?: string;
 }
 
 function uneceRule(
@@ -105,6 +127,16 @@ function uneceRule(
     ? [...baseConditions, ...authored.extraConditions]
     : baseConditions;
 
+  const canPromote = !!(
+    authored?.lifecycleOverride === "ACTIVE" &&
+    authored.officialUrl &&
+    authored.officialUrl !== UNECE_PRIMARY_PORTAL &&
+    authored.revisionLabel &&
+    authored.lastVerifiedOn &&
+    authored.humanReviewer
+  );
+  const finalLifecycle = canPromote ? "ACTIVE" : "SEED_UNVERIFIED";
+
   const source = authored?.officialUrl
     ? {
         label: "UNECE regulation",
@@ -113,7 +145,7 @@ function uneceRule(
         official_url: authored.officialUrl,
         oj_reference: null,
         authoritative_reference: authored.revisionLabel ?? null,
-        last_verified_on: null, // Deliberately null — human has not yet ratified
+        last_verified_on: canPromote ? authored!.lastVerifiedOn! : null,
       }
     : makeSource(
         "UNECE regulation",
@@ -148,7 +180,7 @@ function uneceRule(
     jurisdiction_level: "UNECE",
     framework_group: groups,
     sources: [source],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: finalLifecycle,
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -164,12 +196,16 @@ function uneceRule(
     ...(authored?.evidenceTasks ? { evidence_tasks: authored.evidenceTasks } : {}),
     ui_package: "wvta_core",
     process_stage: "type_approval",
+    ...(canPromote ? {
+      promoted_on: authored!.promotedOn ?? authored!.lastVerifiedOn!,
+      promoted_by: authored!.promotedBy ?? "phase-l-auto",
+    } : {}),
     ...(authored
       ? {
           content_provenance: {
             source_type: "unece" as const,
-            retrieved_at: "2026-04-20",
-            human_reviewer: null, // Not yet ratified — kept SEED_UNVERIFIED
+            retrieved_at: authored.lastVerifiedOn ?? "2026-04-20",
+            human_reviewer: canPromote ? authored.humanReviewer! : null,
           },
         }
       : {}),
