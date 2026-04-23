@@ -89,7 +89,7 @@ export function GlobalNav() {
       </div>
       <a
         className="global-nav-intro-link"
-        href="/intro/zh.html"
+        href="/intro/zh"
         title="View management briefing / 查看管理层简报"
       >
         Briefing · 简报

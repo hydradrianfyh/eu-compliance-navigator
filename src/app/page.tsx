@@ -3,8 +3,10 @@
 /**
  * Root redirect.
  *
- * First visit (no localStorage) → /intro/{lang}.html (management briefing)
+ * First visit (no localStorage) → /intro/{lang} (management briefing)
  * Returning visit → the tab the user was last on (lastActiveTab)
+ *
+ * Vercel's Clean URLs serves public/intro/zh.html at /intro/zh (no .html).
  *
  * The redirect must happen after client-side hydration because
  * localStorage and navigator.language are not available during SSR.
@@ -27,7 +29,7 @@ export default function RootRedirect() {
       return;
     }
     const prefersZh = navigator.language.toLowerCase().startsWith("zh");
-    window.location.href = `/intro/${prefersZh ? "zh" : "en"}.html`;
+    window.location.href = `/intro/${prefersZh ? "zh" : "en"}`;
   }, [router]);
 
   return (
