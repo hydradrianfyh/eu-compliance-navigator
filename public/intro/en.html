@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EU Compliance Navigator · Management Briefing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  /* =========================================================
+     EU Compliance Navigator · Management Briefing
+     Editorial / Regulatory dossier aesthetic
+     ========================================================= */
+
+  :root {
+    --paper:        #EEE7D8;
+    --paper-warm:   #E6DDC8;
+    --paper-deep:   #DDD1B6;
+    --ink:          #1E1A16;
+    --ink-soft:     #3A322B;
+    --ink-mute:     #6D5F51;
+    --rule:         #2A231E;
+    --accent:       #8B2936;
+    --accent-soft:  #A14654;
+    --highlight:    #C8A94A;
+    --cream:        #F4EEDD;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Noto Serif SC", "Songti SC", "Source Han Serif SC", serif;
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* subtle paper grain */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(139,41,54,0.025) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(30,26,22,0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0.22 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.5'/></svg>");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 2;
+    mix-blend-mode: multiply;
+  }
+
+  /* ---------- Scroll progress indicator ---------- */
+  .progress-rail {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 2px;
+    background: transparent;
+    z-index: 100;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  /* ---------- Floating TOC ---------- */
+  .toc {
+    position: fixed;
+    top: 50%;
+    right: 2.4rem;
+    transform: translateY(-50%);
+    z-index: 50;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .toc a {
+    color: var(--ink-mute);
+    text-decoration: none;
+    padding: 0.35rem 0;
+    border-right: 2px solid transparent;
+    padding-right: 0.8rem;
+    transition: all 0.3s ease;
+    text-align: right;
+  }
+  .toc a:hover {
+    color: var(--accent);
+    border-right-color: var(--accent);
+  }
+  .toc a.active {
+    color: var(--ink);
+    border-right-color: var(--accent);
+    font-weight: 500;
+  }
+  .toc-num {
+    display: inline-block;
+    width: 1.2rem;
+    margin-right: 0.4rem;
+    color: var(--accent);
+  }
+  @media (max-width: 1100px) { .toc { display: none; } }
+
+  /* ---------- Layout ---------- */
+  main {
+    position: relative;
+    z-index: 5;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  section {
+    min-height: 92vh;
+    padding: 7rem 0 6rem;
+    position: relative;
+    border-bottom: 1px solid rgba(30,26,22,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  section:last-child { border-bottom: none; }
+
+  /* ---------- Section header block ---------- */
+  .sec-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 1.4rem;
+    margin-bottom: 2.5rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .sec-num {
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-size: 54px;
+    font-weight: 300;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .sec-kicker {
+    flex: 1;
+    border-top: 1px solid var(--rule);
+    padding-top: 0.6rem;
+  }
+
+  .sec-title {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 600;
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.25;
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.01em;
+  }
+  .sec-title .en {
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink-mute);
+    font-size: 0.55em;
+    margin-left: 0.6em;
+    letter-spacing: 0.02em;
+  }
+
+  .sec-lede {
+    font-family: "Noto Serif SC", serif;
+    font-size: 15px;
+    color: var(--ink-mute);
+    max-width: 46ch;
+    margin-bottom: 3rem;
+    line-height: 1.7;
+  }
+
+  /* ---------- Bullets ---------- */
+  .bullets {
+    list-style: none;
+    counter-reset: bullet;
+  }
+  .bullets li {
+    counter-increment: bullet;
+    padding: 1.6rem 0 1.6rem 4.5rem;
+    position: relative;
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--ink);
+    border-bottom: 1px dashed rgba(30,26,22,0.15);
+    font-weight: 400;
+  }
+  .bullets li:last-child { border-bottom: none; }
+  .bullets li::before {
+    content: "0" counter(bullet);
+    position: absolute;
+    left: 0;
+    top: 1.5rem;
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--accent);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  .bullets li::after {
+    content: "";
+    position: absolute;
+    left: 2.8rem;
+    top: 2rem;
+    width: 1rem;
+    height: 1px;
+    background: var(--ink-mute);
+  }
+
+  /* ---------- §01 Cover ---------- */
+  .cover {
+    min-height: 100vh;
+    padding-top: 5rem;
+  }
+  .cover-dateline {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 4rem;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1rem;
+  }
+  .cover-dateline span:last-child { color: var(--accent); }
+
+  .cover-eyebrow {
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    font-weight: 400;
+  }
+
+  .cover-title {
+    font-family: "Fraunces", serif;
+    font-size: clamp(52px, 9vw, 96px);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+  .cover-title .accent {
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .cover-subtitle {
+    font-family: "Noto Serif SC", serif;
+    font-size: 18px;
+    color: var(--ink-mute);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    margin-top: 0.6rem;
+    margin-bottom: 3rem;
+  }
+
+  .cover-tagline {
+    font-family: "Noto Serif SC", serif;
+    font-size: clamp(22px, 2.6vw, 28px);
+    line-height: 1.55;
+    color: var(--ink);
+    font-weight: 500;
+    max-width: 28ch;
+    border-left: 3px solid var(--accent);
+    padding-left: 1.8rem;
+    margin-top: 4rem;
+  }
+  .cover-tagline em {
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  .cover-footer {
+    margin-top: auto;
+    padding-top: 4rem;
+    display: flex;
+    justify-content: space-between;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    border-top: 1px solid rgba(30,26,22,0.15);
+    padding-top: 1.2rem;
+  }
+
+  /* ---------- §05 Problem / Solution ---------- */
+  .ps-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .ps-header {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 1rem 1.4rem;
+    color: var(--ink-mute);
+    border-bottom: 1px solid rgba(30,26,22,0.15);
+  }
+  .ps-header.right {
+    color: var(--accent);
+    text-align: right;
+  }
+  .ps-row {
+    display: contents;
+  }
+  .ps-problem, .ps-solution {
+    padding: 1.8rem 1.6rem;
+    font-size: 16px;
+    line-height: 1.55;
+    border-bottom: 1px dashed rgba(30,26,22,0.15);
+  }
+  .ps-problem {
+    color: var(--ink-soft);
+    padding-left: 0;
+    padding-right: 2rem;
+  }
+  .ps-solution {
+    color: var(--ink);
+    padding-right: 0;
+    padding-left: 2rem;
+    font-weight: 500;
+  }
+  .ps-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    color: var(--accent);
+    font-family: "Fraunces", serif;
+    font-size: 22px;
+    border-bottom: 1px dashed rgba(30,26,22,0.15);
+    border-left: 1px solid rgba(30,26,22,0.2);
+    border-right: 1px solid rgba(30,26,22,0.2);
+  }
+  .ps-row:last-of-type .ps-problem,
+  .ps-row:last-of-type .ps-solution,
+  .ps-row:last-of-type .ps-arrow {
+    border-bottom: none;
+  }
+
+  @media (max-width: 720px) {
+    .ps-grid { grid-template-columns: 1fr; }
+    .ps-arrow { display: none; }
+    .ps-header.right { text-align: left; }
+    .ps-problem, .ps-solution { padding: 1.2rem 0; }
+    .ps-solution { border-top: 1px dashed rgba(139,41,54,0.3); padding-top: 1.2rem; }
+  }
+
+  /* ---------- §06 ROI big stats ---------- */
+  .roi-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin: 1rem 0 2rem;
+  }
+  .roi-cell {
+    background: var(--paper);
+    padding: 2.4rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 220px;
+  }
+  .roi-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .roi-big {
+    font-family: "Fraunces", serif;
+    font-size: clamp(48px, 6.5vw, 72px);
+    font-weight: 300;
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+    margin: 1rem 0;
+    font-feature-settings: "tnum";
+  }
+  .roi-big.accent { color: var(--accent); font-style: italic; font-weight: 400; }
+  .roi-unit {
+    font-family: "Fraunces", serif;
+    font-size: 0.45em;
+    font-style: italic;
+    color: var(--ink-mute);
+    margin-left: 0.25em;
+    font-weight: 400;
+  }
+  .roi-desc {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .roi-caveat {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--ink-mute);
+    border-top: 1px dashed rgba(30,26,22,0.2);
+    padding-top: 1rem;
+    margin-top: 1.2rem;
+  }
+  @media (max-width: 720px) {
+    .roi-stats { grid-template-columns: 1fr; }
+    .roi-cell { min-height: auto; }
+  }
+
+  /* ---------- §08 Status cards ---------- */
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .status-card {
+    border: 1px solid var(--rule);
+    padding: 1.4rem 1.2rem;
+    background: var(--cream);
+    position: relative;
+  }
+  .status-card-tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 0.6rem;
+  }
+  .status-card-num {
+    font-family: "Fraunces", serif;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.02em;
+  }
+  .status-card-num .frac { color: var(--ink-mute); font-size: 0.6em; font-style: italic; }
+  .status-card-desc {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .status-coverage {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px dashed rgba(30,26,22,0.15);
+    font-size: 14px;
+  }
+  .status-coverage:last-child { border-bottom: none; }
+  .status-coverage-country {
+    font-family: "Fraunces", serif;
+    font-size: 20px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .status-coverage-bar {
+    height: 6px;
+    background: var(--paper-deep);
+    border-radius: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .status-coverage-bar::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    background: var(--accent);
+    width: var(--w, 0%);
+    transition: width 1.2s ease-out;
+  }
+  .status-coverage-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.05em;
+    text-align: right;
+    min-width: 120px;
+  }
+
+  @media (max-width: 720px) {
+    .status-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- §07 Access boundaries - callout ---------- */
+  .callout {
+    border: 1px solid var(--rule);
+    padding: 2rem 2rem 1.6rem;
+    background: var(--cream);
+    position: relative;
+    margin-top: 1rem;
+  }
+  .callout-tag {
+    position: absolute;
+    top: -0.7rem;
+    left: 1.6rem;
+    background: var(--paper);
+    padding: 0 0.8rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .callout .bullets li {
+    border-bottom-color: rgba(30,26,22,0.1);
+    padding: 1.2rem 0 1.2rem 4.5rem;
+    font-size: 18px;
+  }
+  .callout .bullets li::before { top: 1.1rem; }
+  .callout .bullets li::after { top: 1.6rem; }
+
+  /* ---------- §09 Ending CTA ---------- */
+  .cta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+    margin: 2rem 0;
+  }
+  .cta-card {
+    padding: 2.4rem 1.8rem 2rem;
+    background: var(--paper);
+    border-top: 3px solid var(--accent);
+    border-left: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .cta-label {
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+  .cta-title {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 0.8rem;
+    color: var(--ink);
+  }
+  .cta-body {
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  @media (max-width: 720px) {
+    .cta-grid { grid-template-columns: 1fr; }
+  }
+
+  .ending-quote {
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-size: clamp(24px, 3vw, 32px);
+    line-height: 1.4;
+    color: var(--ink);
+    max-width: 32ch;
+    margin: 4rem auto 2rem;
+    text-align: center;
+    font-weight: 300;
+  }
+  .ending-quote::before, .ending-quote::after {
+    color: var(--accent);
+    font-size: 1.3em;
+  }
+  .ending-quote::before { content: "「"; }
+  .ending-quote::after { content: "」"; }
+
+  /* ---------- Colophon ---------- */
+  .colophon {
+    padding: 3rem 0 4rem;
+    text-align: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .colophon span { color: var(--accent); }
+
+  /* ---------- Reveal animation ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* Tabular nums for anything statistical */
+  .tnum { font-feature-settings: "tnum"; }
+
+  /* Ornamental rule */
+  .ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    margin: 3rem 0;
+    color: var(--accent);
+    font-family: "Fraunces", serif;
+    font-style: italic;
+  }
+  .ornament::before, .ornament::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+    max-width: 120px;
+  }
+
+  /* Section anchor offset for sticky header */
+  section[id] { scroll-margin-top: 2rem; }
+
+  /* ---------- Language switch (top-right) ---------- */
+  .lang-switch {
+    position: fixed;
+    top: 1.4rem;
+    right: 1.4rem;
+    z-index: 60;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    text-decoration: none;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .lang-switch:hover {
+    color: var(--paper);
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* ---------- Enter-tool CTA (end of §09) ---------- */
+  .enter-tool {
+    text-align: center;
+    margin: 3rem 0 1rem;
+  }
+  .enter-tool-btn {
+    display: inline-block;
+    padding: 1.1rem 2.4rem;
+    background: var(--accent);
+    color: var(--paper);
+    text-decoration: none;
+    font-family: "Noto Serif SC", serif;
+    font-weight: 500;
+    font-size: 17px;
+    letter-spacing: 0.04em;
+    border: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .enter-tool-btn:hover {
+    background: var(--ink);
+    transform: translateY(-2px);
+  }
+  .enter-tool-btn .arrow {
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    margin-left: 0.5em;
+  }
+
+  @media (max-width: 720px) {
+    main { padding: 0 1.4rem; }
+    section { padding: 5rem 0 4rem; }
+    .sec-num { font-size: 40px; }
+    .bullets li { font-size: 17px; padding-left: 3.5rem; }
+    .bullets li::before { font-size: 18px; }
+    .bullets li::after { left: 2.2rem; width: 0.8rem; }
+    .lang-switch { top: 0.8rem; right: 0.8rem; font-size: 10px; padding: 0.35rem 0.7rem; }
+  }
+</style>
+</head>
+
+<body>
+
+<a class="lang-switch" href="/intro/zh.html" aria-label="切换到中文">中</a>
+
+<div class="progress-rail"><div class="progress-fill" id="progress"></div></div>
+
+<nav class="toc" aria-label="Contents">
+  <a href="#s01" data-id="s01"><span class="toc-num">01</span>Cover</a>
+  <a href="#s02" data-id="s02"><span class="toc-num">02</span>What it is</a>
+  <a href="#s03" data-id="s03"><span class="toc-num">03</span>Inside</a>
+  <a href="#s04" data-id="s04"><span class="toc-num">04</span>Why</a>
+  <a href="#s05" data-id="s05"><span class="toc-num">05</span>Problem → Solution</a>
+  <a href="#s06" data-id="s06"><span class="toc-num">06</span>ROI</a>
+  <a href="#s07" data-id="s07"><span class="toc-num">07</span>Access</a>
+  <a href="#s08" data-id="s08"><span class="toc-num">08</span>Status</a>
+  <a href="#s09" data-id="s09"><span class="toc-num">09</span>What we need</a>
+</nav>
+
+<main>
+
+  <!-- ====================== §01 COVER ====================== -->
+  <section class="cover" id="s01">
+    <div class="cover-dateline reveal">
+      <span>Management Briefing</span>
+      <span>Leipzig · 2026-04-22</span>
+    </div>
+
+    <div class="cover-eyebrow reveal reveal-delay-1">A workbench, not a legal opinion</div>
+
+    <h1 class="cover-title reveal reveal-delay-2">
+      EU&nbsp;Compliance<br />
+      <span class="accent">Navigator</span>
+    </h1>
+
+    <div class="cover-subtitle reveal reveal-delay-3">EU vehicle-compliance workbench</div>
+
+    <p class="cover-tagline reveal reveal-delay-4">
+      <em>Rule discovery</em>, <em>timelines</em>, and <em>cross-team tasks</em> —
+      unified in a single workbench driven by vehicle-program configuration.
+    </p>
+
+    <div class="cover-footer reveal reveal-delay-4">
+      <span>Phase L.6 · 205 rules · 101 verified</span>
+      <span>For internal review</span>
+    </div>
+  </section>
+
+  <!-- ====================== §02 WHAT ====================== -->
+  <section id="s02">
+    <div class="sec-meta reveal">
+      <span class="sec-num">§02</span>
+      <span class="sec-kicker">What it is</span>
+    </div>
+    <h2 class="sec-title reveal reveal-delay-1">
+      A compliance-navigation tool<span class="en">Navigation, not legal advice</span>
+    </h2>
+    <p class="sec-lede reveal reveal-delay-2">
+      A clickable, exportable, back-plannable workbench for the work of taking a Chinese OEM into the EU market.
+    </p>
+    <ul class="bullets">
+      <li class="reveal reveal-delay-2">Compliance-navigation tool for Chinese OEMs entering the EU market</li>
+      <li class="reveal reveal-delay-3">Input: project configuration. Output: applicable-rules list + timeline</li>
+      <li class="reveal reveal-delay-4">Positioned as a navigation aid — not a substitute for legal counsel or TÜV judgement</li>
+    </ul>
+  </section>
+
+  <!-- ====================== §03 CONTENT ====================== -->
+  <section id="s03">
+    <div class="sec-meta reveal">
+      <span class="sec-num">§03</span>
+      <span class="sec-kicker">What's inside</span>
+    </div>
+    <h2 class="sec-title reveal reveal-delay-1">
+      Three things users see<span class="en">Three things users see</span>
+    </h2>
+    <p class="sec-lede reveal reveal-delay-2">
+      One project configuration, three audiences at once: homologation engineers, team leaders, and program management.
+    </p>
+    <ul class="bullets">
+      <li class="reveal reveal-delay-2">Applicable-rules list (EU / UNECE / member-state)</li>
+      <li class="reveal reveal-delay-3">SOP-anchored task timeline</li>
+      <li class="reveal reveal-delay-4">Owner dashboard grouped by team + one-click evidence-pack export</li>
+    </ul>
+  </section>
+
+  <!-- ====================== §04 WHY ====================== -->
+  <section id="s04">
+    <div class="sec-meta reveal">
+      <span class="sec-num">§04</span>
+      <span class="sec-kicker">Why it matters</span>
+    </div>
+    <h2 class="sec-title reveal reveal-delay-1">
+      Three shifts for the organisation<span class="en">Three shifts</span>
+    </h2>
+    <p class="sec-lede reveal reveal-delay-2">
+      Not an extra document — three familiar problems reframed.
+    </p>
+    <ul class="bullets">
+      <li class="reveal reveal-delay-2">Rule discovery: from reading raw texts to per-project checklisting</li>
+      <li class="reveal reveal-delay-3">Compliance deadlines: from last-minute alerts to back-planned reminders</li>
+      <li class="reveal reveal-delay-4">Cross-team work: from parallel spreadsheets to a shared checklist</li>
+    </ul>
+  </section>
+
+  <!-- ====================== §05 PROBLEM → SOLUTION ====================== -->
+  <section id="s05">
+    <div class="sec-meta reveal">
+      <span class="sec-num">§05</span>
+      <span class="sec-kicker">Problem → Solution</span>
+    </div>
+    <h2 class="sec-title reveal reveal-delay-1">
+      Three before / after contrasts<span class="en">Before / After</span>
+    </h2>
+    <p class="sec-lede reveal reveal-delay-2">
+      Left: how the team actually works today. Right: what it looks like once the tool takes over.
+    </p>
+
+    <div class="ps-grid reveal reveal-delay-2">
+      <div class="ps-header">Problem</div>
+      <div></div>
+      <div class="ps-header right">Solution</div>
+
+      <div class="ps-row">
+        <div class="ps-problem">Manually combing through EUR-Lex — slow and error-prone</div>
+        <div class="ps-arrow">→</div>
+        <div class="ps-solution">Auto-generated applicable-rules list from vehicle configuration</div>
+      </div>
+
+      <div class="ps-row">
+        <div class="ps-problem">Missing documentation surfaces only near SOP</div>
+        <div class="ps-arrow">→</div>
+        <div class="ps-solution">Back-planned timeline + advance deadline warnings</div>
+      </div>
+
+      <div class="ps-row">
+        <div class="ps-problem">Inconsistent wording and versions across teams</div>
+        <div class="ps-arrow">→</div>
+        <div class="ps-solution">One configuration + a task dashboard shared across teams</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== §06 ROI ====================== -->
+  <section id="s06">
+    <div class="sec-meta reveal">
+      <span class="sec-num">§06</span>
+      <span class="sec-kicker">Resourcing</span>
+    </div>
+    <h2 class="sec-title reveal reveal-delay-1">
+      Same work, fewer person-hours<span class="en">Costdown</span>
+    </h2>
+    <p class="sec-lede reveal reveal-delay-2">
+      Figures estimate a single pilot project with 3 homologation / compliance engineers, for decision-making reference.
+    </p>
+
+    <div class="roi-stats reveal reveal-delay-2">
+      <div class="roi-cell">
+        <div class="roi-label">Before</div>
+        <div class="roi-big tnum">~15<span class="roi-unit">h / person-week</span></div>
+        <div class="roi-desc">Reading raw regulations, maintaining Excel trackers, syncing teams, counting down to SOP</div>
+      </div>
+
+      <div class="roi-cell">
+        <div class="roi-label">After</div>
+        <div class="roi-big accent tnum">~2<span class="roi-unit">h / person-week</span></div>
+        <div class="roi-desc">Glance at the status page, update tracking, hand off via exports</div>
+      </div>
+
+      <div class="roi-cell">
+        <div class="roi-label">Annualised</div>
+        <div class="roi-big tnum">~2,000<span class="roi-unit">h / year</span></div>
+        <div class="roi-desc">Per pilot × 3 engineers × 52 weeks · ~13h/person-week × 3 × 52</div>
+      </div>
+    </div>
+
+    <p class="roi-caveat reveal reveal-delay-3">
+      ※ Assumption: 3 engineers per pilot. Savings exclude external legal / TÜV review time.
+    </p>
+  </section>
+
+  <!-- ====================== §07 ACCESS ====================== -->
+  <section id="s07">
+    <div class="sec-meta reveal">
+      <span class="sec-num">§07</span>
+      <span class="sec-kicker">Access &amp; boundaries</span>
+    </div>
+    <h2 class="sec-title reveal reveal-delay-1">
+      Three things for management to note<span class="en">Important</span>
+    </h2>
+    <p class="sec-lede reveal reveal-delay-2">
+      The tool is live as a publicly accessible site. Current access conditions and data boundaries below.
+    </p>
+
+    <div class="callout reveal reveal-delay-2">
+      <div class="callout-tag">Important</div>
+      <ul class="bullets">
+        <li>Live public site — free for the team to access</li>
+        <li>Currently not reachable from mainland China networks</li>
+        <li>User data stays in the local browser only; it does not leave the device</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ====================== §08 STATUS ====================== -->
+  <section id="s08">
+    <div class="sec-meta reveal">
+      <span class="sec-num">§08</span>
+      <span class="sec-kicker">Status &amp; maintenance</span>
+    </div>
+    <h2 class="sec-title reveal reveal-delay-1">
+      Current phase and coverage<span class="en">Phase L.6</span>
+    </h2>
+    <p class="sec-lede reveal reveal-delay-2">
+      "Verified" rules are the subset the team can safely schedule work against; the remainder are reference or placeholder.
+    </p>
+
+    <div class="status-grid reveal reveal-delay-2">
+      <div class="status-card">
+        <div class="status-card-tag">Phase</div>
+        <div class="status-card-num">L.6</div>
+        <div class="status-card-desc">Current version · 2026-04-22</div>
+      </div>
+      <div class="status-card">
+        <div class="status-card-tag">Rules · total</div>
+        <div class="status-card-num tnum">205</div>
+        <div class="status-card-desc">Covers EU horizontal + UNECE + member-state</div>
+      </div>
+      <div class="status-card">
+        <div class="status-card-tag">Verified · human-reviewed</div>
+        <div class="status-card-num tnum">101<span class="frac"> / 205</span></div>
+        <div class="status-card-desc">Subset safe to schedule work against</div>
+      </div>
+    </div>
+
+    <div class="ornament reveal reveal-delay-3">· Member-state coverage ·</div>
+
+    <div class="reveal reveal-delay-3">
+      <div class="status-coverage">
+        <div class="status-coverage-country">DE</div>
+        <div class="status-coverage-bar" style="--w: 100%;"></div>
+        <div class="status-coverage-label">Production-grade</div>
+      </div>
+      <div class="status-coverage">
+        <div class="status-coverage-country">UK</div>
+        <div class="status-coverage-bar" style="--w: 100%;"></div>
+        <div class="status-coverage-label">Production-grade</div>
+      </div>
+      <div class="status-coverage">
+        <div class="status-coverage-country">ES</div>
+        <div class="status-coverage-bar" style="--w: 94%;"></div>
+        <div class="status-coverage-label">Production-grade</div>
+      </div>
+      <div class="status-coverage">
+        <div class="status-coverage-country">FR</div>
+        <div class="status-coverage-bar" style="--w: 42%;"></div>
+        <div class="status-coverage-label">Partial</div>
+      </div>
+      <div class="status-coverage">
+        <div class="status-coverage-country">NL</div>
+        <div class="status-coverage-bar" style="--w: 8%;"></div>
+        <div class="status-coverage-label">Seed-only</div>
+      </div>
+      <div class="status-coverage">
+        <div class="status-coverage-country">IT · PL · BE · AT · SE · CZ</div>
+        <div class="status-coverage-bar" style="--w: 2%;"></div>
+        <div class="status-coverage-label">Out of scope</div>
+      </div>
+    </div>
+
+    <ul class="bullets reveal reveal-delay-4" style="margin-top: 2rem;">
+      <li>Phase L.6 · 205 rules / 101 verified</li>
+      <li>DE + UK + ES production-grade · FR partial · NL seed-only</li>
+      <li>Currently maintained by one person; curator rotation and researcher support still missing</li>
+    </ul>
+  </section>
+
+  <!-- ====================== §09 NEXT / CTA ====================== -->
+  <section id="s09">
+    <div class="sec-meta reveal">
+      <span class="sec-num">§09</span>
+      <span class="sec-kicker">What we need from management</span>
+    </div>
+    <h2 class="sec-title reveal reveal-delay-1">
+      Next · three requests<span class="en">Decisions needed</span>
+    </h2>
+    <p class="sec-lede reveal reveal-delay-2">
+      To graduate the tool from a personal project into an organisation-dependable asset, management support is requested on three fronts.
+    </p>
+
+    <div class="cta-grid reveal reveal-delay-2">
+      <div class="cta-card">
+        <div class="cta-label">Hire</div>
+        <div class="cta-title">Regulation researchers + curator rotation</div>
+        <div class="cta-body">
+          Two regulation researchers (adopting and verifying new rules) + one curator-rotation lead (quality gate).
+        </div>
+      </div>
+
+      <div class="cta-card">
+        <div class="cta-label">Budget</div>
+        <div class="cta-title">Regulation-change tracking subscriptions</div>
+        <div class="cta-body">
+          Change-tracking subscriptions for EUR-Lex, UNECE, and member-state official gazettes — for rule-freshness maintenance.
+        </div>
+      </div>
+
+      <div class="cta-card">
+        <div class="cta-label">Scope</div>
+        <div class="cta-title">Expand member-state coverage</div>
+        <div class="cta-body">
+          Prioritise IT / PL / BE / AT — the markets Chinese OEMs are most likely to enter in the next 12 months.
+        </div>
+      </div>
+    </div>
+
+    <p class="ending-quote reveal reveal-delay-3">
+      The tool navigates; it does not decide.<br />Decisions remain with management.
+    </p>
+
+    <div class="enter-tool reveal reveal-delay-4">
+      <a class="enter-tool-btn" href="/setup">
+        Enter the tool<span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="colophon">
+    © Yanhao FU · 2026 &nbsp;·&nbsp; <span>EU Compliance Navigator</span> &nbsp;·&nbsp; Management briefing · v1
+  </div>
+
+</main>
+
+<script>
+  // Scroll progress
+  const progressEl = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
+    progressEl.style.width = (scrolled * 100) + '%';
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Reveal on intersection
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  revealEls.forEach(el => io.observe(el));
+
+  // TOC active highlighting
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = document.querySelectorAll('main section');
+  const tocIo = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.toc a[data-id="${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.35 });
+  sections.forEach(s => tocIo.observe(s));
+
+  // Initial cover reveal (already in viewport)
+  document.querySelectorAll('.cover .reveal').forEach(el => {
+    setTimeout(() => el.classList.add('in'), 50);
+  });
+</script>
+
+</body>
+</html>

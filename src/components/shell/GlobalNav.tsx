@@ -87,6 +87,13 @@ export function GlobalNav() {
         </span>
         <span className="global-nav-title">EU Compliance Navigator</span>
       </div>
+      <a
+        className="global-nav-intro-link"
+        href="/intro/zh.html"
+        title="View management briefing / 查看管理层简报"
+      >
+        Briefing · 简报
+      </a>
       <div className="global-nav-project" aria-label="Current project">
         <span className="global-nav-project-label">Project:</span>
         <span className="global-nav-project-name">

@@ -3,11 +3,11 @@
 /**
  * Root redirect.
  *
- * First visit (no localStorage) → /setup
+ * First visit (no localStorage) → /intro/{lang}.html (management briefing)
  * Returning visit → the tab the user was last on (lastActiveTab)
  *
  * The redirect must happen after client-side hydration because
- * localStorage is not available during SSR.
+ * localStorage and navigator.language are not available during SSR.
  *
  * © Yanhao FU
  */
@@ -21,8 +21,13 @@ export default function RootRedirect() {
   const router = useRouter();
 
   useEffect(() => {
-    const lastTab = readLastActiveTab() ?? "setup";
-    router.replace(`/${lastTab}`);
+    const lastTab = readLastActiveTab();
+    if (lastTab) {
+      router.replace(`/${lastTab}`);
+      return;
+    }
+    const prefersZh = navigator.language.toLowerCase().startsWith("zh");
+    window.location.href = `/intro/${prefersZh ? "zh" : "en"}.html`;
   }, [router]);
 
   return (
