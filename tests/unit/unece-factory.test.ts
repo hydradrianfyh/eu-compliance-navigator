@@ -21,10 +21,11 @@ function byId(stableId: string) {
 
 describe("uneceRule factory — Phase L.1 lifecycle unlock", () => {
   it("existing authored rules without lifecycleOverride stay SEED_UNVERIFIED", () => {
-    // REG-UN-025 (R25 Head Restraints) is authored but no lifecycleOverride
+    // REG-UN-085 (R85 Engine Power) is authored but has no lifecycleOverride
     // and its officialUrl is still the primary portal — factory must keep
-    // it at SEED_UNVERIFIED.
-    const rule = byId("REG-UN-025");
+    // it at SEED_UNVERIFIED. (Phase M.2.A promoted R25 to ACTIVE; R85 is the
+    // next canonical SEED witness that also keeps UNECE_PRIMARY_PORTAL.)
+    const rule = byId("REG-UN-085");
     expect(rule.lifecycle_state).toBe("SEED_UNVERIFIED");
   });
 

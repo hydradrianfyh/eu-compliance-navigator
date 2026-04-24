@@ -23,7 +23,13 @@
  *                                 REG-DA-002 AFIR vehicle-facing,
  *                                 REG-CS-004 RED cyber + Del Reg 2022/30,
  *                                 REG-TA-004 WVTA Annex II master 2021/535)
- *                              ↳ 57 APPLICABLE (current runtime, 2026-04-24)
+ *                              ↳ 57 APPLICABLE (post Phase M.1)
+ *   Phase M.2.A UNECE fill:  +14 (REG-UN-007 / -025 / -028 / -030 / -051 / -087 /
+ *                                 -101 / -112 / -113 / -116 / -125 / -128 /
+ *                                 -140 / -145 — promoted SEED→ACTIVE with deep
+ *                                 links; R34 / R67 stay NOT_APPLICABLE for BEV
+ *                                 because BEV has no fuel tank / no LPG)
+ *                              ↳ 71 APPLICABLE (current runtime, 2026-04-24)
  *
  * Notable runtime-ACTIVE rules NOT APPLICABLE for this pilot (by design):
  *   - REG-TA-002 L-category framework: pilot is M1, not L
@@ -74,39 +80,55 @@ export const pilotExpected = {
       "REG-PV-002",
       "REG-TA-001",
       "REG-TA-004",
+      "REG-UN-007",
       "REG-UN-010",
       "REG-UN-013H",
       "REG-UN-014",
       "REG-UN-016",
       "REG-UN-017",
       "REG-UN-021",
+      "REG-UN-025",
+      "REG-UN-028",
+      "REG-UN-030",
       "REG-UN-043",
       "REG-UN-046",
       "REG-UN-048",
+      "REG-UN-051",
       "REG-UN-079",
+      "REG-UN-087",
       "REG-UN-094",
       "REG-UN-095",
       "REG-UN-100",
+      "REG-UN-101",
+      "REG-UN-112",
+      "REG-UN-113",
+      "REG-UN-116",
       "REG-UN-117",
+      "REG-UN-125",
       "REG-UN-127",
+      "REG-UN-128",
       "REG-UN-138",
+      "REG-UN-140",
       "REG-UN-141",
       "REG-UN-142",
+      "REG-UN-145",
       "REG-UN-149",
       "REG-UN-152",
       "REG-UN-158",
       "REG-UN-160",
     ],
-    total_applicable_min: 57,
+    total_applicable_min: 71,
   },
   softAssertions: {
     // CONDITIONAL count drops as SEED_UNVERIFIED → ACTIVE promotions move rules
     // to APPLICABLE / FUTURE / NOT_APPLICABLE. Lower bound is deliberately low to
     // accommodate future promotions; upper bound allows for new conditional_reason
-    // rules being added. Phase H.2-H.4 widened upper bound because:
-    //   - 15 UNECE R-series now have temporal dates → CONDITIONAL (hard-gate)
-    //   - 5 FR + 5 NL authored SEED_UNVERIFIED with temporal → CONDITIONAL
-    conditional_count_range: [25, 60] as const,
+    // rules being added. Phase M.2.A promoted 16 UNECE R-series (R7 / R25 / R28 /
+    // R30 / R34 / R51 / R67 / R87 / R101 / R112 / R113 / R116 / R125 / R128 / R140 /
+    // R145) from SEED_UNVERIFIED to ACTIVE, which collapsed roughly a dozen rules
+    // from CONDITIONAL (hard-gate downgrade) to APPLICABLE (now satisfy lifecycle).
+    // Lower bound widened 25 → 15 to reflect the smaller CONDITIONAL surface.
+    conditional_count_range: [15, 60] as const,
     unknown_count_max: 120,
   },
 };

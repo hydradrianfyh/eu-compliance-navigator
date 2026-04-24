@@ -55,9 +55,11 @@ export const pilotMY2028PHEVExpected = {
   },
   softAssertions: {
     // Fewer CONDITIONALs than MY2027 BEV because AI-004 and BAT-005 move out
-    // of CONDITIONAL/FUTURE into APPLICABLE. Phase H.2-H.4 widened upper bound
-    // because UNECE + FR + NL rules with temporal dates now evaluate CONDITIONAL.
-    conditional_count_range: [25, 60] as const,
+    // of CONDITIONAL/FUTURE into APPLICABLE. Phase M.2.A lowered the floor to
+    // 15 after promoting 16 UNECE R-series (R7/R25/R28/R30/R34/R51/R67/R87/R101/
+    // R112/R113/R116/R125/R128/R140/R145) from SEED_UNVERIFIED to ACTIVE,
+    // which collapsed ~10 rules from CONDITIONAL (hard-gate) to APPLICABLE.
+    conditional_count_range: [15, 60] as const,
     unknown_count_max: 120,
   },
 };
