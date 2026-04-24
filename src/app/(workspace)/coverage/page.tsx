@@ -18,7 +18,7 @@ import { useMemo } from "react";
 
 import { computeCoverageMatrix } from "@/registry/coverage-matrix";
 import { RuleRegistry } from "@/registry/registry";
-import { rawSeedRules } from "@/registry/seed";
+import { allSeedRules, rawSeedRules } from "@/registry/seed";
 import {
   buildDefaultReviewEntry,
   buildPriorityVerificationQueueState,
@@ -26,10 +26,72 @@ import {
   type VerificationQueueWorkflowItem,
 } from "@/registry/verification";
 import type { VerificationReviewEntry } from "@/config/schema";
-import { CoveragePanel } from "@/components/phase3/CoveragePanel";
+import { buildEngineConfig } from "@/engine/config-builder";
+import { evaluateAllRules } from "@/engine/evaluator";
+import { CoveragePanel, type PilotCompletenessRow } from "@/components/phase3/CoveragePanel";
 import type { PendingRuleGroup } from "@/components/phase3/VerificationQueuePanel";
 import { ExportAsPdfButton } from "@/components/shared/ExportAsPdfButton";
 import { useAppShellStore } from "@/state/app-shell-store";
+
+// Phase M Part C — pilot-completeness KPI (docs/phase-m/plan.md §6).
+// Surfacing what tests/unit/pilot-completeness.test.ts already enforces so
+// stakeholders see the coverage ratio / denominator / missing count in the
+// product, not only in CI.
+import { pilotMY2027BEV } from "../../../../fixtures/pilot-my2027-bev";
+import { pilotExpected as bevExpected } from "../../../../fixtures/pilot-my2027-bev.expected";
+import { pilotMY2028PHEV } from "../../../../fixtures/pilot-my2028-phev";
+import { pilotMY2028PHEVExpected as phevExpected } from "../../../../fixtures/pilot-my2028-phev.expected";
+import { pilotMy2027IceM1Es } from "../../../../fixtures/pilot-my2027-ice-m1-es";
+import { pilotMy2027IceM1EsExpected as iceExpected } from "../../../../fixtures/pilot-my2027-ice-m1-es.expected";
+
+// Phase M Part C — pilot definitions rendered in the Coverage UI.
+// Denominator semantics match tests/unit/pilot-completeness.test.ts:
+// coverage = |APPLICABLE ∩ engineerExpectedApplicable| / |engineerExpectedApplicable|.
+const completenessPilots = [
+  {
+    name: "MY2027 BEV × DE/FR/NL",
+    config: pilotMY2027BEV,
+    expected: bevExpected.engineerExpectedApplicable,
+    threshold: 0.8,
+  },
+  {
+    name: "MY2028 PHEV × DE/FR/NL",
+    config: pilotMY2028PHEV,
+    expected: phevExpected.engineerExpectedApplicable,
+    threshold: 0.8,
+  },
+  {
+    name: "MY2027 ICE M1 × ES",
+    config: pilotMy2027IceM1Es,
+    expected: iceExpected.engineerExpectedApplicable,
+    threshold: 0.7,
+  },
+] as const;
+
+function computePilotCompleteness(): PilotCompletenessRow[] {
+  return completenessPilots.map((pilot) => {
+    const engineCfg = buildEngineConfig(pilot.config);
+    const results = evaluateAllRules(allSeedRules, engineCfg);
+    const applicableIds = new Set(
+      results.filter((r) => r.applicability === "APPLICABLE").map((r) => r.rule_id),
+    );
+    const matched = pilot.expected.filter((id) => applicableIds.has(id));
+    const missing = pilot.expected.filter((id) => !applicableIds.has(id));
+    const denominator = pilot.expected.length;
+    const coverage = matched.length / denominator;
+    return {
+      name: pilot.name,
+      matchedCount: matched.length,
+      expectedCount: denominator,
+      missingCount: missing.length,
+      applicableCount: applicableIds.size,
+      coveragePercent: Math.round(coverage * 1000) / 10,
+      threshold: pilot.threshold,
+      passing: coverage >= pilot.threshold,
+      missingSample: missing.slice(0, 10),
+    };
+  });
+}
 
 const priorityQueueIds: string[] = [
   "REG-TA-001",
@@ -54,6 +116,12 @@ export default function CoveragePage() {
   const patchVerificationReview = useAppShellStore(
     (state) => state.patchVerificationReview,
   );
+
+  // Pilot completeness KPI is derived from the static registry + static
+  // pilot fixtures, so it does not depend on the user's review state; kept
+  // in its own memo with an empty dep list to avoid recomputing on every
+  // review edit.
+  const pilotCompleteness = useMemo(() => computePilotCompleteness(), []);
 
   const {
     coverageMatrix,
@@ -170,6 +238,7 @@ export default function CoveragePage() {
         promotionLog={promotionLog}
         onVerificationReviewChange={handleVerificationReviewChange}
         allPendingGroups={allPendingGroups}
+        pilotCompleteness={pilotCompleteness}
       />
     </div>
   );

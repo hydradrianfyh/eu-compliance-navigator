@@ -14,6 +14,23 @@ import {
   type PendingRuleGroup,
 } from "@/components/phase3/VerificationQueuePanel";
 
+/**
+ * Phase M Part C — pilot-completeness KPI row for the Coverage UI.
+ * Mirrors the shape produced by tests/unit/pilot-completeness.test.ts so
+ * the in-product display and the CI enforcement agree by construction.
+ */
+export interface PilotCompletenessRow {
+  name: string;
+  matchedCount: number;
+  expectedCount: number;
+  missingCount: number;
+  applicableCount: number;
+  coveragePercent: number;
+  threshold: number;
+  passing: boolean;
+  missingSample: readonly string[];
+}
+
 interface CoveragePanelProps {
   matrix: CoverageMatrix;
   verificationQueueItems: Array<{
@@ -39,6 +56,11 @@ interface CoveragePanelProps {
    * undefined, the legacy priority-queue view is used.
    */
   allPendingGroups?: PendingRuleGroup[];
+  /**
+   * Phase M Part C — per-pilot completeness rows. Backward-compatible:
+   * when undefined or empty, the section is simply not rendered.
+   */
+  pilotCompleteness?: readonly PilotCompletenessRow[];
 }
 
 type GapCause = "no_rules" | "placeholder_only" | "source_unverified" | "all";
@@ -50,6 +72,7 @@ export function CoveragePanel({
   promotionLog,
   onVerificationReviewChange,
   allPendingGroups,
+  pilotCompleteness,
 }: CoveragePanelProps) {
   const [expanded, setExpanded] = useState(false);
   const [stageFilter, setStageFilter] = useState<string>("all");
@@ -249,6 +272,59 @@ export function CoveragePanel({
             </div>
           </section>
 
+          {pilotCompleteness && pilotCompleteness.length > 0 ? (
+            <section
+              className="coverage-section"
+              data-testid="pilot-completeness-section"
+            >
+              <h3>Pilot Completeness</h3>
+              <p className="muted">
+                Share of each pilot&apos;s engineer-expected rule set that is currently APPLICABLE.
+                Enforced in CI by{" "}
+                <code>tests/unit/pilot-completeness.test.ts</code>; this panel surfaces the same
+                numbers so reviewers see coverage / denominator / missing count in-product.
+              </p>
+              <div className="summary-grid" data-testid="pilot-completeness-rows">
+                {pilotCompleteness.map((row) => (
+                  <article
+                    key={row.name}
+                    className="metric-card"
+                    data-testid={`pilot-completeness-row-${row.name}`}
+                    data-passing={row.passing ? "true" : "false"}
+                  >
+                    <span>{row.name}</span>
+                    <strong>
+                      {row.coveragePercent.toFixed(1)}%{" "}
+                      <span
+                        className={`badge ${row.passing ? "badge-ok" : "badge-warning"}`}
+                        style={{ marginLeft: "0.5rem" }}
+                      >
+                        {row.passing ? "passing" : "below target"}
+                      </span>
+                    </strong>
+                    <div className="muted" style={{ fontSize: "0.85em", marginTop: "0.25rem" }}>
+                      {row.matchedCount} / {row.expectedCount} expected rules APPLICABLE ·{" "}
+                      {row.missingCount} missing · pilot APPLICABLE set size{" "}
+                      {row.applicableCount} · threshold{" "}
+                      {(row.threshold * 100).toFixed(0)}%
+                    </div>
+                    {row.missingCount > 0 ? (
+                      <details style={{ marginTop: "0.35rem" }}>
+                        <summary className="muted" style={{ fontSize: "0.8em" }}>
+                          Missing sample ({Math.min(row.missingSample.length, row.missingCount)} of {row.missingCount})
+                        </summary>
+                        <code style={{ display: "block", marginTop: "0.25rem", fontSize: "0.75em" }}>
+                          {row.missingSample.join(", ")}
+                          {row.missingCount > row.missingSample.length ? ", …" : ""}
+                        </code>
+                      </details>
+                    ) : null}
+                  </article>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
           <section className="coverage-section">
             <h3>Member State Overlays</h3>
             <div className="checkbox-grid">
@@ -275,8 +351,9 @@ export function CoveragePanel({
             >
               <div className="font-medium text-amber-900">National overlay status</div>
               <p className="mt-1 text-amber-800">
-                Germany (8 ACTIVE), UK (11 ACTIVE), Spain (7 ACTIVE), and France (5 ACTIVE) have verified overlays.
-                Netherlands (5 rules pending authoring) and other EU member states (IT, PL, BE, AT, SE, CZ — factory
+                Germany (8 ACTIVE), UK (14 ACTIVE), France (11 ACTIVE — production-grade after
+                Phase M.3), and Spain (9 ACTIVE) have verified overlays. Netherlands (5 rules
+                pending authoring) and other EU member states (IT, PL, BE, AT, SE, CZ — factory
                 stubs only) do not. See scope banner for the full tier breakdown.
               </p>
             </div>

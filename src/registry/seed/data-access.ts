@@ -78,9 +78,32 @@ export const dataAccessRules = [
     promoted_by: "phase-m.1",
     trigger_logic: {
       mode: "declarative",
-      match_mode: "all",
+      // Post-Phase-M scope fix (2026-04-24): the original Phase M.1 trigger
+      // keyed on `batteryPresent` alone, which falsely matched FCEVs with no
+      // grid-charging capability and no public-charging-infra role (see
+      // tests/unit/afir-scope.test.ts BUG-AFIR-01 regression). AFIR's
+      // vehicle-facing surface is strictly charging-infrastructure
+      // interaction — Type 2 AC / CCS2 DC connector compatibility, Plug &
+      // Charge, and public-charging data / payment. We proxy "grid-charging
+      // vehicle" via powertrain ∈ {BEV, PHEV} (the only powertrains that
+      // ship with grid-charging as standard; FCEV refuels hydrogen, HEV and
+      // ICE do not grid-charge). The OEM-operates-public-charging branch
+      // keeps the OEM-side AFIR obligation in scope for programs where the
+      // vehicle itself has no charging interface.
+      match_mode: "any",
       conditions: [
-        { field: "batteryPresent", operator: "is_true", value: true, label: "Vehicle has a traction battery" },
+        {
+          field: "powertrain",
+          operator: "in",
+          value: ["BEV", "PHEV"],
+          label: "Vehicle is a grid-charging powertrain (BEV or PHEV)",
+        },
+        {
+          field: "readiness.offersPublicChargingInfra",
+          operator: "is_true",
+          value: true,
+          label: "OEM operates public charging infrastructure in AFIR scope",
+        },
       ],
       fallback_if_missing: "not_applicable",
     },
