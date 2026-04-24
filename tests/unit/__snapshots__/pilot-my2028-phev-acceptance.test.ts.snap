@@ -508,33 +508,33 @@ exports[`Pilot MY2028 PHEV acceptance > Layer 3 — coverage snapshot > matches 
     "rule_id": "REG-MS-FR-005",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-MS-FR-006",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "DRAFT",
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-MS-FR-007",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-MS-FR-008",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-MS-FR-009",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "DRAFT",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-MS-FR-010",
   },
   {
-    "applicability": "CONDITIONAL",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-MS-FR-011",
   },
   {
@@ -1062,7 +1062,7 @@ exports[`Pilot MY2028 PHEV acceptance > Layer 3 — coverage snapshot > matches 
 
 exports[`Pilot MY2028 PHEV acceptance > pilot coverage summary > prints coverage breakdown 1`] = `
 {
-  "applicable": 85,
+  "applicable": 89,
   "applicable_ids": [
     "REG-AD-002",
     "REG-AI-001",
@@ -1109,6 +1109,10 @@ exports[`Pilot MY2028 PHEV acceptance > pilot coverage summary > prints coverage
     "REG-MS-FR-003",
     "REG-MS-FR-004",
     "REG-MS-FR-005",
+    "REG-MS-FR-006",
+    "REG-MS-FR-009",
+    "REG-MS-FR-010",
+    "REG-MS-FR-011",
     "REG-PV-002",
     "REG-PV-003",
     "REG-TA-001",
@@ -1150,9 +1154,9 @@ exports[`Pilot MY2028 PHEV acceptance > pilot coverage summary > prints coverage
     "REG-UN-158",
     "REG-UN-160",
   ],
-  "conditional": 22,
+  "conditional": 17,
   "future": 0,
-  "not_applicable": 43,
+  "not_applicable": 44,
   "total": 211,
   "unknown": 61,
 }

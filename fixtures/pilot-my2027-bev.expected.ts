@@ -41,7 +41,17 @@
  *                                 REG-BAT-011 F-gas Reg (EU) 2024/573 —
  *                                 replaces Reg 517/2014, phase-down schedule +
  *                                 labelling + quotas)
- *                              ↳ 78 APPLICABLE (current runtime, 2026-04-24)
+ *                              ↳ 78 APPLICABLE (post Phase M.2.C)
+ *   Phase M.3 FR overlay:     +3 (REG-MS-FR-006 Crit'Air vignette,
+ *                                 REG-MS-FR-010 LOM 2019-1428,
+ *                                 REG-MS-FR-011 Malus masse CGI 1012 ter A;
+ *                                 FR-007 Prime à la conversion is ACTIVE as
+ *                                 scheme-terminated informational marker but
+ *                                 NOT_APPLICABLE due to effective_to 2024-12-02;
+ *                                 FR-008 TAVE/TAPVP requires fleet salesModel,
+ *                                 FR-009 TICPE requires combustion engine,
+ *                                 FR-012 UTAC-CERAM stays DRAFT with blocker)
+ *                              ↳ 81 APPLICABLE (current runtime, 2026-04-24)
  *
  * Notable runtime-ACTIVE rules NOT APPLICABLE for this pilot (by design):
  *   - REG-TA-002 L-category framework: pilot is M1, not L
@@ -95,6 +105,9 @@ export const pilotExpected = {
       "REG-MS-FR-003",
       "REG-MS-FR-004",
       "REG-MS-FR-005",
+      "REG-MS-FR-006",
+      "REG-MS-FR-010",
+      "REG-MS-FR-011",
       "REG-PV-002",
       "REG-PV-003",
       "REG-TA-001",
@@ -136,7 +149,7 @@ export const pilotExpected = {
       "REG-UN-158",
       "REG-UN-160",
     ],
-    total_applicable_min: 78,
+    total_applicable_min: 81,
   },
   softAssertions: {
     // CONDITIONAL count drops as SEED_UNVERIFIED → ACTIVE promotions move rules

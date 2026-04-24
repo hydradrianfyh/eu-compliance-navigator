@@ -1145,16 +1145,29 @@ const franceOverlayRules: Rule[] = [
     framework_group: ["MN", "L"],
     sources: [
       {
-        label: "Arrêté du 21 juin 2016 + Code de l'environnement R318-2",
+        label: "Arrêté du 21 juin 2016 (Crit'Air nomenclature)",
         source_family: "National legislation" as const,
-        reference: "Arrêté du 21 juin 2016 + Code de l'environnement Art. R318-2 [verify]",
-        official_url: null,
-        oj_reference: null,
-        authoritative_reference: "Code de l'environnement R318-2 [verify]",
-        last_verified_on: null,
+        reference:
+          "Arrêté du 21 juin 2016 établissant la nomenclature des véhicules classés en fonction de leur niveau d'émission de polluants atmosphériques",
+        official_url: "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000032749723",
+        oj_reference: "JORF n°0145 du 23 juin 2016, texte n° 12",
+        authoritative_reference: "JORFTEXT000032749723",
+        last_verified_on: "2026-04-24",
+      },
+      {
+        label: "Décret n° 2016-858 (application framework for Certificat qualité de l'air)",
+        source_family: "National legislation" as const,
+        reference:
+          "Décret n° 2016-858 du 29 juin 2016 relatif aux certificats qualité de l'air",
+        official_url: "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000032795419",
+        oj_reference: "JORF n°0150 du 29 juin 2016",
+        authoritative_reference: "JORFTEXT000032795419",
+        last_verified_on: "2026-04-24",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-24",
+    promoted_by: "phase-m.3",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -1196,24 +1209,27 @@ const franceOverlayRules: Rule[] = [
 
   makeSeedRule({
     stable_id: "REG-MS-FR-007",
-    title: "France — Prime à la Conversion (Scrappage incentive for BEV/PHEV/FCEV)",
-    short_label: "FR Prime à la Conversion",
+    title: "France — Prime à la Conversion (scheme terminated 2 December 2024)",
+    short_label: "FR Prime à la Conversion (ended)",
     legal_family: "member_state_overlay",
     jurisdiction: "FR",
     jurisdiction_level: "MEMBER_STATE",
     framework_group: ["MN"],
     sources: [
       {
-        label: "Décret 2022-1761 + subsequent annual décrets",
+        label: "Termination decree",
         source_family: "National legislation" as const,
-        reference: "Décret 2022-1761 + décrets d'application annuels 2024/2025/2026 [verify latest décret]",
-        official_url: null,
-        oj_reference: null,
-        authoritative_reference: "Décret 2022-1761 [verify]",
-        last_verified_on: null,
+        reference:
+          "Décret n° 2024-1084 du 29 novembre 2024 portant suppression de la prime à la conversion et modification des aides à l'acquisition de véhicules propres",
+        official_url: "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000050690951",
+        oj_reference: "JORF n°0285 du 30 novembre 2024",
+        authoritative_reference: "JORFTEXT000050690951",
+        last_verified_on: "2026-04-24",
       },
     ],
-    lifecycle_state: "DRAFT",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-24",
+    promoted_by: "phase-m.3",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -1229,28 +1245,25 @@ const franceOverlayRules: Rule[] = [
       applies_to_all_new_vehicles_from: null,
       applies_to_first_registration_from: null,
       applies_from_generic: "2023-01-01",
-      effective_to: null,
+      effective_to: "2024-12-02",
       small_volume_derogation_until: null,
-      notes: "Programme renewed annually via décret; budget-constrained. 2026 conditions [verify latest décret].",
+      notes:
+        "Phase M.3 judgment call (Légifrance research 2026-04-24): Prime à la conversion was terminated by Décret 2024-1084 effective 2 December 2024. Scheme never placed OEM obligations — it was a consumer-side aid to households acquiring low-emission vehicles, with eligibility keyed to fiscal reference income and scrappage of an old vehicle. Rule retained as informational marker so fleet / retail-sales teams track the termination; output_kind is 'information', not 'obligation'.",
     },
+    output_kind: "information",
     obligation_text:
-      "Customer-side scrappage incentive for BEV/PHEV/FCEV purchase, providing up to €5,000 depending on household income, age/type of the scrapped vehicle, and the Crit'Air class of the newly purchased vehicle. Budget is capped and may be exhausted mid-year.",
+      "Informational — the Prime à la conversion (consumer scrappage incentive for low-emission-vehicle purchases) was terminated by Décret n° 2024-1084 effective 2 December 2024. Retail-side communications and customer-facing pricing tools should no longer reference Prime à la conversion. Applies only as context for legacy commitments; no ongoing OEM obligation.",
     evidence_tasks: [
-      "Customer-eligibility screening tooling",
-      "Scrappage documentation template",
-      "Dealer application + payment-in-advance process",
-      "Budget availability monitoring",
+      "Customer-facing pricing / OEM-app collateral purged of Prime-à-la-conversion references",
+      "Dealer communications confirming scheme termination (2 Dec 2024)",
     ],
-    manual_review_required: true,
-    manual_review_reason:
-      "Prime à la conversion budget + conditions revised annually. Verify current state before customer-facing pricing.",
     owner_hint: "legal",
     ui_package: "market_access",
     process_stage: "sop",
     content_provenance: {
       source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
-      human_reviewer: null,
+      retrieved_at: "2026-04-24",
+      human_reviewer: "yanhao",
     },
   }),
 
@@ -1264,16 +1277,31 @@ const franceOverlayRules: Rule[] = [
     framework_group: ["MN"],
     sources: [
       {
-        label: "Code général des impôts Art. 1010 + Loi de Finances 2025",
+        label: "CGI Art. 1010 (TAVE)",
         source_family: "National legislation" as const,
-        reference: "Code général des impôts Art. 1010 + Loi de Finances 2025 [verify exact CGI article revisions]",
-        official_url: null,
+        reference:
+          "Code général des impôts Art. 1010 — Taxe annuelle sur les émissions de CO2 (TAVE) des véhicules de tourisme affectés à l'usage de société",
+        official_url:
+          "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000042910562/2025-05-17",
         oj_reference: null,
-        authoritative_reference: "CGI Art. 1010 [verify]",
-        last_verified_on: null,
+        authoritative_reference: "LEGIARTI000042910562",
+        last_verified_on: "2026-04-24",
+      },
+      {
+        label: "CGI Art. 1010 octies (TAPVP)",
+        source_family: "National legislation" as const,
+        reference:
+          "Code général des impôts Art. 1010 octies — Taxe annuelle sur les polluants atmosphériques des véhicules particuliers affectés à l'usage de société (TAPVP)",
+        official_url:
+          "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000042851825",
+        oj_reference: null,
+        authoritative_reference: "LEGIARTI000042851825",
+        last_verified_on: "2026-04-24",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-24",
+    promoted_by: "phase-m.3",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -1321,16 +1349,20 @@ const franceOverlayRules: Rule[] = [
     framework_group: ["MN"],
     sources: [
       {
-        label: "Code des impositions sur les biens et services Art. L312-35",
+        label: "CIBS Art. L312-35 (accise sur les énergies — includes TICPE on road-fuel use)",
         source_family: "National legislation" as const,
-        reference: "Code des impositions sur les biens et services (CIBS) Art. L312-35 [verify]",
-        official_url: null,
+        reference:
+          "Code des impositions sur les biens et services (CIBS) Art. L312-35 — accise sur les énergies (couvre la TICPE sur les carburants routiers) depuis l'ordonnance 2021-1843 en vigueur au 1er janvier 2022",
+        official_url:
+          "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000048842249",
         oj_reference: null,
-        authoritative_reference: "CIBS L312-35 [verify]",
-        last_verified_on: null,
+        authoritative_reference: "LEGIARTI000048842249",
+        last_verified_on: "2026-04-24",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-24",
+    promoted_by: "phase-m.3",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -1376,16 +1408,19 @@ const franceOverlayRules: Rule[] = [
     framework_group: ["MN"],
     sources: [
       {
-        label: "Loi n° 2019-1428 du 24 décembre 2019 — LOM + décrets d'application",
+        label: "LOI n° 2019-1428 du 24 décembre 2019 (LOM)",
         source_family: "National legislation" as const,
-        reference: "Loi 2019-1428 + décrets d'application [verify Loi number and date]",
-        official_url: "https://www.legifrance.gouv.fr/loda/id/JORFTEXT000039666574",
-        oj_reference: null,
-        authoritative_reference: "Loi 2019-1428 [verify]",
-        last_verified_on: null,
+        reference:
+          "LOI n° 2019-1428 du 24 décembre 2019 d'orientation des mobilités (LOM) — key OEM-relevant articles: Art. 73 (2040 end-of-sale of new CO2-emitting light vehicles), Art. 82 (corporate fleet greening quotas for fleets > 100 vehicles), Art. 25 (MaaS / data-sharing obligation), Art. 86 (ZFE-m zones à faibles émissions mobilité)",
+        official_url: "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000039666574",
+        oj_reference: "JORF n°0299 du 26 décembre 2019, texte n° 1",
+        authoritative_reference: "JORFTEXT000039666574",
+        last_verified_on: "2026-04-24",
       },
     ],
-    lifecycle_state: "DRAFT",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-24",
+    promoted_by: "phase-m.3",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -1437,16 +1472,20 @@ const franceOverlayRules: Rule[] = [
     framework_group: ["MN"],
     sources: [
       {
-        label: "Loi de Finances 2024 + Loi de Finances 2025",
+        label: "CGI Art. 1012 ter A (malus masse)",
         source_family: "National legislation" as const,
-        reference: "Loi de Finances 2024 + Loi de Finances 2025 [verify exact CGI article + threshold]",
-        official_url: null,
+        reference:
+          "Code général des impôts Art. 1012 ter A — taxe sur la masse en ordre de marche des véhicules de tourisme (malus masse), inséré par l'Art. 171 de la LOI n° 2020-1721 du 29 décembre 2020 (LF 2021), seuils resserrés par LF 2024 et LF 2025",
+        official_url:
+          "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000042847075",
         oj_reference: null,
-        authoritative_reference: "LF 2024 + LF 2025 [verify]",
-        last_verified_on: null,
+        authoritative_reference: "LEGIARTI000042847075",
+        last_verified_on: "2026-04-24",
       },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-24",
+    promoted_by: "phase-m.3",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -1544,14 +1583,14 @@ const franceOverlayRules: Rule[] = [
     ],
     manual_review_required: true,
     manual_review_reason:
-      "UTAC delegation legal basis [verify]. French-addenda requirements vary by vehicle category [verify]. Cross-recognition of KBA / RDW approvals in France [verify].",
+      "Phase M.3 blocker (2026-04-24 Légifrance research): no JORF-published ministerial arrêté designating UTAC-CERAM under Reg (EU) 2018/858 Art. 68 / Annex III could be located. Under 2018/858 Art. 68, Member-State designations of technical services are notified to the Commission and listed in the Commission's technical-services register (notification route) rather than always published in the national gazette. The Ministry of Ecological Transition's homologation portal (ecologie.gouv.fr/politiques-publiques/homologation-vehicules) references UTAC as the designated French technical service, but this is administrative/portal content, not a citable legal act. Rule intentionally held at DRAFT per plan §5.4 — not promoted until a citable legal basis is located (Commission technical-services register entry or JORF designation decree).",
     owner_hint: "homologation",
     planning_lead_time_months: 12,
     ui_package: "wvta_core",
     process_stage: "type_approval",
     content_provenance: {
-      source_type: "national_gazette",
-      retrieved_at: "2026-04-20",
+      source_type: "manual",
+      retrieved_at: "2026-04-24",
       human_reviewer: null,
     },
     related_rules: [

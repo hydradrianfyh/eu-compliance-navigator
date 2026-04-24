@@ -509,32 +509,32 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-MS-FR-006",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "DRAFT",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-MS-FR-007",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-MS-FR-008",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-MS-FR-009",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "DRAFT",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-MS-FR-010",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-MS-FR-011",
   },
   {
