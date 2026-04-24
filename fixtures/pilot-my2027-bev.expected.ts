@@ -163,4 +163,72 @@ export const pilotExpected = {
     conditional_count_range: [15, 60] as const,
     unknown_count_max: 120,
   },
+
+  // Phase M Part C — pilot-completeness KPI (docs/phase-m/plan.md §6).
+  //
+  // engineerExpectedApplicable is the list of rule stable_ids a homologation
+  // engineer running this pilot (MY2027 BEV × DE/FR/NL) would expect to see
+  // APPLICABLE once all currently-known backlog items are closed. It's the
+  // denominator for pilotCompleteness = |applicable ∩ expected| / |expected|.
+  //
+  // Seeded 2026-04-24 from the post-Phase-M runtime snapshot as:
+  //   (a) all 81 rules currently APPLICABLE for this pilot, plus
+  //   (b) pilot-relevant CONDITIONAL rules that the governance / temporal
+  //       hard-gate currently downgrades but that an engineer expects to
+  //       promote to APPLICABLE once gates clear (NL overlay awaiting
+  //       authoring; DE-009 KBA split; FR-012 UTAC designation; PV-001 /
+  //       CL-001 / CL-003 conditional_reason rules that apply to connected
+  //       vehicles; BAT-003 / BAT-010 / EM-014 / AI-003 still in SEED/DRAFT;
+  //       UN-135 / UN-137 still in SEED), plus
+  //   (c) small wish-list of known backlog items not yet in the registry.
+  //
+  // Excluded from the BEV expected set (by pilot design):
+  //   - ES overlay rules (pilot targetCountries is DE/FR/NL, not ES)
+  //   - UK overlay rules (pilot targetCountries does not include UK)
+  //   - L-category / O-category / AGRI rules (pilot is MN/M1)
+  //   - Euro 7 HD / R49 / R13 rules (pilot is M1, not M2/M3/N2/N3)
+  //   - Combustion-only rules (BEV has no combustion engine)
+  //
+  // Tracked by tests/unit/pilot-completeness.test.ts. The test enforces
+  //   coverage ≥ 0.80 (plan §6.3 target).
+  engineerExpectedApplicable: [
+    // --- Currently APPLICABLE for BEV × DE/FR/NL (81 rules, 2026-04-24) ---
+    "REG-AD-002", "REG-AI-001", "REG-BAT-001", "REG-BAT-002", "REG-BAT-004",
+    "REG-BAT-009", "REG-BAT-011", "REG-CI-001", "REG-CI-002", "REG-CS-001",
+    "REG-CS-002", "REG-CS-004", "REG-DA-001", "REG-DA-002", "REG-EM-001",
+    "REG-EM-003", "REG-EM-011", "REG-EM-015", "REG-GSR-001", "REG-GSR-002",
+    "REG-GSR-003", "REG-GSR-004", "REG-GSR-005", "REG-GSR-006", "REG-GSR-007",
+    "REG-MS-003", "REG-MS-DE-001", "REG-MS-DE-002", "REG-MS-DE-003",
+    "REG-MS-DE-004", "REG-MS-DE-005", "REG-MS-DE-006", "REG-MS-DE-010",
+    "REG-MS-FR-001", "REG-MS-FR-002", "REG-MS-FR-003", "REG-MS-FR-004",
+    "REG-MS-FR-005", "REG-MS-FR-006", "REG-MS-FR-010", "REG-MS-FR-011",
+    "REG-PV-002", "REG-PV-003", "REG-TA-001", "REG-TA-004",
+    "REG-UN-007", "REG-UN-010", "REG-UN-013H", "REG-UN-014", "REG-UN-016",
+    "REG-UN-017", "REG-UN-021", "REG-UN-025", "REG-UN-028", "REG-UN-030",
+    "REG-UN-043", "REG-UN-046", "REG-UN-048", "REG-UN-051", "REG-UN-079",
+    "REG-UN-087", "REG-UN-094", "REG-UN-095", "REG-UN-100", "REG-UN-101",
+    "REG-UN-112", "REG-UN-113", "REG-UN-116", "REG-UN-117", "REG-UN-125",
+    "REG-UN-127", "REG-UN-128", "REG-UN-138", "REG-UN-140", "REG-UN-141",
+    "REG-UN-142", "REG-UN-145", "REG-UN-149", "REG-UN-152", "REG-UN-158",
+    "REG-UN-160",
+
+    // --- Pilot-relevant CONDITIONAL expected to become APPLICABLE (14) ---
+    // NL overlay awaiting authoring (Phase N+ candidate)
+    "REG-MS-NL-001", "REG-MS-NL-002", "REG-MS-NL-003", "REG-MS-NL-004",
+    "REG-MS-NL-005",
+    // DE-009 KBA architectural split (Phase M follow-up)
+    "REG-MS-DE-009",
+    // FR-012 UTAC designation (blocked — no JORF source)
+    "REG-MS-FR-012",
+    // Rules with conditional_reason — engineer expects applicable for connected BEV
+    "REG-PV-001", "REG-CL-001", "REG-CL-003",
+    // EU horizontal backlog (SEED/DRAFT — expected to promote)
+    "REG-BAT-003", "REG-BAT-010", "REG-EM-014", "REG-AI-003",
+
+    // --- Small wish-list of backlog not yet in registry (5) ---
+    // UNECE Annex II residuals expected to apply to M1 BEV
+    "REG-UN-135", "REG-UN-137",
+    // Horizontal additions expected once scoped
+    "REG-CS-003", "REG-CSRD-001", "REG-CI-003",
+  ] as const satisfies readonly string[],
 };
