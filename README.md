@@ -2,7 +2,7 @@
 
 A config-driven compliance workbench for EU vehicle programs.
 
-**Status**: Phase L.1–L.6 shipped · Phase M.0 data-integrity gate closed (2026-04-24) · K.1 / K.2 UX refresh live · 205 rules / **101 runtime-ACTIVE** (raw = runtime, no governance downgrades) · MY2027 BEV × DE·FR·NL (**53 APPLICABLE**) / PHEV × DE·FR·NL / ICE × ES pilots live · coverage audit + Phase M plan at [docs/audits/](docs/audits/) and [docs/phase-m/](docs/phase-m/) · verification backlog tracked at [docs/phase-j/verification-backlog.md](docs/phase-j/verification-backlog.md).
+**Status**: Phase L.1–L.6 shipped · Phase M.0–M.4 + Part C shipped (2026-04-24) · K.1 / K.2 UX refresh live · 211 rules / **137 runtime-ACTIVE** (raw = runtime, no governance downgrades) · MY2027 BEV × DE·FR·NL (**81 APPLICABLE**) / MY2028 PHEV × DE·FR·NL (89 APPLICABLE) / MY2027 ICE × ES (70 APPLICABLE) pilots live · pilotCompleteness KPI green at 81% / 81% / 90% · coverage audit + Phase M plan at [docs/audits/](docs/audits/) and [docs/phase-m/](docs/phase-m/) · verification backlog tracked at [docs/phase-j/verification-backlog.md](docs/phase-j/verification-backlog.md).
 
 > ⚠ **This tool is a navigation aid, not legal advice.** Always validate with your homologation partner and legal counsel before making market-entry decisions. See [Disclaimer](#disclaimer).
 
@@ -49,7 +49,7 @@ See [docs/phase12/demo-scripts/](docs/phase12/demo-scripts/) for three real 3-to
 │  applicability. Pure functions. No side effects.         │
 ├──────────────────────────────────────────────────────────┤
 │  REGISTRY LAYER                                          │
-│  205 rules / 101 ACTIVE · 17 legal families · 6 lifecycle│
+│  211 rules / 137 ACTIVE · 17 legal families · 6 lifecycle│
 │  Zod-validated schema. Content provenance tracked.       │
 ├──────────────────────────────────────────────────────────┤
 │  CONFIGURATION LAYER                                     │
@@ -61,18 +61,18 @@ See [docs/phase12/demo-scripts/](docs/phase12/demo-scripts/) for three real 3-to
 **Key invariant**: UI components only render `EvaluationResult`. They never call rule logic directly. See [ADR-P6 · Reusable layer seams](docs/adr/ADR-P6-reusable-layer-seams.md) for the extraction-ready architecture map.
 
 **Stats**:
-- **205** rules · **17** legal families · **101 ACTIVE** (after Phase L.1–L.6: UNECE Annex II completion + ES SEED cleanup)
+- **211** rules · **17** legal families · **137 ACTIVE** (after Phase M.0–M.4 + Part C: +4 new EU horizontal, +16 UNECE deep-links, +5 EU-horizontal source fill, +2 MAC/F-gas, +5 FR overlay, +3 UK residual)
 - **6** lifecycle states: `PLACEHOLDER` / `DRAFT` / `SEED_UNVERIFIED` / `SHADOW` / `ACTIVE` / `ARCHIVED`
 - **6** freshness states: `fresh` / `due_soon` / `overdue` / `critically_overdue` / `never_verified` / `drifted`
 - **21** golden-dataset anchors (CI-enforced against EUR-Lex SPARQL weekly)
 - **Per-country coverage**:
-  - 🟢 **DE** — 8 ACTIVE + 2 indicative (LSV pending legislation, KBA needs architectural split)
-  - 🟢 **UK** (non-EU market) — 11 ACTIVE + 2 DRAFT (Windsor Framework NI, Public Charge Point Regs staging)
-  - 🟢 **ES** — **9 ACTIVE** + 5 indicative / DRAFT / PLACEHOLDER (Phase L.6 promoted Etiqueta Ambiental + RD 106/2008 batteries; Homologación Individual still pending Orden ministerial citation)
-  - 🟡 **FR** — 5 ACTIVE + 7 null-URL / DRAFT (partial coverage; verification in progress)
-  - 🟠 **NL** — 0 ACTIVE, 5 SEED_UNVERIFIED (authoring pending in Phase K+)
-  - 🟢 **UNECE technical** — **27 ACTIVE** (Phase L.3 + L.5 promoted 26 R-series: R10 EMC, R13-H braking, R14/R16/R17/R21/R43/R44/R129/R145 restraints, R46 mirrors, R48 lighting, R79 steering, R83 LD emissions, R94/R95 crash, R100 EV safety, R117 tyres, R127 pedestrian, R134 H2, R138 AVAS, R141 TPMS, R142 tyre installation, R149 LED/ADB, R152 AEBS, R153 fuel integrity, R158 reversing, R160 EDR). 9 new R-numbers (R7 / R28 / R30 / R87 / R112 / R113 / R116 / R125 / R128) added in L.4 as authored stubs.
-  - 🟢 **EU horizontal** — ~45 ACTIVE covering Battery Reg (8 sub-obligations) · Euro 6 + Euro 7 split + OBD + EVAP + AdBlue · CO2 labeling · VECTO · WLTP · RDE · AI Act · Data Act · GDPR · PLD · R100 · R171 DCAS · R155/156/157 cyber+SW+ALKS
+  - 🟢 **DE** — 8 ACTIVE + 2 indicative (LSV pending legislation, KBA needs architectural split) *(unchanged in Phase M; DE stays at production-grade)*
+  - 🟢 **UK** (non-EU market) — **14 ACTIVE** + 1 DRAFT (UK-015 ETS road-transport scope awaiting adopting SI; Phase M.4 promoted Windsor Framework NI + Public Charge Point Regs + UK REACH)
+  - 🟢 **ES** — **9 ACTIVE** + 5 indicative / DRAFT / PLACEHOLDER (Homologación Individual still pending Orden ministerial citation; ZEV 2040, Movilidad Sostenible, MOVES III, CCAA notice kept at current lifecycle by design — documented in Phase M.4 rationale)
+  - 🟢 **FR** — **11 ACTIVE** + 1 DRAFT (Phase M.3 promoted Crit'Air, TVS→TAVE/TAPVP, TICPE, LOM, Malus masse; Prime à la conversion kept ACTIVE as scheme-terminated informational marker; UTAC-CERAM stays DRAFT — no JORF designation decree located)
+  - 🟠 **NL** — 0 ACTIVE, 5 SEED_UNVERIFIED (authoring deferred to Phase N+)
+  - 🟢 **UNECE technical** — **43 ACTIVE** (Phase M.2.A promoted 16 R-series: R7 / R25 / R28 / R30 / R34 / R51 / R67 / R87 / R101 / R112 / R113 / R116 / R125 / R128 / R140 / R145 to ACTIVE via verified UNECE deep-link URLs — on top of 27 prior ACTIVE from Phase L)
+  - 🟢 **EU horizontal** — **52 ACTIVE** covering Battery Reg (8 sub-obligations) + F-gas 2024/573 · Euro 6 + Euro 7 split + OBD + EVAP + AdBlue · MAC Dir 2006/40 · CO2 / tyre / energy labels · VECTO · WLTP · RDE · AI Act · Data Act + AFIR · GDPR + ePrivacy + EDPB · PLD + GPSR · RED cyber + Del Reg 2022/30 · REACH · recall (2018/858 Arts 52-53) · eCall 2015/758 · WVTA Annex II master 2021/535 · R100 · R171 DCAS · R155/156/157 cyber+SW+ALKS
 - **13** non-goals explicitly honoured (see [spec §3.6](docs/phase12/ux-refactor-spec-v2.md))
 
 ---
@@ -81,16 +81,17 @@ See [docs/phase12/demo-scripts/](docs/phase12/demo-scripts/) for three real 3-to
 
 **In scope** — this tool evaluates:
 
-- EU horizontal regulations (WVTA 2018/858, GSR2, R155/R156/R157, GDPR, Data Act, AI Act, Battery, Euro 6 + Euro 7 split, OBD/EVAP/AdBlue, PLD)
-- Germany (DE) member-state overlay (8 ACTIVE): registration (FZV) · roadworthiness (§29 StVZO HU/AU) · insurance (PflVG) · motor tax (KraftStG) · low-emission zones (Umweltzonen) · E-Kennzeichen · …
-- United Kingdom (UK) non-EU-market overlay (11 ACTIVE): Automated Vehicles Act 2024 cluster · post-Brexit registration · UK REACH · UK ETS monitoring
-- Spain (ES) partial overlay (**9 ACTIVE** after L.6, 5 pending including Homologación Individual) and France (FR) partial overlay (5 ACTIVE, 7 pending)
-- UNECE technical regulations (**27 ACTIVE** after L.3 + L.5): EMC, braking, restraints, mirrors, lighting, steering, emissions, crash, EV/H2/AVAS safety, tyres, pedestrian, AEBS, EDR, and more
+- EU horizontal regulations (WVTA 2018/858 + Annex II master 2021/535, GSR2 + 6 delegated acts + eCall 2015/758, R155/R156/R157, GDPR + ePrivacy + EDPB Connected-Vehicle Guidelines, Data Act + AFIR, AI Act 4-phase, Battery + F-gas + REACH + MAC Directive, Euro 6 + Euro 7 split + OBD/EVAP/AdBlue + tyre label + CO2 label, PLD + GPSR, RED cyber Del Reg 2022/30, recall 2018/858 Arts 52-53)
+- Germany (DE) member-state overlay (**8 ACTIVE**): registration (FZV) · roadworthiness (§29 StVZO HU/AU) · insurance (PflVG) · motor tax (KraftStG) · low-emission zones (Umweltzonen) · E-Kennzeichen · …
+- United Kingdom (UK) non-EU-market overlay (**14 ACTIVE**): Automated Vehicles Act 2024 cluster · post-Brexit registration · UK GDPR / DPA · Windsor Framework NI · Public Charge Point Regs 2023 · UK REACH · UK ETS base
+- France (FR) **production-grade overlay (11 ACTIVE)**: French type-approval + national ID + ZFE-m + ZBE registration + CO2 malus + Crit'Air + LOM + TAVE/TAPVP + TICPE + Malus masse + Prime à la conversion (terminated informational marker)
+- Spain (ES) partial overlay (**9 ACTIVE**, 5 at indicative/DRAFT/PLACEHOLDER by design)
+- UNECE technical regulations (**43 ACTIVE** after Phase M.2.A): EMC, braking, restraints, mirrors, lighting, steering, emissions (LD + HD + noise), crash (frontal/side/pedestrian), EV/H2/AVAS safety, tyres, anti-theft, forward vision, LED sources, ESC, AEBS, EDR, eCall, and more
 
 **Pending human verification** (tracked in separate rolling workstream):
 
-- **104 rules** at various non-ACTIVE lifecycles (down from 123 before Phase L). Phase L.3 + L.5 + L.6 promoted 28 additional rules (73 → 101 ACTIVE).
-- Outstanding batches: **NL** (0 ACTIVE yet, 5 SEED_UNVERIFIED authored) · **FR** remainder (7 rules) · **ES** remainder (5 rules incl. Homologación Individual needing Orden ministerial) · **DE** non-ACTIVE (2 rules, incl. DE-009 KBA architectural split) · **UK** staging (2 DRAFT) · UNECE Annex II residual (17 SEED_UNVERIFIED: HD / bus / niche + 6 L.5 holdouts + 9 L.4 new stubs awaiting deep-link verification).
+- **74 rules** at various non-ACTIVE lifecycles (down from 104 before Phase M — Phase M promoted 30 rules to ACTIVE + added 6 new ACTIVE rules). Lifecycle breakdown: 33 PLACEHOLDER / 11 DRAFT / 30 SEED_UNVERIFIED.
+- Outstanding batches (after Phase M): **NL** (0 ACTIVE yet, 5 SEED_UNVERIFIED authored — Phase N scope) · **ES** remainder (5 rules incl. Homologación Individual awaiting Orden ministerial, ZEV 2040, Movilidad Sostenible, MOVES III, CCAA notice) · **FR** residual (1 DRAFT — UTAC-CERAM pending designation decree) · **DE** non-ACTIVE (2 rules) · **UK** residual (1 DRAFT — UK ETS road-transport scope awaiting adopting SI) · UNECE Annex II residual (5 SEED_UNVERIFIED: R49 HD, R85 power, R115 retrofit, R135 pole, R137 full-width frontal).
 - Full backlog — regenerable via `npm run verification-backlog` — tracked at [docs/phase-j/verification-backlog.md](docs/phase-j/verification-backlog.md).
 
 **Out of scope** (explicit non-goals — see [ADRs](docs/adr/)):
@@ -135,7 +136,7 @@ npm run build
 npm start
 ```
 
-First time? Open the app, click the **⚙ gear icon** in the top-right, then **"Load MY2027 BEV sample"**. You'll land on a pre-populated Setup with **53 APPLICABLE** pilot-triggered rules ready to explore (MY2027 BEV × DE·FR·NL pilot baseline, post Phase M.0 data-integrity gate).
+First time? Open the app, click the **⚙ gear icon** in the top-right, then **"Load MY2027 BEV sample"**. You'll land on a pre-populated Setup with **81 APPLICABLE** pilot-triggered rules ready to explore (MY2027 BEV × DE·FR·NL pilot baseline, post Phase M full execution).
 
 ---
 
@@ -147,6 +148,7 @@ First time? Open the app, click the **⚙ gear icon** in the top-right, then **"
 | [docs/DEVELOPER.md](docs/DEVELOPER.md) | Developer guide (English) — architecture, conventions, contribution |
 | [docs/phase12/ux-refactor-spec-v2.md](docs/phase12/ux-refactor-spec-v2.md) | Product spec (source of truth, read before major changes) |
 | [docs/adr/](docs/adr/) | Architecture Decision Records |
+| [docs/phase-m/plan.md](docs/phase-m/plan.md) | Phase M coverage plan (shipped 2026-04-24 — source for §9 exit criteria) |
 | [docs/phase12/sprint-10-go-no-go.md](docs/phase12/sprint-10-go-no-go.md) | Latest ship report + pilot metrics |
 | [docs/phase12/demo-scripts/](docs/phase12/demo-scripts/) | Three 3-to-5-minute stakeholder walkthroughs |
 | [content/authoring.csv](content/authoring.csv) | Non-developer rule-authoring DSL |
