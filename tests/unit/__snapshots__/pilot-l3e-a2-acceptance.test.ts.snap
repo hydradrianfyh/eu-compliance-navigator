@@ -20,6 +20,11 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
   {
     "applicability": "NOT_APPLICABLE",
     "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-TA-004",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-GSR-001",
   },
   {
@@ -50,6 +55,11 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
   {
     "applicability": "NOT_APPLICABLE",
     "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-GSR-007",
+  },
+  {
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-CS-001",
   },
   {
@@ -61,6 +71,11 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "applicability": "UNKNOWN",
     "lifecycle_state": "DRAFT",
     "rule_id": "REG-CS-003",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-CS-004",
   },
   {
     "applicability": "NOT_APPLICABLE",
@@ -96,6 +111,11 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "applicability": "APPLICABLE",
     "lifecycle_state": "ACTIVE",
     "rule_id": "REG-DA-001",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-DA-002",
   },
   {
     "applicability": "NOT_APPLICABLE",
@@ -1032,13 +1052,15 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
 
 exports[`Pilot L3e-A2 BEV acceptance > pilot coverage summary > prints coverage breakdown 1`] = `
 {
-  "applicable": 13,
+  "applicable": 15,
   "applicable_ids": [
     "REG-BAT-001",
     "REG-BAT-004",
     "REG-BAT-005",
     "REG-BAT-009",
+    "REG-CS-004",
     "REG-DA-001",
+    "REG-DA-002",
     "REG-MS-DE-001",
     "REG-MS-DE-002",
     "REG-MS-DE-003",
@@ -1050,8 +1072,8 @@ exports[`Pilot L3e-A2 BEV acceptance > pilot coverage summary > prints coverage 
   ],
   "conditional": 7,
   "future": 3,
-  "not_applicable": 104,
-  "total": 205,
+  "not_applicable": 106,
+  "total": 209,
   "unknown": 78,
 }
 `;

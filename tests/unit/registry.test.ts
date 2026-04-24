@@ -22,6 +22,7 @@ describe("RuleRegistry", () => {
       "REG-CS-001",
       "REG-CS-002",
       "REG-CS-003",
+      "REG-CS-004",
     ]);
   });
 });

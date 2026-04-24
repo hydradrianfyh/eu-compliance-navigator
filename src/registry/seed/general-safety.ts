@@ -321,4 +321,89 @@ export const generalSafetyRules = [
     },
     related_rules: [{ rule_id: "REG-GSR-001", relation: "requires" }],
   }),
+
+  // Phase M.1 — eCall / AECS for M1/N1 (Reg 2015/758 + Del Reg 2017/79 + UN R144 Rev.1)
+  makeSeedRule({
+    stable_id: "REG-GSR-007",
+    title: "eCall / AECS — Automatic Emergency Call System for M1/N1",
+    short_label: "eCall (2015/758)",
+    legal_family: "general_safety",
+    jurisdiction: "EU",
+    jurisdiction_level: "EU",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Framework regulation",
+        source_family: "EUR-Lex" as const,
+        reference:
+          "Regulation (EU) 2015/758 concerning type-approval requirements for the deployment of the eCall in-vehicle system based on the 112 service, amending Directive 2007/46/EC",
+        official_url: "https://eur-lex.europa.eu/eli/reg/2015/758/oj",
+        oj_reference: "OJ L 123, 19.5.2015, p. 77",
+        authoritative_reference: "CELEX:32015R0758",
+        last_verified_on: "2026-04-24",
+      },
+      {
+        label: "Delegated regulation (technical requirements)",
+        source_family: "EUR-Lex" as const,
+        reference:
+          "Commission Delegated Regulation (EU) 2017/79 supplementing Reg 2015/758 with detailed technical requirements and test procedures for the EC type-approval of motor vehicles in respect of their 112-based eCall in-vehicle systems",
+        official_url: "https://eur-lex.europa.eu/eli/reg_del/2017/79/oj",
+        oj_reference: "OJ L 12, 17.1.2017, p. 44",
+        authoritative_reference: "CELEX:32017R0079",
+        last_verified_on: "2026-04-24",
+      },
+      {
+        label: "UNECE regulation (parallel approval route)",
+        source_family: "UNECE" as const,
+        reference: "UN Regulation No. 144 (Accident Emergency Call Systems) Rev.1",
+        official_url:
+          "https://unece.org/transport/documents/2023/02/standards/un-regulation-no-144-rev1",
+        oj_reference: null,
+        last_verified_on: "2026-04-24",
+      },
+    ],
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-24",
+    promoted_by: "phase-m.1",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "frameworkGroup", operator: "eq", value: "MN", label: "Framework group is M/N" },
+        { field: "vehicleCategory", operator: "in", value: ["M1", "N1"], label: "Vehicle category is M1 or N1" },
+      ],
+      fallback_if_missing: "unknown",
+    },
+    temporal: {
+      entry_into_force: "2015-06-08",
+      applies_to_new_types_from: "2018-03-31",
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: null,
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes:
+        "New types of M1 and N1 vehicles placed on EU market from 31 March 2018 must be equipped with a 112-based eCall in-vehicle system. Type-approval evidence can be via Reg 2015/758 + Del Reg 2017/79 route or via UN R144 under the 1958 Agreement.",
+    },
+    obligation_text:
+      "M1 and N1 vehicles placed on the EU market must carry a 112-based eCall in-vehicle system (AECS) that automatically triggers an emergency call to the single European emergency number 112 in the event of a severe crash and that also supports manual trigger. Technical specification per Del Reg 2017/79 or UN R144 Rev.1.",
+    evidence_tasks: [
+      "eCall type-approval application per Reg 2015/758",
+      "AECS test report per Del Reg 2017/79 Annex I (crash trigger, minimum data set, audio channel)",
+      "UN R144 conformity documentation (if UNECE route)",
+      "Accelerometer threshold validation",
+      "Manual trigger accessibility test",
+      "Post-crash GNSS position reporting validation",
+    ],
+    owner_hint: "safety_engineering",
+    planning_lead_time_months: 12,
+    ui_package: "wvta_core",
+    process_stage: "type_approval",
+    content_provenance: {
+      source_type: "eur_lex",
+      retrieved_at: "2026-04-24",
+      human_reviewer: "yanhao",
+    },
+    related_rules: [{ rule_id: "REG-GSR-001", relation: "complements" }],
+  }),
 ];

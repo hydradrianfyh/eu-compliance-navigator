@@ -18,7 +18,12 @@
  *   Phase M.0.1 data gate:    +2 (REG-DA-001 Data Act URL fix,
  *                                 REG-AD-002 R171 DCAS source fix — both
  *                                 runtime-ungraded from SEED_UNVERIFIED)
- *                              ↳ 53 APPLICABLE (current runtime, 2026-04-24)
+ *                              ↳ 53 APPLICABLE (post Phase M.0)
+ *   Phase M.1 EU horizontal:  +4 (REG-GSR-007 eCall / AECS,
+ *                                 REG-DA-002 AFIR vehicle-facing,
+ *                                 REG-CS-004 RED cyber + Del Reg 2022/30,
+ *                                 REG-TA-004 WVTA Annex II master 2021/535)
+ *                              ↳ 57 APPLICABLE (current runtime, 2026-04-24)
  *
  * Notable runtime-ACTIVE rules NOT APPLICABLE for this pilot (by design):
  *   - REG-TA-002 L-category framework: pilot is M1, not L
@@ -41,7 +46,9 @@ export const pilotExpected = {
       "REG-BAT-009",
       "REG-CS-001",
       "REG-CS-002",
+      "REG-CS-004",
       "REG-DA-001",
+      "REG-DA-002",
       "REG-EM-001",
       "REG-EM-003",
       "REG-EM-011",
@@ -51,6 +58,7 @@ export const pilotExpected = {
       "REG-GSR-004",
       "REG-GSR-005",
       "REG-GSR-006",
+      "REG-GSR-007",
       "REG-MS-DE-001",
       "REG-MS-DE-002",
       "REG-MS-DE-003",
@@ -65,6 +73,7 @@ export const pilotExpected = {
       "REG-MS-FR-005",
       "REG-PV-002",
       "REG-TA-001",
+      "REG-TA-004",
       "REG-UN-010",
       "REG-UN-013H",
       "REG-UN-014",
@@ -88,7 +97,7 @@ export const pilotExpected = {
       "REG-UN-158",
       "REG-UN-160",
     ],
-    total_applicable_min: 53,
+    total_applicable_min: 57,
   },
   softAssertions: {
     // CONDITIONAL count drops as SEED_UNVERIFIED → ACTIVE promotions move rules

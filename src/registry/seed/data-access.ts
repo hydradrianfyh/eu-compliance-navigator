@@ -51,4 +51,67 @@ export const dataAccessRules = [
     ui_package: "horizontal",
     process_stage: "post_market",
   }),
+
+  // Phase M.1 — AFIR vehicle-facing obligations (Reg 2023/1804)
+  makeSeedRule({
+    stable_id: "REG-DA-002",
+    title: "Alternative Fuels Infrastructure Regulation — vehicle-facing obligations",
+    short_label: "AFIR (2023/1804)",
+    legal_family: "data_access",
+    jurisdiction: "EU",
+    jurisdiction_level: "EU",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Framework regulation",
+        source_family: "EUR-Lex" as const,
+        reference:
+          "Regulation (EU) 2023/1804 on the deployment of alternative fuels infrastructure, repealing Directive 2014/94/EU",
+        official_url: "https://eur-lex.europa.eu/eli/reg/2023/1804/oj",
+        oj_reference: "OJ L 234, 22.9.2023, p. 1",
+        authoritative_reference: "CELEX:32023R1804",
+        last_verified_on: "2026-04-24",
+      },
+    ],
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-24",
+    promoted_by: "phase-m.1",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "batteryPresent", operator: "is_true", value: true, label: "Vehicle has a traction battery" },
+      ],
+      fallback_if_missing: "not_applicable",
+    },
+    temporal: {
+      entry_into_force: "2023-10-12",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2024-04-13",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes:
+        "AFIR primarily places obligations on charging infrastructure operators and Member States (deployment targets). Vehicle-facing dimension is connector/protocol compatibility (Type 2 AC, CCS Combo 2 DC per Annex II), Plug & Charge (ISO 15118) readiness, and data-exchange standards where the vehicle participates in the transaction.",
+    },
+    obligation_text:
+      "Battery electric vehicles and plug-in hybrids placed on the EU market interact with AFIR via connector/protocol compatibility (Type 2 AC, CCS Combo 2 DC per Annex II) and user-information / payment / data-provision obligations at public charging points where the vehicle is a party to the transaction (e.g., Plug & Charge, OEM-app ad-hoc charging).",
+    evidence_tasks: [
+      "Charging connector compatibility evidence (Type 2 AC, CCS2 DC per AFIR Annex II)",
+      "ISO 15118-2 / 15118-20 Plug & Charge readiness (if implemented)",
+      "Vehicle-provided static data at public charging interface",
+      "User information disclosure in OEM app / infotainment for ad-hoc charging",
+    ],
+    owner_hint: "connected_services",
+    planning_lead_time_months: 12,
+    ui_package: "horizontal",
+    process_stage: "pre_ta",
+    content_provenance: {
+      source_type: "eur_lex",
+      retrieved_at: "2026-04-24",
+      human_reviewer: "yanhao",
+    },
+    related_rules: [{ rule_id: "REG-DA-001", relation: "complements" }],
+  }),
 ];

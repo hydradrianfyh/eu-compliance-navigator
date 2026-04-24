@@ -127,4 +127,76 @@ export const vehicleApprovalRules = [
     ui_package: "wvta_core",
     process_stage: "type_approval",
   }),
+
+  // Phase M.1 — WVTA Annex II master implementing act (Impl Reg 2021/535)
+  makeSeedRule({
+    stable_id: "REG-TA-004",
+    title:
+      "WVTA Annex II master implementing act — uniform procedures and technical specifications",
+    short_label: "WVTA Annex II (2021/535)",
+    legal_family: "vehicle_approval",
+    jurisdiction: "EU",
+    jurisdiction_level: "EU",
+    framework_group: ["MN", "O"],
+    sources: [
+      {
+        label: "Implementing regulation",
+        source_family: "EUR-Lex" as const,
+        reference:
+          "Commission Implementing Regulation (EU) 2021/535 laying down rules for the application of Regulation (EU) 2019/2144 as regards uniform procedures and technical specifications for the type-approval of vehicles, and of systems, components and separate technical units intended for such vehicles, as regards their general construction characteristics and safety",
+        official_url: "https://eur-lex.europa.eu/eli/reg_impl/2021/535/oj",
+        oj_reference: "OJ L 117, 6.4.2021, p. 1",
+        authoritative_reference: "CELEX:32021R0535",
+        last_verified_on: "2026-04-24",
+      },
+    ],
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-24",
+    promoted_by: "phase-m.1",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "any",
+      conditions: [
+        {
+          field: "frameworkGroup",
+          operator: "in",
+          value: ["MN", "O"],
+          label: "Framework group is M/N or O",
+        },
+      ],
+      fallback_if_missing: "unknown",
+    },
+    temporal: {
+      entry_into_force: "2021-04-26",
+      applies_to_new_types_from: "2022-07-06",
+      applies_to_all_new_vehicles_from: "2024-07-07",
+      applies_to_first_registration_from: null,
+      applies_from_generic: null,
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes:
+        "Master implementing act for GSR2 Annex II — covers general construction characteristics (VIN check-digit, registration-plate space, rear-view devices, speed limiter, tyre installation, fuel-tank installation, spray-suppression, overall dimensions and masses, etc.).",
+    },
+    obligation_text:
+      "Vehicles of categories M, N and O must comply with the uniform procedures and technical specifications set out in Impl Reg (EU) 2021/535 implementing GSR2 (2019/2144). Covers systems, components and separate technical units listed in Annex II (general construction characteristics and safety features).",
+    evidence_tasks: [
+      "Type-approval test reports for each Impl Reg 2021/535 Annex II system",
+      "VIN structure / check-digit compliance evidence",
+      "Overall dimensions, masses and towing capacity conformity",
+      "Front and rear registration-plate mounting space verification",
+    ],
+    owner_hint: "homologation",
+    planning_lead_time_months: 18,
+    ui_package: "wvta_core",
+    process_stage: "type_approval",
+    content_provenance: {
+      source_type: "eur_lex",
+      retrieved_at: "2026-04-24",
+      human_reviewer: "yanhao",
+    },
+    related_rules: [
+      { rule_id: "REG-TA-001", relation: "requires" },
+      { rule_id: "REG-GSR-001", relation: "complements" },
+    ],
+  }),
 ];

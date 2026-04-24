@@ -20,6 +20,11 @@ exports[`Pilot MY2028 PHEV acceptance > Layer 3 — coverage snapshot > matches 
   {
     "applicability": "APPLICABLE",
     "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-TA-004",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-GSR-001",
   },
   {
@@ -50,6 +55,11 @@ exports[`Pilot MY2028 PHEV acceptance > Layer 3 — coverage snapshot > matches 
   {
     "applicability": "APPLICABLE",
     "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-GSR-007",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-CS-001",
   },
   {
@@ -61,6 +71,11 @@ exports[`Pilot MY2028 PHEV acceptance > Layer 3 — coverage snapshot > matches 
     "applicability": "UNKNOWN",
     "lifecycle_state": "DRAFT",
     "rule_id": "REG-CS-003",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-CS-004",
   },
   {
     "applicability": "NOT_APPLICABLE",
@@ -96,6 +111,11 @@ exports[`Pilot MY2028 PHEV acceptance > Layer 3 — coverage snapshot > matches 
     "applicability": "APPLICABLE",
     "lifecycle_state": "ACTIVE",
     "rule_id": "REG-DA-001",
+  },
+  {
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
+    "rule_id": "REG-DA-002",
   },
   {
     "applicability": "APPLICABLE",
@@ -1032,7 +1052,7 @@ exports[`Pilot MY2028 PHEV acceptance > Layer 3 — coverage snapshot > matches 
 
 exports[`Pilot MY2028 PHEV acceptance > pilot coverage summary > prints coverage breakdown 1`] = `
 {
-  "applicable": 59,
+  "applicable": 63,
   "applicable_ids": [
     "REG-AD-002",
     "REG-AI-001",
@@ -1044,7 +1064,9 @@ exports[`Pilot MY2028 PHEV acceptance > pilot coverage summary > prints coverage
     "REG-BAT-009",
     "REG-CS-001",
     "REG-CS-002",
+    "REG-CS-004",
     "REG-DA-001",
+    "REG-DA-002",
     "REG-EM-001",
     "REG-EM-003",
     "REG-EM-007",
@@ -1058,6 +1080,7 @@ exports[`Pilot MY2028 PHEV acceptance > pilot coverage summary > prints coverage
     "REG-GSR-004",
     "REG-GSR-005",
     "REG-GSR-006",
+    "REG-GSR-007",
     "REG-MS-DE-001",
     "REG-MS-DE-002",
     "REG-MS-DE-003",
@@ -1072,6 +1095,7 @@ exports[`Pilot MY2028 PHEV acceptance > pilot coverage summary > prints coverage
     "REG-MS-FR-005",
     "REG-PV-002",
     "REG-TA-001",
+    "REG-TA-004",
     "REG-UN-010",
     "REG-UN-013H",
     "REG-UN-014",
@@ -1097,7 +1121,7 @@ exports[`Pilot MY2028 PHEV acceptance > pilot coverage summary > prints coverage
   "conditional": 26,
   "future": 0,
   "not_applicable": 42,
-  "total": 205,
+  "total": 209,
   "unknown": 78,
 }
 `;
