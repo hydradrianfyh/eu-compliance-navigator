@@ -16,10 +16,11 @@ import {
 // Phase M.0.1 (audit 2026-04-23) closed the prose-ACTIVE-but-runtime-downgraded
 // gap by authoring real source gates on REG-TA-002, REG-AD-001, REG-AD-002, and
 // REG-DA-001. The "silent runtime downgrade" class is now empty. Tests below use
-// genuine SEED_UNVERIFIED rules (REG-BAT-002 REACH as the canonical unverified
-// EUR-Lex fixture) and a synthetic UNECE rule to test source-family semantics
-// without depending on seed-data drift.
-const UNVERIFIED_EUR_LEX_ID = "REG-BAT-002"; // REACH — SEED with makeSource fallback (null URL/OJ/date)
+// genuine SEED_UNVERIFIED rules (REG-MS-001 Market Surveillance Regulation as the
+// canonical unverified EUR-Lex fixture — REG-BAT-002 REACH was promoted in Phase
+// M.2.B) and a synthetic UNECE rule to test source-family semantics without
+// depending on seed-data drift.
+const UNVERIFIED_EUR_LEX_ID = "REG-MS-001"; // MSR 2019/1020 — SEED with makeSource fallback (null URL/OJ/date)
 
 function syntheticUneceUnverifiedRule(): import("@/registry/schema").Rule {
   const seed = rawSeedRules.find((rule) => rule.stable_id === "REG-UN-007");
@@ -80,9 +81,9 @@ describe("source verification workflow", () => {
     expect(getMissingSourceFields(uneceUnverified)).not.toContain("oj_reference");
     expect(getMissingSourceFields(uneceUnverified)).toContain("official_url");
 
-    // EUR-Lex semantics: oj_reference required. REG-BAT-002 REACH uses makeSource
-    // fallback so all three gates are null, making it a canonical fixture for the
-    // "EUR-Lex missing URL + OJ + date" scenario.
+    // EUR-Lex semantics: oj_reference required. REG-MS-001 Market Surveillance
+    // Regulation uses makeSource fallback so all three gates are null, making it a
+    // canonical fixture for the "EUR-Lex missing URL + OJ + date" scenario.
     const eurLexUnverified = rawSeedRules.find(
       (rule) => rule.stable_id === UNVERIFIED_EUR_LEX_ID,
     );

@@ -29,7 +29,13 @@
  *                                 -140 / -145 — promoted SEED→ACTIVE with deep
  *                                 links; R34 / R67 stay NOT_APPLICABLE for BEV
  *                                 because BEV has no fuel tank / no LPG)
- *                              ↳ 71 APPLICABLE (current runtime, 2026-04-24)
+ *                              ↳ 71 APPLICABLE (post Phase M.2.A)
+ *   Phase M.2.B EU horizontal: +5 (REG-BAT-002 REACH,
+ *                                  REG-CI-001 CO2 label (Dir 1999/94/EC),
+ *                                  REG-CI-002 Tyre label (Reg 2020/740),
+ *                                  REG-PV-003 EDPB Connected-Vehicle Guidelines,
+ *                                  REG-MS-003 Recall (Reg 2018/858 Arts 52-53))
+ *                              ↳ 76 APPLICABLE (current runtime, 2026-04-24)
  *
  * Notable runtime-ACTIVE rules NOT APPLICABLE for this pilot (by design):
  *   - REG-TA-002 L-category framework: pilot is M1, not L
@@ -48,8 +54,11 @@ export const pilotExpected = {
       "REG-AD-002",
       "REG-AI-001",
       "REG-BAT-001",
+      "REG-BAT-002",
       "REG-BAT-004",
       "REG-BAT-009",
+      "REG-CI-001",
+      "REG-CI-002",
       "REG-CS-001",
       "REG-CS-002",
       "REG-CS-004",
@@ -65,6 +74,7 @@ export const pilotExpected = {
       "REG-GSR-005",
       "REG-GSR-006",
       "REG-GSR-007",
+      "REG-MS-003",
       "REG-MS-DE-001",
       "REG-MS-DE-002",
       "REG-MS-DE-003",
@@ -78,6 +88,7 @@ export const pilotExpected = {
       "REG-MS-FR-004",
       "REG-MS-FR-005",
       "REG-PV-002",
+      "REG-PV-003",
       "REG-TA-001",
       "REG-TA-004",
       "REG-UN-007",
@@ -117,7 +128,7 @@ export const pilotExpected = {
       "REG-UN-158",
       "REG-UN-160",
     ],
-    total_applicable_min: 71,
+    total_applicable_min: 76,
   },
   softAssertions: {
     // CONDITIONAL count drops as SEED_UNVERIFIED → ACTIVE promotions move rules

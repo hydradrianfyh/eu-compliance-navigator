@@ -118,26 +118,59 @@ export const privacyConnectedRules = [
     jurisdiction_level: "EU",
     framework_group: ["MN", "L", "O", "AGRI"],
     sources: [
-      makeSource(
-        "EU agency guidance",
-        "EDPB",
-        "EDPB Guidelines 01/2020 on processing personal data in the context of connected vehicles",
-      ),
+      {
+        label: "EU agency guidance",
+        source_family: "EDPB" as const,
+        reference:
+          "EDPB Guidelines 01/2020 on processing personal data in the context of connected vehicles and mobility related applications (v2.0 adopted 9 March 2021)",
+        official_url:
+          "https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-012020-processing-personal-data-context_en",
+        oj_reference: null,
+        last_verified_on: "2026-04-24",
+      },
     ],
-    lifecycle_state: "SEED_UNVERIFIED",
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-24",
+    promoted_by: "phase-m.2.b",
     trigger_logic: {
       mode: "declarative",
       match_mode: "any",
       conditions: [
-        { field: "hasConnectedServices", operator: "is_true", value: true },
-        { field: "processesPersonalData", operator: "is_true", value: true },
+        { field: "hasConnectedServices", operator: "is_true", value: true, label: "Vehicle has connected services" },
+        { field: "processesPersonalData", operator: "is_true", value: true, label: "Vehicle processes personal data" },
       ],
       fallback_if_missing: "unknown",
     },
+    temporal: {
+      entry_into_force: null,
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2021-03-09",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes:
+        "EDPB guidance (soft law) — not directly binding but authoritative interpretation of GDPR for connected vehicles; national data-protection authorities expect alignment.",
+    },
     obligation_text:
-      "EDPB guidance recommends specific safeguards for connected vehicle data processing including data minimization, purpose limitation, and in-vehicle privacy controls.",
+      "EDPB guidance establishes specific safeguards for connected-vehicle data processing: data-minimisation by design, purpose-limitation at in-vehicle layer, local-processing preference for location / biometric / cabin-camera data, multi-layer transparency (first-layer information for all recipients), and revocable consent for non-essential processing.",
+    evidence_tasks: [
+      "Data-minimisation mapping for cabin-camera / location / biometric flows",
+      "Multi-layer privacy notice covering first-layer recipients (OEM + TSPs)",
+      "Local-vs-remote processing decision log per data category",
+      "Consent revocation mechanism evidence (infotainment + app)",
+    ],
     owner_hint: "privacy_data_protection",
     ui_package: "horizontal",
     process_stage: "post_market",
+    content_provenance: {
+      source_type: "manual",
+      retrieved_at: "2026-04-24",
+      human_reviewer: "yanhao",
+    },
+    related_rules: [
+      { rule_id: "REG-PV-001", relation: "complements" },
+      { rule_id: "REG-PV-002", relation: "complements" },
+    ],
   }),
 ];

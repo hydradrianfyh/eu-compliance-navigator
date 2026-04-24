@@ -107,11 +107,16 @@ export const cybersecurityRules = [
     jurisdiction_level: "EU",
     framework_group: ["MN", "L", "O", "AGRI"],
     sources: [
-      makeSource(
-        "Framework regulation",
-        "EUR-Lex",
-        "Regulation (EU) 2024/2847",
-      ),
+      {
+        label: "Framework regulation",
+        source_family: "EUR-Lex" as const,
+        reference:
+          "Regulation (EU) 2024/2847 on horizontal cybersecurity requirements for products with digital elements (Cyber Resilience Act), amending Regs (EU) No 168/2013, (EU) No 167/2013, and (EU) 2019/1020",
+        official_url: "https://eur-lex.europa.eu/eli/reg/2024/2847/oj",
+        oj_reference: "OJ L, 2024/2847, 20.11.2024",
+        authoritative_reference: "CELEX:32024R2847",
+        last_verified_on: "2026-04-24",
+      },
     ],
     lifecycle_state: "DRAFT",
     trigger_logic: {

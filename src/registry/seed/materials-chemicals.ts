@@ -59,19 +59,55 @@ export const materialsChemicalsRules = [
     jurisdiction: "EU",
     jurisdiction_level: "EU",
     framework_group: ["MN", "L", "O", "AGRI"],
-    sources: [makeSource("Framework regulation", "EUR-Lex", "Regulation (EC) No 1907/2006")],
-    lifecycle_state: "SEED_UNVERIFIED",
+    sources: [
+      {
+        label: "Framework regulation",
+        source_family: "EUR-Lex" as const,
+        reference:
+          "Regulation (EC) No 1907/2006 concerning the Registration, Evaluation, Authorisation and Restriction of Chemicals (REACH)",
+        official_url: "https://eur-lex.europa.eu/eli/reg/2006/1907/oj",
+        oj_reference: "OJ L 396, 30.12.2006, p. 1",
+        authoritative_reference: "CELEX:32006R1907",
+        last_verified_on: "2026-04-24",
+      },
+    ],
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-24",
+    promoted_by: "phase-m.2.b",
     trigger_logic: {
       mode: "declarative",
-      match_mode: "all",
-      conditions: [],
+      match_mode: "any",
+      conditions: [
+        { field: "targetsEU", operator: "is_true", value: true, label: "Vehicle targets EU market" },
+      ],
       fallback_if_missing: "unknown",
     },
+    temporal: {
+      entry_into_force: "2007-06-01",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2007-06-01",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes:
+        "Automotive articles (e.g., metal parts, plastics, coatings, rubber components) fall within REACH's article regime. ECHA's Candidate List of SVHCs is updated twice yearly; Article 33 communication duty triggers at >0.1% w/w per article.",
+    },
     obligation_text:
-      "Communicate SVHC presence in articles and comply with REACH restrictions.",
+      "Vehicle OEMs placing articles on the EU market must (a) communicate SVHC presence above 0.1 % w/w per article through the supply chain and to consumers on request (Art 33), (b) comply with Annex XVII restrictions (e.g., cadmium, lead, certain phthalates), (c) notify SCIP database for articles on the EU market containing Candidate-List SVHCs above the threshold.",
+    evidence_tasks: [
+      "SCIP database submission for articles containing SVHC > 0.1 % w/w",
+      "Article 33 downstream communication to dealers / fleet buyers",
+      "Annex XVII restriction compliance matrix for declared substances",
+    ],
     owner_hint: "sustainability_materials",
     ui_package: "horizontal",
     process_stage: "post_market",
+    content_provenance: {
+      source_type: "eur_lex",
+      retrieved_at: "2026-04-24",
+      human_reviewer: "yanhao",
+    },
   }),
   makeSeedRule({
     stable_id: "REG-BAT-003",

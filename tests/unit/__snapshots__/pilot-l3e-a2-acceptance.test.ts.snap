@@ -103,8 +103,8 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-PV-002",
   },
   {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-PV-003",
   },
   {
@@ -143,8 +143,8 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-BAT-001",
   },
   {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-BAT-002",
   },
   {
@@ -1003,8 +1003,8 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-MS-002",
   },
   {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-MS-003",
   },
   {
@@ -1033,13 +1033,13 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
     "rule_id": "REG-IMP-005",
   },
   {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "NOT_APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-CI-001",
   },
   {
-    "applicability": "UNKNOWN",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "applicability": "APPLICABLE",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-CI-002",
   },
   {
@@ -1052,15 +1052,18 @@ exports[`Pilot L3e-A2 BEV acceptance > Layer 3 — coverage snapshot > matches t
 
 exports[`Pilot L3e-A2 BEV acceptance > pilot coverage summary > prints coverage breakdown 1`] = `
 {
-  "applicable": 15,
+  "applicable": 19,
   "applicable_ids": [
     "REG-BAT-001",
+    "REG-BAT-002",
     "REG-BAT-004",
     "REG-BAT-005",
     "REG-BAT-009",
+    "REG-CI-002",
     "REG-CS-004",
     "REG-DA-001",
     "REG-DA-002",
+    "REG-MS-003",
     "REG-MS-DE-001",
     "REG-MS-DE-002",
     "REG-MS-DE-003",
@@ -1068,12 +1071,13 @@ exports[`Pilot L3e-A2 BEV acceptance > pilot coverage summary > prints coverage 
     "REG-MS-DE-005",
     "REG-MS-DE-006",
     "REG-PV-002",
+    "REG-PV-003",
     "REG-TA-002",
   ],
   "conditional": 7,
   "future": 3,
-  "not_applicable": 118,
+  "not_applicable": 119,
   "total": 209,
-  "unknown": 66,
+  "unknown": 61,
 }
 `;

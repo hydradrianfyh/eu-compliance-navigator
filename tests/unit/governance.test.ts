@@ -21,12 +21,13 @@ describe("governance", () => {
     // authoring real URL + OJ (where required) + verification dates on all four primary
     // sources. They are now genuinely ACTIVE at both raw and runtime layers.
     //
-    // The remaining SEED_UNVERIFIED population (56 rules) consists of backlog items that
-    // were *originally* labelled SEED_UNVERIFIED in prose — not prose-ACTIVE rules that
-    // got silently downgraded. We verify one such rule to confirm the lifecycle state
-    // is preserved, but the "silent downgrade at runtime" class is empty post-M.0.1.
-    const bat002 = allSeedRules.find((rule) => rule.stable_id === "REG-BAT-002");
-    expect(bat002?.lifecycle_state).toBe("SEED_UNVERIFIED");
+    // The remaining SEED_UNVERIFIED population consists of backlog items that were
+    // *originally* labelled SEED_UNVERIFIED in prose — not prose-ACTIVE rules that
+    // got silently downgraded. We verify one such rule (REG-MS-001 Market Surveillance
+    // Regulation — REG-BAT-002 was promoted in Phase M.2.B) to confirm the lifecycle
+    // state is preserved. The "silent downgrade at runtime" class stays empty.
+    const msr = allSeedRules.find((rule) => rule.stable_id === "REG-MS-001");
+    expect(msr?.lifecycle_state).toBe("SEED_UNVERIFIED");
   });
 
   it("flags lifecycle/source integrity issues for ACTIVE rules", () => {

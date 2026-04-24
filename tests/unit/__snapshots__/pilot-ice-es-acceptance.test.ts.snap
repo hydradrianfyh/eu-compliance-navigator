@@ -2,16 +2,19 @@
 
 exports[`Pilot MY2027 ICE M1 × ES acceptance > Layer 2 — snapshot coverage > applicability counts snapshot > counts 1`] = `
 {
-  "applicable": 63,
+  "applicable": 68,
   "conditional": 11,
   "future": 3,
   "not_applicable": 66,
-  "unknown": 66,
+  "unknown": 61,
 }
 `;
 
 exports[`Pilot MY2027 ICE M1 × ES acceptance > Layer 2 — snapshot coverage > applicable IDs snapshot > applicable_ids 1`] = `
 [
+  "REG-BAT-002",
+  "REG-CI-001",
+  "REG-CI-002",
   "REG-CS-001",
   "REG-CS-002",
   "REG-CS-004",
@@ -29,6 +32,7 @@ exports[`Pilot MY2027 ICE M1 × ES acceptance > Layer 2 — snapshot coverage > 
   "REG-GSR-005",
   "REG-GSR-006",
   "REG-GSR-007",
+  "REG-MS-003",
   "REG-MS-ES-001",
   "REG-MS-ES-002",
   "REG-MS-ES-003",
@@ -38,6 +42,7 @@ exports[`Pilot MY2027 ICE M1 × ES acceptance > Layer 2 — snapshot coverage > 
   "REG-MS-ES-007",
   "REG-MS-ES-009",
   "REG-PV-002",
+  "REG-PV-003",
   "REG-TA-001",
   "REG-TA-004",
   "REG-UN-007",
