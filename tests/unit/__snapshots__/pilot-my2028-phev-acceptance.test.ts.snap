@@ -694,7 +694,7 @@ exports[`Pilot MY2028 PHEV acceptance > Layer 3 — coverage snapshot > matches 
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "DRAFT",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UK-011",
   },
   {
@@ -704,12 +704,12 @@ exports[`Pilot MY2028 PHEV acceptance > Layer 3 — coverage snapshot > matches 
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "DRAFT",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UK-013",
   },
   {
     "applicability": "NOT_APPLICABLE",
-    "lifecycle_state": "SEED_UNVERIFIED",
+    "lifecycle_state": "ACTIVE",
     "rule_id": "REG-UK-014",
   },
   {
