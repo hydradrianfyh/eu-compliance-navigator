@@ -33,7 +33,7 @@ describe("governance", () => {
   it("flags lifecycle/source integrity issues for ACTIVE rules", () => {
     const report = validateRegistryIntegrity(allSeedRules);
 
-    expect(report.totalRules).toBe(209);
+    expect(report.totalRules).toBe(211);
     expect(report.duplicateIds).toEqual([]);
     expect(report.activeWithoutUrl).toEqual([]);
     expect(report.activeWithoutOjReference).toEqual([]);

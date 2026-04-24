@@ -995,4 +995,67 @@ export const emissionsCo2Rules = [
       { rule_id: "REG-BAT-001", relation: "complements" },
     ],
   }),
+
+  // Phase M.2.C — MAC Directive (mobile air-conditioning fluorinated GHG)
+  makeSeedRule({
+    stable_id: "REG-EM-015",
+    title:
+      "Mobile Air-Conditioning (MAC) Directive — fluorinated greenhouse-gas refrigerant limits",
+    short_label: "MAC Dir (2006/40)",
+    legal_family: "emissions_co2",
+    jurisdiction: "EU",
+    jurisdiction_level: "EU",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Directive",
+        source_family: "EUR-Lex" as const,
+        reference:
+          "Directive 2006/40/EC relating to emissions from air-conditioning systems in motor vehicles and amending Directive 70/156/EEC",
+        official_url: "https://eur-lex.europa.eu/eli/dir/2006/40/oj",
+        oj_reference: "OJ L 161, 14.6.2006, p. 12",
+        authoritative_reference: "CELEX:32006L0040",
+        last_verified_on: "2026-04-24",
+      },
+    ],
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-24",
+    promoted_by: "phase-m.2.c",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "frameworkGroup", operator: "eq", value: "MN", label: "Framework group is M/N" },
+        { field: "vehicleCategory", operator: "in", value: ["M1", "N1"], label: "Vehicle category is M1 or N1" },
+      ],
+      fallback_if_missing: "unknown",
+    },
+    temporal: {
+      entry_into_force: "2006-07-04",
+      applies_to_new_types_from: "2011-01-01",
+      applies_to_all_new_vehicles_from: "2017-01-01",
+      applies_to_first_registration_from: null,
+      applies_from_generic: null,
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes:
+        "New M1 / N1 Class-1 vehicle types since 1 January 2011 and all new M1 / N1 Class-1 vehicles placed on the EU market since 1 January 2017 must use an air-conditioning refrigerant with GWP ≤ 150. Almost all OEMs selected HFO-1234yf to replace HFC-134a.",
+    },
+    obligation_text:
+      "M1 and N1 Class-1 vehicles with mobile air-conditioning systems must use a refrigerant with a global-warming potential (GWP) not exceeding 150. Leak rates are capped per type-approval testing. Directive transposed into type-approval framework via Reg (EC) 706/2007.",
+    evidence_tasks: [
+      "Refrigerant GWP declaration ≤ 150 (typically HFO-1234yf)",
+      "MAC leak-rate test report per Reg (EC) 706/2007",
+      "Type-approval extension evidence for each MAC variant",
+    ],
+    owner_hint: "sustainability_materials",
+    ui_package: "horizontal",
+    process_stage: "type_approval",
+    content_provenance: {
+      source_type: "eur_lex",
+      retrieved_at: "2026-04-24",
+      human_reviewer: "yanhao",
+    },
+    related_rules: [{ rule_id: "REG-BAT-011", relation: "complements" }],
+  }),
 ];

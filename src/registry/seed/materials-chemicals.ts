@@ -558,6 +558,70 @@ export const materialsChemicalsRules = [
       human_reviewer: null,
     },
   }),
+
+  // Phase M.2.C — F-gas Regulation (fluorinated greenhouse gases)
+  makeSeedRule({
+    stable_id: "REG-BAT-011",
+    title: "F-gas Regulation — fluorinated greenhouse-gas controls",
+    short_label: "F-gas (2024/573)",
+    legal_family: "materials_chemicals",
+    jurisdiction: "EU",
+    jurisdiction_level: "EU",
+    framework_group: ["MN"],
+    sources: [
+      {
+        label: "Framework regulation",
+        source_family: "EUR-Lex" as const,
+        reference:
+          "Regulation (EU) 2024/573 on fluorinated greenhouse gases, amending Directive (EU) 2019/1937 and repealing Regulation (EU) No 517/2014",
+        official_url: "https://eur-lex.europa.eu/eli/reg/2024/573/oj",
+        oj_reference: "OJ L, 2024/573, 20.2.2024",
+        authoritative_reference: "CELEX:32024R0573",
+        last_verified_on: "2026-04-24",
+      },
+    ],
+    lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-24",
+    promoted_by: "phase-m.2.c",
+    trigger_logic: {
+      mode: "declarative",
+      match_mode: "all",
+      conditions: [
+        { field: "targetsEU", operator: "is_true", value: true, label: "Vehicle targets EU market" },
+      ],
+      fallback_if_missing: "unknown",
+    },
+    temporal: {
+      entry_into_force: "2024-03-11",
+      applies_to_new_types_from: null,
+      applies_to_all_new_vehicles_from: null,
+      applies_to_first_registration_from: null,
+      applies_from_generic: "2024-03-11",
+      effective_to: null,
+      small_volume_derogation_until: null,
+      notes:
+        "Regulation 2024/573 replaces Reg 517/2014. Labelling and product-information requirements and HFC quota allocations apply from 1 January 2025. Quota system for hydrofluorocarbons (HFCs) phased out by 2050 with 15% reduction 2025-2036. Complements the automotive-specific MAC Directive 2006/40/EC (REG-EM-015).",
+    },
+    obligation_text:
+      "Products and equipment placed on the EU market containing fluorinated greenhouse gases (including automotive mobile air-conditioning refrigerants, fire-protection equipment, and aerosol dispensers) must comply with the phase-down schedule, labelling requirements, leak-check and recovery obligations, and quota allocations of Regulation (EU) 2024/573. Operators must ensure leak checks, maintain records, and engage certified personnel for installation / servicing.",
+    evidence_tasks: [
+      "F-gas inventory and quantity declaration for automotive systems",
+      "Labelling compliance (refrigerant type, tCO2-eq, GWP, pre-charged statement)",
+      "HFC quota attribution for imported / placed-on-market equipment",
+      "Certified-personnel evidence for any OEM-side F-gas service operations",
+      "Leak-check records for installations with ≥ 5 tCO2-eq (where applicable)",
+    ],
+    owner_hint: "sustainability_materials",
+    ui_package: "horizontal",
+    process_stage: "post_market",
+    content_provenance: {
+      source_type: "eur_lex",
+      retrieved_at: "2026-04-24",
+      human_reviewer: "yanhao",
+    },
+    related_rules: [{ rule_id: "REG-EM-015", relation: "complements" }],
+  }),
+
   makeSeedRule({
     stable_id: "REG-CSRD-001",
     title: "Corporate Sustainability Reporting Directive",

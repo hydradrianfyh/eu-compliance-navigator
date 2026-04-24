@@ -35,7 +35,13 @@
  *                                  REG-CI-002 Tyre label (Reg 2020/740),
  *                                  REG-PV-003 EDPB Connected-Vehicle Guidelines,
  *                                  REG-MS-003 Recall (Reg 2018/858 Arts 52-53))
- *                              ↳ 76 APPLICABLE (current runtime, 2026-04-24)
+ *                              ↳ 76 APPLICABLE (post Phase M.2.B)
+ *   Phase M.2.C MAC + F-gas:  +2 (REG-EM-015 MAC Dir 2006/40/EC — M1/N1 with
+ *                                 GWP ≤ 150 refrigerant,
+ *                                 REG-BAT-011 F-gas Reg (EU) 2024/573 —
+ *                                 replaces Reg 517/2014, phase-down schedule +
+ *                                 labelling + quotas)
+ *                              ↳ 78 APPLICABLE (current runtime, 2026-04-24)
  *
  * Notable runtime-ACTIVE rules NOT APPLICABLE for this pilot (by design):
  *   - REG-TA-002 L-category framework: pilot is M1, not L
@@ -57,6 +63,7 @@ export const pilotExpected = {
       "REG-BAT-002",
       "REG-BAT-004",
       "REG-BAT-009",
+      "REG-BAT-011",
       "REG-CI-001",
       "REG-CI-002",
       "REG-CS-001",
@@ -67,6 +74,7 @@ export const pilotExpected = {
       "REG-EM-001",
       "REG-EM-003",
       "REG-EM-011",
+      "REG-EM-015",
       "REG-GSR-001",
       "REG-GSR-002",
       "REG-GSR-003",
@@ -128,7 +136,7 @@ export const pilotExpected = {
       "REG-UN-158",
       "REG-UN-160",
     ],
-    total_applicable_min: 76,
+    total_applicable_min: 78,
   },
   softAssertions: {
     // CONDITIONAL count drops as SEED_UNVERIFIED → ACTIVE promotions move rules
