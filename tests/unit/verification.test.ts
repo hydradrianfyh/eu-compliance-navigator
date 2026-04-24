@@ -13,58 +13,79 @@ import {
   validateSourceCompleteness,
 } from "@/registry/verification";
 
+// Phase M.0.1 (audit 2026-04-23) closed the prose-ACTIVE-but-runtime-downgraded
+// gap by authoring real source gates on REG-TA-002, REG-AD-001, REG-AD-002, and
+// REG-DA-001. The "silent runtime downgrade" class is now empty. Tests below use
+// genuine SEED_UNVERIFIED rules (REG-BAT-002 REACH as the canonical unverified
+// EUR-Lex fixture) and a synthetic UNECE rule to test source-family semantics
+// without depending on seed-data drift.
+const UNVERIFIED_EUR_LEX_ID = "REG-BAT-002"; // REACH — SEED with makeSource fallback (null URL/OJ/date)
+
+function syntheticUneceUnverifiedRule(): import("@/registry/schema").Rule {
+  const seed = rawSeedRules.find((rule) => rule.stable_id === "REG-UN-007");
+  if (!seed) throw new Error("REG-UN-007 missing from seed; update fixture");
+  return {
+    ...seed,
+    stable_id: "REG-TEST-UNECE-NULL-URL",
+    sources: [
+      {
+        ...seed.sources[0],
+        official_url: null,
+        oj_reference: null,
+        last_verified_on: null,
+      },
+    ],
+  };
+}
+
 describe("source verification workflow", () => {
-  it("builds a machine-readable queue for all downgraded prose-ACTIVE rules", () => {
-    // Queue size shrinks as URL verification batches complete. After Phase 11B.2
-    // batch 2, remaining prose-ACTIVE-but-unverified rules: REG-TA-002, REG-AD-001,
-    // REG-AD-002, REG-DA-001 (all still use makeSource and require URL verification).
-    expect(sourceVerificationQueue.length).toBe(4);
-    expect(
-      sourceVerificationQueue.every(
-        (item) => item.current_lifecycle_state === "SEED_UNVERIFIED",
-      ),
-    ).toBe(true);
-    expect(
-      sourceVerificationQueue.every((item) =>
-        item.missing_source_fields.includes("official_url"),
-      ),
-    ).toBe(true);
-    expect(
-      sourceVerificationQueue.every((item) =>
-        item.missing_source_fields.includes("last_verified_on"),
-      ),
-    ).toBe(true);
+  it("keeps the prose-ACTIVE downgrade queue empty after Phase M.0.1", () => {
+    // Pre-Phase-M.0.1, this queue held 4 rules where prose said ACTIVE but runtime
+    // governance silently downgraded them to SEED_UNVERIFIED (REG-TA-002 / REG-AD-001
+    // / REG-AD-002 / REG-DA-001). Phase M.0.1 authored real source gates on all four.
+    // The queue staying at length === 0 is now a regression invariant: any new rule
+    // authored as prose-ACTIVE with missing source fields must be caught during review,
+    // not silently demoted at runtime.
+    expect(sourceVerificationQueue.length).toBe(0);
   });
 
-  it("reports source completeness gaps for downgraded rules", () => {
+  it("reports zero source-completeness gaps among ACTIVE rules post-M.0.1", () => {
     const report = validateSourceCompleteness(rawSeedRules);
 
-    expect(report.queue_size).toBe(4);
-    expect(report.incomplete_rules.length).toBe(4);
-    expect(report.incomplete_rules[0]?.stable_id).toBeDefined();
+    expect(report.queue_size).toBe(0);
+    expect(report.incomplete_rules).toEqual([]);
   });
 
-  it("confirms verified rules are promotable and unverified are blocked", () => {
+  it("confirms verified rules are promotable and SEED_UNVERIFIED rules are blocked", () => {
     const verifiedRule = rawSeedRules.find((rule) => rule.stable_id === "REG-TA-001");
     expect(verifiedRule).toBeDefined();
     expect(assessRulePromotability(verifiedRule!).promotable).toBe(true);
 
-    const unverifiedRule = rawSeedRules.find((rule) => rule.stable_id === "REG-AD-001");
+    const unverifiedRule = rawSeedRules.find(
+      (rule) => rule.stable_id === UNVERIFIED_EUR_LEX_ID,
+    );
     expect(unverifiedRule).toBeDefined();
+    expect(unverifiedRule!.lifecycle_state).toBe("SEED_UNVERIFIED");
     expect(assessRulePromotability(unverifiedRule!).promotable).toBe(false);
-    expect(assessRulePromotability(unverifiedRule!).missing_source_fields).toContain("official_url");
+    expect(assessRulePromotability(unverifiedRule!).missing_source_fields).toContain(
+      "official_url",
+    );
   });
 
   it("identifies missing source fields respecting source-family semantics", () => {
-    const uneceUnverified = rawSeedRules.find((rule) => rule.stable_id === "REG-AD-001");
-    expect(uneceUnverified).toBeDefined();
-    expect(uneceUnverified!.sources[0].source_family).toBe("UNECE");
-    expect(getMissingSourceFields(uneceUnverified!)).not.toContain("oj_reference");
-    expect(getMissingSourceFields(uneceUnverified!)).toContain("official_url");
+    // UNECE semantics: no oj_reference required. Synthetic rule because no production
+    // UNECE rule has null URL after the Phase L UNECE_PRIMARY_PORTAL backfill.
+    const uneceUnverified = syntheticUneceUnverifiedRule();
+    expect(uneceUnverified.sources[0].source_family).toBe("UNECE");
+    expect(getMissingSourceFields(uneceUnverified)).not.toContain("oj_reference");
+    expect(getMissingSourceFields(uneceUnverified)).toContain("official_url");
 
-    // REG-EM-001 was promoted in Phase 11B.2 batch 2. Use REG-DA-001 (Data Act)
-    // which still uses makeSource and remains SEED_UNVERIFIED after governance.
-    const eurLexUnverified = rawSeedRules.find((rule) => rule.stable_id === "REG-DA-001");
+    // EUR-Lex semantics: oj_reference required. REG-BAT-002 REACH uses makeSource
+    // fallback so all three gates are null, making it a canonical fixture for the
+    // "EUR-Lex missing URL + OJ + date" scenario.
+    const eurLexUnverified = rawSeedRules.find(
+      (rule) => rule.stable_id === UNVERIFIED_EUR_LEX_ID,
+    );
     expect(eurLexUnverified).toBeDefined();
     expect(eurLexUnverified!.sources[0].source_family).toBe("EUR-Lex");
     expect(getMissingSourceFields(eurLexUnverified!)).toContain("official_url");
@@ -74,20 +95,24 @@ describe("source verification workflow", () => {
   it("exposes verification queue and promotability through the registry", () => {
     const registry = new RuleRegistry(rawSeedRules);
 
-    expect(registry.getVerificationQueue().length).toBe(4);
-    expect(registry.getPromotabilityAssessment("REG-AD-002")?.promotable).toBe(false);
+    expect(registry.getVerificationQueue().length).toBe(0);
+    expect(
+      registry.getPromotabilityAssessment(UNVERIFIED_EUR_LEX_ID)?.promotable,
+    ).toBe(false);
   });
 
   it("rejects unsafe promotion attempts through the registry gate", () => {
     const registry = new RuleRegistry(rawSeedRules);
 
-    expect(() => registry.promoteRuleToActive("REG-AD-001", "reviewer")).toThrow(
-      /not promotable to ACTIVE/i,
-    );
+    expect(() =>
+      registry.promoteRuleToActive(UNVERIFIED_EUR_LEX_ID, "reviewer"),
+    ).toThrow(/not promotable to ACTIVE/i);
   });
 
   it("derives blocked / partial / promotable / promoted workflow buckets", () => {
-    const rule = rawSeedRules.find((item) => item.stable_id === "REG-AD-001")!;
+    const rule = rawSeedRules.find(
+      (item) => item.stable_id === UNVERIFIED_EUR_LEX_ID,
+    )!;
     const blocked = buildDefaultReviewEntry(rule);
     const partial = {
       ...blocked,

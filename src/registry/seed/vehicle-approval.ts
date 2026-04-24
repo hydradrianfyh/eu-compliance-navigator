@@ -60,14 +60,19 @@ export const vehicleApprovalRules = [
     jurisdiction_level: "EU",
     framework_group: ["L"],
     sources: [
-      makeSource(
-        "Framework regulation",
-        "EUR-Lex",
-        "Regulation (EU) No 168/2013",
-        "OJ L 60, 2.3.2013",
-      ),
+      {
+        label: "Framework regulation",
+        source_family: "EUR-Lex" as const,
+        reference: "Regulation (EU) No 168/2013 on the approval and market surveillance of two- or three-wheel vehicles and quadricycles",
+        official_url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32013R0168",
+        oj_reference: "OJ L 60, 2.3.2013",
+        authoritative_reference: "CELEX:32013R0168",
+        last_verified_on: "2026-04-24",
+      },
     ],
     lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-24",
+    promoted_by: "phase-m.0.1",
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
@@ -85,10 +90,15 @@ export const vehicleApprovalRules = [
       notes: null,
     },
     obligation_text:
-      "L-category vehicles require type-approval under Regulation (EU) No 168/2013, separate from the M/N/O framework.",
+      "L-category vehicles (mopeds, motorcycles, tricycles, quadricycles) require type-approval under Regulation (EU) No 168/2013, a framework separate from the M/N/O type-approval regime of Regulation (EU) 2018/858.",
     owner_hint: "homologation",
     ui_package: "wvta_core",
     process_stage: "type_approval",
+    content_provenance: {
+      source_type: "eur_lex",
+      retrieved_at: "2026-04-24",
+      human_reviewer: "yanhao",
+    },
   }),
   makeSeedRule({
     stable_id: "REG-TA-003",

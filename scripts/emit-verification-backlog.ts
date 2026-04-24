@@ -2,10 +2,17 @@
 /**
  * Phase J.4 — Verification Backlog Generator
  *
- * Reads `rawSeedRules` from the registry, filters to rules in lifecycle
- * states awaiting human source verification (SEED_UNVERIFIED / DRAFT /
- * PLACEHOLDER), groups them by jurisdiction, and emits a markdown backlog
- * used by reviewers to drive the verification queue.
+ * Reads `allSeedRules` (post-governance) from the registry, filters to
+ * rules in lifecycle states awaiting human source verification
+ * (SEED_UNVERIFIED / DRAFT / PLACEHOLDER), groups them by jurisdiction,
+ * and emits a markdown backlog used by reviewers to drive the verification
+ * queue.
+ *
+ * Phase M.0.3 fix (audit 2026-04-23): switched source from `rawSeedRules`
+ * to `allSeedRules` so the backlog includes rules labelled ACTIVE in raw
+ * seed but runtime-downgraded to SEED_UNVERIFIED by `applyGovernanceToRule`
+ * (missing primary-source gates). Before this fix, the backlog document
+ * understated the non-ACTIVE count by the governance-downgrade delta.
  *
  * Usage:
  *   npx tsx scripts/emit-verification-backlog.ts > docs/phase-j/verification-backlog.md
@@ -19,7 +26,7 @@
  * © Yanhao FU
  */
 
-import { rawSeedRules } from "@/registry/seed";
+import { allSeedRules } from "@/registry/seed";
 import type { Rule } from "@/registry/schema";
 
 type UrlStatus = "ok" | "missing" | "verify-marked";
@@ -89,7 +96,7 @@ function truncate(value: string, max: number): string {
 }
 
 function main(): void {
-  const pending = rawSeedRules.filter((r) =>
+  const pending = allSeedRules.filter((r) =>
     PENDING_STATES.has(r.lifecycle_state),
   );
 

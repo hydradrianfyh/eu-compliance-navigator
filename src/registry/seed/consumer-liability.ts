@@ -79,19 +79,50 @@ export const consumerLiabilityRules = [
     jurisdiction: "EU",
     jurisdiction_level: "EU",
     framework_group: ["MN", "L", "O", "AGRI"],
-    sources: [makeSource("Framework regulation", "EUR-Lex", "Regulation (EU) 2023/988")],
+    sources: [
+      {
+        label: "Framework regulation",
+        source_family: "EUR-Lex" as const,
+        reference: "Regulation (EU) 2023/988 on general product safety",
+        official_url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32023R0988",
+        oj_reference: "OJ L 135, 23.5.2023, p. 1",
+        authoritative_reference: "CELEX:32023R0988",
+        last_verified_on: "2026-04-24",
+      },
+    ],
     lifecycle_state: "DRAFT",
+    // Phase M.0.2 — audit 2026-04-23 finding:
+    // Previous `conditions: []` + empty temporal evaluated to UNKNOWN today,
+    // but was a latent over-broad-applicability bug — if a future author
+    // populated temporal without scope, match_mode:"all" over [] evaluates
+    // as satisfied and the rule would match every EU-market vehicle. Fix
+    // order is scope conditions BEFORE any temporal authoring.
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
-      conditions: [],
+      conditions: [
+        {
+          field: "targetsEU",
+          operator: "is_true",
+          value: true,
+          label: "Placed on EU market",
+        },
+        {
+          field: "salesModel",
+          operator: "in",
+          value: ["direct", "dealer", "leasing", "subscription", "mixed"],
+          label: "Consumer-facing sales channel (not pure fleet)",
+        },
+      ],
       fallback_if_missing: "unknown",
+      conditional_reason:
+        "GPSR applies to products placed on the EU market for consumer use. Type-approved vehicles as a whole are largely out of GPSR scope (Article 2 — covered by 2018/858), but aftermarket parts, accessories, and consumer-facing digital components may still fall under GPSR. Legal review required per-feature.",
     },
     obligation_text:
-      "GPSR applicability to type-approved vehicles and aftermarket components needs review.",
+      "GPSR sets general safety obligations for products placed on the EU market for consumer use. Type-approved vehicles are largely out of scope per Article 2 (covered by Regulation (EU) 2018/858), but aftermarket parts, accessories, infotainment add-ons, and consumer-facing digital components may still fall under GPSR's traceability, risk-assessment, and market-surveillance obligations.",
     owner_hint: "legal",
     manual_review_reason:
-      "Applicability to type-approved vehicles and aftermarket components needs review.",
+      "Per-feature applicability to aftermarket parts, accessories, and digital add-ons still needs legal review before promotion to ACTIVE.",
     ui_package: "horizontal",
     process_stage: "post_market",
   }),

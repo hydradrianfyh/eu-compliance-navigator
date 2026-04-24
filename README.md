@@ -2,7 +2,7 @@
 
 A config-driven compliance workbench for EU vehicle programs.
 
-**Status**: Phase L.1–L.6 shipped (UNECE Annex II completion + ES SEED_UNVERIFIED cleanup) · K.1 / K.2 UX refresh live · 205 rules / **101 ACTIVE** · 236 tests green · MY2027 BEV × DE (**51 APPLICABLE**) / PHEV × DE·FR·NL / ICE × ES pilots live · verification backlog tracked at [docs/phase-j/verification-backlog.md](docs/phase-j/verification-backlog.md).
+**Status**: Phase L.1–L.6 shipped · Phase M.0 data-integrity gate closed (2026-04-24) · K.1 / K.2 UX refresh live · 205 rules / **101 runtime-ACTIVE** (raw = runtime, no governance downgrades) · MY2027 BEV × DE·FR·NL (**53 APPLICABLE**) / PHEV × DE·FR·NL / ICE × ES pilots live · coverage audit + Phase M plan at [docs/audits/](docs/audits/) and [docs/phase-m/](docs/phase-m/) · verification backlog tracked at [docs/phase-j/verification-backlog.md](docs/phase-j/verification-backlog.md).
 
 > ⚠ **This tool is a navigation aid, not legal advice.** Always validate with your homologation partner and legal counsel before making market-entry decisions. See [Disclaimer](#disclaimer).
 
@@ -135,7 +135,7 @@ npm run build
 npm start
 ```
 
-First time? Open the app, click the **⚙ gear icon** in the top-right, then **"Load MY2027 BEV sample"**. You'll land on a pre-populated Setup with **51 APPLICABLE** pilot-triggered rules ready to explore (MY2027 BEV × DE pilot baseline, post Phase L.5).
+First time? Open the app, click the **⚙ gear icon** in the top-right, then **"Load MY2027 BEV sample"**. You'll land on a pre-populated Setup with **53 APPLICABLE** pilot-triggered rules ready to explore (MY2027 BEV × DE·FR·NL pilot baseline, post Phase M.0 data-integrity gate).
 
 ---
 

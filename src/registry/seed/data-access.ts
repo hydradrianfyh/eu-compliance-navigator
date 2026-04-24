@@ -10,14 +10,24 @@ export const dataAccessRules = [
     jurisdiction_level: "EU",
     framework_group: ["MN", "L", "O", "AGRI"],
     sources: [
-      makeSource(
-        "Framework regulation",
-        "EUR-Lex",
-        "Regulation (EU) 2023/2854",
-        "OJ L, 2023/2854, 22 December 2023",
-      ),
+      {
+        label: "Framework regulation",
+        source_family: "EUR-Lex" as const,
+        reference: "Regulation (EU) 2023/2854 (Data Act) on harmonised rules on fair access to and use of data",
+        official_url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32023R2854",
+        oj_reference: "OJ L, 2023/2854, 22 December 2023",
+        authoritative_reference: "CELEX:32023R2854",
+        last_verified_on: "2026-04-24",
+      },
     ],
     lifecycle_state: "ACTIVE",
+    promoted_on: "2026-04-24",
+    promoted_by: "phase-m.0.1",
+    content_provenance: {
+      source_type: "eur_lex",
+      retrieved_at: "2026-04-24",
+      human_reviewer: "yanhao",
+    },
     trigger_logic: {
       mode: "declarative",
       match_mode: "all",
