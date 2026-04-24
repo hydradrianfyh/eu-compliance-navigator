@@ -18,7 +18,7 @@ npm run dev          # http://localhost:3000
 Verify:
 
 ```bash
-npm test             # 236 tests
+npm test             # 248 tests across 38 test files
 npx tsc --noEmit     # 0 errors
 npm run lint         # 0 errors
 ```
@@ -328,7 +328,7 @@ tests/
 └── regression/            Golden-dataset + drift CI checks
 ```
 
-35 test files, 236 tests. Goal: ≥80% line coverage on `src/engine/`, `src/registry/`, `src/lib/`.
+38 test files, 248 tests. Goal: ≥80% line coverage on `src/engine/`, `src/registry/`, `src/lib/`.
 
 ### 6.2 How to add a test
 
@@ -504,7 +504,7 @@ When you author a rule whose trigger depends on combustion/diesel specificity, p
 
 ## 11. How to add a new member-state overlay
 
-Current coverage: DE (8 ACTIVE + 2 indicative), UK (11 ACTIVE + 2 DRAFT), ES (**9 ACTIVE** + 5 pending after Phase L.6), FR (5 ACTIVE + 7 pending), NL (0 ACTIVE + 5 SEED_UNVERIFIED). Adding a new country (e.g. IT / PL / BE / AT / SE / CZ — currently 5-PLACEHOLDER skeletons per country):
+Current coverage (post Phase M): DE (8 ACTIVE + 2 indicative), UK (**14 ACTIVE** + 1 DRAFT — Phase M.4 added Windsor Framework NI + Public Charge Point Regs + UK REACH), FR (**11 ACTIVE** + 1 DRAFT — Phase M.3 lifted FR from 5 → 11 ACTIVE, UTAC-CERAM remains DRAFT), ES (9 ACTIVE + 5 indicative/DRAFT/PLACEHOLDER by design), NL (0 ACTIVE + 5 SEED_UNVERIFIED — deferred to Phase N+). Adding a new country (e.g. IT / PL / BE / AT / SE / CZ — currently 5-PLACEHOLDER skeletons per country):
 
 1. Add the country code to `targetCountryOptions.eu` in `src/shared/constants.ts` (if not already).
 2. Create rule entries in `src/registry/seed/member-state-overlay.ts`. Template from the DE overlay (8 ACTIVE rules: registration FZV, roadworthiness §29 StVZO HU/AU, insurance PflVG, motor tax KraftStG, Umweltzone low-emission zones, E-Kennzeichen, …).
@@ -537,9 +537,9 @@ No semver tags yet. When a stable "v1.0" is cut, use [CHANGELOG.md](./) (to be c
 
 - **localStorage only** — no multi-user, no audit trail. By design (ADR-P1). Will revisit only if a real second OEM tenant appears.
 - **Legacy `src/components/phase3/`** — retained as fallback. `Phase3MainPage` is not imported by any `(workspace)` route but sits behind `/legacy` for comparison. Phase G is the planned deletion window.
-- **UNECE Annex II coverage** — 43 UNECE technical rules still SEED_UNVERIFIED. Phase K+ scope. ScopeBanner acknowledges this.
-- **NL overlay** — 5 SEED_UNVERIFIED, 0 ACTIVE. Phase K+ scope.
-- **FR / ES overlay remainder** — 7 rules each pending verification. Rolling workstream.
+- **UNECE Annex II residual** — 5 UNECE technical rules still SEED_UNVERIFIED after Phase M.2.A promoted 16 to ACTIVE (R49 HD, R85 engine power, R115 LPG retrofit, R135 pole side impact, R137 full-width frontal). Phase N+ scope. ScopeBanner acknowledges this.
+- **NL overlay** — 5 SEED_UNVERIFIED, 0 ACTIVE. Deferred to Phase N+.
+- **ES overlay remainder** — 5 rules (Homologación Individual, ZEV 2040, Movilidad Sostenible, MOVES III, CCAA variation) kept at current non-ACTIVE lifecycle by design. FR residual is 1 DRAFT (UTAC-CERAM — no JORF designation decree found).
 - **Playwright E2E** — scaffolded, no real tests. Phase F scope.
 - **Type-approval extension workflow** — `approvalType` has 4 states; E-mark extension flow is not modelled separately. Would require schema-level work.
 - **DE-009 KBA architectural split** — follow-up item from human-review round 1.

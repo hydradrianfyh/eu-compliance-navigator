@@ -1,6 +1,6 @@
 # EU Compliance Navigator · 用户使用指南
 
-**版本**：Phase L.6（2026-04-22）· 205 条规则 / **101 条 ACTIVE** · 236 个测试通过
+**版本**：Phase M（2026-04-24）· 211 条规则 / **137 条 ACTIVE** · 248 个测试通过
 **适用 pilot**：MY2027 BEV × DE · PHEV × DE·FR·NL · ICE × ES
 **语言**：中文（English: [USER-GUIDE-EN.md](./USER-GUIDE-EN.md)）
 
@@ -21,8 +21,8 @@
 ### 本指南**不**是什么
 
 - **不是法律意见**。工具输出是结构化合规清单，不替代律师、TÜV、DEKRA、UTAC 等专业审核。
-- **不是完整法规库**。205 条 seed 规则（经 Phase L.1–L.6 之后已有 **101 条 ACTIVE**，含 27 条 UNECE R-系列 + 9 条 ES overlay）覆盖主要 EU + DE / UK / ES / FR + UNECE 框架；剩余 104 条非 ACTIVE 规则在卡片上都会注明"为什么还未 promoted"的具体原因。
-- **不是万能市场工具**。当前覆盖 DE（8 ACTIVE）+ UK（11 ACTIVE）+ ES（**9 ACTIVE**）+ FR（5 ACTIVE，部分覆盖）；NL 仅 seed（0 ACTIVE）；其他 22 个 EU 国延后；非欧盟市场（CN/US/JP/TR）不支持。
+- **不是完整法规库**。211 条 seed 规则（经 Phase L.1–L.6 + Phase M 之后已有 **137 条 ACTIVE**，含 43 条 UNECE R-系列 + 52 条 EU horizontal + DE/UK/FR/ES overlay）覆盖主要 EU + DE / UK / FR / ES + UNECE 框架；剩余 74 条非 ACTIVE 规则在卡片上都会注明"为什么还未 promoted"的具体原因。
+- **不是万能市场工具**。当前覆盖 DE（8 ACTIVE）+ UK（14 ACTIVE）+ FR（**11 ACTIVE**，Phase M.3 升级为 production-grade）+ ES（9 ACTIVE）；NL 仅 seed（0 ACTIVE）；其他 22 个 EU 国延后；非欧盟市场（CN/US/JP/TR）不支持。
 
 ### 怎么读这份指南
 
@@ -56,7 +56,7 @@ npm run dev
 
 页面最上面是蓝色的 **ScopeBanner**。K.1 改版之后是 **四层渐进式披露**：
 
-> ✓ Scope：Germany + UK production-grade · ES + FR partial · NL + others indicative · CN/US/JP/customs out of scope
+> ✓ Scope：Germany + UK + France + Spain production-grade · Netherlands + others pending · CN/US/JP/customs out of scope
 
 点击 banner 可展开四层网格（**production-grade** / **indicative / partial** / **pending authoring** / **out of scope**），每层显示每个 jurisdiction 下的规则数。这条 banner 告诉你工具**真的覆盖什么、明确不覆盖什么**。
 
@@ -96,7 +96,7 @@ Generated 2026-04-21 15:30 UTC
 
 - **Top blockers** — 当前最紧迫的问题（每一条都是深链，点进去跳到 Rules tab 自动展开）
 - **Top deadlines** — 最近 10 个法规 deadline（过期的标红，未来的中性色）
-- **Countries at risk** — 对目标市场哪些有风险。经 L.6 之后，**DE**（8 ACTIVE）+ **UK**（11 ACTIVE）+ **ES**（**9 ACTIVE** / 5 pending，含 Homologación Individual 仍待 Orden ministerial）不出现在高风险列表；**FR**（5 ACTIVE / 7 pending）以"partial"形式列出并标明剩余数量；**NL**（0 ACTIVE / 5 SEED_UNVERIFIED）诚实显示"seed-only: 5 条已撰写、0 条已验证"。每条 at-risk 都给出原因。
+- **Countries at risk** — 对目标市场哪些有风险。经 Phase M 之后，**DE**（8 ACTIVE）+ **UK**（14 ACTIVE）+ **FR**（**11 ACTIVE** / 1 DRAFT，Phase M.3 升为 production-grade）+ **ES**（9 ACTIVE / 5 indicative，Homologación Individual 仍待 Orden ministerial）不出现在高风险列表；**NL**（0 ACTIVE / 5 SEED_UNVERIFIED）诚实显示"seed-only: 5 条已撰写、0 条已验证"。每条 at-risk 都给出原因。
 
 ### 1.3 切到 Plan tab 看本月任务
 
@@ -256,7 +256,7 @@ Setup progress: ████████░░ 5 of 6 sections complete
 **示例值**：`["DE", "FR", "NL"]`（pilot）、`["DE"]` 单市场最快见结果、`["DE","FR","IT","ES","PL"]` 五大 EU
 
 **常见错误**：
-- **勾选 NL 后看到大量 NL 规则显示 UNKNOWN** —— 这**不是 bug**。NL overlay 目前是 seed-only（0 ACTIVE / 5 SEED_UNVERIFIED），Phase K+ 批次才升 ACTIVE。**FR（5 ACTIVE / 7 pending）和 ES（9 ACTIVE / 5 pending）已部分覆盖**，剩余 pending 会在规则卡片上标注"why indicative only"。ScopeBanner 4 层网格会显式告知。
+- **勾选 NL 后看到大量 NL 规则显示 UNKNOWN** —— 这**不是 bug**。NL overlay 目前是 seed-only（0 ACTIVE / 5 SEED_UNVERIFIED），Phase N+ 批次才升 ACTIVE。**FR（11 ACTIVE / 1 DRAFT，Phase M.3 后 production-grade）和 ES（9 ACTIVE / 5 indicative）已覆盖**，剩余 pending 会在规则卡片上标注"why indicative only"。ScopeBanner 4 层网格会显式告知。
 - **勾选非 EU 国家（CN、US、JP 等）** —— 这些国家根本不在下拉选项里。工具明确只服务 EU + UK + EEA + CH 之内。
 - **只勾 NL 不勾 DE / UK / FR / ES** —— NL 目前 seed-only，意味着 Status tab 会显示 "Countries at risk"。可以测试但不是有效 demo 配置。
 
@@ -973,7 +973,7 @@ Setup progress: ████████░░ 5 of 6 sections complete
 **用途**：
 - 第一次上手演示
 - 测试工具行为时的标准配置
-- 回归基线（pilot 的评估结果已被 236 tests 中的 `pilot-acceptance.test.ts` 固化）
+- 回归基线（pilot 的评估结果已被 248 tests 中的 `pilot-acceptance.test.ts` 固化）
 
 **注意**：Load sample 会**覆盖当前 config**。如果正在填自己项目，先 ⚙ → **Clear saved state** 备份（实际是导出 JSON），再 Load sample。
 
@@ -1348,12 +1348,12 @@ Related: REG-CS-002 (complements), REG-AD-001 (requires)
 
 ### 6.1 Lifecycle 分布
 
-显示 205 条规则按 lifecycle 分布（L.6 之后最新）：
+显示 211 条规则按 lifecycle 分布（Phase M 之后最新）：
 
 ```
-ACTIVE           101
-SEED_UNVERIFIED   56
-DRAFT             15
+ACTIVE           137
+SEED_UNVERIFIED   30
+DRAFT             11
 SHADOW             0
 PLACEHOLDER       33
 ARCHIVED           0
@@ -1385,10 +1385,10 @@ Drifted            1
 与 4 层 ScopeBanner 对齐：
 
 - 🟢 **DE (8 ACTIVE + 2 indicative)** — Production-grade guidance available
-- 🟢 **UK (11 ACTIVE + 2 DRAFT)** — Production-grade 非欧盟市场 overlay，含 AV Act 2024
-- 🟢 **ES (9 ACTIVE + 5 indicative/DRAFT/PLACEHOLDER)** — 部分覆盖（L.6 promoted Etiqueta Ambiental + RD 106/2008），Homologación Individual 仍需 Orden ministerial 核查
-- 🟡 **FR (5 ACTIVE + 7 null-URL/DRAFT)** — 部分覆盖，剩余 verification 进行中
-- 🟠 **NL (0 ACTIVE / 5 SEED_UNVERIFIED)** — Seed-only，已撰写但未验证；Phase K+ 批量推 ACTIVE
+- 🟢 **UK (14 ACTIVE + 1 DRAFT)** — Production-grade 非欧盟市场 overlay（Phase M.4 增加 Windsor Framework NI + Public Charge Point Regs + UK REACH）；UK-015 ETS road scope 仍 DRAFT
+- 🟢 **FR (11 ACTIVE + 1 DRAFT)** — Production-grade（Phase M.3 将 5 → 11：Crit'Air / TVS→TAVE-TAPVP / TICPE / LOM / Malus masse / Prime à la conversion terminated marker）；UTAC-CERAM 仍 DRAFT（JORF 指定令未找到）
+- 🟢 **ES (9 ACTIVE + 5 indicative/DRAFT/PLACEHOLDER)** — Production-grade（L.6 promoted Etiqueta Ambiental + RD 106/2008）；Homologación Individual、ZEV 2040、MOVES III 等按 design 保留 non-ACTIVE
+- 🟠 **NL (0 ACTIVE / 5 SEED_UNVERIFIED)** — Seed-only，已撰写但未验证；Phase N+ 批量推 ACTIVE
 - 🟠 **IT / PL / BE / AT / SE / CZ（各 5 条 PLACEHOLDER）** — Placeholder — 覆盖空档，需本地确认
 
 ### 6.5 Verification Queue
@@ -1473,9 +1473,9 @@ UNKNOWN 在引擎里是单一状态，但 UI 把它细分为 3 种：
 
 K.1 改版之后，banner 分 4 层 —— 点击展开：
 
-1. **Production-grade** — DE（8 条 ACTIVE）+ UK（11 条 ACTIVE）+ ES（**9 ACTIVE** 经 L.6）+ UNECE 技术法规（27 条 ACTIVE 经 L.3 + L.5）+ EU 横向（~45 条 ACTIVE）。可以信赖。
-2. **Partial / Indicative** — ES 剩余 5 pending（含 Homologación Individual 待 Orden ministerial）+ FR（5 ACTIVE / 7 pending）。配合每条卡片"why pending"使用。
-3. **Seed-only / Pending** — NL（5 条 SEED_UNVERIFIED，0 条 ACTIVE）+ L.4 新增 9 条 R-numbers（R7/R28/R30/R87/R112/R113/R116/R125/R128）待 L.7 深链验证。
+1. **Production-grade** — DE（8 条 ACTIVE）+ UK（14 条 ACTIVE）+ FR（11 条 ACTIVE，Phase M.3 升为 production-grade）+ ES（9 ACTIVE）+ UNECE 技术法规（43 条 ACTIVE，Phase M.2.A 将 27 → 43）+ EU 横向（52 条 ACTIVE）。可以信赖。
+2. **Indicative** — ES 剩余 5（Homologación Individual、ZEV 2040、Movilidad Sostenible、MOVES III、CCAA variation）+ FR 1 DRAFT（UTAC-CERAM）+ UK 1 DRAFT（ETS road scope）+ DE 2 indicative。配合每条卡片"why pending"使用。
+3. **Seed-only / Pending** — NL（5 条 SEED_UNVERIFIED，0 条 ACTIVE）+ UNECE Annex II 5 残留（R49/R85/R115/R135/R137）。
 4. **Out of scope** — IT / PL / BE / AT / SE / CZ（placeholder），以及 CN / US / JP / TR / 海关 / CBAM / HS / ISO 标准。
 
 **勾选 NL 作为 target country 工具不会假装覆盖** —— Status tab 的 "Countries at risk" 会列出，每张 NL 规则卡片自己会显示"why indicative only"。

@@ -1,6 +1,6 @@
 # Homologation Engineer Handbook
 
-**Version**: Phase L.6 (2026-04-22) · 205 rules / **101 ACTIVE** · 236 tests green
+**Version**: Phase M (2026-04-24) · 211 rules / **137 ACTIVE** · 248 tests green
 **Audience**: Working-level homologation / regulatory affairs engineers at Chinese OEMs planning EU market entry. **Not for managers.**
 **Language**: English companion — Chinese primary at [HOMOLOGATION-HANDBOOK.md](./HOMOLOGATION-HANDBOOK.md)
 **Related**: General reference in [USER-GUIDE-EN.md](./USER-GUIDE-EN.md); developer docs in [DEVELOPER.md](./DEVELOPER.md)
@@ -160,11 +160,11 @@ Generated 2026-04-21 15:30 UTC
 The middle of Status lists coverage per target country, e.g.:
 
 ```
-DE — production-grade · 8/8 ACTIVE
-UK — production-grade · 11/11 ACTIVE
-ES — partial · 7/14 ACTIVE, 7 pending (null_url / draft)
-FR — partial · 5/12 ACTIVE, 7 pending
-NL — seed-only · 0/5 ACTIVE, 5 pending
+DE — production-grade · 8/10 ACTIVE
+UK — production-grade · 14/15 ACTIVE, 1 DRAFT (UK ETS road-transport scope)
+FR — production-grade · 11/12 ACTIVE, 1 DRAFT (UTAC-CERAM)  ← Phase M.3 promotion
+ES — production-grade · 9/14 ACTIVE, 5 indicative by design
+NL — seed-only · 0/5 ACTIVE, 5 pending (Phase N scope)
 ```
 
 This is your starting point for **per-country due diligence**. The tool has told you the coverage ceiling; everything pending you verify yourself.
@@ -391,7 +391,7 @@ Total 196 · Verified 73 (37%) · Indicative 90 (46%) · Pending 33 (17%)
 Fresh 52 · Due soon 15 · Overdue 6 · Never verified 90
 ```
 
-- **Verified 37%** grows with each Phase K+/L+ round.
+- **Verified 65%** after Phase M (137 / 211); grows with each Phase N+ round.
 - **Freshness**: `fresh` (within `review_cadence_days`), `due_soon`, `overdue`, `critically_overdue` (>2× cadence), `never_verified`, `drifted`.
 
 ### 5.2 Lifecycle distribution
@@ -412,9 +412,9 @@ Engineer use: identify gap quadrants relevant to your project. E.g. `ai_governan
 
 ```
 DE [ACTIVE 8 / 10]          production-grade
-UK [ACTIVE 11 / 15]         production-grade
-ES [ACTIVE 7 / 14]          partial
-FR [ACTIVE 5 / 12]          partial
+UK [ACTIVE 14 / 15]         production-grade
+FR [ACTIVE 11 / 12]         production-grade  ← Phase M.3
+ES [ACTIVE 9 / 14]          production-grade
 NL [ACTIVE 0 / 5]           seed-only
 IT / PL / BE / AT / SE      not authored (out of scope)
 ```
@@ -464,8 +464,8 @@ Six scenarios covering your daily work. Each uses a pilot or real variant with s
 - **REG-EM-007 OBD** + **REG-EM-008 EVAP**: standard for combustion.
 - **REG-EM-011 AdBlue/SCR**: diesel-only; PHEV petrol does not fire.
 - **DE 8 ACTIVE**: as Scenario A.
-- **FR 5 ACTIVE**: REG-MS-FR-001 Carte grise · REG-MS-FR-002 Contrôle technique · REG-MS-FR-003 Assurance RC · REG-MS-FR-005 ZFE-m · REG-MS-FR-006 Crit'Air vignette.
-- **FR 7 pending (CONDITIONAL)**: REG-MS-FR-004 Malus/Bonus écologique (PHEV depends on CO2 band) · REG-MS-FR-011 Malus Masse 2025 · others.
+- **FR 11 ACTIVE** (Phase M.3 promoted 5 → 11): REG-MS-FR-001 Carte grise · REG-MS-FR-002 Contrôle technique · REG-MS-FR-003 Assurance RC · REG-MS-FR-004 Bonus/malus CO2 · REG-MS-FR-005 ZFE-m · REG-MS-FR-006 Crit'Air · REG-MS-FR-007 Prime à la Conversion (scheme terminated; retained as informational marker) · REG-MS-FR-008 TVS→TAVE/TAPVP · REG-MS-FR-009 TICPE · REG-MS-FR-010 LOM · REG-MS-FR-011 Malus masse.
+- **FR 1 DRAFT (CONDITIONAL)**: REG-MS-FR-012 UTAC-CERAM — no JORF designation decree found; DRAFT retained with documented blocker.
 - **NL 5 SEED_UNVERIFIED (CONDITIONAL)**: all indicative — you **must** cross-check RDW / Belastingdienst official text.
 
 **Engineer indicative workflow**:
@@ -554,10 +554,10 @@ Three common causes. Check each.
 
 | Tab | What changes |
 |---|---|
-| Status | New row in Coverage by target country; "partial"; At-risk list may add "FR 5 ACTIVE / 7 pending" |
-| Plan | 5 new FR ACTIVE tasks appear (carte grise / contrôle technique / assurance RC / ZFE-m / Crit'Air) |
-| Rules | Search "REG-MS-FR" shows 12 rules |
-| Coverage | FR member-state chip updates to middle-tier partial color |
+| Status | New row in Coverage by target country; production-grade after Phase M.3; At-risk list no longer flags FR |
+| Plan | 11 FR ACTIVE tasks appear (SIV / CT / assurance RC / bonus-malus CO2 / ZFE-m / Crit'Air / TAVE-TAPVP / TICPE / LOM / Malus masse / Prime à la conversion terminated marker) |
+| Rules | Search "REG-MS-FR" shows 12 rules (11 ACTIVE + 1 DRAFT UTAC-CERAM) |
+| Coverage | FR member-state chip upgraded to top-tier production-grade after Phase M.3 |
 
 3. **The ScopeBanner reflects coverage tier depth** — tier 2–3 (partial + seed) counts update.
 4. If the country is NL / IT / PL / etc. (not authored), Status immediately shows Countries at risk; external due diligence is mandatory.
@@ -724,7 +724,7 @@ The tool is not a one-shot audit. It spans the program lifecycle from pre-TA thr
 ### Q9 · UK post-Brexit — how does it work?
 
 **A**:
-- UK is `jurisdiction_level: NON_EU_MARKET`, separate from EU. Selecting UK in targetCountries triggers 11 ACTIVE UK rules (REG-UK-001..015 family including AV Act 2024, GB Type-Approval, DVLA V5C, MoT, RTA 1988, ULEZ, ZEV Mandate, etc.).
+- UK is `jurisdiction_level: NON_EU_MARKET`, separate from EU. Selecting UK in targetCountries triggers 14 ACTIVE UK rules (REG-UK-001..015 family including AV Act 2024, GB Type-Approval, DVLA V5C, MoT, RTA 1988, ULEZ, ZEV Mandate, Windsor Framework NI, Public Charge Point Regs 2023, UK REACH, etc.).
 - **Northern Ireland (NI) special case**: REG-UK-011 Windsor Framework — NI stays aligned with EU rules. If you ship into NI, add EU rules on top of GB Type-Approval. The tool handles this as a UK overlay with a ScopeBanner note on NI specificity.
 
 ### Q10 · Can I integrate the tool into our QMS / PLM?
@@ -741,7 +741,7 @@ The tool is not a one-shot audit. It spans the program lifecycle from pre-TA thr
 
 ## Closing
 
-This manual is for the **working-level homologation engineer** whose day is spent with regulation text, official sources, and TÜV / KBA auditors. The tool does not replace your judgment; it organizes the 101 ACTIVE regulations you use daily into a searchable, exportable, SOP-anchored working surface.
+This manual is for the **working-level homologation engineer** whose day is spent with regulation text, official sources, and TÜV / KBA auditors. The tool does not replace your judgment; it organizes the 137 ACTIVE regulations you use daily into a searchable, exportable, SOP-anchored working surface.
 
 **Best way to use this manual**: walk through [Part 1 Quickstart](#part-1--your-first-30-minutes-quickstart) (30 min), then use [Part 6 scenarios](#part-6--common-scenarios-walkthroughs) as a reference during real work. When you start a new program, put the [Part 8 cadence](#part-8--workflow-cadence) into your calendar.
 

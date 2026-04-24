@@ -1,6 +1,6 @@
 # 准入工程师实操手册 · Homologation Engineer Handbook
 
-**版本**：Phase L.6（2026-04-22）· 205 条规则 / **101 条 ACTIVE** · 236 tests green
+**版本**：Phase M（2026-04-24）· 211 条规则 / **137 条 ACTIVE** · 248 tests green
 **适用对象**：中国 OEM 计划欧盟市场准入的**一线 homologation / regulatory affairs 工程师**（非管理层）
 **语言**：中文（English companion: [HOMOLOGATION-HANDBOOK-EN.md](./HOMOLOGATION-HANDBOOK-EN.md)）
 **相关文档**：通用使用说明见 [USER-GUIDE.md](./USER-GUIDE.md)，开发者文档见 [DEVELOPER.md](./DEVELOPER.md)
@@ -160,11 +160,11 @@ Generated 2026-04-21 15:30 UTC
 Status 中段会列每个 target country 的覆盖分布。例如：
 
 ```
-DE — production-grade · 8/8 ACTIVE
-UK — production-grade · 11/11 ACTIVE
-ES — partial · 7/14 ACTIVE, 7 pending (null_url / draft)
-FR — partial · 5/12 ACTIVE, 7 pending
-NL — seed-only · 0/5 ACTIVE, 5 pending
+DE — production-grade · 8/10 ACTIVE
+UK — production-grade · 14/15 ACTIVE, 1 DRAFT (UK ETS road-transport scope)
+FR — production-grade · 11/12 ACTIVE, 1 DRAFT (UTAC-CERAM)  ← Phase M.3 promotion
+ES — production-grade · 9/14 ACTIVE, 5 indicative by design
+NL — seed-only · 0/5 ACTIVE, 5 pending (Phase N scope)
 ```
 
 这是你做 **per-country due diligence 清单**的起点。工具已经把每个国家能覆盖到什么程度告诉你了；pending 部分你必须**自己去查**。
@@ -402,7 +402,7 @@ Total 196 · Verified 73 (37%) · Indicative 90 (46%) · Pending 33 (17%)
 Fresh 52 · Due soon 15 · Overdue 6 · Never verified 90
 ```
 
-- **Verified 37%** —— 工具 round-reviewed 过多少。目标是随 Phase K+/L+ 增长。
+- **Verified 65%** —— 工具 round-reviewed 过多少（Phase M 后 137/211）。目标是随 Phase N+ 继续增长。
 - **Freshness（新鲜度）**：
   - `fresh` = `last_verified_on` 在 `review_cadence_days` 内。
   - `due_soon` = 下个月到期。
@@ -431,9 +431,9 @@ Fresh 52 · Due soon 15 · Overdue 6 · Never verified 90
 
 ```
 DE [ACTIVE 8 / 10]          ■■■■■■■■□□  production-grade
-UK [ACTIVE 11 / 15]         ■■■■■■■■■■■□□□□  production-grade
-ES [ACTIVE 7 / 14]          ■■■■■■■□□□□□□□  partial
-FR [ACTIVE 5 / 12]          ■■■■■□□□□□□□  partial
+UK [ACTIVE 14 / 15]         ■■■■■■■■■■■■■■□  production-grade
+FR [ACTIVE 11 / 12]         ■■■■■■■■■■■□  production-grade  ← Phase M.3
+ES [ACTIVE 9 / 14]          ■■■■■■■■■□□□□□  production-grade
 NL [ACTIVE 0 / 5]           □□□□□  seed-only
 IT / PL / BE / AT / SE 等    not authored（不在工具范围）
 ```
@@ -491,8 +491,8 @@ Queue 按优先级排序：
 - **REG-EM-007 OBD** + **REG-EM-008 EVAP**：内燃车通用。
 - **REG-EM-011 AdBlue/SCR**：柴油才触发，PHEV petrol 不触发。
 - **DE 8 ACTIVE**：同场景 A。
-- **FR 5 ACTIVE**：REG-MS-FR-001 Carte grise · REG-MS-FR-002 Contrôle technique · REG-MS-FR-003 Assurance RC · REG-MS-FR-005 ZFE-m · REG-MS-FR-006 Crit'Air vignette。
-- **FR 7 pending verification**（返 CONDITIONAL）：REG-MS-FR-004 Malus/Bonus écologique（PHEV 要看 CO2 档位）· REG-MS-FR-011 Malus Masse 2025 · 等等。
+- **FR 11 ACTIVE**（Phase M.3 将 5 → 11）：REG-MS-FR-001 Carte grise · REG-MS-FR-002 Contrôle technique · REG-MS-FR-003 Assurance RC · REG-MS-FR-004 Bonus/malus CO2 · REG-MS-FR-005 ZFE-m · REG-MS-FR-006 Crit'Air · REG-MS-FR-007 Prime à la Conversion（已终止，保留为 informational marker）· REG-MS-FR-008 TVS→TAVE/TAPVP · REG-MS-FR-009 TICPE · REG-MS-FR-010 LOM · REG-MS-FR-011 Malus masse。
+- **FR 1 DRAFT**（返 CONDITIONAL）：REG-MS-FR-012 UTAC-CERAM —— JORF 指定令未找到，保留 DRAFT 并文档化 blocker。
 - **NL 5 SEED_UNVERIFIED**（返 CONDITIONAL）：全部 indicative，你必须**对照 RDW / Belastingdienst 官方原文**自己核。
 
 **工程师 indicative 处理流程**：
@@ -581,10 +581,10 @@ AT RISK 有三类常见成因，逐一排查：
 
 | Tab | 会变化的 |
 |---|---|
-| Status | Coverage by target country 新增一行 FR；partial 覆盖；At-risk 列表可能新增"FR 5 ACTIVE / 7 pending"条目 |
-| Plan | 出现 5 条新 FR ACTIVE 任务（carte grise / contrôle technique / assurance RC / ZFE-m / Crit'Air） |
-| Rules | 搜索 "REG-MS-FR" 看到 12 条规则 |
-| Coverage | FR 的 member-state chip 更新为 "partial" 绿色中间档 |
+| Status | Coverage by target country 新增一行 FR；Phase M.3 后 production-grade 覆盖；At-risk 列表不再含 FR |
+| Plan | 出现 11 条 FR ACTIVE 任务（SIV / CT / assurance RC / bonus-malus CO2 / ZFE-m / Crit'Air / TAVE-TAPVP / TICPE / LOM / Malus masse / Prime à la conversion 终止标记） |
+| Rules | 搜索 "REG-MS-FR" 看到 12 条规则（11 ACTIVE + 1 DRAFT UTAC-CERAM） |
+| Coverage | FR 的 member-state chip 在 Phase M.3 后升级为 "production-grade" 绿色顶档 |
 
 3. **ScopeBanner 会告诉你覆盖程度**。第 2-3 层（partial + seed）的数量会反应在 tier pill 上。
 4. 如果你选的国家是 NL / IT / PL 等 not-authored，Status 立刻提示"Countries at risk"，要求你对该国做外部 due diligence。
